@@ -26,34 +26,65 @@ import javax.persistence.InheritanceType;
 import org.biomojo.alphabet.Alphabet;
 import org.biomojo.core.AbstractPropertiedEntity;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class AbstractSeq.
  *
+ * @author Hugh Eaves
+ * @param <T>
+ *            the generic type
+ * @param <A>
+ *            the generic type
  */
 @Entity
 @DiscriminatorValue("X")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class AbstractSeq<T, A extends Alphabet<T>> extends AbstractPropertiedEntity implements Seq<T, A> {
+
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
+    /**
+     * Instantiates a new abstract seq.
+     */
     public AbstractSeq() {
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.biomojo.core.AbstractEntity#setId(long)
+     */
     @Override
     public void setId(final long id) {
         this.id = id;
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.biomojo.sequence.Seq#add(java.lang.Object)
+     */
     @Override
     public boolean add(final T value) {
         throw new UnsupportedOperationException();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.biomojo.sequence.Seq#subList(int, int)
+     */
     @Override
     public List<T> subList(final int from, final int to) {
         throw new UnsupportedOperationException();
     }
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.biomojo.sequence.Seq#remove(int)
+     */
     @Override
     public T remove(final int pos) {
         throw new UnsupportedOperationException();
