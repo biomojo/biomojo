@@ -20,10 +20,19 @@ import org.biomojo.alphabet.GappableAlphabet;
 import org.biomojo.sequence.Seq;
 import org.biomojo.sequence.SeqList;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Interface Alignment.
  *
+ * @author Hugh Eaves
+ * @param <T> the generic type
  */
 public interface Alignment<T extends Seq<?, ? extends GappableAlphabet<?, ?>>> extends SeqList<T> {
+    
+    /**
+     * Gets the score.
+     *
+     * @return the score
+     */
     int getScore();
 }

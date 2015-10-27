@@ -16,9 +16,11 @@
  */
 package org.biomojo.core;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Interface IntegerIdentified.
  *
+ * @author Hugh Eaves
  */
 public interface IntegerIdentified {
     /**

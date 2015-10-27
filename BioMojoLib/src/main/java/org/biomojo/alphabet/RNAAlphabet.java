@@ -16,5 +16,8 @@
  */
 package org.biomojo.alphabet;
 
+/**
+ * The Interface RNAAlphabet.
+ */
 public interface RNAAlphabet extends NucleotideAlphabet {
 }

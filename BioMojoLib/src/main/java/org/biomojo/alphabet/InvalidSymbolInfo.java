@@ -18,21 +18,37 @@ package org.biomojo.alphabet;
 
 import org.java0.string.ASCII;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class InvalidSymbolInfo.
  *
+ * @author Hugh Eaves
  */
 public class InvalidSymbolInfo {
+    
+    /** The symbol. */
     private final Object symbol;
 
+    /** The position. */
     private final Integer position;
 
+    /**
+     * Instantiates a new invalid symbol info.
+     *
+     * @param symbol the symbol
+     * @param position the position
+     */
     public InvalidSymbolInfo(final Object symbol, final Integer position) {
         super();
         this.symbol = symbol;
         this.position = position;
     }
 
+    /**
+     * Instantiates a new invalid symbol info.
+     *
+     * @param symbol the symbol
+     */
     public InvalidSymbolInfo(final Object symbol) {
         super();
         this.symbol = symbol;
@@ -40,6 +56,8 @@ public class InvalidSymbolInfo {
     }
 
     /**
+     * Gets the symbol.
+     *
      * @return the symbol
      */
     public Object getSymbol() {
@@ -47,12 +65,17 @@ public class InvalidSymbolInfo {
     }
 
     /**
+     * Gets the position.
+     *
      * @return the position
      */
     public Integer getPosition() {
         return position;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         Object printableSymbol = symbol;

@@ -26,21 +26,43 @@ import org.java0.factory.ObjectProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * A factory for creating AbstractIdBased objects.
  *
+ * @author Hugh Eaves
+ * @param <T> the generic type
  */
 public class AbstractIdBasedFactory<T extends IntegerIdentified> implements IdBasedFactory<T> {
+    
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AbstractIdBasedFactory.class.getName());
 
+    /** The object cache. */
     private T[] objectCache;
+    
+    /** The providers. */
     private final Map<Integer, ConfiguredObjectProvider<T>> providers = new HashMap<>();
+    
+    /** The create singleton. */
     private final Map<Integer, Boolean> createSingleton = new HashMap<>();
 
+    /**
+     * Instantiates a new abstract id based factory.
+     *
+     * @param emptyObjects the empty objects
+     */
     protected AbstractIdBasedFactory(final T[] emptyObjects) {
         this.objectCache = emptyObjects;
     }
 
+    /**
+     * Register provider.
+     *
+     * @param objectId the object id
+     * @param provider the provider
+     * @param singleton the singleton
+     */
     public void registerProvider(final int objectId, final ConfiguredObjectProvider<T> provider,
             final boolean singleton) {
         checkCacheSize(objectId);
@@ -53,6 +75,11 @@ public class AbstractIdBasedFactory<T extends IntegerIdentified> implements IdBa
         }
     }
 
+    /**
+     * Register.
+     *
+     * @param object the object
+     */
     public void register(final T object) {
         checkCacheSize(object.getId());
         if (objectCache[object.getId()] != null) {
@@ -66,7 +93,9 @@ public class AbstractIdBasedFactory<T extends IntegerIdentified> implements IdBa
     }
 
     /**
-     * @param object
+     * Check cache size.
+     *
+     * @param id the id
      */
     protected void checkCacheSize(final int id) {
         if (objectCache.length <= id) {
@@ -74,6 +103,9 @@ public class AbstractIdBasedFactory<T extends IntegerIdentified> implements IdBa
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.core.IdBasedFactory#getInstance(int, java.lang.Class)
+     */
     @Override
     @SuppressWarnings("unchecked")
     public <Z extends T> Z getInstance(final int objectId, final Class<Z> type) {

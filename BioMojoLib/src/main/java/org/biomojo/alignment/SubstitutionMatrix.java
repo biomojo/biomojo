@@ -18,20 +18,28 @@ package org.biomojo.alignment;
 
 import org.biomojo.alphabet.Alphabet;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Interface SubstitutionMatrix.
  *
+ * @author Hugh Eaves
+ * @param <T> the generic type
  */
 public interface SubstitutionMatrix<T> {
+    
     /**
-     * @return
+     * Gets the alphabet.
+     *
+     * @return the alphabet
      */
     public Alphabet<T> getAlphabet();
 
     /**
-     * @param first
-     * @param second
-     * @return
+     * Gets the score.
+     *
+     * @param from the from
+     * @param to the to
+     * @return the score
      */
     public int getScore(T from, T to);
 }

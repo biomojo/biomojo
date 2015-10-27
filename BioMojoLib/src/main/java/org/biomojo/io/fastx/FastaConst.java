@@ -16,13 +16,20 @@
  */
 package org.biomojo.io.fastx;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class FastaConst.
  *
+ * @author Hugh Eaves
  */
 public class FastaConst {
+    
+    /** The Constant RECORD_DELIMITER. */
     public static final byte RECORD_DELIMITER = '>';
 
+    /**
+     * Instantiates a new fasta const.
+     */
     private FastaConst() {
 
     }

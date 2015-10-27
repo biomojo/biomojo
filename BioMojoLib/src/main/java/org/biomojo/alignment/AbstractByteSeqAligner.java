@@ -24,31 +24,66 @@ import org.biomojo.sequence.ByteSeq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AbstractByteSeqAligner.
+ *
+ * @param <A> the generic type
+ */
 public abstract class AbstractByteSeqAligner<A extends GappableByteAlphabet<A>> implements Aligner<ByteSeq<A>> {
+    
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AbstractByteSeqAligner.class.getName());
 
+    /** The matrix. */
     private final ByteSubstitutionMatrix matrix;
+    
+    /** The gap penalty. */
     private final int gapPenalty;
 
+    /** The seq1 dim. */
     private int seq1Dim = 0;
+    
+    /** The seq2 dim. */
     private int seq2Dim = 0;
 
+    /** The seq1 traceback start. */
     protected int seq1TracebackStart = 0;
+    
+    /** The seq2 traceback start. */
     protected int seq2TracebackStart = 0;
 
+    /** The scores. */
     protected int[][] scores = new int[1][0];
 
+    /** The seq1. */
     private ByteSeq<A> seq1;
+    
+    /** The seq2. */
     private ByteSeq<A> seq2;
 
+    /** The seq1 bytes. */
     private byte[] seq1Bytes;
+    
+    /** The seq2 bytes. */
     private byte[] seq2Bytes;
 
+    /**
+     * Instantiates a new abstract byte seq aligner.
+     *
+     * @param matrix the matrix
+     * @param gapPenalty the gap penalty
+     */
     public AbstractByteSeqAligner(final ByteSubstitutionMatrix matrix, final int gapPenalty) {
         this.matrix = matrix;
         this.gapPenalty = gapPenalty;
     }
 
+    /**
+     * Initialize.
+     *
+     * @param sequences the sequences
+     */
     protected void initialize(final List<ByteSeq<A>> sequences) {
         seq1 = sequences.get(0);
         seq2 = sequences.get(1);
@@ -67,6 +102,9 @@ public abstract class AbstractByteSeqAligner<A extends GappableByteAlphabet<A>> 
         initScoreMatrix();
     }
 
+    /**
+     * Allocate score matrix.
+     */
     private void allocateScoreMatrix() {
         int seq1Length = scores.length;
         int seq2Length = scores[0].length;
@@ -82,8 +120,16 @@ public abstract class AbstractByteSeqAligner<A extends GappableByteAlphabet<A>> 
         }
     }
 
+    /**
+     * Inits the score matrix.
+     */
     protected abstract void initScoreMatrix();
 
+    /**
+     * Calc score.
+     *
+     * @param alignment the alignment
+     */
     protected void calcScore(final PairwiseAlignment<ByteSeq<A>> alignment) {
         for (int seq1Pos = 1; seq1Pos < seq1Dim; seq1Pos++) {
             int leftScore = scores[seq1Pos][0];
@@ -95,6 +141,14 @@ public abstract class AbstractByteSeqAligner<A extends GappableByteAlphabet<A>> 
         alignment.setScore(scores[seq1TracebackStart][seq2TracebackStart]);
     }
 
+    /**
+     * Calc cell score.
+     *
+     * @param leftScore the left score
+     * @param seq1Pos the seq1 pos
+     * @param seq2Pos the seq2 pos
+     * @return the int
+     */
     protected final int calcCellScore(final int leftScore, final int seq1Pos, final int seq2Pos) {
         int cellScore = scores[seq1Pos - 1][seq2Pos - 1]
                 + matrix.getScore(seq1Bytes[seq1Pos - 1], seq2Bytes[seq2Pos - 1]);
@@ -111,6 +165,11 @@ public abstract class AbstractByteSeqAligner<A extends GappableByteAlphabet<A>> 
         return cellScore;
     }
 
+    /**
+     * Calc traceback.
+     *
+     * @param alignment the alignment
+     */
     protected void calcTraceback(final PairwiseAlignment<ByteSeq<A>> alignment) {
 
         final A alphabet1 = seq1.getAlphabet().getGapped();
@@ -148,6 +207,9 @@ public abstract class AbstractByteSeqAligner<A extends GappableByteAlphabet<A>> 
         alignment.add(align2);
     }
 
+    /**
+     * Prints the score table.
+     */
     protected void printScoreTable() {
         for (int i = 0; i < seq1Dim; i++) {
             final StringBuffer buf = new StringBuffer();
@@ -160,6 +222,10 @@ public abstract class AbstractByteSeqAligner<A extends GappableByteAlphabet<A>> 
     }
 
     /**
+     * Align.
+     *
+     * @param sequences the sequences
+     * @return the alignment
      * @see org.biomojo.alignment.Aligner#align(org.biomojo.sequence.SequenceList)
      */
     @Override
@@ -172,6 +238,8 @@ public abstract class AbstractByteSeqAligner<A extends GappableByteAlphabet<A>> 
     }
 
     /**
+     * Gets the seq1 dim.
+     *
      * @return the seq1Dim
      */
     public int getSeq1Dim() {
@@ -179,6 +247,8 @@ public abstract class AbstractByteSeqAligner<A extends GappableByteAlphabet<A>> 
     }
 
     /**
+     * Gets the seq2 dim.
+     *
      * @return the seq2Dim
      */
     public int getSeq2Dim() {
@@ -186,6 +256,8 @@ public abstract class AbstractByteSeqAligner<A extends GappableByteAlphabet<A>> 
     }
 
     /**
+     * Gets the gap penalty.
+     *
      * @return the gapPenalty
      */
     public final int getGapPenalty() {

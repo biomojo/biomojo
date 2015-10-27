@@ -21,18 +21,31 @@ import org.java0.cli.Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class BioMojo.
  *
+ * @author Hugh Eaves
  */
 public class BioMojo {
+    
+    /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(BioMojo.class.getName());
 
+    /**
+     * Instantiates a new bio mojo.
+     */
     private BioMojo() {
 
     }
 
+    /**
+     * Inits the.
+     *
+     * @param args the args
+     * @param commands the commands
+     */
     public static void init(final String[] args, final Command... commands) {
         CLIUtil.processCommandLine(args, commands);
     }

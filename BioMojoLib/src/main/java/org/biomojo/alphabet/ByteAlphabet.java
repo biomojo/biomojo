@@ -17,14 +17,23 @@
 
 package org.biomojo.alphabet;
 
+// TODO: Auto-generated Javadoc
 /**
  * The Interface ByteAlphabet.
  */
 public interface ByteAlphabet extends Alphabet<Byte> {
+    
+    /* (non-Javadoc)
+     * @see org.biomojo.alphabet.Alphabet#getCanonical()
+     */
     @Override
     public ByteAlphabet getCanonical();
 
     /**
+     * Gets the ordinal for symbol.
+     *
+     * @param value the value
+     * @return the ordinal for symbol
      * @see org.biomojo.alphabet.Alphabet#getOrdinalForSymbol(java.lang.Object)
      */
     @Override
@@ -33,6 +42,10 @@ public interface ByteAlphabet extends Alphabet<Byte> {
     }
 
     /**
+     * Gets the symbol for ordinal.
+     *
+     * @param ordinal the ordinal
+     * @return the symbol for ordinal
      * @see org.biomojo.alphabet.Alphabet#getSymbolForOrdinal(int)
      */
     @Override
@@ -41,6 +54,10 @@ public interface ByteAlphabet extends Alphabet<Byte> {
     }
 
     /**
+     * Checks if is valid.
+     *
+     * @param symbol the symbol
+     * @return true, if is valid
      * @see org.biomojo.alphabet.Alphabet#isValid(java.lang.Object)
      */
     @Override
@@ -49,19 +66,17 @@ public interface ByteAlphabet extends Alphabet<Byte> {
     }
 
     /**
-     * Get the order of this symbol in the alphabet
+     * Get the order of this symbol in the alphabet.
      *
-     * @param value
-     *            the value
+     * @param value            the value
      * @return the ordinal for symbol
      */
     int getOrdinalForSymbol(byte value);
 
     /**
-     * Get the symbol for a given ordinal
+     * Get the symbol for a given ordinal.
      *
-     * @param ordinal
-     *            the ordinal
+     * @param ordinal            the ordinal
      * @return the symbol for ordinal
      */
     byte getByteSymbolForOrdinal(int ordinal);
@@ -104,12 +119,9 @@ public interface ByteAlphabet extends Alphabet<Byte> {
      * Determine if the symbol in the specified portion of the given array are
      * all members of this alphabet.
      *
-     * @param values
-     *            the values
-     * @param start
-     *            the start
-     * @param end
-     *            the end
+     * @param symbols the symbols
+     * @param start            the start
+     * @param end            the end
      * @return true all the symbols is a member of this alphabet.
      */
     default boolean isValid(final byte[] symbols, final int start, final int end) {
@@ -121,6 +133,12 @@ public interface ByteAlphabet extends Alphabet<Byte> {
         return true;
     }
 
+    /**
+     * Check validity.
+     *
+     * @param symbol the symbol
+     * @return the invalid symbol info
+     */
     default InvalidSymbolInfo checkValidity(final byte symbol) {
         if (!isValid(symbol)) {
             return new InvalidSymbolInfo(symbol);
@@ -128,10 +146,24 @@ public interface ByteAlphabet extends Alphabet<Byte> {
         return null;
     }
 
+    /**
+     * Check validity.
+     *
+     * @param symbols the symbols
+     * @return the invalid symbol info
+     */
     default InvalidSymbolInfo checkValidity(final byte[] symbols) {
         return checkValidity(symbols, 0, symbols.length);
     }
 
+    /**
+     * Check validity.
+     *
+     * @param symbols the symbols
+     * @param start the start
+     * @param end the end
+     * @return the invalid symbol info
+     */
     default InvalidSymbolInfo checkValidity(final byte[] symbols, final int start, final int end) {
         for (int i = start; i < end; ++i) {
             if (!isValid(symbols[i])) {
@@ -141,6 +173,12 @@ public interface ByteAlphabet extends Alphabet<Byte> {
         return null;
     }
 
+    /**
+     * Validate.
+     *
+     * @param symbol the symbol
+     * @throws InvalidSymbolException the invalid symbol exception
+     */
     default void validate(final byte symbol) throws InvalidSymbolException {
         final InvalidSymbolInfo info = checkValidity(symbol);
         if (info != null) {
@@ -148,6 +186,12 @@ public interface ByteAlphabet extends Alphabet<Byte> {
         }
     }
 
+    /**
+     * Validate.
+     *
+     * @param symbols the symbols
+     * @throws InvalidSymbolException the invalid symbol exception
+     */
     default void validate(final byte[] symbols) throws InvalidSymbolException {
         final InvalidSymbolInfo info = checkValidity(symbols);
         if (info != null) {
@@ -155,6 +199,14 @@ public interface ByteAlphabet extends Alphabet<Byte> {
         }
     }
 
+    /**
+     * Validate.
+     *
+     * @param symbols the symbols
+     * @param start the start
+     * @param end the end
+     * @throws InvalidSymbolException the invalid symbol exception
+     */
     default void validate(final byte[] symbols, final int start, final int end) throws InvalidSymbolException {
         final InvalidSymbolInfo info = checkValidity(symbols, start, end);
         if (info != null) {
@@ -162,6 +214,9 @@ public interface ByteAlphabet extends Alphabet<Byte> {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.alphabet.Alphabet#getCanonical(java.lang.Object)
+     */
     @Override
     default Byte getCanonical(final Byte symbol) {
         return getCanonical(symbol.byteValue());
@@ -180,8 +235,7 @@ public interface ByteAlphabet extends Alphabet<Byte> {
      * Returns a new array containing the canonical representation of all the
      * symbols in the given array.
      *
-     * @param values
-     *            the values
+     * @param symbols the symbols
      * @return the canonical
      */
     default byte[] getCanonical(final byte[] symbols) {
@@ -235,13 +289,25 @@ public interface ByteAlphabet extends Alphabet<Byte> {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.alphabet.Alphabet#getSymbolType()
+     */
     @Override
     default Class<Byte> getSymbolType() {
         return Byte.class;
     }
 
+    /**
+     * Checks if is canonical.
+     *
+     * @param symbol the symbol
+     * @return true, if is canonical
+     */
     boolean isCanonical(byte symbol);
 
+    /* (non-Javadoc)
+     * @see org.biomojo.alphabet.Alphabet#isCanonical(java.lang.Object)
+     */
     @Override
     default boolean isCanonical(final Byte symbol) {
         return isCanonical(symbol.byteValue());

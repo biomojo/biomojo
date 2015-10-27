@@ -19,18 +19,36 @@ package org.biomojo.codec;
 
 import org.biomojo.core.IdBasedFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author hugh
+ * The Class Codecs.
  *
+ * @author hugh
  */
 public abstract class Codecs {
 
+    /** The factory. */
     private static IdBasedFactory<Codec<?, ?>> factory = new DefaultCodecFactory();
 
+    /**
+     * Gets the codec.
+     *
+     * @param <T> the generic type
+     * @param codecId the codec id
+     * @return the codec
+     */
     public static <T extends Codec<?, ?>> T getCodec(int codecId) {
         return (T) factory.getInstance(codecId, Codec.class);
     }
 
+    /**
+     * Gets the codec.
+     *
+     * @param <T> the generic type
+     * @param codecId the codec id
+     * @param requiredType the required type
+     * @return the codec
+     */
     public static <T extends Codec<?, ?>> T getCodec(int codecId, Class<T> requiredType) {
         return factory.getInstance(codecId, requiredType);
     }

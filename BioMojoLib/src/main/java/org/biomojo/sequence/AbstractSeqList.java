@@ -25,26 +25,35 @@ import javax.persistence.InheritanceType;
 import org.biomojo.core.AbstractPropertiedEntity;
 import org.java0.collection.DefaultList;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class AbstractSeqList.
  *
+ * @author Hugh Eaves
+ * @param <T> the generic type
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public abstract class AbstractSeqList<T extends Seq<?, ?>> extends AbstractPropertiedEntity
         implements SeqList<T>, Serializable, DefaultList<T> {
-    /**
-     *
-     */
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 717088554484595404L;
 
+    /** The description. */
     CharSequence description;
 
+    /* (non-Javadoc)
+     * @see org.biomojo.core.Described#getDescription()
+     */
     @Override
     public CharSequence getDescription() {
         return description;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.core.Described#setDescription(java.lang.CharSequence)
+     */
     @Override
     public void setDescription(final CharSequence description) {
         this.description = description;

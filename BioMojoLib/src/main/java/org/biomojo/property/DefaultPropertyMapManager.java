@@ -18,18 +18,32 @@ package org.biomojo.property;
 
 import java.util.Map;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class DefaultPropertyMapManager.
  *
+ * @author Hugh Eaves
  */
 public class DefaultPropertyMapManager implements PropertyMapManager {
+    
+    /** The Constant INSTANCE. */
     public static final DefaultPropertyMapManager INSTANCE = new DefaultPropertyMapManager();
 
+    /**
+     * Instantiates a new default property map manager.
+     */
     private DefaultPropertyMapManager() {
 
     }
 
     /**
+     * Put.
+     *
+     * @param <T> the generic type
+     * @param properties the properties
+     * @param key the key
+     * @param value the value
+     * @return the t
      * @see org.biomojo.property.PropertyMapManager#put(java.util.Map,
      *      java.lang.String, java.lang.Object)
      */
@@ -40,6 +54,12 @@ public class DefaultPropertyMapManager implements PropertyMapManager {
     }
 
     /**
+     * Gets the.
+     *
+     * @param <T> the generic type
+     * @param properties the properties
+     * @param key the key
+     * @return the t
      * @see org.biomojo.property.PropertyMapManager#get(java.util.Map,
      *      java.lang.String)
      */
@@ -50,6 +70,12 @@ public class DefaultPropertyMapManager implements PropertyMapManager {
     }
 
     /**
+     * Removes the.
+     *
+     * @param <T> the generic type
+     * @param properties the properties
+     * @param key the key
+     * @return the t
      * @see org.biomojo.property.PropertyMapManager#remove(java.util.Map,
      *      java.lang.String)
      */

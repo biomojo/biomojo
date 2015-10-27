@@ -29,13 +29,25 @@ import org.biomojo.util.ProcessUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BlastServer.
+ */
 @Named
 public class BlastServer {
+    
+    /** The Constant logger. */
     private final static Logger logger = LoggerFactory.getLogger(BlastServer.class.getName());
 
+    /** The blast service. */
     @Inject
     private BlastService blastService;
 
+    /**
+     * Run blast server.
+     *
+     * @param numThreads the num threads
+     */
     public void runBlastServer(int numThreads) {
         logger.info("Starting blast server");
 

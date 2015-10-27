@@ -16,6 +16,7 @@
  */
 package org.biomojo.alphabet;
 
+// TODO: Auto-generated Javadoc
 /**
  * Interface for alphabets that may support ambiguous / wildcard values.
  *
@@ -23,7 +24,18 @@ package org.biomojo.alphabet;
  *
  */
 public interface AmbiguitySupport {
+    
+    /**
+     * Supports any.
+     *
+     * @return true, if successful
+     */
     public boolean supportsAny();
 
+    /**
+     * Supports ambiguity.
+     *
+     * @return true, if successful
+     */
     public boolean supportsAmbiguity();
 }

@@ -16,6 +16,9 @@
  */
 package org.biomojo.alphabet;
 
+/**
+ * The Interface DNAAlphabet.
+ */
 public interface DNAAlphabet extends NucleotideAlphabet {
 
 }

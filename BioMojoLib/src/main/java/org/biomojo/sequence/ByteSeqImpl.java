@@ -25,49 +25,88 @@ import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.InvalidSymbolException;
 import org.java0.core.type.Constants;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class ByteSeqImpl.
  *
+ * @author Hugh Eaves
+ * @param <A> the generic type
  */
 @Entity
 @DiscriminatorValue("B")
 public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
+    /** The data. */
     protected byte[] data = Constants.EMPTY_BYTE_ARRAY;
 
+    /** The description. */
     protected CharSequence description = Constants.EMPTY_STRING;
 
+    /** The length. */
     protected int length;
 
+    /**
+     * Instantiates a new byte seq impl.
+     */
     public ByteSeqImpl() {
 
     }
 
+    /**
+     * Instantiates a new byte seq impl.
+     *
+     * @param alphabet the alphabet
+     */
     public ByteSeqImpl(final A alphabet) {
         super(alphabet);
     }
 
+    /**
+     * Instantiates a new byte seq impl.
+     *
+     * @param data the data
+     */
     public ByteSeqImpl(final byte[] data) {
         super();
         setAll(data);
     }
 
+    /**
+     * Instantiates a new byte seq impl.
+     *
+     * @param data the data
+     * @param alphabet the alphabet
+     */
     public ByteSeqImpl(final byte[] data, final A alphabet) {
         super(alphabet);
         setAll(data);
     }
 
+    /**
+     * Instantiates a new byte seq impl.
+     *
+     * @param initialCapacity the initial capacity
+     * @param alphabet the alphabet
+     */
     public ByteSeqImpl(final int initialCapacity, final A alphabet) {
         super(alphabet);
         data = new byte[initialCapacity];
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.ByteSeq#setAll(byte[])
+     */
     @Override
     public void setAll(final byte[] sequence) throws InvalidSymbolException {
         setAll(sequence, true);
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.ByteSeq#getAllBytes()
+     */
     @Override
     public byte[] getAllBytes() {
         if (data.length > length) {
@@ -76,6 +115,9 @@ public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
         return data;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.ByteSeq#setAll(byte[], boolean)
+     */
     @Override
     public void setAll(final byte[] sequence, final boolean validate) throws InvalidSymbolException {
         if (validate) {
@@ -85,32 +127,50 @@ public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
         data = sequence;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.ByteSeq#getValue(int)
+     */
     @Override
     public byte getValue(final int index) {
         return data[index];
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.ByteSeq#setValue(byte, int)
+     */
     @Override
     public void setValue(final byte symbol, final int index) throws InvalidSymbolException {
         alphabet.validate(symbol);
         data[index] = symbol;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.Seq#size()
+     */
     @Override
     public int size() {
         return length;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.core.Described#getDescription()
+     */
     @Override
     public CharSequence getDescription() {
         return description;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.core.Described#setDescription(java.lang.CharSequence)
+     */
     @Override
     public void setDescription(final CharSequence description) {
         this.description = description;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.Seq#setAlphabet(org.biomojo.alphabet.Alphabet)
+     */
     @Override
     public void setAlphabet(final A newAlphabet) {
         newAlphabet.validate(data);
@@ -118,6 +178,8 @@ public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
     }
 
     /**
+     * Canonicalize.
+     *
      * @see org.biomojo.sequence.SeqI#canonicalize()
      */
     @Override
@@ -130,17 +192,28 @@ public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.ByteSeq#replace(byte[], int, int, int)
+     */
     @Override
     public void replace(final byte[] srcSeq, final int srcPos, final int destPos, final int length) {
         System.arraycopy(srcSeq, srcPos, data, destPos, length);
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.ByteSeq#append(byte)
+     */
     @Override
     public void append(final byte symbol) {
         checkStorage(1);
         data[length++] = symbol;
     }
 
+    /**
+     * Check storage.
+     *
+     * @param numElements the num elements
+     */
     private final void checkStorage(final int numElements) {
         if (data.length < length + numElements) {
             data = Arrays.copyOf(data, (data.length + 1) * 2);

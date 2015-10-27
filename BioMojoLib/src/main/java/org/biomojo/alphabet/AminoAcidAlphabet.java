@@ -17,6 +17,9 @@
 
 package org.biomojo.alphabet;
 
+/**
+ * The Interface AminoAcidAlphabet.
+ */
 public interface AminoAcidAlphabet extends IUPACAlphabet {
 
 }

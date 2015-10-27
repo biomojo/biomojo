@@ -20,21 +20,27 @@ import org.java0.core.type.NamedObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class NamedResource.
  *
+ * @author Hugh Eaves
  */
 public class NamedResource extends Resource implements NamedObject {
-    /**
-     *
-     */
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 4996505227539819704L;
 
+    /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(NamedResource.class.getName());
 
+    /** The name. */
     protected String name;
 
+    /* (non-Javadoc)
+     * @see org.java0.core.type.NamedObject#getName()
+     */
     @Override
     public String getName() {
         return name;

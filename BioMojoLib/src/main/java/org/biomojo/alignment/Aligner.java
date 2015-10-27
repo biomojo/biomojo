@@ -21,10 +21,20 @@ import java.util.List;
 import org.biomojo.alphabet.GappableAlphabet;
 import org.biomojo.sequence.Seq;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Interface Aligner.
  *
+ * @author Hugh Eaves
+ * @param <T> the generic type
  */
 public interface Aligner<T extends Seq<?, ? extends GappableAlphabet<?, ?>>> {
+    
+    /**
+     * Align.
+     *
+     * @param sequences the sequences
+     * @return the alignment
+     */
     public Alignment<T> align(List<T> sequences);
 }

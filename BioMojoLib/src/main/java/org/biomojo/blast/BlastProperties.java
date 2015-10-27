@@ -16,6 +16,12 @@
  */
 package org.biomojo.blast;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface BlastProperties.
+ */
 public interface BlastProperties {
+    
+    /** The Constant MAX_TARGET_SEQS. */
     public static final String MAX_TARGET_SEQS = "MAX_TARGET_SEQS";
 }

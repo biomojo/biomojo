@@ -19,7 +19,15 @@ package org.biomojo.io;
 import org.biomojo.sequence.Seq;
 import org.java0.core.type.Constants;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class EmptyHeaderBuilder.
+ */
 public class EmptyHeaderBuilder implements HeaderBuilder {
+    
+    /* (non-Javadoc)
+     * @see org.biomojo.io.HeaderBuilder#buildHeader(org.biomojo.sequence.Seq)
+     */
     @Override
     public byte[] buildHeader(final Seq<?, ?> sequence) {
         return Constants.EMPTY_BYTE_ARRAY;

@@ -18,15 +18,18 @@ package org.biomojo.alphabet;
 
 import org.biomojo.symbols.Nucleotides;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class RNAAlphabetImpl.
  *
+ * @author Hugh Eaves
  */
 public class RNAAlphabetImpl extends AbstractNucleotideAlphabet implements DNAAlphabet {
+    
     /**
      * Create a new DNAAlphabetImpl.
      *
-     * @param id
+     * @param id the id
      */
     protected RNAAlphabetImpl(int id) {
         super(id, Nucleotides.RNA_SYMBOLS);

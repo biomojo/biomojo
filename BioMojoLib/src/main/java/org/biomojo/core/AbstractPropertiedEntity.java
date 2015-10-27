@@ -35,21 +35,29 @@ import org.biomojo.property.Propertied;
 import org.biomojo.property.PropertyMapManager;
 import org.java0.collection.ArrayMap;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class AbstractPropertiedEntity.
  *
+ * @author Hugh Eaves
  */
 @MappedSuperclass
 public abstract class AbstractPropertiedEntity extends AbstractEntity implements Propertied {
 
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
+    /** The properties. */
     @OneToMany(cascade = CascadeType.ALL, targetEntity = BasicProperty.class)
     protected Map<String, Object> properties = null;
 
+    /** The property map manager. */
     @Transient
     private PropertyMapManager propertyMapManager = DefaultPropertyMapManager.INSTANCE;
 
+    /**
+     * Wrap props.
+     */
     @PrePersist
     @PreUpdate
     protected void wrapProps() {
@@ -58,6 +66,9 @@ public abstract class AbstractPropertiedEntity extends AbstractEntity implements
         }
     }
 
+    /**
+     * Use db property manager.
+     */
     @PostPersist
     @PostUpdate
     @PostLoad
@@ -65,27 +76,44 @@ public abstract class AbstractPropertiedEntity extends AbstractEntity implements
         propertyMapManager = DbPropertyMapManager.INSTANCE;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.property.Propertied#getProp(java.lang.String)
+     */
     @Override
     public <T> T getProp(final String key) {
         return propertyMapManager.get(getProperties(), key);
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.property.Propertied#getProp(java.lang.String, java.lang.Class)
+     */
     @Override
     public <T> T getProp(final String key, final Class<T> type) {
         return propertyMapManager.get(getProperties(), key);
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.property.Propertied#setProp(java.lang.String, java.lang.Object)
+     */
     @Override
     public <T> T setProp(final String key, final Object value) {
         return propertyMapManager.put(getProperties(), key, value);
 
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.property.Propertied#removeProp(java.lang.String)
+     */
     @Override
     public <T> T removeProp(final String key) {
         return propertyMapManager.remove(getProperties(), key);
     }
 
+    /**
+     * Gets the properties.
+     *
+     * @return the properties
+     */
     protected Map<String, Object> getProperties() {
         if (properties == null) {
             properties = new ArrayMap<>();

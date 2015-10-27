@@ -16,20 +16,34 @@
  */
 package org.biomojo.alphabet;
 
+// TODO: Auto-generated Javadoc
 /**
  * Interface for alphabets supporting gap symbols. *
  *
- * @param <T>
- *            the type of values in the alphabet
- * @param <A>
- *            the type of alphabet returned when a gapped alphabet is requested
- *
  * @author Hugh Eaves
+ * @param <T>            the type of values in the alphabet
+ * @param <A>            the type of alphabet returned when a gapped alphabet is requested
  */
 public interface GappableAlphabet<T, A extends Alphabet<T>> extends Alphabet<T> {
+    
+    /**
+     * Supports gaps.
+     *
+     * @return true, if successful
+     */
     public boolean supportsGaps();
 
+    /**
+     * Gets the gapped.
+     *
+     * @return the gapped
+     */
     public A getGapped();
 
+    /**
+     * Gap symbol.
+     *
+     * @return the t
+     */
     public T gapSymbol();
 }

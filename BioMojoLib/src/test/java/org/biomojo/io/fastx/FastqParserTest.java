@@ -34,19 +34,38 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FastqParserTest.
+ */
 public class FastqParserTest extends FastxParserTest<FastqSeq<? extends NucleotideAlphabet>> {
+    
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(FastqParserTest.class.getName());
 
+    /**
+     * Instantiates a new fastq parser test.
+     */
     public FastqParserTest() {
         super();
     }
 
+    /**
+     * Test good data.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @Test
     public void testGoodData() throws IOException {
         testCopy(getTestDataFromClasspath("data/short_reads.fastq"), 25000, true);
     }
 
     /**
+     * Gets the input stream.
+     *
+     * @param testData the test data
+     * @param bufSize the buf size
+     * @return the input stream
      * @see org.biomojo.io.fastx.FastxParserTest#getInputStream(byte[], int)
      */
     @Override
@@ -57,6 +76,10 @@ public class FastqParserTest extends FastxParserTest<FastqSeq<? extends Nucleoti
     }
 
     /**
+     * Gets the output stream.
+     *
+     * @param outputStream the output stream
+     * @return the output stream
      * @see org.biomojo.io.fastx.FastxParserTest#getOutputStream(java.io.ByteArrayOutputStream)
      */
     @Override
@@ -66,6 +89,9 @@ public class FastqParserTest extends FastxParserTest<FastqSeq<? extends Nucleoti
     }
 
     /**
+     * Gets the sequence.
+     *
+     * @return the sequence
      * @see org.biomojo.io.fastx.FastxParserTest#getSequence()
      */
     @Override

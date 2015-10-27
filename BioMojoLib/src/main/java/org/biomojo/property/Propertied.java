@@ -16,6 +16,7 @@
  */
 package org.biomojo.property;
 
+// TODO: Auto-generated Javadoc
 /**
  * Interface for an object that has properties.
  *

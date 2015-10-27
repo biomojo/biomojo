@@ -19,13 +19,27 @@ package org.biomojo.io;
 import org.biomojo.sequence.Seq;
 import org.java0.string.ByteArrayConverter;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FixedWidthSequenceIdHeaderBuilder.
+ */
 public class FixedWidthSequenceIdHeaderBuilder implements HeaderBuilder {
+    
+    /** The width. */
     private final int width;
 
+    /**
+     * Instantiates a new fixed width sequence id header builder.
+     *
+     * @param width the width
+     */
     public FixedWidthSequenceIdHeaderBuilder(final int width) {
         this.width = width;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.io.HeaderBuilder#buildHeader(org.biomojo.sequence.Seq)
+     */
     @Override
     public byte[] buildHeader(final Seq<?, ?> sequence) {
         return ByteArrayConverter.toArray(sequence.getId(), width);

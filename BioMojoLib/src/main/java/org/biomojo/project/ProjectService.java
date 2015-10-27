@@ -26,14 +26,28 @@ import javax.transaction.Transactional;
 import org.biomojo.core.CommonProperties;
 import org.biomojo.util.DbUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ProjectService.
+ */
 @Named
 public class ProjectService {
+    
+    /** The entity manager. */
     @PersistenceContext
     private EntityManager entityManager;
 
+    /** The db util. */
     @Inject
     private DbUtil dbUtil;
 
+    /**
+     * Creates the project.
+     *
+     * @param name the name
+     * @param description the description
+     * @return the project
+     */
     @Transactional
     public Project createProject(String name, String description) {
 

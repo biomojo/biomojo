@@ -26,12 +26,20 @@ import org.biomojo.blast.blastoutput.BlastIteration;
 import org.biomojo.blast.blastoutput.BlastOutput;
 import org.biomojo.sequence.ByteSeqImpl;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SequenceIdSequenceResolver.
+ */
 @Named
 public class SequenceIdSequenceResolver implements BlastSequenceResolver {
 
+    /** The entity manager. */
     @PersistenceContext
     private EntityManager entityManager;
 
+    /* (non-Javadoc)
+     * @see org.biomojo.blast.BlastSequenceResolver#resolveSequences(org.biomojo.blast.blastoutput.BlastOutput)
+     */
     @Override
     public void resolveSequences(final BlastOutput blastOutput) {
         for (final BlastIteration iteration : blastOutput.getIterations()) {

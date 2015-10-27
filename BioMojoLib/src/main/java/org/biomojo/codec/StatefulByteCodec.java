@@ -18,10 +18,19 @@ package org.biomojo.codec;
 
 import org.biomojo.alphabet.ByteAlphabet;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Interface StatefulByteCodec.
  *
+ * @author Hugh Eaves
  */
 public interface StatefulByteCodec extends StatefulCodec, ByteCodec {
+    
+    /**
+     * Gets the encoded data.
+     *
+     * @param alphabet the alphabet
+     * @return the encoded data
+     */
     public byte[] getEncodedData(ByteAlphabet alphabet);
 }

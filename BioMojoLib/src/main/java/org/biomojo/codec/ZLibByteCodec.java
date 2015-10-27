@@ -27,15 +27,34 @@ import org.biomojo.alphabet.ByteAlphabet;
 import com.jcraft.jzlib.DeflaterOutputStream;
 import com.jcraft.jzlib.InflaterInputStream;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ZLibByteCodec.
+ */
 public class ZLibByteCodec extends AbstractByteCodec implements StatefulByteCodec {
 
+    /** The uncompressed data cache. */
     private transient volatile byte[] uncompressedDataCache;
+    
+    /** The dirty. */
     private boolean dirty = false;
 
+    /**
+     * Instantiates a new z lib byte codec.
+     *
+     * @param id the id
+     */
     public ZLibByteCodec(final int id) {
         super(id);
     }
 
+    /**
+     * Gets the uncompressed data.
+     *
+     * @param compressedData the compressed data
+     * @param uncompressedLength the uncompressed length
+     * @return the uncompressed data
+     */
     protected byte[] getUncompressedData(final byte[] compressedData, final long uncompressedLength) {
         byte[] data = uncompressedDataCache;
 
@@ -50,6 +69,13 @@ public class ZLibByteCodec extends AbstractByteCodec implements StatefulByteCode
         return data;
     }
 
+    /**
+     * Uncompress.
+     *
+     * @param compressedData the compressed data
+     * @param uncompressedLength the uncompressed length
+     * @return the byte[]
+     */
     protected byte[] uncompress(final byte[] compressedData, final long uncompressedLength) {
         final byte[] uncompressedData = new byte[(int) uncompressedLength];
         try {
@@ -63,6 +89,12 @@ public class ZLibByteCodec extends AbstractByteCodec implements StatefulByteCode
         return uncompressedData;
     }
 
+    /**
+     * Compress.
+     *
+     * @param uncompressedData the uncompressed data
+     * @return the byte[]
+     */
     protected byte[] compress(final byte[] uncompressedData) {
         try {
             final ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -76,6 +108,12 @@ public class ZLibByteCodec extends AbstractByteCodec implements StatefulByteCode
     }
 
     /**
+     * Decode.
+     *
+     * @param alphabet the alphabet
+     * @param encodedData the encoded data
+     * @param length the length
+     * @return the byte[]
      * @see org.biomojo.codec.ByteCodec#decode(byte[])
      */
     @Override
@@ -84,6 +122,13 @@ public class ZLibByteCodec extends AbstractByteCodec implements StatefulByteCode
     }
 
     /**
+     * Decode.
+     *
+     * @param alphabet the alphabet
+     * @param encodedData the encoded data
+     * @param length the length
+     * @param index the index
+     * @return the byte
      * @see org.biomojo.codec.ByteCodec#decode(byte[], int)
      */
     @Override
@@ -91,6 +136,9 @@ public class ZLibByteCodec extends AbstractByteCodec implements StatefulByteCode
         return getUncompressedData(encodedData, length)[index];
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.codec.ByteCodec#encode(org.biomojo.alphabet.ByteAlphabet, byte[], int, byte, int)
+     */
     @Override
     public void encode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final byte val,
             final int index) {
@@ -98,6 +146,9 @@ public class ZLibByteCodec extends AbstractByteCodec implements StatefulByteCode
         dirty = true;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.codec.ByteCodec#encode(org.biomojo.alphabet.ByteAlphabet, byte[], int, byte[])
+     */
     @Override
     public byte[] encode(final ByteAlphabet alphabet, final byte[] encodedData, final int length,
             final byte[] decodedData) {
@@ -108,12 +159,18 @@ public class ZLibByteCodec extends AbstractByteCodec implements StatefulByteCode
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.codec.AbstractCodec#supportsAlphabet(org.biomojo.alphabet.Alphabet)
+     */
     @Override
     public boolean supportsAlphabet(final Alphabet<Byte> alphabet) {
         return (true);
     }
 
     /**
+     * Checks if is dirty data.
+     *
+     * @return true, if is dirty data
      * @see org.biomojo.codec.StatefulCodec#isChanged()
      */
     @Override
@@ -122,6 +179,10 @@ public class ZLibByteCodec extends AbstractByteCodec implements StatefulByteCode
     }
 
     /**
+     * Gets the encoded data.
+     *
+     * @param alphabet the alphabet
+     * @return the encoded data
      * @see org.biomojo.codec.StatefulCodec#getEncodedData()
      */
     @Override

@@ -26,9 +26,21 @@ import org.java0.core.exception.UncheckedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ProcessUtil.
+ */
 public class ProcessUtil {
+    
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(ProcessUtil.class.getName());
 
+    /**
+     * Execute process.
+     *
+     * @param params the params
+     * @return the process
+     */
     public static Process executeProcess(String[] params) {
         try {
             logger.info("Running process, command line params = " + Arrays.toString(params));
@@ -63,6 +75,12 @@ public class ProcessUtil {
         }
     }
 
+    /**
+     * Execute process with exit code.
+     *
+     * @param params the params
+     * @return the int
+     */
     public static int executeProcessWithExitCode(String[] params) {
 
         try {
@@ -86,6 +104,11 @@ public class ProcessUtil {
 
     }
 
+    /**
+     * Sleep.
+     *
+     * @param millis the millis
+     */
     public static void sleep(int millis) {
         try {
             Thread.sleep(millis);

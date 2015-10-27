@@ -18,17 +18,29 @@ package org.biomojo.codec;
 
 import java.nio.ByteBuffer;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class DefaultFloatCodec.
  *
+ * @author Hugh Eaves
  */
 public class DefaultFloatCodec extends AbstractCodec<Float, Byte> implements FloatCodec {
 
+    /**
+     * Instantiates a new default float codec.
+     *
+     * @param id the id
+     */
     DefaultFloatCodec(int id) {
         super(id);
     }
 
     /**
+     * Decode.
+     *
+     * @param encodedData the encoded data
+     * @param length the length
+     * @return the float[]
      * @see org.biomojo.codec.FloatCodec#decode(byte[], int)
      */
     @Override
@@ -43,6 +55,12 @@ public class DefaultFloatCodec extends AbstractCodec<Float, Byte> implements Flo
     }
 
     /**
+     * Decode.
+     *
+     * @param encodedData the encoded data
+     * @param length the length
+     * @param index the index
+     * @return the float
      * @see org.biomojo.codec.FloatCodec#decode(byte[], int, int)
      */
     @Override
@@ -51,6 +69,10 @@ public class DefaultFloatCodec extends AbstractCodec<Float, Byte> implements Flo
     }
 
     /**
+     * Encode.
+     *
+     * @param decodedData the decoded data
+     * @return the byte[]
      * @see org.biomojo.codec.FloatCodec#encode(float[])
      */
     @Override
@@ -64,6 +86,12 @@ public class DefaultFloatCodec extends AbstractCodec<Float, Byte> implements Flo
     }
 
     /**
+     * Encode.
+     *
+     * @param encodedData the encoded data
+     * @param length the length
+     * @param value the value
+     * @param index the index
      * @see org.biomojo.codec.FloatCodec#encode(byte[], int, float, int)
      */
     @Override

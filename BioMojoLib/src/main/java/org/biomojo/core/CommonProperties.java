@@ -16,6 +16,12 @@
  */
 package org.biomojo.core;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface CommonProperties.
+ */
 public interface CommonProperties {
+    
+    /** The Constant NAME. */
     public static final String NAME = "NAME";
 }

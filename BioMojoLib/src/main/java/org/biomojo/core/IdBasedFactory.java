@@ -16,10 +16,22 @@
  */
 package org.biomojo.core;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * A factory for creating IdBased objects.
  *
+ * @author Hugh Eaves
+ * @param <T> the generic type
  */
 public interface IdBasedFactory<T extends IntegerIdentified> {
+    
+    /**
+     * Gets the single instance of IdBasedFactory.
+     *
+     * @param <Z> the generic type
+     * @param objectId the object id
+     * @param type the type
+     * @return single instance of IdBasedFactory
+     */
     public <Z extends T> Z getInstance(int objectId, Class<Z> type);
 }

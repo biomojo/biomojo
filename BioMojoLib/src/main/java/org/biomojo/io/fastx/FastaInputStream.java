@@ -27,36 +27,69 @@ import org.biomojo.io.ParseException;
 import org.biomojo.io.SequenceInputStream;
 import org.biomojo.sequence.ByteSeq;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FastaInputStream.
+ */
 public class FastaInputStream extends MarkAndCopyInputStream
         implements SequenceInputStream<ByteSeq<? extends ByteAlphabet>> {
 
+    /** The header parser. */
     private final HeaderParser headerParser;
+    
+    /** The validate sequence data. */
     private final boolean validateSequenceData;
 
+    /**
+     * Instantiates a new fasta input stream.
+     *
+     * @param inputStream the input stream
+     */
     public FastaInputStream(final InputStream inputStream) {
         super(inputStream);
         headerParser = new DefaultHeaderParser();
         validateSequenceData = true;
     }
 
+    /**
+     * Instantiates a new fasta input stream.
+     *
+     * @param inputStream the input stream
+     * @param sequenceHeaderParser the sequence header parser
+     */
     public FastaInputStream(final InputStream inputStream, final HeaderParser sequenceHeaderParser) {
         super(inputStream);
         this.headerParser = sequenceHeaderParser;
         validateSequenceData = true;
     }
 
+    /**
+     * Instantiates a new fasta input stream.
+     *
+     * @param inputStream the input stream
+     * @param readBufferSize the read buffer size
+     */
     public FastaInputStream(final InputStream inputStream, final int readBufferSize) {
         super(inputStream, readBufferSize);
         headerParser = new DefaultHeaderParser();
         validateSequenceData = true;
     }
 
+    /**
+     * Instantiates a new fasta input stream.
+     *
+     * @param inputStream the input stream
+     * @param validateSequenceData the validate sequence data
+     */
     public FastaInputStream(final InputStream inputStream, final boolean validateSequenceData) {
         super(inputStream);
         headerParser = new DefaultHeaderParser();
         this.validateSequenceData = validateSequenceData;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.io.SequenceInputStream#read(org.biomojo.sequence.Seq)
+     */
     @Override
     public boolean read(final ByteSeq<? extends ByteAlphabet> seq) throws ParseException {
         if (isEof()) {

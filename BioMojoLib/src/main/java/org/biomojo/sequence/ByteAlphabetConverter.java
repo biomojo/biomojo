@@ -22,17 +22,26 @@ import javax.persistence.Converter;
 import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.ByteAlphabet;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class ByteAlphabetConverter.
  *
+ * @author Hugh Eaves
  */
 @Converter(autoApply = true)
 public class ByteAlphabetConverter implements AttributeConverter<ByteAlphabet, Integer> {
+    
+    /* (non-Javadoc)
+     * @see javax.persistence.AttributeConverter#convertToDatabaseColumn(java.lang.Object)
+     */
     @Override
     public Integer convertToDatabaseColumn(ByteAlphabet alphabet) {
         return (int) alphabet.getId();
     }
 
+    /* (non-Javadoc)
+     * @see javax.persistence.AttributeConverter#convertToEntityAttribute(java.lang.Object)
+     */
     @Override
     public ByteAlphabet convertToEntityAttribute(Integer alphabetId) {
         return Alphabets.getAlphabet(alphabetId, ByteAlphabet.class);

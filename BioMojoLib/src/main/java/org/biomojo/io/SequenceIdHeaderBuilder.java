@@ -19,8 +19,15 @@ package org.biomojo.io;
 import org.biomojo.sequence.Seq;
 import org.java0.string.ByteArrayConverter;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SequenceIdHeaderBuilder.
+ */
 public class SequenceIdHeaderBuilder implements HeaderBuilder {
 
+    /* (non-Javadoc)
+     * @see org.biomojo.io.HeaderBuilder#buildHeader(org.biomojo.sequence.Seq)
+     */
     @Override
     public byte[] buildHeader(final Seq<?, ?> sequence) {
         return ByteArrayConverter.toArray(sequence.getId());

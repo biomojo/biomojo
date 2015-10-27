@@ -22,11 +22,16 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BlastOutputParam.
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { "parameters" })
 @XmlRootElement(name = "BlastOutput_param")
 public class BlastOutputParam {
 
+    /** The parameters. */
     @XmlElement(name = "Parameters", required = true)
     protected BlastParameters parameters;
 

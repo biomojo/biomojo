@@ -19,8 +19,15 @@ package org.biomojo.io;
 import org.biomojo.sequence.Seq;
 import org.java0.string.ByteCharSequence;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DefaultHeaderParser.
+ */
 public class DefaultHeaderParser implements HeaderParser {
 
+    /* (non-Javadoc)
+     * @see org.biomojo.io.HeaderParser#parseHeader(org.biomojo.sequence.Seq, byte[])
+     */
     @Override
     public void parseHeader(final Seq<?, ?> sequence, final byte[] headerData) {
         sequence.setDescription(new ByteCharSequence(headerData));

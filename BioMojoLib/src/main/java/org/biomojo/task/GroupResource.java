@@ -16,8 +16,23 @@
  */
 package org.biomojo.task;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface GroupResource.
+ */
 public interface GroupResource {
+    
+    /**
+     * Gets the node group.
+     *
+     * @return the node group
+     */
     public NodeGroup getNodeGroup();
 
+    /**
+     * Sets the node group.
+     *
+     * @param nodeGroup the new node group
+     */
     public void setNodeGroup(NodeGroup nodeGroup);
 }

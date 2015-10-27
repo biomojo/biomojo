@@ -33,13 +33,25 @@ import org.java0.core.exception.UncheckedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TaxonomyService.
+ */
 @Named
 public class TaxonomyService {
+    
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(SequenceService.class.getName());
 
+    /** The entity manager. */
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+     * Load divisisions.
+     *
+     * @param divisions the divisions
+     */
     @Transactional
     public void loadDivisisions(final InputStream divisions) {
         try {
@@ -84,6 +96,11 @@ public class TaxonomyService {
     // data yet
     // comments -- free-text comments and citations
 
+    /**
+     * Load taxonomy nodes.
+     *
+     * @param taxonomyNodes the taxonomy nodes
+     */
     @Transactional
     public void loadTaxonomyNodes(final InputStream taxonomyNodes) {
         try {
@@ -172,6 +189,11 @@ public class TaxonomyService {
 
     }
 
+    /**
+     * Load names.
+     *
+     * @param taxaNames the taxa names
+     */
     @Transactional
     public void loadNames(final InputStream taxaNames) {
         try {
@@ -213,6 +235,11 @@ public class TaxonomyService {
         }
     }
 
+    /**
+     * Load genetic codes.
+     *
+     * @param geneticCodes the genetic codes
+     */
     @Transactional
     public void loadGeneticCodes(final InputStream geneticCodes) {
         try {
@@ -242,6 +269,12 @@ public class TaxonomyService {
 
     }
 
+    /**
+     * Translate boolean.
+     *
+     * @param string the string
+     * @return true, if successful
+     */
     private boolean translateBoolean(final String string) {
         if ("1".equals(string)) {
             return true;
@@ -250,6 +283,12 @@ public class TaxonomyService {
         }
     }
 
+    /**
+     * Find division.
+     *
+     * @param divisionIdStr the division id str
+     * @return the taxonomy division
+     */
     @Transactional
     private TaxonomyDivision findDivision(final String divisionIdStr) {
         final long divisionId = Integer.parseInt(divisionIdStr);
@@ -257,6 +296,12 @@ public class TaxonomyService {
         return division;
     }
 
+    /**
+     * Find genetic code.
+     *
+     * @param codeId the code id
+     * @return the taxonomy genetic code
+     */
     @Transactional
     private TaxonomyGeneticCode findGeneticCode(final String codeId) {
         final long geneticCodeId = Integer.parseInt(codeId);
@@ -265,6 +310,13 @@ public class TaxonomyService {
 
     }
 
+    /**
+     * Find taxonomy node.
+     *
+     * @param taxonomyId the taxonomy id
+     * @param nodeCache the node cache
+     * @return the taxonomy node
+     */
     @Transactional
     private TaxonomyNode findTaxonomyNode(final long taxonomyId, final Map<Long, TaxonomyNode> nodeCache) {
 
@@ -279,6 +331,12 @@ public class TaxonomyService {
         return node;
     }
 
+    /**
+     * Split line.
+     *
+     * @param line the line
+     * @return the string[]
+     */
     private String[] splitLine(final String line) {
         final String[] fields = line.split("\t\\|");
         for (int i = 0; i < fields.length; ++i) {

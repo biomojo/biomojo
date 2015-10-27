@@ -27,22 +27,31 @@ import org.biomojo.alphabet.QualityScoreAlphabet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class FastqSeqImpl.
  *
+ * @author Hugh Eaves
+ * @param <A> the generic type
  */
 @Entity
 @DiscriminatorValue("F")
 public class FastqSeqImpl<A extends NucleotideAlphabet> extends ByteSeqImpl<A> implements FastqSeq<A> {
 
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
+    /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(FastqSeqImpl.class.getName());
 
+    /** The seq. */
     @OneToOne(targetEntity = ByteSeqImpl.class)
     protected ByteSeq<QualityScoreAlphabet> seq;
 
+    /**
+     * Instantiates a new fastq seq impl.
+     */
     public FastqSeqImpl() {
         super();
         seq = new ByteSeqImpl<QualityScoreAlphabet>(
@@ -50,6 +59,12 @@ public class FastqSeqImpl<A extends NucleotideAlphabet> extends ByteSeqImpl<A> i
 
     }
 
+    /**
+     * Instantiates a new fastq seq impl.
+     *
+     * @param data the data
+     * @param alphabet the alphabet
+     */
     public FastqSeqImpl(final byte[] data, final A alphabet) {
         super(data, alphabet);
         seq = new ByteSeqImpl<QualityScoreAlphabet>(
@@ -57,6 +72,11 @@ public class FastqSeqImpl<A extends NucleotideAlphabet> extends ByteSeqImpl<A> i
 
     }
 
+    /**
+     * Instantiates a new fastq seq impl.
+     *
+     * @param data the data
+     */
     public FastqSeqImpl(final byte[] data) {
         super(data);
         seq = new ByteSeqImpl<QualityScoreAlphabet>(
@@ -64,6 +84,11 @@ public class FastqSeqImpl<A extends NucleotideAlphabet> extends ByteSeqImpl<A> i
 
     }
 
+    /**
+     * Instantiates a new fastq seq impl.
+     *
+     * @param alphabet the alphabet
+     */
     public FastqSeqImpl(final A alphabet) {
         super(alphabet);
         seq = new ByteSeqImpl<QualityScoreAlphabet>(
@@ -72,6 +97,8 @@ public class FastqSeqImpl<A extends NucleotideAlphabet> extends ByteSeqImpl<A> i
     }
 
     /**
+     * Gets the quality scores.
+     *
      * @return the qualityScores
      */
     @Override
@@ -80,8 +107,9 @@ public class FastqSeqImpl<A extends NucleotideAlphabet> extends ByteSeqImpl<A> i
     }
 
     /**
-     * @param qualityScores
-     *            the qualityScores to set
+     * Sets the quality scores.
+     *
+     * @param qualityScores            the qualityScores to set
      */
     public void setQualityScores(final ByteSeq<QualityScoreAlphabet> qualityScores) {
         this.seq = qualityScores;

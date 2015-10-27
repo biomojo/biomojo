@@ -21,17 +21,33 @@ import java.util.Arrays;
 import org.biomojo.symbols.AminoAcids;
 import org.biomojo.symbols.Nucleotides;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class CodonTableImpl.
  *
+ * @author Hugh Eaves
  */
 public class CodonTableImpl implements CodonTable {
+    
+    /** The id. */
     int id;
+    
+    /** The amino acid lookup table. */
     private byte[] aminoAcidLookupTable;
+    
+    /** The start codon lookup table. */
     private boolean[] startCodonLookupTable;
 
+    /** The Constant TABLE_SIZE. */
     private static final int TABLE_SIZE = (Byte.MAX_VALUE + 1) * (Byte.MAX_VALUE + 1) * (Byte.MAX_VALUE + 1);
 
+    /**
+     * Instantiates a new codon table impl.
+     *
+     * @param id the id
+     * @param aminoAcids the amino acids
+     * @param startCodons the start codons
+     */
     CodonTableImpl(int id, String aminoAcids, String startCodons) {
         this.id = id;
         char BASES[] = { Nucleotides.URACIL, Nucleotides.CYTOSINE, Nucleotides.ADENINE, Nucleotides.GUANINE };
@@ -51,6 +67,9 @@ public class CodonTableImpl implements CodonTable {
     }
 
     /**
+     * Gets the id.
+     *
+     * @return the id
      * @see org.biomojo.codon.CodonTable#getId()
      */
     @Override
@@ -58,14 +77,39 @@ public class CodonTableImpl implements CodonTable {
         return id;
     }
 
+    /**
+     * Index.
+     *
+     * @param base1 the base1
+     * @param base2 the base2
+     * @param base3 the base3
+     * @return the int
+     */
     private int index(char base1, char base2, char base3) {
         return (base1 * (Byte.MAX_VALUE + 1) * (Byte.MAX_VALUE + 1) + base2 * (Byte.MAX_VALUE + 1) + base3);
     }
 
+    /**
+     * Index.
+     *
+     * @param base1 the base1
+     * @param base2 the base2
+     * @param base3 the base3
+     * @return the int
+     */
     private int index(byte base1, byte base2, byte base3) {
         return (base1 * (Byte.MAX_VALUE + 1) * (Byte.MAX_VALUE + 1) + base2 * (Byte.MAX_VALUE + 1) + base3);
     }
 
+    /**
+     * Adds the codon.
+     *
+     * @param base1u the base1u
+     * @param base2u the base2u
+     * @param base3u the base3u
+     * @param aminoAcid the amino acid
+     * @param startCodon the start codon
+     */
     private void addCodon(char base1u, char base2u, char base3u, byte aminoAcid, boolean startCodon) {
         char bases1[] = getAlternates(base1u);
         char bases2[] = getAlternates(base2u);
@@ -80,6 +124,12 @@ public class CodonTableImpl implements CodonTable {
         }
     }
 
+    /**
+     * Gets the alternates.
+     *
+     * @param base the base
+     * @return the alternates
+     */
     private char[] getAlternates(char base) {
         if (base == Nucleotides.URACIL) {
             return new char[] { base, Character.toLowerCase(base), Nucleotides.THYMINE,
@@ -89,17 +139,26 @@ public class CodonTableImpl implements CodonTable {
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.codon.CodonTable#getAminoAcid(byte[], int)
+     */
     @Override
     public byte getAminoAcid(byte[] nucleotides, int offset) {
         return aminoAcidLookupTable[index(nucleotides[offset], nucleotides[offset + 1], nucleotides[offset + 2])];
 
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.codon.CodonTable#getAminoAcid(byte[])
+     */
     @Override
     public byte getAminoAcid(byte[] nucleotides) {
         return aminoAcidLookupTable[index(nucleotides[0], nucleotides[1], nucleotides[2])];
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.codon.CodonTable#getAminoAcid(byte, byte, byte)
+     */
     @Override
     public byte getAminoAcid(byte nucleotide1, byte nucleotide2, byte nucleotide3) {
         return aminoAcidLookupTable[index(nucleotide1, nucleotide2, nucleotide3)];

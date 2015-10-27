@@ -16,10 +16,21 @@
  */
 package org.biomojo.sequence;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Interface SeqTranslator.
  *
+ * @author Hugh Eaves
+ * @param <S> the generic type
+ * @param <D> the generic type
  */
 public interface SeqTranslator<S extends Seq<?, ?>, D extends Seq<?, ?>> {
+    
+    /**
+     * Translate.
+     *
+     * @param sourceSeq the source seq
+     * @return the d
+     */
     public D translate(S sourceSeq);
 }

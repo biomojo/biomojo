@@ -19,54 +19,117 @@ package org.biomojo.taxonomy;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
+// TODO: Auto-generated Javadoc
 //@NamedQuery(name = "findTaxonomyGeneticCodeByGeneticCodeId", query = "select taxonomyGeneticCode from TaxonomyGeneticCode as taxonomyGeneticCode where taxonomyGeneticCode.geneticCodeId = :geneticCodeId")
 
+/**
+ * The Class TaxonomyGeneticCode.
+ */
 @Entity
 public class TaxonomyGeneticCode {
+    
+    /** The id. */
     @Id
     protected long id;
 
+    /** The abbreviation. */
     private String abbreviation;
+    
+    /** The name. */
     private String name;
+    
+    /** The translation table. */
     private String translationTable;
+    
+    /** The start codons. */
     private String startCodons;
 
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Sets the id.
+     *
+     * @param id the new id
+     */
     public void setId(long id) {
         this.id = id;
     }
 
+    /**
+     * Gets the abbreviation.
+     *
+     * @return the abbreviation
+     */
     public String getAbbreviation() {
         return abbreviation;
     }
 
+    /**
+     * Sets the abbreviation.
+     *
+     * @param abbreviation the new abbreviation
+     */
     public void setAbbreviation(String abbreviation) {
         this.abbreviation = abbreviation;
     }
 
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name.
+     *
+     * @param name the new name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets the translation table.
+     *
+     * @return the translation table
+     */
     public String getTranslationTable() {
         return translationTable;
     }
 
+    /**
+     * Sets the translation table.
+     *
+     * @param translationTable the new translation table
+     */
     public void setTranslationTable(String translationTable) {
         this.translationTable = translationTable;
     }
 
+    /**
+     * Gets the start codons.
+     *
+     * @return the start codons
+     */
     public String getStartCodons() {
         return startCodons;
     }
 
+    /**
+     * Sets the start codons.
+     *
+     * @param startCodons the new start codons
+     */
     public void setStartCodons(String startCodons) {
         this.startCodons = startCodons;
     }

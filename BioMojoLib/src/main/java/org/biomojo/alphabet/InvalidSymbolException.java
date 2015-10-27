@@ -18,26 +18,50 @@ package org.biomojo.alphabet;
 
 import org.java0.core.exception.UncheckedException;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class InvalidSymbolException.
+ */
 public class InvalidSymbolException extends UncheckedException {
 
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 3542399307112927726L;
 
+    /** The info. */
     private final InvalidSymbolInfo info;
 
+    /**
+     * Instantiates a new invalid symbol exception.
+     *
+     * @param symbol the symbol
+     * @param position the position
+     */
     public InvalidSymbolException(final Object symbol, final int position) {
         this.info = new InvalidSymbolInfo(symbol, position);
     }
 
+    /**
+     * Instantiates a new invalid symbol exception.
+     *
+     * @param symbol the symbol
+     */
     public InvalidSymbolException(final Object symbol) {
         this.info = new InvalidSymbolInfo(symbol, null);
 
     }
 
+    /**
+     * Instantiates a new invalid symbol exception.
+     *
+     * @param info the info
+     */
     public InvalidSymbolException(final InvalidSymbolInfo info) {
         this.info = info;
     }
 
     /**
+     * Gets the symbol.
+     *
      * @return the symbol
      */
     public Object getSymbol() {
@@ -45,12 +69,17 @@ public class InvalidSymbolException extends UncheckedException {
     }
 
     /**
+     * Gets the position.
+     *
      * @return the position
      */
     public Integer getPosition() {
         return info.getPosition();
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Throwable#getMessage()
+     */
     @Override
     public String getMessage() {
         return info.toString();

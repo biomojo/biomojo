@@ -20,8 +20,20 @@ package org.biomojo.util;
 import java.io.IOException;
 import java.io.OutputStream;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class OutputUtil.
+ */
 public class OutputUtil {
 
+    /**
+     * Write split lines.
+     *
+     * @param outputStream the output stream
+     * @param maxLineLength the max line length
+     * @param data the data
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     public static void writeSplitLines(final OutputStream outputStream, final int maxLineLength, final byte[] data)
             throws IOException {
         final int size = data.length;

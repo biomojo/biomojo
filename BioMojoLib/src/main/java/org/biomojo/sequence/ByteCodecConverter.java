@@ -22,17 +22,26 @@ import javax.persistence.Converter;
 import org.biomojo.codec.ByteCodec;
 import org.biomojo.codec.Codecs;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class ByteCodecConverter.
  *
+ * @author Hugh Eaves
  */
 @Converter(autoApply = true)
 public class ByteCodecConverter implements AttributeConverter<ByteCodec, Integer> {
+    
+    /* (non-Javadoc)
+     * @see javax.persistence.AttributeConverter#convertToDatabaseColumn(java.lang.Object)
+     */
     @Override
     public Integer convertToDatabaseColumn(ByteCodec codec) {
         return (int) codec.getId();
     }
 
+    /* (non-Javadoc)
+     * @see javax.persistence.AttributeConverter#convertToEntityAttribute(java.lang.Object)
+     */
     @Override
     public ByteCodec convertToEntityAttribute(Integer codecId) {
         return Codecs.getCodec(codecId, ByteCodec.class);

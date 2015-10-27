@@ -20,38 +20,65 @@ package org.biomojo.property;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StringProperty.
+ */
 @Entity
 @DiscriminatorValue(value = "S")
 public class StringProperty extends BasicProperty {
 
-    /**
-     *
-     */
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -902224446132501216L;
 
+    /** The string value. */
     private String stringValue;
 
+    /**
+     * Instantiates a new string property.
+     */
     public StringProperty() {
 
     }
 
+    /**
+     * Instantiates a new string property.
+     *
+     * @param stringValue the string value
+     */
     public StringProperty(String stringValue) {
         this.stringValue = stringValue;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.property.BasicProperty#setValue(java.lang.Object)
+     */
     @Override
     public void setValue(Object value) {
         setString((String) value);
     }
 
+    /**
+     * Sets the string.
+     *
+     * @param stringValue the new string
+     */
     public void setString(String stringValue) {
         this.stringValue = stringValue;
     }
 
+    /**
+     * Gets the string.
+     *
+     * @return the string
+     */
     public String getString() {
         return stringValue;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.property.BasicProperty#getValue()
+     */
     @Override
     public Object getValue() {
         return stringValue;

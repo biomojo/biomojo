@@ -21,23 +21,50 @@ import org.biomojo.alphabet.ByteAlphabet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FourBitByteCodec.
+ */
 public class FourBitByteCodec extends AbstractByteCodec {
+    
+    /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(FourBitByteCodec.class.getName());
 
+    /**
+     * Instantiates a new four bit byte codec.
+     *
+     * @param id the id
+     */
     FourBitByteCodec(final int id) {
         super(id);
     }
 
+    /** The Constant BITS_PER_SYMBOL. */
     private static final int BITS_PER_SYMBOL = 4;
+    
+    /** The Constant SYMBOLS_PER_BYTE. */
     private static final int SYMBOLS_PER_BYTE = 8 / BITS_PER_SYMBOL;
+    
+    /** The Constant NUM_SYMBOLS. */
     private static final int NUM_SYMBOLS = 1 << BITS_PER_SYMBOL;
 
+    /** The Constant MASK_0. */
     private static final int MASK_0 = 0xF0;
+    
+    /** The Constant MASK_1. */
     private static final int MASK_1 = 0x0F;
+    
+    /** The Constant SHIFT_0. */
     private static final int SHIFT_0 = 4;
 
     /**
+     * Decode.
+     *
+     * @param alphabet the alphabet
+     * @param encodedData the encoded data
+     * @param length the length
+     * @return the byte[]
      * @see org.biomojo.codec.ByteCodec#decode(byte[])
      */
     @Override
@@ -60,6 +87,13 @@ public class FourBitByteCodec extends AbstractByteCodec {
     }
 
     /**
+     * Decode.
+     *
+     * @param alphabet the alphabet
+     * @param encodedData the encoded data
+     * @param length the length
+     * @param pos the pos
+     * @return the byte
      * @see org.biomojo.codec.ByteCodec#decode(byte[], int)
      */
     @Override
@@ -73,6 +107,13 @@ public class FourBitByteCodec extends AbstractByteCodec {
     }
 
     /**
+     * Encode.
+     *
+     * @param alphabet the alphabet
+     * @param oldEncodedData the old encoded data
+     * @param length the length
+     * @param decodedData the decoded data
+     * @return the byte[]
      * @see org.biomojo.codec.ByteCodec#encode(byte[])
      */
     @Override
@@ -96,6 +137,13 @@ public class FourBitByteCodec extends AbstractByteCodec {
     }
 
     /**
+     * Encode.
+     *
+     * @param alphabet the alphabet
+     * @param encodedData the encoded data
+     * @param length the length
+     * @param symbol the symbol
+     * @param pos the pos
      * @see org.biomojo.codec.ByteCodec#encode(byte[], byte, int)
      */
     @Override
@@ -111,6 +159,10 @@ public class FourBitByteCodec extends AbstractByteCodec {
     }
 
     /**
+     * Supports alphabet.
+     *
+     * @param alphabet the alphabet
+     * @return true, if successful
      * @see org.biomojo.codec.Codec#supportsAlphabet(org.biomojo.alphabet.Alphabet)
      */
     @Override

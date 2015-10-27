@@ -19,14 +19,25 @@ package org.biomojo.alignment;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * A factory for creating SubstitutionMatrix objects.
  *
+ * @author Hugh Eaves
  */
 public class SubstitutionMatrixFactory {
+    
+    /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(SubstitutionMatrixFactory.class.getName());
 
+    /**
+     * Gets the matrix.
+     *
+     * @param baseType the base type
+     * @param variant the variant
+     * @return the matrix
+     */
     public ByteSubstitutionMatrix getMatrix(int baseType, int variant) {
         return null;
 

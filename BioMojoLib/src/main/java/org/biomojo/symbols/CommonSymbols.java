@@ -16,17 +16,27 @@
  */
 package org.biomojo.symbols;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class CommonSymbols.
  *
+ * @author Hugh Eaves
  */
 public class CommonSymbols {
+    
+    /**
+     * Instantiates a new common symbols.
+     */
     protected CommonSymbols() {
 
     }
 
+    /** The Constant GAP. */
     public static final byte GAP = '-';
+    
+    /** The Constant ALT_GAP. */
     public static final byte ALT_GAP = '.';
 
+    /** The Constant GAP_SYMBOLS. */
     public static final byte[] GAP_SYMBOLS = { GAP, ALT_GAP };
 }

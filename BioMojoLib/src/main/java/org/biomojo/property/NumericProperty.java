@@ -20,12 +20,15 @@ package org.biomojo.property;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class NumericProperty.
+ */
 @Entity
 @DiscriminatorValue("N")
 public abstract class NumericProperty extends BasicProperty {
-    /**
-     *
-     */
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 8901783423194087216L;
 
     //
@@ -36,6 +39,9 @@ public abstract class NumericProperty extends BasicProperty {
     //
     // private boolean exact;
 
+    /**
+     * Instantiates a new numeric property.
+     */
     public NumericProperty() {
     }
     //

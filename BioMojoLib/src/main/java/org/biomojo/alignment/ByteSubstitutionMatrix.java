@@ -18,21 +18,26 @@ package org.biomojo.alignment;
 
 import org.biomojo.alphabet.ByteAlphabet;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Interface ByteSubstitutionMatrix.
  *
+ * @author Hugh Eaves
  */
 public interface ByteSubstitutionMatrix extends SubstitutionMatrix<Byte> {
-    /**
-     * @return
+    
+    /* (non-Javadoc)
+     * @see org.biomojo.alignment.SubstitutionMatrix#getAlphabet()
      */
     @Override
     public ByteAlphabet getAlphabet();
 
     /**
-     * @param first
-     * @param second
-     * @return
+     * Gets the score.
+     *
+     * @param from the from
+     * @param to the to
+     * @return the score
      */
     public int getScore(byte from, byte to);
 }

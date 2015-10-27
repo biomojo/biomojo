@@ -35,96 +35,189 @@ import org.biomojo.blast.blastoutput.BlastOutput;
 import org.biomojo.sequence.ByteSeqImpl;
 import org.biomojo.sequence.AbstractSeqList;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BlastTask.
+ */
 @Entity
 public class BlastTask {
 
+    /** The id. */
     @TableGenerator(name = "BlastTaskGenerator", allocationSize = 1)
     @Id
     @GeneratedValue(generator = "BlastTaskGenerator")
     private long id;
 
+    /** The blast data set. */
     @ManyToOne
     private BlastDataSet blastDataSet;
 
+    /** The query sequences. */
     @ManyToOne(cascade = CascadeType.ALL)
     private AbstractSeqList<ByteSeqImpl<ByteAlphabet>> querySequences;
 
+    /** The database sequences. */
     @ManyToOne(cascade = CascadeType.ALL)
     private AbstractSeqList<ByteSeqImpl<ByteAlphabet>> databaseSequences;
 
+    /** The blast output. */
     @OneToOne(cascade = CascadeType.ALL)
     private BlastOutput blastOutput;
 
+    /** The start time. */
     private Date startTime;
 
+    /** The end time. */
     private Date endTime;
 
+    /** The status. */
     @Enumerated(EnumType.STRING)
     private BlastTaskStatus status;
 
+    /** The version. */
     @Version
     private short version;
 
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Sets the id.
+     *
+     * @param id the new id
+     */
     public void setId(final long id) {
         this.id = id;
     }
 
+    /**
+     * Gets the blast data set.
+     *
+     * @return the blast data set
+     */
     public BlastDataSet getBlastDataSet() {
         return blastDataSet;
     }
 
+    /**
+     * Sets the blast data set.
+     *
+     * @param blastDataset the new blast data set
+     */
     public void setBlastDataSet(final BlastDataSet blastDataset) {
         this.blastDataSet = blastDataset;
     }
 
+    /**
+     * Gets the blast output.
+     *
+     * @return the blast output
+     */
     public BlastOutput getBlastOutput() {
         return blastOutput;
     }
 
+    /**
+     * Sets the blast output.
+     *
+     * @param blastOutput the new blast output
+     */
     public void setBlastOutput(final BlastOutput blastOutput) {
         this.blastOutput = blastOutput;
     }
 
+    /**
+     * Gets the query sequences.
+     *
+     * @return the query sequences
+     */
     public AbstractSeqList<ByteSeqImpl<ByteAlphabet>> getQuerySequences() {
         return querySequences;
     }
 
+    /**
+     * Sets the query sequences.
+     *
+     * @param querySequences the new query sequences
+     */
     public void setQuerySequences(final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> querySequences) {
         this.querySequences = querySequences;
     }
 
+    /**
+     * Gets the database sequences.
+     *
+     * @return the database sequences
+     */
     public AbstractSeqList<ByteSeqImpl<ByteAlphabet>> getDatabaseSequences() {
         return databaseSequences;
     }
 
+    /**
+     * Sets the database sequences.
+     *
+     * @param databaseSequences the new database sequences
+     */
     public void setDatabaseSequences(final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> databaseSequences) {
         this.databaseSequences = databaseSequences;
     }
 
+    /**
+     * Gets the start time.
+     *
+     * @return the start time
+     */
     public Date getStartTime() {
         return startTime;
     }
 
+    /**
+     * Sets the start time.
+     *
+     * @param startTime the new start time
+     */
     public void setStartTime(final Date startTime) {
         this.startTime = startTime;
     }
 
+    /**
+     * Gets the end time.
+     *
+     * @return the end time
+     */
     public Date getEndTime() {
         return endTime;
     }
 
+    /**
+     * Sets the end time.
+     *
+     * @param endTime the new end time
+     */
     public void setEndTime(final Date endTime) {
         this.endTime = endTime;
     }
 
+    /**
+     * Gets the status.
+     *
+     * @return the status
+     */
     public BlastTaskStatus getStatus() {
         return status;
     }
 
+    /**
+     * Sets the status.
+     *
+     * @param status the new status
+     */
     public void setStatus(final BlastTaskStatus status) {
         this.status = status;
     }

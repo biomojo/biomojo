@@ -18,12 +18,14 @@ package org.biomojo.task;
 
 import javax.persistence.Entity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class NodeGroup.
+ */
 @Entity
 public class NodeGroup extends NamedResource {
 
-    /**
-     *
-     */
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 3788069366976346179L;
 
 }

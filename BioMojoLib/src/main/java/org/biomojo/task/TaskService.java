@@ -16,6 +16,9 @@
  */
 package org.biomojo.task;
 
+/**
+ * The Class TaskService.
+ */
 public class TaskService {
 
 }

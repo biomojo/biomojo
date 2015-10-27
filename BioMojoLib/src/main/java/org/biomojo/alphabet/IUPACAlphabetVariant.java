@@ -16,14 +16,26 @@
  */
 package org.biomojo.alphabet;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class IUPACAlphabetVariant.
  *
+ * @author Hugh Eaves
  */
 public class IUPACAlphabetVariant {
+    
+    /** The Constant WITH_NON_CANONICAL. */
     public static final int WITH_NON_CANONICAL = 1;
+    
+    /** The Constant WITH_GAP. */
     public static final int WITH_GAP = 2;
+    
+    /** The Constant WITH_ANY. */
     public static final int WITH_ANY = 4;
+    
+    /** The Constant WITH_AMBIGIGUITY. */
     public static final int WITH_AMBIGIGUITY = 8;
+    
+    /** The Constant NUM_VARIANTS. */
     public static final int NUM_VARIANTS = 16;
 }

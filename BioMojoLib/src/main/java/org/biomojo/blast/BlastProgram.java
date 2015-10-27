@@ -17,6 +17,20 @@
 
 package org.biomojo.blast;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Enum BlastProgram.
+ */
 public enum BlastProgram {
-    BLASTN, TBLASTN, BLASTX, TBLASTX, BLASTP
+    
+    /** The blastn. */
+    BLASTN, 
+ /** The tblastn. */
+ TBLASTN, 
+ /** The blastx. */
+ BLASTX, 
+ /** The tblastx. */
+ TBLASTX, 
+ /** The blastp. */
+ BLASTP
 }

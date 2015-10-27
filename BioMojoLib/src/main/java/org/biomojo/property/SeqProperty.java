@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2014  Hugh Eaves
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 package org.biomojo.property;
 
 import javax.persistence.DiscriminatorValue;
@@ -9,26 +25,37 @@ import org.biomojo.sequence.AbstractSeq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SeqProperty.
+ */
 @Entity
 @DiscriminatorValue(value = "E")
 public class SeqProperty extends BasicProperty {
-    /**
-     *
-     */
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 8959250872527073219L;
 
+    /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(SeqProperty.class.getName());
 
+    /** The sequence. */
     @ManyToOne
     @JoinColumn(name = "longValue")
     private AbstractSeq<?, ?> sequence;
 
+    /* (non-Javadoc)
+     * @see org.biomojo.property.BasicProperty#getValue()
+     */
     @Override
     public Object getValue() {
         return sequence;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.property.BasicProperty#setValue(java.lang.Object)
+     */
     @Override
     public void setValue(final Object value) {
         sequence = (AbstractSeq<?, ?>) value;

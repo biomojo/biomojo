@@ -19,6 +19,7 @@ package org.biomojo.codec;
 import org.biomojo.alphabet.Alphabet;
 import org.biomojo.core.IntegerIdentified;
 
+// TODO: Auto-generated Javadoc
 /**
  * A Codec provides a method to encode / decode data from one format to another.
  * For example, a codec could convert sequence data between a single byte

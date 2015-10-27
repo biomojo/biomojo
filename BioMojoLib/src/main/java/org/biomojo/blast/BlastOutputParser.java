@@ -38,10 +38,23 @@ import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BlastOutputParser.
+ */
 @Named
 public class BlastOutputParser {
+    
+    /** The Constant logger. */
     private final static Logger logger = LoggerFactory.getLogger(BlastOutputParser.class.getName());
 
+    /**
+     * Parses the results.
+     *
+     * @param blastOutputStream the blast output stream
+     * @param sequenceResolver the sequence resolver
+     * @return the blast output
+     */
     @Transactional
     public BlastOutput parseResults(InputStream blastOutputStream, BlastSequenceResolver sequenceResolver) {
 

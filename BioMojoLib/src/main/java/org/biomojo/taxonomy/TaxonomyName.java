@@ -21,56 +21,116 @@ import javax.persistence.ManyToOne;
 
 import org.biomojo.core.AbstractEntity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TaxonomyName.
+ */
 @Entity
 public class TaxonomyName extends AbstractEntity {
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
+    /** The name. */
     private String name;
 
+    /** The unique name. */
     private String uniqueName;
 
+    /** The name class. */
     private String nameClass;
 
+    /** The taxonomy node. */
     @ManyToOne
     private TaxonomyNode taxonomyNode;
 
+    /**
+     * Instantiates a new taxonomy name.
+     */
     public TaxonomyName() {
     }
 
+    /**
+     * Instantiates a new taxonomy name.
+     *
+     * @param name the name
+     * @param nameClass the name class
+     * @param uniqueName the unique name
+     */
     public TaxonomyName(String name, String nameClass, String uniqueName) {
         this.name = name;
         this.nameClass = nameClass;
         this.uniqueName = uniqueName;
     }
 
+    /**
+     * Gets the name.
+     *
+     * @return the name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Sets the name.
+     *
+     * @param name the new name
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Gets the unique name.
+     *
+     * @return the unique name
+     */
     public String getUniqueName() {
         return uniqueName;
     }
 
+    /**
+     * Sets the unique name.
+     *
+     * @param uniqueName the new unique name
+     */
     public void setUniqueName(String uniqueName) {
         this.uniqueName = uniqueName;
     }
 
+    /**
+     * Gets the name class.
+     *
+     * @return the name class
+     */
     public String getNameClass() {
         return nameClass;
     }
 
+    /**
+     * Sets the name class.
+     *
+     * @param nameClass the new name class
+     */
     public void setNameClass(String nameClass) {
         this.nameClass = nameClass;
     }
 
+    /**
+     * Gets the taxonomy node.
+     *
+     * @return the taxonomy node
+     */
     public TaxonomyNode getTaxonomyNode() {
         return taxonomyNode;
     }
 
+    /**
+     * Sets the taxonomy node.
+     *
+     * @param taxonomyNode the new taxonomy node
+     */
     public void setTaxonomyNode(TaxonomyNode taxonomyNode) {
         this.taxonomyNode = taxonomyNode;
     }

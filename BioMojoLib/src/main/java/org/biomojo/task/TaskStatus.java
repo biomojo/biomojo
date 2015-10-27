@@ -18,8 +18,14 @@ package org.biomojo.task;
 
 import javax.persistence.Entity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TaskStatus.
+ */
 @Entity
 public class TaskStatus extends NamedResource {
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
 }

@@ -19,6 +19,7 @@ package org.biomojo.codec;
 
 import org.biomojo.alphabet.Alphabet;
 
+// TODO: Auto-generated Javadoc
 /**
  * An AbstractCodec handles the encoding/decoding of Alphabet entities
  * (characters), into a codec specific byte array representation of those
@@ -26,11 +27,19 @@ import org.biomojo.alphabet.Alphabet;
  * efficient and/or more manageable storage of a collection of an Alphabets
  * entities.
  *
+ * @param <D> the generic type
+ * @param <E> the element type
  */
 public abstract class AbstractCodec<D, E> implements Codec<D, E> {
 
+    /** The id. */
     protected int id;
 
+    /**
+     * Instantiates a new abstract codec.
+     *
+     * @param id the id
+     */
     protected AbstractCodec(int id) {
         this.id = id;
     }
@@ -38,13 +47,16 @@ public abstract class AbstractCodec<D, E> implements Codec<D, E> {
     /**
      * Return the unique identifier for this codec.
      *
-     * @return
+     * @return the id
      */
     @Override
     public int getId() {
         return id;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.codec.Codec#supportsAlphabet(org.biomojo.alphabet.Alphabet)
+     */
     @Override
     public boolean supportsAlphabet(Alphabet<D> alphabet) {
         return true;

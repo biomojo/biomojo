@@ -20,39 +20,66 @@ package org.biomojo.property;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DoubleProperty.
+ */
 @Entity
 @DiscriminatorValue(value = "D")
 public class DoubleProperty extends NumericProperty {
 
-    /**
-     *
-     */
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -2134118530015957486L;
 
+    /** The double value. */
     protected double doubleValue;
 
+    /**
+     * Instantiates a new double property.
+     */
     public DoubleProperty() {
 
     }
 
+    /**
+     * Instantiates a new double property.
+     *
+     * @param doubleValue the double value
+     */
     public DoubleProperty(double doubleValue) {
         this.doubleValue = doubleValue;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.property.BasicProperty#setValue(java.lang.Object)
+     */
     @Override
     public void setValue(Object value) {
         setDouble((double) value);
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.property.BasicProperty#getValue()
+     */
     @Override
     public Object getValue() {
         return doubleValue;
     }
 
+    /**
+     * Sets the double.
+     *
+     * @param doubleValue the new double
+     */
     public void setDouble(double doubleValue) {
         this.doubleValue = doubleValue;
     }
 
+    /**
+     * Gets the double.
+     *
+     * @return the double
+     */
     public double getDouble() {
         return doubleValue;
     }

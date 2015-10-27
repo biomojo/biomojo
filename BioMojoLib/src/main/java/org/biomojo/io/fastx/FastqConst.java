@@ -16,14 +16,23 @@
  */
 package org.biomojo.io.fastx;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class FastqConst.
  *
+ * @author Hugh Eaves
  */
 public class FastqConst {
+    
+    /** The Constant RECORD_DELIMITER. */
     public static final byte RECORD_DELIMITER = '@';
+    
+    /** The Constant QUALITY_DELIMITER. */
     public static final byte QUALITY_DELIMITER = '+';
 
+    /**
+     * Instantiates a new fastq const.
+     */
     private FastqConst() {
 
     }

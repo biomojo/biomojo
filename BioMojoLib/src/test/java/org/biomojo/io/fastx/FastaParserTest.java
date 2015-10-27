@@ -34,20 +34,39 @@ import org.junit.runners.JUnit4;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FastaParserTest.
+ */
 @RunWith(JUnit4.class)
 public class FastaParserTest extends FastxParserTest<ByteSeq<? extends ByteAlphabet>> {
+    
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(FastaParserTest.class.getName());
 
+    /**
+     * Instantiates a new fasta parser test.
+     */
     public FastaParserTest() {
         super();
     }
 
+    /**
+     * Test good data.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @Test
     public void testGoodData() throws IOException {
         testCopy(getTestDataFromClasspath("data/dna_sequences.fasta"), 1770, true);
     }
 
     /**
+     * Gets the input stream.
+     *
+     * @param testData the test data
+     * @param bufSize the buf size
+     * @return the input stream
      * @see org.biomojo.io.fastx.FastxParserTest#getInputStream(byte[], int)
      */
     @Override
@@ -58,6 +77,10 @@ public class FastaParserTest extends FastxParserTest<ByteSeq<? extends ByteAlpha
     }
 
     /**
+     * Gets the output stream.
+     *
+     * @param outputStream the output stream
+     * @return the output stream
      * @see org.biomojo.io.fastx.FastxParserTest#getOutputStream(java.io.ByteArrayOutputStream)
      */
     @Override
@@ -67,6 +90,9 @@ public class FastaParserTest extends FastxParserTest<ByteSeq<? extends ByteAlpha
     }
 
     /**
+     * Gets the sequence.
+     *
+     * @return the sequence
      * @see org.biomojo.io.fastx.FastxParserTest#getSequence()
      */
     @Override

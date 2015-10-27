@@ -16,23 +16,38 @@
  */
 package org.biomojo.alphabet;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class AbstractAlphabet.
  *
+ * @author Hugh Eaves
+ * @param <T> the generic type
  */
 public abstract class AbstractAlphabet<T> implements Alphabet<T> {
 
+    /** The id. */
     private final int id;
 
+    /**
+     * Instantiates a new abstract alphabet.
+     *
+     * @param id the id
+     */
     protected AbstractAlphabet(final int id) {
         this.id = id;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.core.IntegerIdentified#getId()
+     */
     @Override
     public int getId() {
         return id;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         return this.getClass().getName() + "(id=" + id + ")";

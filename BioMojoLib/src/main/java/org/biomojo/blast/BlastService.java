@@ -48,48 +48,96 @@ import org.java0.core.exception.UncheckedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BlastService.
+ */
 @Named
 public class BlastService {
+    
+    /** The Constant logger. */
     private final static Logger logger = LoggerFactory.getLogger(BlastService.class.getName());
 
+    /** The db util. */
     @Inject
     private DbUtil dbUtil;
 
+    /** The entity manager. */
     @PersistenceContext
     private EntityManager entityManager;
 
+    /** The blast file service. */
     @Inject
     private BlastFileService blastFileService;
 
+    /** The blast output parser. */
     @Inject
     private BlastOutputParser blastOutputParser;
 
+    /** The sequence resolver. */
     @Inject
     private QueryIdSequenceResolver sequenceResolver;
 
+    /** The blast path. */
     private String blastPath;
 
+    /** The datafiles path. */
     private String datafilesPath;
 
+    /**
+     * The Class BlastExecution.
+     */
     private class BlastExecution {
+        
+        /** The params. */
         private final String[] params;
+        
+        /** The result file. */
         private final File resultFile;
 
+        /**
+         * Instantiates a new blast execution.
+         *
+         * @param params the params
+         * @param resultFile the result file
+         */
         public BlastExecution(final String[] params, final File resultFile) {
             this.params = params;
             this.resultFile = resultFile;
         }
 
+        /**
+         * Gets the params.
+         *
+         * @return the params
+         */
         public String[] getParams() {
             return params;
         }
 
+        /**
+         * Gets the result file.
+         *
+         * @return the result file
+         */
         public File getResultFile() {
             return resultFile;
         }
 
     }
 
+    /**
+     * Creates the dataset.
+     *
+     * @param projectName the project name
+     * @param datasetName the dataset name
+     * @param programName the program name
+     * @param querySets the query sets
+     * @param databaseSets the database sets
+     * @param maxTargetSeqs the max target seqs
+     * @param taskSize the task size
+     * @return the blast data set
+     */
     @Transactional
     public BlastDataSet createDataset(final String projectName, String datasetName, final String programName,
             final List<String> querySets, final List<String> databaseSets, final int maxTargetSeqs,
@@ -144,6 +192,11 @@ public class BlastService {
         return blastDataset;
     }
 
+    /**
+     * Delete dataset.
+     *
+     * @param datasetName the dataset name
+     */
     @Transactional
     public void deleteDataset(final String datasetName) {
         final BlastDataSet blastDataset = dbUtil.findByAttribute(BlastDataSet.class, CommonProperties.NAME,
@@ -156,6 +209,13 @@ public class BlastService {
         entityManager.remove(blastDataset);
     }
 
+    /**
+     * Creates the blast tasks.
+     *
+     * @param blastDataset the blast dataset
+     * @param taskSize the task size
+     * @return the blast data set
+     */
     @Transactional
     public BlastDataSet createBlastTasks(final BlastDataSet blastDataset, final int taskSize) {
 
@@ -202,6 +262,11 @@ public class BlastService {
 
     }
 
+    /**
+     * Gets the next blast task.
+     *
+     * @return the next blast task
+     */
     @Transactional
     public BlastTask getNextBlastTask() {
         try {
@@ -223,12 +288,23 @@ public class BlastService {
         }
     }
 
+    /**
+     * Update blast task status.
+     *
+     * @param blastTaskId the blast task id
+     * @param newStatus the new status
+     */
     @Transactional
     public void updateBlastTaskStatus(final long blastTaskId, final BlastTaskStatus newStatus) {
         final BlastTask blastTask = entityManager.find(BlastTask.class, blastTaskId);
         blastTask.setStatus(newStatus);
     }
 
+    /**
+     * Run blast.
+     *
+     * @param blastTaskId the blast task id
+     */
     public void runBlast(final long blastTaskId) {
 
         logger.info("Running blast for blastTaskId = " + blastTaskId);
@@ -255,6 +331,13 @@ public class BlastService {
         }
     }
 
+    /**
+     * Prepare blast execution.
+     *
+     * @param blastTaskId the blast task id
+     * @return the blast execution
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @Transactional
     public BlastExecution prepareBlastExecution(final long blastTaskId) throws IOException {
         logger.info("Entering prepareBlastExecution(), blastTaskId = " + blastTaskId);
@@ -287,6 +370,11 @@ public class BlastService {
         return new BlastExecution(params, outputFile);
     }
 
+    /**
+     * Execute blast.
+     *
+     * @param blastExecution the blast execution
+     */
     public void executeBlast(final BlastExecution blastExecution) {
         logger.info("Entering executeBlast()");
         final int exitCode = ProcessUtil.executeProcessWithExitCode(blastExecution.getParams());
@@ -297,6 +385,12 @@ public class BlastService {
         logger.info("Leaving executeBlast()");
     }
 
+    /**
+     * Parses the results.
+     *
+     * @param blastTaskId the blast task id
+     * @param blastOutputStream the blast output stream
+     */
     @Transactional
     public void parseResults(final long blastTaskId, final InputStream blastOutputStream) {
 

@@ -24,25 +24,42 @@ import java.util.Random;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class AlphabetTest.
  *
+ * @author Hugh Eaves
  */
 public class AlphabetTest {
+    
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AlphabetTest.class.getName());
 
+    /** The random. */
     Random random = new Random(0);
 
+    /**
+     * Test byte alphabet.
+     */
     public void testByteAlphabet() {
         testAlphabet(Byte.class);
     }
 
+    /**
+     * Test it.
+     */
     public void testIt() {
         final Alphabet<Byte> alphabet = AllByteAlphabet.INSTANCE;
         alphabet.getSymbolForOrdinal(0);
 
     }
 
+    /**
+     * Test alphabet.
+     *
+     * @param <T> the generic type
+     * @param type the type
+     */
     public <T> void testAlphabet(final Class<T> type) {
         for (int i = 0; i < AlphabetId.LAST_ALPHABET_ID; ++i) {
             @SuppressWarnings("unchecked")

@@ -21,18 +21,38 @@ import org.biomojo.alphabet.ByteAlphabet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ThreeBitByteCodec.
+ */
 public class ThreeBitByteCodec extends AbstractByteCodec {
+    
+    /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(ThreeBitByteCodec.class.getName());
 
+    /**
+     * Instantiates a new three bit byte codec.
+     *
+     * @param id the id
+     */
     ThreeBitByteCodec(final int id) {
         super(id);
     }
 
+    /** The Constant BITS_PER_SYMBOL. */
     private static final int BITS_PER_SYMBOL = 3;
+    
+    /** The Constant NUM_SYMBOLS. */
     private static final int NUM_SYMBOLS = 1 << BITS_PER_SYMBOL;
 
     /**
+     * Decode.
+     *
+     * @param alphabet the alphabet
+     * @param encodedData the encoded data
+     * @param length the length
+     * @return the byte[]
      * @see org.biomojo.codec.ByteCodec#decode(byte[])
      */
     @Override
@@ -55,6 +75,13 @@ public class ThreeBitByteCodec extends AbstractByteCodec {
     }
 
     /**
+     * Decode.
+     *
+     * @param alphabet the alphabet
+     * @param encodedData the encoded data
+     * @param length the length
+     * @param pos the pos
+     * @return the byte
      * @see org.biomojo.codec.ByteCodec#decode(byte[], int)
      */
     @Override
@@ -63,6 +90,13 @@ public class ThreeBitByteCodec extends AbstractByteCodec {
     }
 
     /**
+     * Encode.
+     *
+     * @param alphabet the alphabet
+     * @param oldEncodedData the old encoded data
+     * @param length the length
+     * @param decodedData the decoded data
+     * @return the byte[]
      * @see org.biomojo.codec.ByteCodec#encode(byte[])
      */
     @Override
@@ -92,6 +126,13 @@ public class ThreeBitByteCodec extends AbstractByteCodec {
     }
 
     /**
+     * Encode.
+     *
+     * @param alphabet the alphabet
+     * @param encodedData the encoded data
+     * @param length the length
+     * @param symbol the symbol
+     * @param pos the pos
      * @see org.biomojo.codec.ByteCodec#encode(byte[], byte, int)
      */
     @Override
@@ -101,6 +142,10 @@ public class ThreeBitByteCodec extends AbstractByteCodec {
     }
 
     /**
+     * Supports alphabet.
+     *
+     * @param alphabet the alphabet
+     * @return true, if successful
      * @see org.biomojo.codec.Codec#supportsAlphabet(org.biomojo.alphabet.Alphabet)
      */
     @Override

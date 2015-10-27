@@ -31,38 +31,73 @@ import org.biomojo.sequence.FastqSeq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FastqInputStream.
+ */
 public class FastqInputStream extends MarkAndCopyInputStream
         implements SequenceInputStream<FastqSeq<? extends NucleotideAlphabet>> {
+    
+    /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(FastqInputStream.class.getName());
 
+    /** The sequence header parser. */
     private final HeaderParser sequenceHeaderParser;
+    
+    /** The validate sequence data. */
     private final boolean validateSequenceData;
 
+    /**
+     * Instantiates a new fastq input stream.
+     *
+     * @param inputStream the input stream
+     */
     public FastqInputStream(final InputStream inputStream) {
         super(inputStream);
         validateSequenceData = false;
         sequenceHeaderParser = new DefaultHeaderParser();
     }
 
+    /**
+     * Instantiates a new fastq input stream.
+     *
+     * @param inputStream the input stream
+     * @param sequenceHeaderParser the sequence header parser
+     */
     public FastqInputStream(final InputStream inputStream, final HeaderParser sequenceHeaderParser) {
         super(inputStream);
         validateSequenceData = false;
         this.sequenceHeaderParser = sequenceHeaderParser;
     }
 
+    /**
+     * Instantiates a new fastq input stream.
+     *
+     * @param inputStream the input stream
+     * @param bufferSize the buffer size
+     */
     public FastqInputStream(final InputStream inputStream, final int bufferSize) {
         super(inputStream, bufferSize);
         validateSequenceData = false;
         sequenceHeaderParser = new DefaultHeaderParser();
     }
 
+    /**
+     * Instantiates a new fastq input stream.
+     *
+     * @param inputStream the input stream
+     * @param validateSequence the validate sequence
+     */
     public FastqInputStream(final InputStream inputStream, final boolean validateSequence) {
         super(inputStream);
         this.validateSequenceData = validateSequence;
         sequenceHeaderParser = new DefaultHeaderParser();
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.io.SequenceInputStream#read(org.biomojo.sequence.Seq)
+     */
     @Override
     public boolean read(final FastqSeq<? extends NucleotideAlphabet> fastQSeq) throws ParseException {
         if (isEof()) {

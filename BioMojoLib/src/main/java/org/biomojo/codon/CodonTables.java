@@ -18,13 +18,23 @@ package org.biomojo.codon;
 
 import org.biomojo.core.IdBasedFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class CodonTables.
  *
+ * @author Hugh Eaves
  */
 public class CodonTables {
+    
+    /** The factory. */
     private static IdBasedFactory<CodonTable> factory = new DefaultCodonTableFactory();
 
+    /**
+     * Gets the codon table.
+     *
+     * @param id the id
+     * @return the codon table
+     */
     public static CodonTable getCodonTable(int id) {
         return factory.getInstance(id, CodonTable.class);
     }

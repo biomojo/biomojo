@@ -22,6 +22,7 @@ import java.util.List;
 
 import org.biomojo.core.IntegerIdentified;
 
+// TODO: Auto-generated Javadoc
 /**
  * An {@code Alphabet} represents a specific subset of all the possible values
  * of a particular Java type.
@@ -31,10 +32,25 @@ import org.biomojo.core.IntegerIdentified;
  */
 public interface Alphabet<T> extends IntegerIdentified {
 
+    /**
+     * Gets the symbol type.
+     *
+     * @return the symbol type
+     */
     public Class<T> getSymbolType();
 
+    /**
+     * Checks if is canonical.
+     *
+     * @return true, if is canonical
+     */
     public boolean isCanonical();
 
+    /**
+     * Gets the canonical.
+     *
+     * @return the canonical
+     */
     public Alphabet<T> getCanonical();
 
     /**
@@ -52,19 +68,17 @@ public interface Alphabet<T> extends IntegerIdentified {
     public int numCanonicalSymbols();
 
     /**
-     * Get the order of this symbol in the alphabet
+     * Get the order of this symbol in the alphabet.
      *
-     * @param value
-     *            the value
+     * @param value            the value
      * @return the ordinal for symbol
      */
     public int getOrdinalForSymbol(T value);
 
     /**
-     * Get the symbol for a given ordinal
+     * Get the symbol for a given ordinal.
      *
-     * @param ordinal
-     *            the ordinal
+     * @param ordinal            the ordinal
      * @return the symbol for ordinal
      */
     public T getSymbolForOrdinal(int ordinal);
@@ -116,12 +130,9 @@ public interface Alphabet<T> extends IntegerIdentified {
      * Determine if the symbol in the specified portion of the given array are
      * all members of this alphabet.
      *
-     * @param values
-     *            the values
-     * @param start
-     *            the start
-     * @param end
-     *            the end
+     * @param symbols the symbols
+     * @param start            the start
+     * @param end            the end
      * @return true all the symbols is a member of this alphabet.
      */
     public default boolean isValid(final T[] symbols, final int start, final int end) {
@@ -133,6 +144,12 @@ public interface Alphabet<T> extends IntegerIdentified {
         return true;
     }
 
+    /**
+     * Check validity.
+     *
+     * @param symbol the symbol
+     * @return the invalid symbol info
+     */
     public default InvalidSymbolInfo checkValidity(final T symbol) {
         if (!isValid(symbol)) {
             return new InvalidSymbolInfo(symbol);
@@ -140,10 +157,24 @@ public interface Alphabet<T> extends IntegerIdentified {
         return null;
     }
 
+    /**
+     * Check validity.
+     *
+     * @param symbols the symbols
+     * @return the invalid symbol info
+     */
     public default InvalidSymbolInfo checkValidity(final T[] symbols) {
         return checkValidity(symbols, 0, symbols.length);
     }
 
+    /**
+     * Check validity.
+     *
+     * @param symbols the symbols
+     * @param start the start
+     * @param end the end
+     * @return the invalid symbol info
+     */
     public default InvalidSymbolInfo checkValidity(final T[] symbols, final int start, final int end) {
         for (int i = start; i < end; ++i) {
             if (!isValid(symbols[i])) {
@@ -153,6 +184,12 @@ public interface Alphabet<T> extends IntegerIdentified {
         return null;
     }
 
+    /**
+     * Validate.
+     *
+     * @param symbol the symbol
+     * @throws InvalidSymbolException the invalid symbol exception
+     */
     public default void validate(final T symbol) throws InvalidSymbolException {
         final InvalidSymbolInfo info = checkValidity(symbol);
         if (info != null) {
@@ -160,6 +197,12 @@ public interface Alphabet<T> extends IntegerIdentified {
         }
     }
 
+    /**
+     * Validate.
+     *
+     * @param symbols the symbols
+     * @throws InvalidSymbolException the invalid symbol exception
+     */
     public default void validate(final T[] symbols) throws InvalidSymbolException {
         final InvalidSymbolInfo info = checkValidity(symbols);
         if (info != null) {
@@ -167,6 +210,14 @@ public interface Alphabet<T> extends IntegerIdentified {
         }
     }
 
+    /**
+     * Validate.
+     *
+     * @param symbols the symbols
+     * @param start the start
+     * @param end the end
+     * @throws InvalidSymbolException the invalid symbol exception
+     */
     public default void validate(final T[] symbols, final int start, final int end) throws InvalidSymbolException {
         final InvalidSymbolInfo info = checkValidity(symbols, start, end);
         if (info != null) {
@@ -177,8 +228,7 @@ public interface Alphabet<T> extends IntegerIdentified {
     /**
      * Determine if all symbols in the list are members of this alphabet.
      *
-     * @param values
-     *            the list of symbols to check for validity.
+     * @param symbols the symbols
      * @return true if all symbols in the list are members of this alphabet.
      */
     public default boolean isValid(final List<T> symbols) {

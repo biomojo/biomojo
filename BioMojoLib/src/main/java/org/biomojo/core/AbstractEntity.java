@@ -23,23 +23,35 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.TableGenerator;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AbstractEntity.
+ */
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable, Identified {
-    /**
-     *
-     */
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 181256412324146673L;
 
+    /** The id. */
     @TableGenerator(name = "AbstractEntityGenerator", allocationSize = 100)
     @Id
     @GeneratedValue(generator = "AbstractEntityGenerator")
     protected long id;
 
+    /* (non-Javadoc)
+     * @see org.biomojo.core.Identified#getId()
+     */
     @Override
     public long getId() {
         return id;
     }
 
+    /**
+     * Sets the id.
+     *
+     * @param id the new id
+     */
     public void setId(long id) {
         this.id = id;
     }

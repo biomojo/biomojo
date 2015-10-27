@@ -27,19 +27,27 @@ import org.biomojo.core.CommonProperties;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SeqArrayList.
+ *
+ * @param <T> the generic type
+ */
 @Entity
 public class SeqArrayList<T extends Seq<?, ?>> extends AbstractSeqList<T> {
 
-    /**
-     *
-     */
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 5511937136125948750L;
 
+    /** The sequences. */
     @ManyToMany(targetEntity = AbstractSeq.class)
     @OrderColumn
     @LazyCollection(LazyCollectionOption.EXTRA)
     protected List<T> sequences = new ArrayList<>();
 
+    /**
+     * Instantiates a new seq array list.
+     */
     public SeqArrayList() {
 
     }
@@ -47,37 +55,55 @@ public class SeqArrayList<T extends Seq<?, ?>> extends AbstractSeqList<T> {
     /**
      * Create a new BasicMultiSequence.
      *
-     * @param name
+     * @param name the name
      */
     public SeqArrayList(final String name) {
         setProp(CommonProperties.NAME, name);
     }
 
+    /* (non-Javadoc)
+     * @see java.util.List#get(int)
+     */
     @Override
     public T get(final int index) {
         return sequences.get(index);
     }
 
+    /* (non-Javadoc)
+     * @see java.util.List#set(int, java.lang.Object)
+     */
     @Override
     public T set(final int index, final T value) {
         return sequences.get(index);
     }
 
+    /* (non-Javadoc)
+     * @see java.util.List#size()
+     */
     @Override
     public int size() {
         return sequences.size();
     }
 
+    /* (non-Javadoc)
+     * @see java.util.List#subList(int, int)
+     */
     @Override
     public List<T> subList(final int start, final int end) {
         return new SeqSubList<T>(this, start, end);
     }
 
+    /* (non-Javadoc)
+     * @see java.util.List#add(java.lang.Object)
+     */
     @Override
     public boolean add(final T e) {
         return sequences.add(e);
     }
 
+    /* (non-Javadoc)
+     * @see java.util.List#remove(int)
+     */
     @Override
     public T remove(final int pos) {
         return sequences.remove(pos);

@@ -20,12 +20,28 @@ package org.biomojo.codec;
 import org.biomojo.alphabet.Alphabet;
 import org.biomojo.alphabet.ByteAlphabet;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class NullByteCodec.
+ */
 public class NullByteCodec extends AbstractByteCodec implements ByteCodec {
+    
+    /**
+     * Instantiates a new null byte codec.
+     *
+     * @param id the id
+     */
     NullByteCodec(final int id) {
         super(id);
     }
 
     /**
+     * Decode.
+     *
+     * @param alphabet the alphabet
+     * @param encodedData the encoded data
+     * @param length the length
+     * @return the byte[]
      * @see org.biomojo.codec.ByteCodec#decode(byte[])
      */
     @Override
@@ -34,6 +50,13 @@ public class NullByteCodec extends AbstractByteCodec implements ByteCodec {
     }
 
     /**
+     * Decode.
+     *
+     * @param alphabet the alphabet
+     * @param encodedData the encoded data
+     * @param length the length
+     * @param pos the pos
+     * @return the byte
      * @see org.biomojo.codec.ByteCodec#decode(byte[], long)
      */
     @Override
@@ -42,6 +65,13 @@ public class NullByteCodec extends AbstractByteCodec implements ByteCodec {
     }
 
     /**
+     * Encode.
+     *
+     * @param alphabet the alphabet
+     * @param encodedData the encoded data
+     * @param length the length
+     * @param decodedData the decoded data
+     * @return the byte[]
      * @see org.biomojo.codec.ByteCodec#encode(byte[], byte[])
      */
     @Override
@@ -51,6 +81,13 @@ public class NullByteCodec extends AbstractByteCodec implements ByteCodec {
     }
 
     /**
+     * Encode.
+     *
+     * @param alphabet the alphabet
+     * @param encodedData the encoded data
+     * @param length the length
+     * @param symbol the symbol
+     * @param index the index
      * @see org.biomojo.codec.ByteCodec#encode(byte[], byte, long)
      */
     @Override
@@ -60,6 +97,10 @@ public class NullByteCodec extends AbstractByteCodec implements ByteCodec {
     }
 
     /**
+     * Supports alphabet.
+     *
+     * @param alphabet the alphabet
+     * @return true, if successful
      * @see org.biomojo.codec.Codec#supportsAlphabet(org.biomojo.alphabet.Alphabet)
      */
     @Override
@@ -68,6 +109,13 @@ public class NullByteCodec extends AbstractByteCodec implements ByteCodec {
     }
 
     /**
+     * Decode.
+     *
+     * @param alphabet the alphabet
+     * @param encodedData the encoded data
+     * @param length the length
+     * @param index the index
+     * @return the byte
      * @see org.biomojo.codec.AnyToByteCodec#decode(org.biomojo.alphabet.Alphabet,
      *      byte[], int, int)
      */
@@ -77,6 +125,12 @@ public class NullByteCodec extends AbstractByteCodec implements ByteCodec {
     }
 
     /**
+     * Encode.
+     *
+     * @param alphabet the alphabet
+     * @param encodedData the encoded data
+     * @param symbol the symbol
+     * @param index the index
      * @see org.biomojo.codec.AnyToByteCodec#encode(org.biomojo.alphabet.Alphabet,
      *      byte[], java.lang.Object, int)
      */

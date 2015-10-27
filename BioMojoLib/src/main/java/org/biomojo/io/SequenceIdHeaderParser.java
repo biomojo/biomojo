@@ -19,12 +19,19 @@ package org.biomojo.io;
 import org.biomojo.sequence.Seq;
 import org.java0.string.ByteArrayConverter;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class SequenceIdHeaderParser.
  *
+ * @author Hugh Eaves
  */
 public class SequenceIdHeaderParser implements HeaderParser {
+    
     /**
+     * Parses the header.
+     *
+     * @param sequence the sequence
+     * @param headerData the header data
      * @see org.biomojo.io.HeaderParser#parseHeader(org.biomojo.sequence.SeqI,
      *      byte[])
      */

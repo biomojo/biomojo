@@ -19,29 +19,85 @@ package org.biomojo.sequence;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.InvalidSymbolException;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface ByteSeq.
+ *
+ * @param <A> the generic type
+ */
 public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A> {
 
+    /**
+     * Gets the all bytes.
+     *
+     * @return the all bytes
+     */
     public byte[] getAllBytes();
 
+    /**
+     * Sets the all.
+     *
+     * @param sequence the new all
+     * @throws InvalidSymbolException the invalid symbol exception
+     */
     public void setAll(byte[] sequence) throws InvalidSymbolException;
 
+    /**
+     * Sets the all.
+     *
+     * @param sequence the sequence
+     * @param validate the validate
+     * @throws InvalidSymbolException the invalid symbol exception
+     */
     public void setAll(byte[] sequence, boolean validate) throws InvalidSymbolException;
 
+    /**
+     * Gets the value.
+     *
+     * @param index the index
+     * @return the value
+     */
     public byte getValue(int index);
 
+    /**
+     * Sets the value.
+     *
+     * @param symbol the symbol
+     * @param index the index
+     * @throws InvalidSymbolException the invalid symbol exception
+     */
     public void setValue(byte symbol, int index) throws InvalidSymbolException;
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.Seq#get(int)
+     */
     public default Byte get(final int index) {
         return getValue(index);
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.Seq#set(int, java.lang.Object)
+     */
     public default Byte set(final int index, final Byte symbol) throws InvalidSymbolException {
         final byte oldVal = getValue(index);
         set(index, symbol);
         return oldVal;
     }
 
+    /**
+     * Replace.
+     *
+     * @param srcSeq the src seq
+     * @param srcPos the src pos
+     * @param destPos the dest pos
+     * @param length the length
+     */
     public void replace(final byte[] srcSeq, final int srcPos, final int destPos, final int length);
 
+    /**
+     * Append.
+     *
+     * @param symbol the symbol
+     */
     public void append(final byte symbol);
 }

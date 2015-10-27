@@ -24,21 +24,25 @@ import org.biomojo.codon.CodonTable;
 import org.biomojo.codon.CodonTableId;
 import org.biomojo.codon.CodonTables;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class TranslatedSeq.
  *
+ * @author Hugh Eaves
  */
 public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
+    /** The codon table. */
     protected CodonTable codonTable;
 
+    /** The seq. */
     protected ByteSeq<NucleotideAlphabet> seq;
 
     /**
      * Create a new TranslatedSeq.
-     *
-     * @param byteAlphabet
      */
     public TranslatedSeq() {
         super(Alphabets.getAlphabet(AlphabetId.AMINO_ACID, AminoAcidAlphabet.class));
@@ -48,7 +52,7 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
     /**
      * Create a new TranslatedSeq.
      *
-     * @param sequence
+     * @param sequence the sequence
      */
     public TranslatedSeq(final ByteSeqImpl<NucleotideAlphabet> sequence) {
         this();
@@ -58,8 +62,8 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
     /**
      * Create a new TranslatedSeq.
      *
-     * @param sequence
-     * @param alphabet
+     * @param sequence the sequence
+     * @param alphabet the alphabet
      */
     public TranslatedSeq(final ByteSeqImpl<NucleotideAlphabet> sequence, final AminoAcidAlphabet alphabet) {
         super(alphabet);
@@ -67,11 +71,17 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
         this.seq = sequence;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.ByteSeq#setAll(byte[])
+     */
     @Override
     public void setAll(final byte[] sequence) {
         setAll(sequence, true);
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.ByteSeq#getAllBytes()
+     */
     @Override
     public byte[] getAllBytes() {
         final byte[] nucleotides = seq.getAllBytes();
@@ -83,52 +93,82 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
         return aminoAcids;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.ByteSeq#getValue(int)
+     */
     @Override
     public byte getValue(final int index) {
         return codonTable.getAminoAcid(seq.getValue(index * 3), seq.getValue(index * 3 + 1),
                 seq.getValue(index * 3 + 2));
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.ByteSeq#setAll(byte[], boolean)
+     */
     @Override
     public void setAll(final byte[] sequence, final boolean validate) {
         throw new UnsupportedOperationException();
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.ByteSeq#setValue(byte, int)
+     */
     @Override
     public void setValue(final byte value, final int pos) {
         throw new UnsupportedOperationException();
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.Seq#size()
+     */
     @Override
     public int size() {
         return seq.size() / 3;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.core.Described#getDescription()
+     */
     @Override
     public CharSequence getDescription() {
         return seq.getDescription();
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.core.Described#setDescription(java.lang.CharSequence)
+     */
     @Override
     public void setDescription(final CharSequence description) {
         seq.setDescription(description);
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.Seq#canonicalize()
+     */
     @Override
     public void canonicalize() {
         seq.canonicalize();
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.ByteSeq#replace(byte[], int, int, int)
+     */
     @Override
     public void replace(final byte[] srcSeq, final int srcPos, final int destPos, final int length) {
         throw new UnsupportedOperationException();
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.Seq#setAlphabet(org.biomojo.alphabet.Alphabet)
+     */
     @Override
     public void setAlphabet(final AminoAcidAlphabet alphabet) {
         throw new UnsupportedOperationException();
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.ByteSeq#append(byte)
+     */
     @Override
     public void append(final byte symbol) {
         throw new UnsupportedOperationException();

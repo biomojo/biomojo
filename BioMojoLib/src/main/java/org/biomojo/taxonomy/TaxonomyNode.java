@@ -27,6 +27,10 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class TaxonomyNode.
+ */
 //@NamedQuery(name = "findTaxonomyNodeByTaxonomyId", query = "select taxonomyNode from TaxonomyNode as taxonomyNode where taxonomyNode.taxonomyId = :taxonomyId")
 @Entity
 public class TaxonomyNode {
@@ -47,144 +51,293 @@ public class TaxonomyNode {
     // data yet
     // comments -- free-text comments and citations
 
+    /** The id. */
     @Id
     protected long id;
 
+    /** The parent. */
     @ManyToOne
     private TaxonomyNode parent;
 
+    /** The names. */
     @OneToMany(mappedBy = "taxonomyNode", cascade = CascadeType.ALL)
     private List<TaxonomyName> names = new ArrayList<TaxonomyName>();
 
+    /** The rank. */
     private String rank;
 
+    /** The embl code. */
     private String emblCode;
 
+    /** The division. */
     @ManyToOne
     private TaxonomyDivision division;
 
+    /** The inherited division. */
     private boolean inheritedDivision;
 
+    /** The genetic code. */
     @ManyToOne
     private TaxonomyGeneticCode geneticCode;
 
+    /** The inherited genetic code. */
     private boolean inheritedGeneticCode;
 
+    /** The mc genetic code. */
     @ManyToOne
     private TaxonomyGeneticCode mcGeneticCode;
 
+    /** The inherited mc genetic code. */
     private boolean inheritedMcGeneticCode;
 
+    /** The hidden genbank name. */
     private boolean hiddenGenbankName;
 
+    /** The hidden subtree. */
     private boolean hiddenSubtree;
 
+    /** The comments. */
     private String comments;
 
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Sets the id.
+     *
+     * @param id the new id
+     */
     public void setId(long id) {
         this.id = id;
     }
 
+    /**
+     * Gets the parent.
+     *
+     * @return the parent
+     */
     public TaxonomyNode getParent() {
         return parent;
     }
 
+    /**
+     * Sets the parent.
+     *
+     * @param parent the new parent
+     */
     public void setParent(TaxonomyNode parent) {
         this.parent = parent;
     }
 
+    /**
+     * Gets the rank.
+     *
+     * @return the rank
+     */
     public String getRank() {
         return rank;
     }
 
+    /**
+     * Sets the rank.
+     *
+     * @param rank the new rank
+     */
     public void setRank(String rank) {
         this.rank = rank;
     }
 
+    /**
+     * Gets the embl code.
+     *
+     * @return the embl code
+     */
     public String getEmblCode() {
         return emblCode;
     }
 
+    /**
+     * Sets the embl code.
+     *
+     * @param emblCode the new embl code
+     */
     public void setEmblCode(String emblCode) {
         this.emblCode = emblCode;
     }
 
+    /**
+     * Gets the division.
+     *
+     * @return the division
+     */
     public TaxonomyDivision getDivision() {
         return division;
     }
 
+    /**
+     * Sets the division.
+     *
+     * @param division the new division
+     */
     public void setDivision(TaxonomyDivision division) {
         this.division = division;
     }
 
+    /**
+     * Checks if is inherited division.
+     *
+     * @return true, if is inherited division
+     */
     public boolean isInheritedDivision() {
         return inheritedDivision;
     }
 
+    /**
+     * Sets the inherited division.
+     *
+     * @param inheritedDivision the new inherited division
+     */
     public void setInheritedDivision(boolean inheritedDivision) {
         this.inheritedDivision = inheritedDivision;
     }
 
+    /**
+     * Gets the genetic code.
+     *
+     * @return the genetic code
+     */
     public TaxonomyGeneticCode getGeneticCode() {
         return geneticCode;
     }
 
+    /**
+     * Sets the genetic code.
+     *
+     * @param geneticCode the new genetic code
+     */
     public void setGeneticCode(TaxonomyGeneticCode geneticCode) {
         this.geneticCode = geneticCode;
     }
 
+    /**
+     * Checks if is inherited genetic code.
+     *
+     * @return true, if is inherited genetic code
+     */
     public boolean isInheritedGeneticCode() {
         return inheritedGeneticCode;
     }
 
+    /**
+     * Sets the inherited genetic code.
+     *
+     * @param inheritedGeneticCode the new inherited genetic code
+     */
     public void setInheritedGeneticCode(boolean inheritedGeneticCode) {
         this.inheritedGeneticCode = inheritedGeneticCode;
     }
 
+    /**
+     * Gets the mc genetic code.
+     *
+     * @return the mc genetic code
+     */
     public TaxonomyGeneticCode getMcGeneticCode() {
         return mcGeneticCode;
     }
 
+    /**
+     * Sets the mc genetic code.
+     *
+     * @param mcGeneticCode the new mc genetic code
+     */
     public void setMcGeneticCode(TaxonomyGeneticCode mcGeneticCode) {
         this.mcGeneticCode = mcGeneticCode;
     }
 
+    /**
+     * Checks if is inherited mc genetic code.
+     *
+     * @return true, if is inherited mc genetic code
+     */
     public boolean isInheritedMcGeneticCode() {
         return inheritedMcGeneticCode;
     }
 
+    /**
+     * Sets the inherited mc genetic code.
+     *
+     * @param inheritedMcGeneticCode the new inherited mc genetic code
+     */
     public void setInheritedMcGeneticCode(boolean inheritedMcGeneticCode) {
         this.inheritedMcGeneticCode = inheritedMcGeneticCode;
     }
 
+    /**
+     * Checks if is hidden genbank name.
+     *
+     * @return true, if is hidden genbank name
+     */
     public boolean isHiddenGenbankName() {
         return hiddenGenbankName;
     }
 
+    /**
+     * Sets the hidden genbank name.
+     *
+     * @param hiddenName the new hidden genbank name
+     */
     public void setHiddenGenbankName(boolean hiddenName) {
         this.hiddenGenbankName = hiddenName;
     }
 
+    /**
+     * Checks if is hidden subtree.
+     *
+     * @return true, if is hidden subtree
+     */
     public boolean isHiddenSubtree() {
         return hiddenSubtree;
     }
 
+    /**
+     * Sets the hidden subtree.
+     *
+     * @param hiddenSubtree the new hidden subtree
+     */
     public void setHiddenSubtree(boolean hiddenSubtree) {
         this.hiddenSubtree = hiddenSubtree;
     }
 
+    /**
+     * Gets the comments.
+     *
+     * @return the comments
+     */
     public String getComments() {
         return comments;
     }
 
+    /**
+     * Sets the comments.
+     *
+     * @param comments the new comments
+     */
     public void setComments(String comments) {
         this.comments = comments;
     }
 
+    /**
+     * Gets the full classification.
+     *
+     * @return the full classification
+     */
     public Map<String, TaxonomyNode> getFullClassification() {
         Map<String, TaxonomyNode> classification;
         if (getParent() != null && getParent().getId() != this.getId()) {
@@ -198,6 +351,9 @@ public class TaxonomyNode {
         return classification;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
     @Override
     public String toString() {
         StringBuffer buffer = new StringBuffer();
@@ -206,6 +362,13 @@ public class TaxonomyNode {
         return (buffer.toString());
     }
 
+    /**
+     * Gets the name.
+     *
+     * @param name the name
+     * @param nameClass the name class
+     * @return the name
+     */
     public TaxonomyName getName(String name, String nameClass) {
         for (TaxonomyName taxonomyName : names) {
             if (name.equals(taxonomyName.getName()) && nameClass.equals(taxonomyName.getNameClass())) {
@@ -215,6 +378,11 @@ public class TaxonomyNode {
         return null;
     }
 
+    /**
+     * Adds the name.
+     *
+     * @param taxonomyName the taxonomy name
+     */
     public void addName(TaxonomyName taxonomyName) {
         names.add(taxonomyName);
         taxonomyName.setTaxonomyNode(this);

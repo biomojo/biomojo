@@ -16,16 +16,48 @@
  */
 package org.biomojo.codec;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Interface FloatCodec.
  *
+ * @author Hugh Eaves
  */
 public interface FloatCodec extends Codec<Float, Byte> {
+    
+    /**
+     * Decode.
+     *
+     * @param encodedData the encoded data
+     * @param length the length
+     * @return the float[]
+     */
     public float[] decode(byte[] encodedData, int length);
 
+    /**
+     * Decode.
+     *
+     * @param encodedData the encoded data
+     * @param length the length
+     * @param index the index
+     * @return the float
+     */
     public float decode(byte[] encodedData, int length, int index);
 
+    /**
+     * Encode.
+     *
+     * @param decodedData the decoded data
+     * @return the byte[]
+     */
     public byte[] encode(float[] decodedData);
 
+    /**
+     * Encode.
+     *
+     * @param encodedData the encoded data
+     * @param length the length
+     * @param value the value
+     * @param index the index
+     */
     public void encode(byte[] encodedData, int length, float value, int index);
 }

@@ -18,13 +18,23 @@ package org.biomojo.blast.blastoutput;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BlastOutputParamAdapter.
+ */
 public class BlastOutputParamAdapter extends XmlAdapter<BlastOutputParam, BlastParameters> {
 
+    /* (non-Javadoc)
+     * @see javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
+     */
     @Override
     public BlastParameters unmarshal(BlastOutputParam v) throws Exception {
         return v.getParameters();
     }
 
+    /* (non-Javadoc)
+     * @see javax.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
+     */
     @Override
     public BlastOutputParam marshal(BlastParameters v) throws Exception {
         if (v != null) {

@@ -18,11 +18,13 @@ package org.biomojo.task;
 
 import org.biomojo.core.AbstractEntity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class Resource.
+ */
 public abstract class Resource extends AbstractEntity {
 
-    /**
-     *
-     */
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -6045171143568357020L;
 
 }

@@ -22,29 +22,50 @@ import javax.persistence.Entity;
 import org.biomojo.alphabet.Alphabet;
 import org.biomojo.alphabet.ByteAlphabet;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class AbstractByteSeq.
  *
+ * @author Hugh Eaves
+ * @param <A> the generic type
  */
 @Entity
 @DiscriminatorValue("Y")
 public abstract class AbstractByteSeq<A extends ByteAlphabet> extends AbstractSeq<Byte, A> implements ByteSeq<A> {
 
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
+    /** The alphabet. */
     protected ByteAlphabet alphabet;
 
+    /**
+     * Instantiates a new abstract byte seq.
+     */
     public AbstractByteSeq() {
     }
 
+    /**
+     * Instantiates a new abstract byte seq.
+     *
+     * @param alphabet the alphabet
+     */
     public AbstractByteSeq(final A alphabet) {
         initAlphabet(alphabet);
     }
 
+    /**
+     * Inits the alphabet.
+     *
+     * @param alphabet the alphabet
+     */
     protected void initAlphabet(final A alphabet) {
         this.alphabet = alphabet;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.sequence.Seq#getAlphabet()
+     */
     @Override
     public A getAlphabet() {
         return (A) alphabet;

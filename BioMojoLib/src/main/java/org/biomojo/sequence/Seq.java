@@ -36,70 +36,69 @@ import org.java0.collection.DefaultList;
  * @author Hugh Eaves
  *
  */
-public interface Seq<T, A extends Alphabet<T>> extends DefaultList<T>,
-		Propertied, Described, Identified {
+public interface Seq<T, A extends Alphabet<T>> extends DefaultList<T>, Propertied, Described, Identified {
 
-	/**
-	 * Sets the id.
-	 *
-	 * @param id
-	 *            the new id
-	 */
-	void setId(long id);
+    /**
+     * Sets the id.
+     *
+     * @param id
+     *            the new id
+     */
+    void setId(long id);
 
-	/**
-	 * Gets the alphabet.
-	 *
-	 * @return the alphabet
-	 */
-	public A getAlphabet();
+    /**
+     * Gets the alphabet.
+     *
+     * @return the alphabet
+     */
+    public A getAlphabet();
 
-	/**
-	 * Sets the alphabet.
-	 *
-	 * @param alphabet
-	 *            the new alphabet
-	 */
-	public void setAlphabet(A alphabet);
+    /**
+     * Sets the alphabet.
+     *
+     * @param alphabet
+     *            the new alphabet
+     */
+    public void setAlphabet(A alphabet);
 
-	/**
-	 * Canonicalize.
-	 */
-	public void canonicalize();
+    /**
+     * Canonicalize.
+     */
+    public void canonicalize();
 
-	/**
-	 * @see java.util.List#size()
-	 */
-	@Override
-	int size();
+    /**
+     * @see java.util.List#size()
+     */
+    @Override
+    int size();
 
-	/**
-	 * @see java.util.List#get(int)
-	 */
-	@Override
-	public T get(final int index);
+    /**
+     * @see java.util.List#get(int)
+     */
+    @Override
+    public T get(final int index);
 
-	/**
-	 * @see java.util.List#set(int, java.lang.Object)
-	 */
-	@Override
-	public T set(final int index, final T value);
+    /**
+     * @see java.util.List#set(int, java.lang.Object)
+     */
+    @Override
+    public T set(final int index, final T value);
 
-	/**
-	 * @see java.util.List#add(java.lang.Object)
-	 */
-	@Override
-	public boolean add(final T value);
+    /**
+     * @see java.util.List#add(java.lang.Object)
+     */
+    @Override
+    public boolean add(final T value);
 
-	/**
-	 * @see java.util.List#subList(int, int)
-	 */
-	@Override
-	public List<T> subList(final int from, final int to);
+    /**
+     * @see java.util.List#subList(int, int)
+     */
+    @Override
+    public List<T> subList(final int from, final int to);
 
-	/**
-	 * @see java.util.List#remove(int)
-	 */
-	@Override
-	public T remove(final int pos);
+    /**
+     * @see java.util.List#remove(int)
+     */
+    @Override
+    public T remove(final int pos);
 }

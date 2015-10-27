@@ -22,8 +22,15 @@ import org.java0.factory.Config;
 import org.java0.factory.ConfiguredObjectProvider;
 import org.java0.factory.FactoryException;
 
+// TODO: Auto-generated Javadoc
+/**
+ * A factory for creating DefaultAlphabet objects.
+ */
 public class DefaultAlphabetFactory extends AbstractIdBasedFactory<Alphabet<?>> {
 
+    /**
+     * Instantiates a new default alphabet factory.
+     */
     public DefaultAlphabetFactory() {
         super(new Alphabet<?>[0]);
 

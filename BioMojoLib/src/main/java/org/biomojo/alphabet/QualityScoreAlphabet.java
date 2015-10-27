@@ -17,8 +17,9 @@
 package org.biomojo.alphabet;
 
 /**
- * @author Hugh Eaves
+ * The Interface QualityScoreAlphabet.
  *
+ * @author Hugh Eaves
  */
 public interface QualityScoreAlphabet extends ByteAlphabet {
 

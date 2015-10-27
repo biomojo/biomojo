@@ -38,21 +38,38 @@ import org.java0.core.exception.UncheckedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BlastFileService.
+ */
 @Named
 public class BlastFileService {
+    
+    /** The Constant logger. */
     private final static Logger logger = LoggerFactory.getLogger(BlastFileService.class.getName());
 
+    /** The sequence service. */
     @Inject
     private SequenceService sequenceService;
 
+    /** The data path. */
     private String dataPath;
 
+    /** The blast path. */
     private String blastPath;
 
+    /** The fasta files. */
     private final Map<File, File> fastaFiles = Collections.synchronizedMap(new HashMap<File, File>());
 
+    /** The db files. */
     private final Map<File, File> dbFiles = Collections.synchronizedMap(new HashMap<File, File>());
 
+    /**
+     * Gets the fasta file.
+     *
+     * @param querySequenceList the query sequence list
+     * @return the fasta file
+     */
     public File getFastaFile(final SeqList<? extends ByteSeq<ByteAlphabet>> querySequenceList) {
         logger.info("Entering getFastaFile()");
 
@@ -77,6 +94,12 @@ public class BlastFileService {
 
     }
 
+    /**
+     * Gets the blast database.
+     *
+     * @param sequenceList the sequence list
+     * @return the blast database
+     */
     public File getBlastDatabase(final SeqList<? extends ByteSeq<ByteAlphabet>> sequenceList) {
         logger.info("Entering getBlastDatabase()");
 
@@ -107,6 +130,12 @@ public class BlastFileService {
 
     }
 
+    /**
+     * Creates the fastafile.
+     *
+     * @param querySequenceList the query sequence list
+     * @param file the file
+     */
     private void createFastafile(final SeqList<? extends ByteSeq<ByteAlphabet>> querySequenceList, final File file) {
         try {
             logger.info("Checking for existance of fasta file: " + file.getCanonicalPath());
@@ -133,6 +162,13 @@ public class BlastFileService {
 
     }
 
+    /**
+     * Creates the database.
+     *
+     * @param dbFile the db file
+     * @param sequenceFile the sequence file
+     * @param sequenceList the sequence list
+     */
     public void createDatabase(final File dbFile, final File sequenceFile,
             final SeqList<? extends ByteSeq<ByteAlphabet>> sequenceList) {
         try {

@@ -18,20 +18,33 @@ package org.biomojo.task;
 
 import javax.persistence.Entity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FileSystemPath.
+ */
 @Entity
 public class FileSystemPath extends NamedResource {
 
-    /**
-     *
-     */
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = -8987237191938387342L;
 
+    /** The path. */
     private String path;
 
+    /**
+     * Gets the path.
+     *
+     * @return the path
+     */
     public String getPath() {
         return path;
     }
 
+    /**
+     * Sets the path.
+     *
+     * @param path the new path
+     */
     public void setPath(String path) {
         this.path = path;
     }

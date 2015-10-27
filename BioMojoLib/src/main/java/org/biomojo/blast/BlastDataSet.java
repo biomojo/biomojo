@@ -35,78 +35,147 @@ import org.biomojo.core.CommonProperties;
 import org.biomojo.sequence.ByteSeqImpl;
 import org.biomojo.sequence.AbstractSeqList;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BlastDataSet.
+ */
 @Entity
 public class BlastDataSet extends AbstractPropertiedEntity {
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
+    /** The program. */
     @Enumerated(EnumType.STRING)
     private BlastProgram program;
 
+    /** The blast tasks. */
     @OneToMany(mappedBy = "blastDataSet", cascade = CascadeType.ALL)
     private List<BlastTask> blastTasks = new ArrayList<BlastTask>();
 
+    /** The query sequence lists. */
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "BlastDataSet_QuerySequenceLists")
     private List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> querySequenceLists = new ArrayList<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>();
 
+    /** The database sequence lists. */
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "BlastDataSet_DatabaseSequenceLists")
     private List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> databaseSequenceLists = new ArrayList<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>();
 
+    /** The date created. */
     private Date dateCreated;
 
+    /**
+     * Instantiates a new blast data set.
+     */
     public BlastDataSet() {
     }
 
     /**
      * Create a new BlastDataSet.
      *
-     * @param datasetName
+     * @param datasetName the dataset name
      */
     public BlastDataSet(final String datasetName) {
         setProp(CommonProperties.NAME, datasetName);
     }
 
+    /**
+     * Gets the blast tasks.
+     *
+     * @return the blast tasks
+     */
     public List<BlastTask> getBlastTasks() {
         return blastTasks;
     }
 
+    /**
+     * Sets the blast tasks.
+     *
+     * @param blastTasks the new blast tasks
+     */
     public void setBlastTasks(final List<BlastTask> blastTasks) {
         this.blastTasks = blastTasks;
     }
 
+    /**
+     * Gets the query sequence lists.
+     *
+     * @return the query sequence lists
+     */
     public List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> getQuerySequenceLists() {
         return (List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>) querySequenceLists;
     }
 
+    /**
+     * Sets the query sequence lists.
+     *
+     * @param querySequenceLists the new query sequence lists
+     */
     public void setQuerySequenceLists(final List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> querySequenceLists) {
         this.querySequenceLists = (List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>) querySequenceLists;
     }
 
+    /**
+     * Gets the database sequence lists.
+     *
+     * @return the database sequence lists
+     */
     public List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> getDatabaseSequenceLists() {
         return (List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>) databaseSequenceLists;
     }
 
+    /**
+     * Sets the database sequence lists.
+     *
+     * @param databaseSequenceLists the new database sequence lists
+     */
     public void setDatabaseSequenceLists(final List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> databaseSequenceLists) {
         this.databaseSequenceLists = databaseSequenceLists;
     }
 
+    /**
+     * Gets the date created.
+     *
+     * @return the date created
+     */
     public Date getDateCreated() {
         return dateCreated;
     }
 
+    /**
+     * Sets the date created.
+     *
+     * @param dateCreated the new date created
+     */
     public void setDateCreated(final Date dateCreated) {
         this.dateCreated = dateCreated;
     }
 
+    /**
+     * Gets the program.
+     *
+     * @return the program
+     */
     public BlastProgram getProgram() {
         return program;
     }
 
+    /**
+     * Sets the program.
+     *
+     * @param program the new program
+     */
     public void setProgram(final BlastProgram program) {
         this.program = program;
     }
 
+    /**
+     * Adds the.
+     *
+     * @param blastTask the blast task
+     */
     public void add(final BlastTask blastTask) {
         getBlastTasks().add(blastTask);
         blastTask.setBlastDataSet(this);

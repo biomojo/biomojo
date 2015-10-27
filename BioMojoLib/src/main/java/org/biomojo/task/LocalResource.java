@@ -16,8 +16,23 @@
  */
 package org.biomojo.task;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface LocalResource.
+ */
 public interface LocalResource {
+    
+    /**
+     * Gets the node.
+     *
+     * @return the node
+     */
     public Node getNode();
 
+    /**
+     * Sets the node.
+     *
+     * @param node the new node
+     */
     public void setNode(Node node);
 }

@@ -27,16 +27,28 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class FileBasedMatrixTest.
  *
+ * @author Hugh Eaves
  */
 public class FileBasedMatrixTest extends BaseTest {
+    
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(FileBasedMatrixTest.class.getName());
 
+    /**
+     * Instantiates a new file based matrix test.
+     */
     public FileBasedMatrixTest() {
     }
 
+    /**
+     * Test blosu m62.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testBLOSUM62() throws Exception {
         ByteSubstitutionMatrix matrix = new PrecomputedAminoAcidSubstitutionMatrix("BLOSUM", 62);
@@ -47,6 +59,11 @@ public class FileBasedMatrixTest extends BaseTest {
         checkSumMatrix(matrix, -726);
     }
 
+    /**
+     * Test pa m250.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testPAM250() throws Exception {
         ByteSubstitutionMatrix matrix = new PrecomputedAminoAcidSubstitutionMatrix("PAM", 250);
@@ -59,7 +76,10 @@ public class FileBasedMatrixTest extends BaseTest {
     }
 
     /**
-     * @param matrix
+     * Check sum matrix.
+     *
+     * @param matrix the matrix
+     * @param expectedCheckSum the expected check sum
      */
     private void checkSumMatrix(ByteSubstitutionMatrix matrix, float expectedCheckSum) {
         ByteAlphabet alphabet = matrix.getAlphabet();

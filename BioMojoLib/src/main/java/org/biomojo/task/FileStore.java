@@ -22,28 +22,56 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FileStore.
+ */
 @Entity
 public class FileStore extends NamedResource {
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
+    /** The default path. */
     @ManyToOne
     private FileSystemPath defaultPath;
 
+    /** The path overrides. */
     @ManyToMany
     private Map<NodeGroup, FileSystemPath> pathOverrides;
 
+    /**
+     * Gets the default path.
+     *
+     * @return the default path
+     */
     public FileSystemPath getDefaultPath() {
         return defaultPath;
     }
 
+    /**
+     * Sets the default path.
+     *
+     * @param defaultPath the new default path
+     */
     public void setDefaultPath(FileSystemPath defaultPath) {
         this.defaultPath = defaultPath;
     }
 
+    /**
+     * Gets the path overrides.
+     *
+     * @return the path overrides
+     */
     public Map<NodeGroup, FileSystemPath> getPathOverrides() {
         return pathOverrides;
     }
 
+    /**
+     * Sets the path overrides.
+     *
+     * @param pathOverrides the path overrides
+     */
     public void setPathOverrides(Map<NodeGroup, FileSystemPath> pathOverrides) {
         this.pathOverrides = pathOverrides;
     }

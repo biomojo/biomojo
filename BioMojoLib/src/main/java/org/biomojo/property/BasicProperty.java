@@ -26,20 +26,36 @@ import javax.persistence.InheritanceType;
 
 import org.biomojo.core.AbstractEntity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BasicProperty.
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.CHAR)
 @DiscriminatorValue("P")
 public abstract class BasicProperty extends AbstractEntity {
-    /**
-     *
-     */
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 7469166508807299605L;
 
+    /**
+     * Gets the value.
+     *
+     * @return the value
+     */
     public abstract Object getValue();
 
+    /**
+     * Sets the value.
+     *
+     * @param value the new value
+     */
     public abstract void setValue(Object value);
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
     @Override
     public boolean equals(Object obj) {
         if (obj == null) {
@@ -55,6 +71,9 @@ public abstract class BasicProperty extends AbstractEntity {
         return false;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#hashCode()
+     */
     @Override
     public int hashCode() {
         return getValue().hashCode();

@@ -28,15 +28,32 @@ import org.java0.core.exception.UncheckedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LockUtil.
+ */
 public class LockUtil {
+    
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(LockUtil.class.getName());
 
+    /** The Constant MAX_ATTEMPTS. */
     private static final int MAX_ATTEMPTS = 1000;
 
+    /** The path. */
     private Path path;
+    
+    /** The file channel. */
     private FileChannel fileChannel;
+    
+    /** The file lock. */
     private FileLock fileLock;
 
+    /**
+     * Instantiates a new lock util.
+     *
+     * @param file the file
+     */
     public LockUtil(File file) {
         try {
             path = FileSystems.getDefault().getPath(file.getCanonicalPath() + ".lock");
@@ -45,6 +62,9 @@ public class LockUtil {
         }
     }
 
+    /**
+     * Lock.
+     */
     public void lock() {
 
         if (fileLock != null) {
@@ -81,6 +101,9 @@ public class LockUtil {
 
     }
 
+    /**
+     * Unlock.
+     */
     public void unlock() {
         try {
             logger.debug("Releasing lock on lock file: " + path);

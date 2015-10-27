@@ -19,41 +19,69 @@ package org.biomojo.alphabet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class AbstractByteAlphabet.
  *
+ * @author Hugh Eaves
  */
 public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implements ByteAlphabet {
+    
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AbstractByteAlphabet.class.getName());
 
+    /** The valid. */
     protected final boolean valid[] = new boolean[Byte.MAX_VALUE + 1];
+    
+    /** The ordinal to symbol. */
     protected final byte ordinalToSymbol[] = new byte[Byte.MAX_VALUE + 1];
+    
+    /** The symbol to ordinal. */
     protected final byte symbolToOrdinal[] = new byte[Byte.MAX_VALUE + 1];
+    
+    /** The canonical symbols. */
     protected final byte canonicalSymbols[] = new byte[Byte.MAX_VALUE + 1];
+    
+    /** The num symbols. */
     protected int numSymbols = 0;
+    
+    /** The num canonical symbols. */
     protected int numCanonicalSymbols = 0;
+    
+    /** The canonical. */
     protected boolean canonical;
 
     /**
      * Create a new AbstractByteTableAlphabet.
      *
-     * @param id
+     * @param id the id
      */
     protected AbstractByteAlphabet(final int id) {
         super(id);
 
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.alphabet.ByteAlphabet#isValid(byte)
+     */
     @Override
     public boolean isValid(final byte symbol) {
         return valid[symbol];
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.alphabet.ByteAlphabet#getOrdinalForSymbol(byte)
+     */
     @Override
     public int getOrdinalForSymbol(final byte symbol) {
         return (symbolToOrdinal[symbol]);
     }
 
+    /**
+     * Adds the symbol.
+     *
+     * @param symbol the symbol
+     */
     protected void addSymbol(final byte symbol) {
         if (Character.isLetter(symbol)) {
             addSymbol((byte) Character.toUpperCase(symbol), (byte) Character.toUpperCase(symbol));
@@ -66,12 +94,23 @@ public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implem
 
     }
 
+    /**
+     * Adds the symbols.
+     *
+     * @param symbols the symbols
+     */
     protected void addSymbols(final byte[] symbols) {
         for (final byte symbol : symbols) {
             addSymbol(symbol);
         }
     }
 
+    /**
+     * Adds the symbol.
+     *
+     * @param symbol the symbol
+     * @param canonicalSymbol the canonical symbol
+     */
     protected void addSymbol(final byte symbol, final byte canonicalSymbol) {
         logger.debug("addSymbol: symbol = {}, canonicalSymbol = {}", (char) symbol, (char) canonicalSymbol);
 
@@ -79,12 +118,19 @@ public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implem
         canonicalSymbols[symbol] = canonicalSymbol;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.alphabet.Alphabet#numSymbols()
+     */
     @Override
     public int numSymbols() {
         return numSymbols;
     }
 
     /**
+     * Gets the byte symbol for ordinal.
+     *
+     * @param ordinal the ordinal
+     * @return the byte symbol for ordinal
      * @see org.biomojo.sequence.alphabet.ByteAlphabet#getByteSymbolForOrdinal(int)
      */
     @Override
@@ -93,6 +139,10 @@ public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implem
     }
 
     /**
+     * Gets the ordinal for symbol.
+     *
+     * @param value the value
+     * @return the ordinal for symbol
      * @see org.biomojo.alphabet.Alphabet#getOrdinalForSymbol(java.lang.Object)
      */
     @Override
@@ -101,6 +151,10 @@ public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implem
     }
 
     /**
+     * Gets the symbol for ordinal.
+     *
+     * @param ordinal the ordinal
+     * @return the symbol for ordinal
      * @see org.biomojo.alphabet.Alphabet#getSymbolForOrdinal(int)
      */
     @Override
@@ -109,6 +163,10 @@ public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implem
     }
 
     /**
+     * Checks if is valid.
+     *
+     * @param symbol the symbol
+     * @return true, if is valid
      * @see org.biomojo.alphabet.Alphabet#isValid(java.lang.Object)
      */
     @Override
@@ -117,6 +175,10 @@ public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implem
     }
 
     /**
+     * Checks if is canonical.
+     *
+     * @param symbol the symbol
+     * @return true, if is canonical
      * @see org.biomojo.alphabet.Alphabet#isCanonical(java.lang.Object)
      */
     @Override
@@ -124,12 +186,19 @@ public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implem
         return isCanonical(symbol.byteValue());
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.alphabet.ByteAlphabet#isCanonical(byte)
+     */
     @Override
     public boolean isCanonical(final byte symbol) {
         return (getCanonical(symbol) == symbol);
     }
 
     /**
+     * Gets the canonical.
+     *
+     * @param symbol the symbol
+     * @return the canonical
      * @see org.biomojo.alphabet.Alphabet#getCanonical(java.lang.Object)
      */
     @Override
@@ -138,6 +207,12 @@ public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implem
     }
 
     /**
+     * Checks if is valid.
+     *
+     * @param symbols the symbols
+     * @param start the start
+     * @param end the end
+     * @return true, if is valid
      * @see org.biomojo.alphabet.ByteAlphabet#isValid(byte[], int, int)
      */
     @Override
@@ -151,6 +226,9 @@ public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implem
     }
 
     /**
+     * Num canonical symbols.
+     *
+     * @return the int
      * @see org.biomojo.alphabet.Alphabet#numCanonicalSymbols()
      */
     @Override
@@ -159,7 +237,7 @@ public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implem
     }
 
     /**
-     *
+     * Inits the ordinals.
      */
     protected void initOrdinals() {
         for (int i = 0; i < valid.length; ++i) {
@@ -183,6 +261,9 @@ public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implem
         }
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.alphabet.ByteAlphabet#validate(byte[], int, int)
+     */
     @Override
     public void validate(final byte[] symbols, final int start, final int end) throws InvalidSymbolException {
         for (int i = start; i < end; ++i) {
@@ -193,6 +274,8 @@ public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implem
     }
 
     /**
+     * Checks if is canonical.
+     *
      * @return the canonical
      */
     @Override
@@ -200,6 +283,9 @@ public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implem
         return canonical;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.alphabet.Alphabet#getCanonical()
+     */
     @Override
     public ByteAlphabet getCanonical() {
         return Alphabets.getAlphabet(this.getId() & ~1, ByteAlphabet.class);

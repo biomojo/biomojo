@@ -18,12 +18,23 @@ package org.biomojo.blast.blastoutput;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class StringToByteArrayAdapter.
+ */
 public class StringToByteArrayAdapter extends XmlAdapter<String, byte[]> {
+    
+    /* (non-Javadoc)
+     * @see javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
+     */
     @Override
     public byte[] unmarshal(String v) throws Exception {
         return v.getBytes();
     }
 
+    /* (non-Javadoc)
+     * @see javax.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
+     */
     @Override
     public String marshal(byte[] v) throws Exception {
         return new String(v);

@@ -18,6 +18,16 @@ package org.biomojo.blast;
 
 import org.biomojo.blast.blastoutput.BlastOutput;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface BlastSequenceResolver.
+ */
 public interface BlastSequenceResolver {
+    
+    /**
+     * Resolve sequences.
+     *
+     * @param blastOutput the blast output
+     */
     public void resolveSequences(BlastOutput blastOutput);
 }

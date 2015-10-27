@@ -19,25 +19,48 @@ package org.biomojo.alphabet;
 
 import org.biomojo.symbols.Nucleotides;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class AbstractNucleotideAlphabet.
+ */
 public abstract class AbstractNucleotideAlphabet extends AbstractIUPACAlphabet implements NucleotideAlphabet {
+    
+    /** The complement. */
     protected byte[] complement = new byte[Byte.MAX_VALUE + 1];
+    
+    /** The base matches. */
     private static boolean[] baseMatches = new boolean[(Byte.MAX_VALUE + 1) * (Byte.MAX_VALUE + 1)];
 
+    /**
+     * Instantiates a new abstract nucleotide alphabet.
+     *
+     * @param id the id
+     * @param coreSymbols the core symbols
+     */
     protected AbstractNucleotideAlphabet(final int id, final byte[] coreSymbols) {
         super(id, coreSymbols);
         initComplements();
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.alphabet.AbstractIUPACAlphabet#addAnySymbols()
+     */
     @Override
     protected void addAnySymbols() {
         addSymbol(Nucleotides.ANY);
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.alphabet.AbstractIUPACAlphabet#addAmbiguitySymbols()
+     */
     @Override
     protected void addAmbiguitySymbols() {
         addSymbols(Nucleotides.AMBIGUITY_SYMBOLS);
     }
 
+    /**
+     * Inits the complements.
+     */
     protected void initComplements() {
         for (int i = 0; i <= Byte.MAX_VALUE; ++i) {
             complement[i] = (byte) i;
@@ -61,11 +84,23 @@ public abstract class AbstractNucleotideAlphabet extends AbstractIUPACAlphabet i
         addComplement(Nucleotides.A_OR_T, Nucleotides.C_OR_G);
     }
 
+    /**
+     * Adds the complement.
+     *
+     * @param a the a
+     * @param b the b
+     */
     protected void addComplement(final byte a, final byte b) {
         complement[a] = b;
         complement[b] = a;
     }
 
+    /**
+     * Adds the match.
+     *
+     * @param c the c
+     * @param d the d
+     */
     private static void addMatch(final byte c, final byte d) {
         baseMatches[(c << 7) + d] = true;
         baseMatches[(d << 7) + c] = true;

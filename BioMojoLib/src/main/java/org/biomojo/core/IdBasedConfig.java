@@ -18,23 +18,31 @@ package org.biomojo.core;
 
 import org.java0.factory.Config;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class IdBasedConfig.
  *
+ * @author Hugh Eaves
+ * @param <T> the generic type
  */
 public class IdBasedConfig<T> implements Config<T> {
+    
+    /** The id. */
     public int id;
 
     /**
      * Create a new IdBasedConfig.
      *
-     * @param id
+     * @param id the id
      */
     public IdBasedConfig(int id) {
         this.id = id;
     }
 
     /**
+     * Values.
+     *
+     * @return the object[]
      * @see org.java0.factory.Config#values()
      */
     @Override
@@ -43,6 +51,10 @@ public class IdBasedConfig<T> implements Config<T> {
     }
 
     /**
+     * Gets the value.
+     *
+     * @param key the key
+     * @return the value
      * @see org.java0.factory.Config#getValue(java.lang.String)
      */
     @Override

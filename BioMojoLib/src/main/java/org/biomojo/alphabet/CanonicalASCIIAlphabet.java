@@ -18,15 +18,18 @@ package org.biomojo.alphabet;
 
 import org.java0.string.ASCII;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class CanonicalASCIIAlphabet.
  *
+ * @author Hugh Eaves
  */
 public class CanonicalASCIIAlphabet extends AbstractAlphabet<Byte> implements ByteAlphabet {
+    
     /**
      * Create a new ASCIIAlphabet.
      *
-     * @param id
+     * @param id the id
      */
     protected CanonicalASCIIAlphabet(final int id) {
         super(id);
@@ -34,6 +37,9 @@ public class CanonicalASCIIAlphabet extends AbstractAlphabet<Byte> implements By
     }
 
     /**
+     * Num symbols.
+     *
+     * @return the int
      * @see org.biomojo.alphabet.Alphabet#numSymbols()
      */
     @Override
@@ -42,6 +48,9 @@ public class CanonicalASCIIAlphabet extends AbstractAlphabet<Byte> implements By
     }
 
     /**
+     * Num canonical symbols.
+     *
+     * @return the int
      * @see org.biomojo.alphabet.Alphabet#numCanonicalSymbols()
      */
     @Override
@@ -50,6 +59,10 @@ public class CanonicalASCIIAlphabet extends AbstractAlphabet<Byte> implements By
     }
 
     /**
+     * Gets the ordinal for symbol.
+     *
+     * @param value the value
+     * @return the ordinal for symbol
      * @see org.biomojo.alphabet.ByteAlphabet#getOrdinalForSymbol(byte)
      */
     @Override
@@ -58,6 +71,10 @@ public class CanonicalASCIIAlphabet extends AbstractAlphabet<Byte> implements By
     }
 
     /**
+     * Gets the byte symbol for ordinal.
+     *
+     * @param ordinal the ordinal
+     * @return the byte symbol for ordinal
      * @see org.biomojo.alphabet.ByteAlphabet#getByteSymbolForOrdinal(int)
      */
     @Override
@@ -66,6 +83,10 @@ public class CanonicalASCIIAlphabet extends AbstractAlphabet<Byte> implements By
     }
 
     /**
+     * Checks if is valid.
+     *
+     * @param symbol the symbol
+     * @return true, if is valid
      * @see org.biomojo.alphabet.ByteAlphabet#isValid(byte)
      */
     @Override
@@ -74,6 +95,10 @@ public class CanonicalASCIIAlphabet extends AbstractAlphabet<Byte> implements By
     }
 
     /**
+     * Gets the canonical.
+     *
+     * @param symbol the symbol
+     * @return the canonical
      * @see org.biomojo.alphabet.ByteAlphabet#getCanonical(byte)
      */
     @Override
@@ -85,6 +110,10 @@ public class CanonicalASCIIAlphabet extends AbstractAlphabet<Byte> implements By
     }
 
     /**
+     * Checks if is canonical.
+     *
+     * @param symbol the symbol
+     * @return true, if is canonical
      * @see org.biomojo.alphabet.ByteAlphabet#isCanonical(byte)
      */
     @Override
@@ -95,11 +124,17 @@ public class CanonicalASCIIAlphabet extends AbstractAlphabet<Byte> implements By
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.alphabet.Alphabet#isCanonical()
+     */
     @Override
     public boolean isCanonical() {
         return false;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.alphabet.Alphabet#getCanonical()
+     */
     @Override
     public CanonicalASCIIAlphabet getCanonical() {
         return this;

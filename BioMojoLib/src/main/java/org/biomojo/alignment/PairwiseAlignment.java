@@ -22,24 +22,39 @@ import org.biomojo.sequence.Seq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class PairwiseAlignment.
  *
+ * @author Hugh Eaves
+ * @param <T> the generic type
  */
 public class PairwiseAlignment<T extends Seq<?, ? extends GappableAlphabet<?, ?>>> extends SeqArrayList<T>
         implements Alignment<T> {
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
+    /** The Constant SCORE. */
     private static final String SCORE = "score";
 
+    /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(PairwiseAlignment.class.getName());
 
+    /* (non-Javadoc)
+     * @see org.biomojo.alignment.Alignment#getScore()
+     */
     @Override
     public int getScore() {
         return getProp(SCORE);
     }
 
+    /**
+     * Sets the score.
+     *
+     * @param score the new score
+     */
     public void setScore(final int score) {
         setProp(SCORE, score);
     }

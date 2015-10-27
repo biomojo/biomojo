@@ -16,6 +16,9 @@
  */
 package org.biomojo.task;
 
+/**
+ * The Enum ResourceStatus.
+ */
 public enum ResourceStatus {
 
 }

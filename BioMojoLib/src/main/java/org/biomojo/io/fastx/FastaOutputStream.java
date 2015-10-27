@@ -28,25 +28,52 @@ import org.biomojo.io.SequenceOutputStream;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.util.OutputUtil;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FastaOutputStream.
+ */
 public class FastaOutputStream extends FilterOutputStream
         implements SequenceOutputStream<ByteSeq<? extends ByteAlphabet>> {
+    
+    /** The Constant DEFAULT_LINE_LENGTH. */
     private static final int DEFAULT_LINE_LENGTH = 60;
 
+    /** The header builder. */
     private final HeaderBuilder headerBuilder;
+    
+    /** The max line length. */
     private final int maxLineLength;
 
+    /**
+     * Instantiates a new fasta output stream.
+     *
+     * @param outputStream the output stream
+     */
     public FastaOutputStream(final OutputStream outputStream) {
         super(outputStream);
         maxLineLength = DEFAULT_LINE_LENGTH;
         headerBuilder = new DefaultHeaderBuilder();
     }
 
+    /**
+     * Instantiates a new fasta output stream.
+     *
+     * @param outputStream the output stream
+     * @param sequenceHeaderBuilder the sequence header builder
+     */
     public FastaOutputStream(final OutputStream outputStream, final HeaderBuilder sequenceHeaderBuilder) {
         super(outputStream);
         this.headerBuilder = sequenceHeaderBuilder;
         maxLineLength = DEFAULT_LINE_LENGTH;
     }
 
+    /**
+     * Instantiates a new fasta output stream.
+     *
+     * @param outputStream the output stream
+     * @param sequenceHeaderBuilder the sequence header builder
+     * @param maxLineLength the max line length
+     */
     public FastaOutputStream(final OutputStream outputStream, final HeaderBuilder sequenceHeaderBuilder,
             final int maxLineLength) {
         super(outputStream);
@@ -54,6 +81,9 @@ public class FastaOutputStream extends FilterOutputStream
         this.headerBuilder = sequenceHeaderBuilder;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.io.SequenceOutputStream#write(org.biomojo.sequence.Seq)
+     */
     @Override
     public void write(final ByteSeq<? extends ByteAlphabet> sequence) throws IOException {
         out.write(FastaConst.RECORD_DELIMITER);

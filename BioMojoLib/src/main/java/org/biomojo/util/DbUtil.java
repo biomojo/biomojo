@@ -30,29 +30,72 @@ import org.hibernate.jpa.HibernateEntityManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DbUtil.
+ */
 // Declare this class as a @Named, so that Spring "knows about it"
 @Named
 public class DbUtil {
 
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(DbUtil.class.getName());
 
     // This annotation tells Spring to pass a reference to
+    /** The entity manager. */
     // the EntityManager to this class when an instance is created
     @PersistenceContext
     private EntityManager entityManager;
 
+    /**
+     * Find by attribute.
+     *
+     * @param <T> the generic type
+     * @param resultClass the result class
+     * @param attributeKey the attribute key
+     * @param attributeValue the attribute value
+     * @return the t
+     */
     public <T> T findByAttribute(Class<T> resultClass, String attributeKey, Long attributeValue) {
         return findByAttributeInternal(resultClass, "long", attributeKey, attributeValue);
     }
 
+    /**
+     * Find by attribute.
+     *
+     * @param <T> the generic type
+     * @param resultClass the result class
+     * @param attributeKey the attribute key
+     * @param attributeValue the attribute value
+     * @return the t
+     */
     public <T> T findByAttribute(Class<T> resultClass, String attributeKey, Double attributeValue) {
         return findByAttributeInternal(resultClass, "double", attributeKey, attributeValue);
     }
 
+    /**
+     * Find by attribute.
+     *
+     * @param <T> the generic type
+     * @param resultClass the result class
+     * @param attributeKey the attribute key
+     * @param attributeValue the attribute value
+     * @return the t
+     */
     public <T> T findByAttribute(Class<T> resultClass, String attributeKey, String attributeValue) {
         return findByAttributeInternal(resultClass, "string", attributeKey, attributeValue);
     }
 
+    /**
+     * Find by attribute internal.
+     *
+     * @param <T> the generic type
+     * @param resultClass the result class
+     * @param attributeType the attribute type
+     * @param attributeKey the attribute key
+     * @param attributeValue the attribute value
+     * @return the t
+     */
     protected <T> T findByAttributeInternal(Class<T> resultClass, String attributeType, String attributeKey,
             Object attributeValue) {
         try {
@@ -69,11 +112,21 @@ public class DbUtil {
         }
     }
 
+    /**
+     * Clear cache.
+     *
+     * @param object the object
+     */
     public void clearCache(Object object) {
         entityManager.flush();
         entityManager.detach(object);
     }
 
+    /**
+     * Clear cache.
+     *
+     * @param objects the objects
+     */
     public void clearCache(Collection<Object> objects) {
         entityManager.flush();
         for (Object object : objects) {
@@ -81,6 +134,11 @@ public class DbUtil {
         }
     }
 
+    /**
+     * Log stats.
+     *
+     * @param comment the comment
+     */
     public void logStats(String comment) {
         if (entityManager instanceof HibernateEntityManager) {
             Session session = ((HibernateEntityManager) entityManager).getSession();

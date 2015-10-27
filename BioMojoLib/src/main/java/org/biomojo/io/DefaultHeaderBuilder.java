@@ -23,8 +23,15 @@ import java.util.Arrays;
 
 import org.biomojo.sequence.Seq;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class DefaultHeaderBuilder.
+ */
 public class DefaultHeaderBuilder implements HeaderBuilder {
 
+    /* (non-Javadoc)
+     * @see org.biomojo.io.HeaderBuilder#buildHeader(org.biomojo.sequence.Seq)
+     */
     @Override
     public byte[] buildHeader(final Seq<?, ?> sequence) {
         final ByteBuffer buffer = Charset.forName("US-ASCII").encode(CharBuffer.wrap(sequence.getDescription()));

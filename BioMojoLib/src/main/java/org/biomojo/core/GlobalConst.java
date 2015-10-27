@@ -18,6 +18,12 @@ package org.biomojo.core;
 
 import java.nio.ByteBuffer;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GlobalConst.
+ */
 public class GlobalConst {
+    
+    /** The Constant LIB_SPRING_CONTEXT. */
     public static final String LIB_SPRING_CONTEXT = "biomojolib-context.xml";
 }

@@ -17,6 +17,22 @@
 
 package org.biomojo.blast;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Enum BlastTaskStatus.
+ */
 public enum BlastTaskStatus {
-    UNKNOWN, READY, STARTING, RUNNING, DONE, FAILED;
+    
+    /** The unknown. */
+    UNKNOWN, 
+ /** The ready. */
+ READY, 
+ /** The starting. */
+ STARTING, 
+ /** The running. */
+ RUNNING, 
+ /** The done. */
+ DONE, 
+ /** The failed. */
+ FAILED;
 }

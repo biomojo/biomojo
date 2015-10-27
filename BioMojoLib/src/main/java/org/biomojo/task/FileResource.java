@@ -18,38 +18,78 @@ package org.biomojo.task;
 
 import javax.persistence.Entity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class FileResource.
+ */
 @Entity
 public class FileResource extends NamedResource {
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
+    /** The file store. */
     private FileStore fileStore;
 
+    /** The path. */
     private String path;
 
+    /** The status. */
     private ResourceStatus status;
 
+    /** The name. */
     private String name;
 
+    /**
+     * Gets the file store.
+     *
+     * @return the file store
+     */
     public FileStore getFileStore() {
         return fileStore;
     }
 
+    /**
+     * Sets the file store.
+     *
+     * @param fileStore the new file store
+     */
     public void setFileStore(FileStore fileStore) {
         this.fileStore = fileStore;
     }
 
+    /**
+     * Gets the path.
+     *
+     * @return the path
+     */
     public String getPath() {
         return path;
     }
 
+    /**
+     * Sets the path.
+     *
+     * @param path the new path
+     */
     public void setPath(String path) {
         this.path = path;
     }
 
+    /**
+     * Gets the status.
+     *
+     * @return the status
+     */
     public ResourceStatus getStatus() {
         return status;
     }
 
+    /**
+     * Sets the status.
+     *
+     * @param status the new status
+     */
     public void setStatus(ResourceStatus status) {
         this.status = status;
     }

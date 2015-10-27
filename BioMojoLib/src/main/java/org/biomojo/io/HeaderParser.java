@@ -18,6 +18,17 @@ package org.biomojo.io;
 
 import org.biomojo.sequence.Seq;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface HeaderParser.
+ */
 public interface HeaderParser {
+    
+    /**
+     * Parses the header.
+     *
+     * @param sequence the sequence
+     * @param headerData the header data
+     */
     public void parseHeader(Seq<?, ?> sequence, byte[] headerData);
 }

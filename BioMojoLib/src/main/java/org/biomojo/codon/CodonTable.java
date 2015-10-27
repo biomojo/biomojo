@@ -18,17 +18,38 @@ package org.biomojo.codon;
 
 import org.biomojo.core.IntegerIdentified;
 
+// TODO: Auto-generated Javadoc
 /**
- *
+ * The Interface CodonTable.
  *
  * @author Hugh Eaves
- *
  */
 public interface CodonTable extends IntegerIdentified {
 
+    /**
+     * Gets the amino acid.
+     *
+     * @param nucleotides the nucleotides
+     * @param offset the offset
+     * @return the amino acid
+     */
     byte getAminoAcid(byte[] nucleotides, int offset);
 
+    /**
+     * Gets the amino acid.
+     *
+     * @param nucleotides the nucleotides
+     * @return the amino acid
+     */
     byte getAminoAcid(byte[] nucleotides);
 
+    /**
+     * Gets the amino acid.
+     *
+     * @param nucleotide1 the nucleotide1
+     * @param nucleotide2 the nucleotide2
+     * @param nucleotide3 the nucleotide3
+     * @return the amino acid
+     */
     byte getAminoAcid(byte nucleotide1, byte nucleotide2, byte nucleotide3);
 }

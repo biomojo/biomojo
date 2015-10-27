@@ -18,16 +18,26 @@ package org.biomojo.alphabet;
 
 import org.biomojo.symbols.AminoAcids;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class AminoAcidAlphabetImpl.
  *
+ * @author Hugh Eaves
  */
 public class AminoAcidAlphabetImpl extends AbstractIUPACAlphabet implements AminoAcidAlphabet {
+    
+    /**
+     * Instantiates a new amino acid alphabet impl.
+     *
+     * @param id the id
+     */
     protected AminoAcidAlphabetImpl(final int id) {
         super(id, AminoAcids.CORE_SYMBOLS);
     }
 
     /**
+     * Adds the any symbols.
+     *
      * @see org.biomojo.alphabet.AbstractBioPolymerAlphabet#addAnySymbols()
      */
     @Override
@@ -36,6 +46,8 @@ public class AminoAcidAlphabetImpl extends AbstractIUPACAlphabet implements Amin
     }
 
     /**
+     * Adds the ambiguity symbols.
+     *
      * @see org.biomojo.alphabet.AbstractBioPolymerAlphabet#addAmbiguitySymbols()
      */
     @Override

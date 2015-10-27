@@ -29,6 +29,7 @@ import org.biomojo.symbols.AminoAcids;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
  * A <tt>SubstitutionMatrix</tt> initialized from one of the pre-computed NCBI
  * BLAST substitution matrices.
@@ -43,9 +44,12 @@ import org.slf4j.LoggerFactory;
  */
 public class PrecomputedAminoAcidSubstitutionMatrix extends AbstractByteSubstitutionMatrix
         implements ByteSubstitutionMatrix {
+    
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory
             .getLogger(PrecomputedAminoAcidSubstitutionMatrix.class.getName());
 
+    /** The amino acid order. */
     public static char[] AMINO_ACID_ORDER = { AminoAcids.ALANINE, AminoAcids.ARGININE, AminoAcids.ASPARAGINE,
             AminoAcids.ASPARTIC_ACID, AminoAcids.CYSTEINE, AminoAcids.GLUTAMINE, AminoAcids.GLUTAMIC_ACID,
             AminoAcids.GLYCINE, AminoAcids.HISTIDINE, AminoAcids.ISOLEUCINE, AminoAcids.LEUCINE, AminoAcids.LYSINE,
@@ -54,8 +58,15 @@ public class PrecomputedAminoAcidSubstitutionMatrix extends AbstractByteSubstitu
             AminoAcids.ASPARTIC_ACID_OR_ASPARAGINE, AminoAcids.GLUTAMIC_ACID_OR_GLUTAMINE, AminoAcids.ANY,
             AminoAcids.STOP };
 
+    /** The Constant PATH_PREFIX. */
     protected static final String PATH_PREFIX = "org/biomojo/alignment/matrix/";
 
+    /**
+     * Instantiates a new precomputed amino acid substitution matrix.
+     *
+     * @param prefix the prefix
+     * @param instance the instance
+     */
     public PrecomputedAminoAcidSubstitutionMatrix(String prefix, int instance) {
         super(Alphabets.getAlphabet(
                 AlphabetId.AMINO_ACID | IUPACAlphabetVariant.WITH_ANY | IUPACAlphabetVariant.WITH_AMBIGIGUITY,
@@ -106,6 +117,12 @@ public class PrecomputedAminoAcidSubstitutionMatrix extends AbstractByteSubstitu
         }
     }
 
+    /**
+     * Gets the order.
+     *
+     * @param aminoAcid the amino acid
+     * @return the order
+     */
     protected int getOrder(char aminoAcid) {
         for (int i = 0; i < AMINO_ACID_ORDER.length; ++i) {
             if (AMINO_ACID_ORDER[i] == aminoAcid) {

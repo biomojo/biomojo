@@ -23,11 +23,16 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BlastIterationStat.
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = { "statistics" })
 @XmlRootElement(name = "Iteration_stat")
 public class BlastIterationStat {
 
+    /** The statistics. */
     @XmlElement(name = "Statistics", required = true)
     @OneToOne
     protected BlastStatistics statistics;

@@ -17,6 +17,14 @@
 
 package org.biomojo.blast;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Enum BlastParameterName.
+ */
 public enum BlastParameterName {
-    BLAST_PARAM_MAX_TARGET_SEQS, BLAST_PARAM_WORD_SIZE
+    
+    /** The blast param max target seqs. */
+    BLAST_PARAM_MAX_TARGET_SEQS, 
+ /** The blast param word size. */
+ BLAST_PARAM_WORD_SIZE
 }

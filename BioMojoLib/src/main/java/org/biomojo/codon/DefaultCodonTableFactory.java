@@ -21,6 +21,7 @@ import org.java0.factory.Config;
 import org.java0.factory.ConfiguredObjectProvider;
 import org.java0.factory.FactoryException;
 
+// TODO: Auto-generated Javadoc
 /**
  *
  * Codon tables derived from Version 4.0 of NCBI published tables here:
@@ -30,6 +31,10 @@ import org.java0.factory.FactoryException;
  *
  */
 public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable> {
+    
+    /**
+     * Instantiates a new default codon table factory.
+     */
     DefaultCodonTableFactory() {
         super(new CodonTable[0]);
 

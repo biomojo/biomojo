@@ -22,21 +22,37 @@ import org.biomojo.alphabet.ByteAlphabet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class AbstractByteSubstitutionMatrix.
  *
+ * @author Hugh Eaves
  */
 public class AbstractByteSubstitutionMatrix implements ByteSubstitutionMatrix {
 
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AbstractByteSubstitutionMatrix.class.getName());
 
+    /** The alphabet. */
     ByteAlphabet alphabet;
+    
+    /** The scores. */
     protected int scores[][] = new int[Byte.MAX_VALUE + 1][Byte.MAX_VALUE + 1];
 
+    /**
+     * Instantiates a new abstract byte substitution matrix.
+     *
+     * @param alphabet the alphabet
+     */
     protected AbstractByteSubstitutionMatrix(ByteAlphabet alphabet) {
         this.alphabet = alphabet;
     }
 
+    /**
+     * Inits the matrix.
+     *
+     * @param score the score
+     */
     protected void initMatrix(int score) {
         for (int[] scoresRow : scores) {
             Arrays.fill(scoresRow, score);
@@ -47,9 +63,9 @@ public class AbstractByteSubstitutionMatrix implements ByteSubstitutionMatrix {
      * Sets a score in the matrix for both upper and lowercase versions of the
      * character.
      *
-     * @param fromChar
-     * @param toChar
-     * @param score
+     * @param fromChar the from char
+     * @param toChar the to char
+     * @param score the score
      */
     protected void setScore(char fromChar, char toChar, int score) {
         logger.debug("setScore: fromChar = {}, toChar = {}, score = {}", fromChar, toChar, score);
@@ -60,6 +76,9 @@ public class AbstractByteSubstitutionMatrix implements ByteSubstitutionMatrix {
     }
 
     /**
+     * Gets the alphabet.
+     *
+     * @return the alphabet
      * @see org.biomojo.alignment.matrix.ByteSubstitutionMatrix#getAlphabet()
      */
     @Override
@@ -67,12 +86,20 @@ public class AbstractByteSubstitutionMatrix implements ByteSubstitutionMatrix {
         return alphabet;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.alignment.ByteSubstitutionMatrix#getScore(byte, byte)
+     */
     @Override
     public int getScore(byte from, byte to) {
         return scores[from][to];
     }
 
     /**
+     * Gets the score.
+     *
+     * @param from the from
+     * @param to the to
+     * @return the score
      * @see org.biomojo.alignment.SubstitutionMatrix#getScore(java.lang.Object,
      *      java.lang.Object)
      */

@@ -31,23 +31,40 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class FastxParserTest.
  *
+ * @author Hugh Eaves
+ * @param <T> the generic type
  */
 public abstract class FastxParserTest<T extends ByteSeq<?>> {
+    
+    /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(FastxParserTest.class.getName());
 
+    /** The Constant bufferTestSizes. */
     protected static final int bufferTestSizes[] = { 1, 2, 3, 7, 9, 255, 1000, 1024, 1024 * 1024, 1024 * 1024 * 128 };
 
+    /** The Constant invalidData. */
     protected static final String[] invalidData = { " ", "    ", "\n", "\n\n", "\n \n \n" };
 
+    /**
+     * Test empty file.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @Test
     public void testEmptyFile() throws IOException {
         testCopy("".getBytes(), 0, true);
     }
 
+    /**
+     * Test invalid files.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @Test
     public void testInvalidFiles() throws IOException {
         for (final String testData : invalidData) {
@@ -60,6 +77,14 @@ public abstract class FastxParserTest<T extends ByteSeq<?>> {
         }
     }
 
+    /**
+     * Test copy.
+     *
+     * @param testData the test data
+     * @param expectedNumRecords the expected num records
+     * @param matchExpected the match expected
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     public void testCopy(final byte[] testData, final int expectedNumRecords, final boolean matchExpected)
             throws IOException {
         for (final int bufSize : bufferTestSizes) {
@@ -70,6 +95,15 @@ public abstract class FastxParserTest<T extends ByteSeq<?>> {
         }
     }
 
+    /**
+     * Copy records.
+     *
+     * @param testData the test data
+     * @param bufSize the buf size
+     * @param expectedReadCount the expected read count
+     * @return the byte[]
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     protected byte[] copyRecords(final byte[] testData, final int bufSize, final int expectedReadCount)
             throws IOException {
 
@@ -95,6 +129,13 @@ public abstract class FastxParserTest<T extends ByteSeq<?>> {
 
     }
 
+    /**
+     * Gets the test data from classpath.
+     *
+     * @param path the path
+     * @return the test data from classpath
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     protected byte[] getTestDataFromClasspath(final String path) throws IOException {
         final InputStream testDataStream = this.getClass().getClassLoader().getResourceAsStream(path);
 
@@ -110,9 +151,27 @@ public abstract class FastxParserTest<T extends ByteSeq<?>> {
         return testDataBuf.toByteArray();
     }
 
+    /**
+     * Gets the input stream.
+     *
+     * @param testData the test data
+     * @param bufSize the buf size
+     * @return the input stream
+     */
     protected abstract SequenceInputStream<T> getInputStream(byte[] testData, int bufSize);
 
+    /**
+     * Gets the output stream.
+     *
+     * @param outputStream the output stream
+     * @return the output stream
+     */
     protected abstract SequenceOutputStream<T> getOutputStream(ByteArrayOutputStream outputStream);
 
+    /**
+     * Gets the sequence.
+     *
+     * @return the sequence
+     */
     protected abstract T getSequence();
 }

@@ -20,14 +20,25 @@ import org.biomojo.alphabet.ByteAlphabet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class MatchMismatchByteSubstitutionMatrix.
  *
+ * @author Hugh Eaves
  */
 public class MatchMismatchByteSubstitutionMatrix extends AbstractByteSubstitutionMatrix {
+    
+    /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(MatchMismatchByteSubstitutionMatrix.class.getName());
 
+    /**
+     * Instantiates a new match mismatch byte substitution matrix.
+     *
+     * @param alphabet the alphabet
+     * @param matchScore the match score
+     * @param mismatchScore the mismatch score
+     */
     public MatchMismatchByteSubstitutionMatrix(ByteAlphabet alphabet, int matchScore, int mismatchScore) {
         super(alphabet);
         initMatrix(mismatchScore);

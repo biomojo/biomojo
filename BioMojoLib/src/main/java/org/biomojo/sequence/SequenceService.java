@@ -44,18 +44,36 @@ import org.java0.core.exception.UncheckedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class SequenceService.
+ */
 @Named
 public class SequenceService {
+    
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(SequenceService.class.getName());
 
+    /** The Constant BATCH_SIZE. */
     public static final int BATCH_SIZE = 50000;
 
+    /** The entity manager. */
     @PersistenceContext
     private EntityManager entityManager;
 
+    /** The db util. */
     @Inject
     private DbUtil dbUtil;
 
+    /**
+     * Load fastx file.
+     *
+     * @param fastxFile the fastx file
+     * @param name the name
+     * @param description the description
+     * @param alphabetId the alphabet id
+     * @return the seq list
+     */
     @Transactional
     public SeqList<ByteSeq<ByteAlphabet>> loadFastxFile(final File fastxFile, final String name, String description,
             final int alphabetId) {
@@ -109,6 +127,13 @@ public class SequenceService {
         return null;
     }
 
+    /**
+     * Save fastx file.
+     *
+     * @param fastxFile the fastx file
+     * @param sequenceList the sequence list
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @SuppressWarnings("unchecked")
     @Transactional
     public void saveFastxFile(final File fastxFile, SeqList<? extends ByteSeq<ByteAlphabet>> sequenceList)
@@ -153,6 +178,14 @@ public class SequenceService {
 
     }
 
+    /**
+     * Gets the sequences.
+     *
+     * @param sequenceListId the sequence list id
+     * @param first the first
+     * @param last the last
+     * @return the sequences
+     */
     @SuppressWarnings("unchecked")
     @Transactional
     public List<ByteSeqImpl<ByteAlphabet>> getSequences(final long sequenceListId, final long first, final long last) {

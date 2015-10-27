@@ -35,9 +35,20 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BlastTest.
+ */
 public class BlastTest extends BaseTest {
+    
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(BlastTest.class.getName());
 
+    /**
+     * Test blast parser.
+     *
+     * @throws Exception the exception
+     */
     @Test
     public void testBlastParser() throws Exception {
         File outFile = File.createTempFile("blast_output_", ".xml");

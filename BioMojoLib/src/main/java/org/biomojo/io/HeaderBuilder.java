@@ -18,6 +18,17 @@ package org.biomojo.io;
 
 import org.biomojo.sequence.Seq;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Interface HeaderBuilder.
+ */
 public interface HeaderBuilder {
+    
+    /**
+     * Builds the header.
+     *
+     * @param sequence the sequence
+     * @return the byte[]
+     */
     public byte[] buildHeader(Seq<?, ?> sequence);
 }

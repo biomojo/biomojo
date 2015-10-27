@@ -20,38 +20,65 @@ package org.biomojo.property;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class LongProperty.
+ */
 @Entity
 @DiscriminatorValue(value = "L")
 public class LongProperty extends NumericProperty {
 
-    /**
-     *
-     */
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1448961994278386666L;
 
+    /** The long value. */
     protected long longValue;
 
+    /**
+     * Instantiates a new long property.
+     */
     public LongProperty() {
     }
 
+    /**
+     * Instantiates a new long property.
+     *
+     * @param longValue the long value
+     */
     public LongProperty(long longValue) {
         this.longValue = longValue;
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.property.BasicProperty#setValue(java.lang.Object)
+     */
     @Override
     public void setValue(Object value) {
         setLong((long) value);
     }
 
+    /* (non-Javadoc)
+     * @see org.biomojo.property.BasicProperty#getValue()
+     */
     @Override
     public Object getValue() {
         return longValue;
     }
 
+    /**
+     * Sets the long.
+     *
+     * @param longValue the new long
+     */
     public void setLong(long longValue) {
         this.longValue = longValue;
     }
 
+    /**
+     * Gets the long.
+     *
+     * @return the long
+     */
     public long getLong() {
         return longValue;
     }

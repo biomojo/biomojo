@@ -28,42 +28,68 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
- * @author Hugh Eaves
+ * The Class CodecTest.
  *
+ * @author Hugh Eaves
  */
 public class CodecTest {
+    
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(CodecTest.class.getName());
 
+    /** The random. */
     public Random random = new Random(0);
 
+    /**
+     * Test null.
+     */
     @Test
     public void testNull() {
         testCodec(CodecId.NULL_BYTE_CODEC, AlphabetId.DNA);
     }
 
+    /**
+     * Test two bit.
+     */
     @Test
     public void testTwoBit() {
         testCodec(CodecId.TWO_BIT_BYTE_CODEC, AlphabetId.DNA);
     }
 
+    /**
+     * Test two bit fail.
+     */
     @Test
     public void testTwoBitFail() {
         // testCodec(CodecId.TWO_BIT_BYTE_CODEC, AlphabetId.DNA
         // | IUPACAlphabetVariant.WITH_GAP);
     }
 
+    /**
+     * Test three bit.
+     */
     @Test
     public void testThreeBit() {
         testCodec(CodecId.THREE_BIT_BYTE_CODEC,
                 AlphabetId.DNA | IUPACAlphabetVariant.WITH_GAP | IUPACAlphabetVariant.WITH_ANY);
     }
 
+    /**
+     * Test four bit.
+     */
     @Test
     public void testFourBit() {
         testCodec(CodecId.FOUR_BIT_BYTE_CODEC, AlphabetId.DNA);
     }
 
+    /**
+     * Test codec.
+     *
+     * @param codecId the codec id
+     * @param alphabetId the alphabet id
+     */
     public void testCodec(final int codecId, final int alphabetId) {
         for (int i = 0; i < 10000; ++i) {
             logger.debug("run {}", i);
@@ -71,6 +97,12 @@ public class CodecTest {
         }
     }
 
+    /**
+     * Run test.
+     *
+     * @param codecId the codec id
+     * @param alphabetId the alphabet id
+     */
     public void runTest(final int codecId, final int alphabetId) {
         final ByteAlphabet alphabet = Alphabets.getAlphabet(alphabetId, ByteAlphabet.class);
         final ByteCodec codec = Codecs.getCodec(codecId, ByteCodec.class);

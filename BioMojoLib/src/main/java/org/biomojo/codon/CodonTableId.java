@@ -16,39 +16,84 @@
  */
 package org.biomojo.codon;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class CodonTableId.
+ *
  * @author Hugh Eaves
- *
+ * 
  *         Unique id's for codon tables. Numeric values are from NCBI standard.
- *
+ * 
  *         More information available here:
- *
+ * 
  *         http://www.ncbi.nlm.nih.gov/Taxonomy/Utils/wprintgc.cgi
- *
  */
 public class CodonTableId {
+    
+    /**
+     * Instantiates a new codon table id.
+     */
     private CodonTableId() {
 
     }
 
+    /** The Constant UNKNOWN. */
     public static final int UNKNOWN = 0;
+    
+    /** The Constant STANDARD. */
     public static final int STANDARD = 1;
+    
+    /** The Constant VERTEBRATE_MITOCHONDRIAL. */
     public static final int VERTEBRATE_MITOCHONDRIAL = 2;
+    
+    /** The Constant YEAST_MITOCHONDRIAL. */
     public static final int YEAST_MITOCHONDRIAL = 3;
+    
+    /** The Constant MOLD_MITOCHONDRIAL. */
     public static final int MOLD_MITOCHONDRIAL = 4;
+    
+    /** The Constant INVERTEBRATE_MITOCHONDRIAL. */
     public static final int INVERTEBRATE_MITOCHONDRIAL = 5;
+    
+    /** The Constant CILIATE_NUCLEAR. */
     public static final int CILIATE_NUCLEAR = 6;
+    
+    /** The Constant ECHINODERM_MITOCHONDRIAL. */
     public static final int ECHINODERM_MITOCHONDRIAL = 9;
+    
+    /** The Constant EUPLOTID_NUCLEAR. */
     public static final int EUPLOTID_NUCLEAR = 10;
+    
+    /** The Constant BACTERIAL_PLASTID. */
     public static final int BACTERIAL_PLASTID = 11;
+    
+    /** The Constant ALTERNATIVE_YEAST_NUCLEAR. */
     public static final int ALTERNATIVE_YEAST_NUCLEAR = 12;
+    
+    /** The Constant ASCIDIAN_MITOCHONDRIAL. */
     public static final int ASCIDIAN_MITOCHONDRIAL = 13;
+    
+    /** The Constant ALTERNATIVE_FLATWORM_MITOCHONDRIAL. */
     public static final int ALTERNATIVE_FLATWORM_MITOCHONDRIAL = 14;
+    
+    /** The Constant BLEPHARISMA_MACRONUCLEAR. */
     public static final int BLEPHARISMA_MACRONUCLEAR = 15;
+    
+    /** The Constant CHLOROPHYCEAN_MITOCHONDRIAL. */
     public static final int CHLOROPHYCEAN_MITOCHONDRIAL = 16;
+    
+    /** The Constant TREMATODE_MITOCHONDRIAL. */
     public static final int TREMATODE_MITOCHONDRIAL = 21;
+    
+    /** The Constant SCENEDESMUS_OBLIQUUS_MITOCHONDRIAL. */
     public static final int SCENEDESMUS_OBLIQUUS_MITOCHONDRIAL = 22;
+    
+    /** The Constant THRAUSTOCHYTRIUM_MITOCHONDRIAL. */
     public static final int THRAUSTOCHYTRIUM_MITOCHONDRIAL = 23;
+    
+    /** The Constant PTEROBRANCHIA_MITOCHONDRIAL. */
     public static final int PTEROBRANCHIA_MITOCHONDRIAL = 24;
+    
+    /** The Constant CGRACILIBACTERIA. */
     public static final int CGRACILIBACTERIA = 25;
 }

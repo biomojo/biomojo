@@ -23,6 +23,7 @@ import org.biomojo.alphabet.ByteAlphabet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// TODO: Auto-generated Javadoc
 /**
  * Nucleotide substitution matrix supporting ambiguity codes using scores from
  * NCBI BLAST matrix:
@@ -33,11 +34,15 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class AmbiguousNucleotideSubstitutionMatrix extends AbstractByteSubstitutionMatrix {
+    
+    /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(AmbiguousNucleotideSubstitutionMatrix.class.getName());
 
+    /** The matrix order. */
     char matrixOrder[] = { 'A', 'T', 'G', 'C', 'S', 'W', 'R', 'Y', 'K', 'M', 'B', 'V', 'H', 'D', 'N' };
 
+    /** The score matrix. */
     int scoreMatrix[][] = { { 5, -4, -4, -4, -4, 1, 1, -4, -4, 1, -4, -1, -1, -1, -2 },
             { -4, 5, -4, -4, -4, 1, -4, 1, 1, -4, -1, -4, -1, -1, -2 },
             { 4, -4, 5, -4, 1, -4, 1, -4, 1, -4, -1, -1, -4, -1, -2 },
@@ -54,6 +59,9 @@ public class AmbiguousNucleotideSubstitutionMatrix extends AbstractByteSubstitut
             { -1, -1, -1, -4, -3, -1, -1, -3, -1, -3, -2, -2, -2, -1, -1 },
             { -2, -2, -2, -2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 } };
 
+    /**
+     * Instantiates a new ambiguous nucleotide substitution matrix.
+     */
     public AmbiguousNucleotideSubstitutionMatrix() {
         super(Alphabets.getAlphabet(AlphabetId.DNA | IUPACAlphabetVariant.WITH_AMBIGIGUITY, ByteAlphabet.class));
 

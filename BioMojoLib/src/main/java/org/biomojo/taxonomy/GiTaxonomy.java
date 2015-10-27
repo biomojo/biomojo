@@ -19,26 +19,53 @@ package org.biomojo.taxonomy;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class GiTaxonomy.
+ */
 //@Entity
 public class GiTaxonomy {
+    
+    /** The id. */
     @Id
     protected long id;
 
+    /** The taxonomy. */
     @OneToOne
     private TaxonomyNode taxonomy;
 
+    /**
+     * Gets the id.
+     *
+     * @return the id
+     */
     public long getId() {
         return id;
     }
 
+    /**
+     * Sets the id.
+     *
+     * @param id the new id
+     */
     public void setId(long id) {
         this.id = id;
     }
 
+    /**
+     * Gets the taxonomy.
+     *
+     * @return the taxonomy
+     */
     public TaxonomyNode getTaxonomy() {
         return taxonomy;
     }
 
+    /**
+     * Sets the taxonomy.
+     *
+     * @param taxonomy the new taxonomy
+     */
     public void setTaxonomy(TaxonomyNode taxonomy) {
         this.taxonomy = taxonomy;
     }

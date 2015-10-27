@@ -18,13 +18,23 @@ package org.biomojo.blast.blastoutput;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class BlastIterationStatAdapter.
+ */
 public class BlastIterationStatAdapter extends XmlAdapter<BlastIterationStat, BlastStatistics> {
 
+    /* (non-Javadoc)
+     * @see javax.xml.bind.annotation.adapters.XmlAdapter#unmarshal(java.lang.Object)
+     */
     @Override
     public BlastStatistics unmarshal(BlastIterationStat v) throws Exception {
         return v.getStatistics();
     }
 
+    /* (non-Javadoc)
+     * @see javax.xml.bind.annotation.adapters.XmlAdapter#marshal(java.lang.Object)
+     */
     @Override
     public BlastIterationStat marshal(BlastStatistics v) throws Exception {
         if (v != null) {
