@@ -51,347 +51,324 @@ import com.beust.jcommander.Parameters;
 @Named
 public class ExecuteCommand extends AbstractSpringCommand {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(ExecuteCommand.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ExecuteCommand.class.getName());
 
-	@Parameter(names = { "-b", "--benchmark" }, required = true, description = "Benchmark to execute")
-	protected Benchmark benchmark;
+    @Parameter(names = { "-b", "--benchmark" }, required = true, description = "Benchmark to execute")
+    protected Benchmark benchmark;
 
-	@Parameter(names = { "-d", "--datadir" }, description = "Directory for datafiles")
-	protected String dataDir = "/data/bio/BioMojo";
+    @Parameter(names = { "-d", "--datadir" }, description = "Directory for datafiles")
+    protected String dataDir = "/data/bio/BioMojo";
 
-	@Parameter(names = { "-e", "--executabledir" }, description = "Base directory for executables")
-	protected String programBaseDir = "/home/hugh/code/biobench";
+    @Parameter(names = { "-e", "--executabledir" }, description = "Base directory for executables")
+    protected String programBaseDir = "/home/hugh/code/biobench";
 
-	@Parameter(names = { "-g", "--group" }, required = true, description = "Group id")
-	protected String runGroup;
+    @Parameter(names = { "-g", "--group" }, required = true, description = "Group id")
+    protected String runGroup;
 
-	@Parameter(names = { "-i", "--in" }, description = "Input file name")
-	protected File inputFile;
+    @Parameter(names = { "-i", "--in" }, description = "Input file name")
+    protected File inputFile;
 
-	@Parameter(names = { "-j", "--javabigmem" }, description = "Java heap size for big memory benchmarks")
-	protected int javaBigMem = 12000;
+    @Parameter(names = { "-j", "--javabigmem" }, description = "Java heap size for big memory benchmarks")
+    protected int javaBigMem = 12000;
 
-	@Parameter(names = { "-l", "--seqlength" }, description = "Length of sequences")
-	protected Integer seqLength;
+    @Parameter(names = { "-l", "--seqlength" }, description = "Length of sequences")
+    protected Integer seqLength;
 
-	@Parameter(names = { "-n", "--numseqs" }, description = "Number of sequences")
-	protected Integer numSeqs;
+    @Parameter(names = { "-n", "--numseqs" }, description = "Number of sequences")
+    protected Integer numSeqs;
 
-	@Parameter(names = { "-q", "--qscore" }, description = "Quality score for trim filter")
-	protected int cutoff = 35;
+    @Parameter(names = { "-q", "--qscore" }, description = "Quality score for trim filter")
+    protected int cutoff = 35;
 
-	@Parameter(names = { "-r", "--runs" }, required = true, description = "Run group")
-	protected int numRuns = 5;
+    @Parameter(names = { "-r", "--runs" }, required = true, description = "Run group")
+    protected int numRuns = 5;
 
-	@Parameter(names = { "-x", "--libraries" }, variableArity = true)
-	protected List<String> libraryNames = new ArrayList<>();
+    @Parameter(names = { "-x", "--libraries" }, variableArity = true)
+    protected List<String> libraryNames = new ArrayList<>();
 
-	protected File outputFile;
+    protected File outputFile;
 
-	protected boolean deleteInput;
+    protected boolean deleteInput;
 
-	private static final int JAVA_NORM_MEM = 1000;
+    private static final int JAVA_NORM_MEM = 1000;
 
-	SetMap<Benchmark, TestCase> testCasesMap = new HashSetMap<>();
+    SetMap<Benchmark, TestCase> testCasesMap = new HashSetMap<>();
 
-	@PersistenceContext
-	private EntityManager entityManager;
-	/**
-	 *
-	 */
-	private static final String TESTDATA_FILE_PREFIX = "testdata_";
+    @PersistenceContext
+    private EntityManager entityManager;
+    /**
+     *
+     */
+    private static final String TESTDATA_FILE_PREFIX = "testdata_";
 
-	Random random = new Random();
-	File gcLogFile = null;
+    Random random = new Random();
+    File gcLogFile = null;
 
-	/**
-	 * Create a new ExecuteCommand.
-	 *
-	 * @param configLocation
-	 */
-	public ExecuteCommand() {
-		super("benchmark-context.xml");
-	}
+    /**
+     * Create a new ExecuteCommand.
+     *
+     * @param configLocation
+     */
+    public ExecuteCommand() {
+        super("benchmark-context.xml");
+    }
 
-	/**
-	 * @see org.java0.cli.Command#run()
-	 */
-	@Override
-	public void run() {
-		try {
-			final Set<Library> libraries = new HashSet<>();
-			if (libraryNames.size() > 0) {
-				for (final String libraryName : libraryNames) {
-					libraries.add(Library.valueOf(libraryName));
-				}
-			} else {
-				for (final Library library : Library.values()) {
-					libraries.add(library);
-				}
-			}
-			prepareTestData();
-			prepareTestCases();
+    /**
+     * @see org.java0.cli.Command#run()
+     */
+    @Override
+    public void run() {
+        try {
+            final Set<Library> libraries = new HashSet<>();
+            if (libraryNames.size() > 0) {
+                for (final String libraryName : libraryNames) {
+                    libraries.add(Library.valueOf(libraryName));
+                }
+            } else {
+                for (final Library library : Library.values()) {
+                    libraries.add(library);
+                }
+            }
+            prepareTestData();
+            prepareTestCases();
 
-			final List<TestCase> caseList = new ArrayList<>(
-					testCasesMap.get(benchmark));
+            final List<TestCase> caseList = new ArrayList<>(testCasesMap.get(benchmark));
 
-			for (int runNumber = 0; runNumber < numRuns; ++runNumber) {
+            for (int runNumber = 0; runNumber < numRuns; ++runNumber) {
 
-				Collections.shuffle(caseList);
+                Collections.shuffle(caseList);
 
-				for (final TestCase testCase : caseList) {
-					if (libraries.contains(testCase.getLibrary())) {
-						logger.info("Running testCase " + testCase);
-						gcLogFile = File.createTempFile("gclog", ".log",
-								new File(dataDir));
-						outputFile = File.createTempFile("output_", ".log",
-								new File(dataDir));
-						updateTestCase(testCase);
-						runBenchmark(runNumber, testCase);
-						gcLogFile.delete();
-						outputFile.delete();
-					} else {
-						logger.info("Skipping testCase " + testCase);
-					}
-				}
-			}
+                for (final TestCase testCase : caseList) {
+                    if (libraries.contains(testCase.getLibrary())) {
+                        logger.info("Running testCase " + testCase);
+                        gcLogFile = File.createTempFile("gclog", ".log", new File(dataDir));
+                        outputFile = File.createTempFile("output_", ".log", new File(dataDir));
+                        updateTestCase(testCase);
+                        runBenchmark(runNumber, testCase);
+                        gcLogFile.delete();
+                        outputFile.delete();
+                    } else {
+                        logger.info("Skipping testCase " + testCase);
+                    }
+                }
+            }
 
-		} catch (final FileNotFoundException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-		} catch (final IOException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-		} finally {
-			if (deleteInput) {
-				inputFile.delete();
-			}
-		}
-	}
+        } catch (final FileNotFoundException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        } catch (final IOException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        } finally {
+            if (deleteInput) {
+                inputFile.delete();
+            }
+        }
+    }
 
-	@Override
-	public void validate() {
-		if ((inputFile == null) && (numSeqs == null || seqLength == null)) {
-			throw new ParameterException(
-					"Must specify input file or numseqs and seqlength");
-		}
-	}
+    @Override
+    public void validate() {
+        if ((inputFile == null) && (numSeqs == null || seqLength == null)) {
+            throw new ParameterException("Must specify input file or numseqs and seqlength");
+        }
+    }
 
-	/**
-	 * @param benchmark2
-	 */
-	private void prepareTestData() {
-		if (inputFile != null) {
-			return;
-		}
+    /**
+     * @param benchmark2
+     */
+    private void prepareTestData() {
+        if (inputFile != null) {
+            return;
+        }
 
-		logger.info("Preparing test data");
-		deleteInput = true;
-		try {
-			switch (benchmark) {
-			case READ_FASTQ:
-			case LOAD_FASTQ:
-				inputFile = File.createTempFile(TESTDATA_FILE_PREFIX, ".fastq",
-						new File(dataDir));
-				new RandomFastqGenerator().createFile(inputFile, numSeqs,
-						seqLength);
-				break;
-			case READ_FASTA:
-			case LOAD_FASTA:
-				inputFile = File.createTempFile(TESTDATA_FILE_PREFIX, ".fasta",
-						new File(dataDir));
-				new RandomFastaGenerator().createFile(inputFile, numSeqs,
-						seqLength);
-				break;
-			case TRIM:
-				inputFile = File.createTempFile(TESTDATA_FILE_PREFIX, ".fastq",
-						new File(dataDir));
+        logger.info("Preparing test data");
+        deleteInput = true;
+        try {
+            switch (benchmark) {
+            case READ_FASTQ:
+            case LOAD_FASTQ:
+                inputFile = File.createTempFile(TESTDATA_FILE_PREFIX, ".fastq", new File(dataDir));
+                new RandomFastqGenerator().createFile(inputFile, numSeqs, seqLength);
+                break;
+            case READ_FASTA:
+            case LOAD_FASTA:
+                inputFile = File.createTempFile(TESTDATA_FILE_PREFIX, ".fasta", new File(dataDir));
+                new RandomFastaGenerator().createFile(inputFile, numSeqs, seqLength);
+                break;
+            case TRIM:
+                inputFile = File.createTempFile(TESTDATA_FILE_PREFIX, ".fastq", new File(dataDir));
 
-				new RandomFastqGenerator().createFile(inputFile, numSeqs,
-						seqLength);
-				break;
-			default:
-				throw new IllegalArgumentException(
-						"Can't generate input file for given benchmark");
-			}
-		} catch (final IOException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-		}
-	}
+                new RandomFastqGenerator().createFile(inputFile, numSeqs, seqLength);
+                break;
+            default:
+                throw new IllegalArgumentException("Can't generate input file for given benchmark");
+            }
+        } catch (final IOException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        }
+    }
 
-	/**
-	 * @param config
-	 * @param inputFileName
-	 * @param builder
-	 * @throws IOException
-	 */
-	@Transactional
-	private void runBenchmark(final int runNumber, final TestCase testCase) {
-		final BenchmarkRun benchmarkRun = new BenchmarkRun(runGroup);
-		benchmarkRun.runBenchmark(runNumber, testCase);
-		entityManager.persist(benchmarkRun);
-	}
+    /**
+     * @param config
+     * @param inputFileName
+     * @param builder
+     * @throws IOException
+     */
+    @Transactional
+    private void runBenchmark(final int runNumber, final TestCase testCase) {
+        final BenchmarkRun benchmarkRun = new BenchmarkRun(runGroup);
+        benchmarkRun.runBenchmark(runNumber, testCase);
+        entityManager.persist(benchmarkRun);
+    }
 
-	private void prepareTestCases() {
-		addTestCase(new JavaTestCase(Benchmark.LOAD_FASTA, Library.BIOJAVA));
-		addTestCase(new JavaTestCase(Benchmark.LOAD_FASTA, Library.BIOMOJO));
-		addTestCase(new JavaTestCase(Benchmark.LOAD_FASTA, Library.BIOMOJO)
-				.add(ConfigParams.ENCODED, true));
-		addTestCase(new PerlTestCase(Benchmark.LOAD_FASTA, Library.BIOPERL));
-		addTestCase(new GenericTestCase(Benchmark.LOAD_FASTA, Library.BIOPYTHON));
-		addTestCase(new GenericTestCase(Benchmark.LOAD_FASTA, Library.HTSEQ));
-		addTestCase(new JavaTestCase(Benchmark.LOAD_FASTA, Library.HTSJDK));
-		addTestCase(new JavaTestCase(Benchmark.LOAD_FASTA, Library.JEBL));
-		addTestCase(new GenericTestCase(Benchmark.LOAD_FASTA, Library.SEQAN));
+    private void prepareTestCases() {
+        addTestCase(new JavaTestCase(Benchmark.LOAD_FASTA, Library.BIOJAVA));
+        addTestCase(new JavaTestCase(Benchmark.LOAD_FASTA, Library.BIOMOJO));
+        addTestCase(new JavaTestCase(Benchmark.LOAD_FASTA, Library.BIOMOJO).add(ConfigParams.ENCODED, true));
+        addTestCase(new PerlTestCase(Benchmark.LOAD_FASTA, Library.BIOPERL));
+        addTestCase(new GenericTestCase(Benchmark.LOAD_FASTA, Library.BIOPYTHON));
+        addTestCase(new GenericTestCase(Benchmark.LOAD_FASTA, Library.HTSEQ));
+        addTestCase(new JavaTestCase(Benchmark.LOAD_FASTA, Library.HTSJDK));
+        addTestCase(new JavaTestCase(Benchmark.LOAD_FASTA, Library.JEBL));
+        addTestCase(new GenericTestCase(Benchmark.LOAD_FASTA, Library.SEQAN));
 
-		addTestCase(new JavaTestCase(Benchmark.LOAD_FASTQ, Library.BIOJAVA));
-		addTestCase(new JavaTestCase(Benchmark.LOAD_FASTQ, Library.BIOMOJO));
-		addTestCase(new JavaTestCase(Benchmark.LOAD_FASTQ, Library.BIOMOJO)
-				.add(ConfigParams.ENCODED, true));
-		addTestCase(new PerlTestCase(Benchmark.LOAD_FASTQ, Library.BIOPERL));
-		addTestCase(new GenericTestCase(Benchmark.LOAD_FASTQ, Library.BIOPYTHON));
-		addTestCase(new GenericTestCase(Benchmark.LOAD_FASTQ, Library.HTSEQ));
-		addTestCase(new JavaTestCase(Benchmark.LOAD_FASTQ, Library.HTSJDK));
-		addTestCase(new GenericTestCase(Benchmark.LOAD_FASTQ, Library.SEQAN));
+        addTestCase(new JavaTestCase(Benchmark.LOAD_FASTQ, Library.BIOJAVA));
+        addTestCase(new JavaTestCase(Benchmark.LOAD_FASTQ, Library.BIOMOJO));
+        addTestCase(new JavaTestCase(Benchmark.LOAD_FASTQ, Library.BIOMOJO).add(ConfigParams.ENCODED, true));
+        addTestCase(new PerlTestCase(Benchmark.LOAD_FASTQ, Library.BIOPERL));
+        addTestCase(new GenericTestCase(Benchmark.LOAD_FASTQ, Library.BIOPYTHON));
+        addTestCase(new GenericTestCase(Benchmark.LOAD_FASTQ, Library.HTSEQ));
+        addTestCase(new JavaTestCase(Benchmark.LOAD_FASTQ, Library.HTSJDK));
+        addTestCase(new GenericTestCase(Benchmark.LOAD_FASTQ, Library.SEQAN));
 
-		addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.BIOJAVA));
-		addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.BIOMOJO));
-		addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.BIOMOJO)
-				.add(ConfigParams.ENCODED, true));
-		addTestCase(new PerlTestCase(Benchmark.READ_FASTA, Library.BIOPERL));
-		addTestCase(new GenericTestCase(Benchmark.READ_FASTA, Library.BIOPYTHON));
-		addTestCase(new GenericTestCase(Benchmark.READ_FASTA, Library.HTSEQ));
-		addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.HTSJDK));
-		addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.JEBL));
-		addTestCase(new GenericTestCase(Benchmark.READ_FASTA, Library.SEQAN));
+        addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.BIOJAVA));
+        addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.BIOMOJO));
+        addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.BIOMOJO).add(ConfigParams.ENCODED, true));
+        addTestCase(new PerlTestCase(Benchmark.READ_FASTA, Library.BIOPERL));
+        addTestCase(new GenericTestCase(Benchmark.READ_FASTA, Library.BIOPYTHON));
+        addTestCase(new GenericTestCase(Benchmark.READ_FASTA, Library.HTSEQ));
+        addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.HTSJDK));
+        addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.JEBL));
+        addTestCase(new GenericTestCase(Benchmark.READ_FASTA, Library.SEQAN));
 
-		addTestCase(new JavaTestCase(Benchmark.READ_FASTQ, Library.BIOJAVA));
-		addTestCase(new JavaTestCase(Benchmark.READ_FASTQ, Library.BIOMOJO));
-		addTestCase(new JavaTestCase(Benchmark.READ_FASTQ, Library.BIOMOJO)
-				.add(ConfigParams.ENCODED, true));
-		addTestCase(new PerlTestCase(Benchmark.READ_FASTQ, Library.BIOPERL));
-		addTestCase(new GenericTestCase(Benchmark.READ_FASTQ, Library.BIOPYTHON));
-		addTestCase(new GenericTestCase(Benchmark.READ_FASTQ, Library.HTSEQ));
-		addTestCase(new JavaTestCase(Benchmark.READ_FASTQ, Library.HTSJDK));
-		addTestCase(new GenericTestCase(Benchmark.READ_FASTQ, Library.SEQAN));
+        addTestCase(new JavaTestCase(Benchmark.READ_FASTQ, Library.BIOJAVA));
+        addTestCase(new JavaTestCase(Benchmark.READ_FASTQ, Library.BIOMOJO));
+        addTestCase(new JavaTestCase(Benchmark.READ_FASTQ, Library.BIOMOJO).add(ConfigParams.ENCODED, true));
+        addTestCase(new PerlTestCase(Benchmark.READ_FASTQ, Library.BIOPERL));
+        addTestCase(new GenericTestCase(Benchmark.READ_FASTQ, Library.BIOPYTHON));
+        addTestCase(new GenericTestCase(Benchmark.READ_FASTQ, Library.HTSEQ));
+        addTestCase(new JavaTestCase(Benchmark.READ_FASTQ, Library.HTSJDK));
+        addTestCase(new GenericTestCase(Benchmark.READ_FASTQ, Library.SEQAN));
 
-		addTestCase(new JavaTestCase(Benchmark.TRIM, Library.BIOJAVA));
-		addTestCase(new JavaTestCase(Benchmark.TRIM, Library.BIOMOJO));
-		addTestCase(new JavaTestCase(Benchmark.TRIM, Library.BIOMOJO).add(
-				ConfigParams.ENCODED, true));
-		addTestCase(new PerlTestCase(Benchmark.TRIM, Library.BIOPERL));
-		addTestCase(new GenericTestCase(Benchmark.TRIM, Library.BIOPYTHON));
-		addTestCase(new GenericTestCase(Benchmark.TRIM, Library.HTSEQ));
-		addTestCase(new JavaTestCase(Benchmark.TRIM, Library.HTSJDK));
-		addTestCase(new GenericTestCase(Benchmark.TRIM, Library.SEQAN));
-		addTestCase(new TrimmomaticTestCase(Benchmark.TRIM, Library.TRIMMOMATIC));
+        addTestCase(new JavaTestCase(Benchmark.TRIM, Library.BIOJAVA));
+        addTestCase(new JavaTestCase(Benchmark.TRIM, Library.BIOMOJO));
+        addTestCase(new JavaTestCase(Benchmark.TRIM, Library.BIOMOJO).add(ConfigParams.ENCODED, true));
+        addTestCase(new PerlTestCase(Benchmark.TRIM, Library.BIOPERL));
+        addTestCase(new GenericTestCase(Benchmark.TRIM, Library.BIOPYTHON));
+        addTestCase(new GenericTestCase(Benchmark.TRIM, Library.HTSEQ));
+        addTestCase(new JavaTestCase(Benchmark.TRIM, Library.HTSJDK));
+        addTestCase(new GenericTestCase(Benchmark.TRIM, Library.SEQAN));
+        addTestCase(new TrimmomaticTestCase(Benchmark.TRIM, Library.TRIMMOMATIC));
 
-		addTestCase(new JavaTestCase(Benchmark.TRANSLATE, Library.BIOJAVA));
-		addTestCase(new JavaTestCase(Benchmark.TRANSLATE, Library.BIOMOJO));
-		addTestCase(new JavaTestCase(Benchmark.TRANSLATE, Library.BIOMOJO).add(
-				ConfigParams.ENCODED, true));
-		addTestCase(new PerlTestCase(Benchmark.TRANSLATE, Library.BIOPERL));
-		addTestCase(new GenericTestCase(Benchmark.TRANSLATE, Library.BIOPYTHON));
-		addTestCase(new JavaTestCase(Benchmark.TRANSLATE, Library.JEBL));
+        addTestCase(new JavaTestCase(Benchmark.TRANSLATE, Library.BIOJAVA));
+        addTestCase(new JavaTestCase(Benchmark.TRANSLATE, Library.BIOMOJO));
+        addTestCase(new JavaTestCase(Benchmark.TRANSLATE, Library.BIOMOJO).add(ConfigParams.ENCODED, true));
+        addTestCase(new PerlTestCase(Benchmark.TRANSLATE, Library.BIOPERL));
+        addTestCase(new GenericTestCase(Benchmark.TRANSLATE, Library.BIOPYTHON));
+        addTestCase(new JavaTestCase(Benchmark.TRANSLATE, Library.JEBL));
 
-		addTestCase(new JavaTestCase(Benchmark.ALIGN, Library.BIOJAVA));
-		addTestCase(new JavaTestCase(Benchmark.ALIGN, Library.BIOMOJO));
-		addTestCase(new JavaTestCase(Benchmark.ALIGN, Library.BIOMOJO).add(
-				ConfigParams.ENCODED, true));
-		addTestCase(new GenericTestCase(Benchmark.ALIGN, Library.BIOPYTHON));
-		addTestCase(new JavaTestCase(Benchmark.ALIGN, Library.JEBL));
-		addTestCase(new GenericTestCase(Benchmark.ALIGN, Library.SEQAN));
-	}
+        addTestCase(new JavaTestCase(Benchmark.ALIGN, Library.BIOJAVA));
+        addTestCase(new JavaTestCase(Benchmark.ALIGN, Library.BIOMOJO));
+        addTestCase(new JavaTestCase(Benchmark.ALIGN, Library.BIOMOJO).add(ConfigParams.ENCODED, true));
+        addTestCase(new GenericTestCase(Benchmark.ALIGN, Library.BIOPYTHON));
+        addTestCase(new JavaTestCase(Benchmark.ALIGN, Library.JEBL));
+        addTestCase(new GenericTestCase(Benchmark.ALIGN, Library.SEQAN));
+    }
 
-	private void addTestCase(final TestCase testCase) {
-		updateTestCase(testCase);
+    private void addTestCase(final TestCase testCase) {
+        updateTestCase(testCase);
 
-		testCasesMap.add(testCase.getBenchmark(), testCase);
-	}
+        testCasesMap.add(testCase.getBenchmark(), testCase);
+    }
 
-	/**
-	 * @param testCase
-	 */
-	protected void updateTestCase(final TestCase testCase) {
-		testCase.add(ConfigParams.PROGRAM_BASE_DIR, programBaseDir);
+    /**
+     * @param testCase
+     */
+    protected void updateTestCase(final TestCase testCase) {
+        testCase.add(ConfigParams.PROGRAM_BASE_DIR, programBaseDir);
 
-		if (seqLength != null) {
-			testCase.add(ConfigParams.SEQUENCE_LENGTH, seqLength);
-		}
-		if (numSeqs != null) {
-			testCase.add(ConfigParams.NUM_SEQUENCES, numSeqs);
-		}
-		if (inputFile != null) {
-			testCase.add(ConfigParams.INPUT_FILE, inputFile.getAbsolutePath());
-		}
-		if (gcLogFile != null) {
-			testCase.add(ConfigParams.GC_LOG_FILE, gcLogFile.getAbsolutePath());
-		}
-		if (outputFile != null) {
-			testCase.add(ConfigParams.OUTPUT_FILE, outputFile.getAbsolutePath());
-		}
+        if (seqLength != null) {
+            testCase.add(ConfigParams.SEQUENCE_LENGTH, seqLength);
+        }
+        if (numSeqs != null) {
+            testCase.add(ConfigParams.NUM_SEQUENCES, numSeqs);
+        }
+        if (inputFile != null) {
+            testCase.add(ConfigParams.INPUT_FILE, inputFile.getAbsolutePath());
+        }
+        if (gcLogFile != null) {
+            testCase.add(ConfigParams.GC_LOG_FILE, gcLogFile.getAbsolutePath());
+        }
+        if (outputFile != null) {
+            testCase.add(ConfigParams.OUTPUT_FILE, outputFile.getAbsolutePath());
+        }
 
-		switch (testCase.getLibrary()) {
-		case BIOJAVA:
-			testCase.add(ConfigParams.PROGRAM_NAME, "BioJavaBenchmarks.jar");
-			testCase.add(ConfigParams.PROGRAM_SUB_DIR,
-					"BioJavaBenchmarks/target");
-			break;
-		case BIOMOJO:
-			testCase.add(ConfigParams.PROGRAM_NAME, "BioMojoBenchmarks.jar");
-			testCase.add(ConfigParams.PROGRAM_SUB_DIR,
-					"BioMojoBenchmarks/target");
-			break;
-		case BIOPERL:
-			testCase.add(ConfigParams.INTERPRETER, "perl");
-			testCase.add(ConfigParams.PROGRAM_NAME, "main.pl");
-			testCase.add(ConfigParams.PROGRAM_SUB_DIR, "BioPerlBenchmarks");
-			break;
-		case BIOPYTHON:
-			testCase.add(ConfigParams.INTERPRETER, "python");
-			testCase.add(ConfigParams.PROGRAM_NAME, "main.py");
-			testCase.add(ConfigParams.PROGRAM_SUB_DIR, "BioPythonBenchmarks");
-			break;
-		case HTSEQ:
-			testCase.add(ConfigParams.INTERPRETER, "python");
-			testCase.add(ConfigParams.PROGRAM_NAME, "main.py");
-			testCase.add(ConfigParams.PROGRAM_SUB_DIR, "HTSeqBenchmarks");
-			break;
-		case HTSJDK:
-			testCase.add(ConfigParams.PROGRAM_NAME, "HTSJDKBenchmarks.jar");
-			testCase.add(ConfigParams.PROGRAM_SUB_DIR,
-					"HTSJDKBenchmarks/target");
-			break;
-		case JEBL:
-			testCase.add(ConfigParams.PROGRAM_NAME, "JeblBenchmarks.jar");
-			testCase.add(ConfigParams.PROGRAM_SUB_DIR, "JeblBenchmarks/target");
-			break;
-		case SEQAN:
-			testCase.add(ConfigParams.PROGRAM_NAME, "SeqAnBenchmarks");
-			testCase.add(ConfigParams.PROGRAM_SUB_DIR,
-					"SeqAnBenchmarks/Release");
-			break;
-		case TRIMMOMATIC:
-			testCase.add(ConfigParams.PROGRAM_NAME, "trimmomatic-0.33.jar");
-			testCase.add(ConfigParams.PROGRAM_SUB_DIR, "Trimmomatic");
-			break;
+        switch (testCase.getLibrary()) {
+        case BIOJAVA:
+            testCase.add(ConfigParams.PROGRAM_NAME, "BioJavaBenchmarks.jar");
+            testCase.add(ConfigParams.PROGRAM_SUB_DIR, "BioJavaBenchmarks/target");
+            break;
+        case BIOMOJO:
+            testCase.add(ConfigParams.PROGRAM_NAME, "BioMojoBenchmarks.jar");
+            testCase.add(ConfigParams.PROGRAM_SUB_DIR, "BioMojoBenchmarks/target");
+            break;
+        case BIOPERL:
+            testCase.add(ConfigParams.INTERPRETER, "perl");
+            testCase.add(ConfigParams.PROGRAM_NAME, "main.pl");
+            testCase.add(ConfigParams.PROGRAM_SUB_DIR, "BioPerlBenchmarks");
+            break;
+        case BIOPYTHON:
+            testCase.add(ConfigParams.INTERPRETER, "python");
+            testCase.add(ConfigParams.PROGRAM_NAME, "main.py");
+            testCase.add(ConfigParams.PROGRAM_SUB_DIR, "BioPythonBenchmarks");
+            break;
+        case HTSEQ:
+            testCase.add(ConfigParams.INTERPRETER, "python");
+            testCase.add(ConfigParams.PROGRAM_NAME, "main.py");
+            testCase.add(ConfigParams.PROGRAM_SUB_DIR, "HTSeqBenchmarks");
+            break;
+        case HTSJDK:
+            testCase.add(ConfigParams.PROGRAM_NAME, "HTSJDKBenchmarks.jar");
+            testCase.add(ConfigParams.PROGRAM_SUB_DIR, "HTSJDKBenchmarks/target");
+            break;
+        case JEBL:
+            testCase.add(ConfigParams.PROGRAM_NAME, "JeblBenchmarks.jar");
+            testCase.add(ConfigParams.PROGRAM_SUB_DIR, "JeblBenchmarks/target");
+            break;
+        case SEQAN:
+            testCase.add(ConfigParams.PROGRAM_NAME, "SeqAnBenchmarks");
+            testCase.add(ConfigParams.PROGRAM_SUB_DIR, "SeqAnBenchmarks/Release");
+            break;
+        case TRIMMOMATIC:
+            testCase.add(ConfigParams.PROGRAM_NAME, "trimmomatic-0.33.jar");
+            testCase.add(ConfigParams.PROGRAM_SUB_DIR, "Trimmomatic");
+            break;
 
-		default:
-			throw new IllegalArgumentException();
-		}
+        default:
+            throw new IllegalArgumentException();
+        }
 
-		testCase.add(ConfigParams.JAVA_MEM, JAVA_NORM_MEM);
+        testCase.add(ConfigParams.JAVA_MEM, JAVA_NORM_MEM);
 
-		switch (testCase.getBenchmark()) {
-		case LOAD_FASTA:
-		case LOAD_FASTQ:
-			testCase.add(ConfigParams.JAVA_MEM, javaBigMem);
-			break;
-		case TRIM:
-			testCase.add(ConfigParams.CUTOFF, cutoff);
-			break;
-		default:
+        switch (testCase.getBenchmark()) {
+        case LOAD_FASTA:
+        case LOAD_FASTQ:
+            testCase.add(ConfigParams.JAVA_MEM, javaBigMem);
+            break;
+        case TRIM:
+            testCase.add(ConfigParams.CUTOFF, cutoff);
+            break;
+        default:
 
-		}
-	}
+        }
+    }
 
 }

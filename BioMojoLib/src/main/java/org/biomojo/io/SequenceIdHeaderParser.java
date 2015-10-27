@@ -24,12 +24,12 @@ import org.java0.string.ByteArrayConverter;
  *
  */
 public class SequenceIdHeaderParser implements HeaderParser {
-	/**
-	 * @see org.biomojo.io.HeaderParser#parseHeader(org.biomojo.sequence.SeqI,
-	 *      byte[])
-	 */
-	@Override
-	public void parseHeader(final Seq<?, ?> sequence, final byte[] headerData) {
-		sequence.setId(ByteArrayConverter.toLong(headerData));
-	}
+    /**
+     * @see org.biomojo.io.HeaderParser#parseHeader(org.biomojo.sequence.SeqI,
+     *      byte[])
+     */
+    @Override
+    public void parseHeader(final Seq<?, ?> sequence, final byte[] headerData) {
+        sequence.setId(ByteArrayConverter.toLong(headerData));
+    }
 }

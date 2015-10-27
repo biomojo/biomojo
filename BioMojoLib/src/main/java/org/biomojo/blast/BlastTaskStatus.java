@@ -18,5 +18,5 @@
 package org.biomojo.blast;
 
 public enum BlastTaskStatus {
-	UNKNOWN, READY, STARTING, RUNNING, DONE, FAILED;
+    UNKNOWN, READY, STARTING, RUNNING, DONE, FAILED;
 }

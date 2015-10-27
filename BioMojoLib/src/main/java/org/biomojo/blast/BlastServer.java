@@ -31,57 +31,52 @@ import org.slf4j.LoggerFactory;
 
 @Named
 public class BlastServer {
-	private final static Logger logger = LoggerFactory
-			.getLogger(BlastServer.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(BlastServer.class.getName());
 
-	@Inject
-	private BlastService blastService;
+    @Inject
+    private BlastService blastService;
 
-	public void runBlastServer(int numThreads) {
-		logger.info("Starting blast server");
+    public void runBlastServer(int numThreads) {
+        logger.info("Starting blast server");
 
-		BlockingQueue<Runnable> queue = new SynchronousQueue<Runnable>();
-		ThreadPoolExecutor executor = new ThreadPoolExecutor(0,
-				Integer.MAX_VALUE, 10, TimeUnit.SECONDS, queue);
+        BlockingQueue<Runnable> queue = new SynchronousQueue<Runnable>();
+        ThreadPoolExecutor executor = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 10, TimeUnit.SECONDS, queue);
 
-		while (true) {
-			try {
-				logger.info("Checking for free threads");
-				if (executor.getActiveCount() < numThreads) {
-					final BlastTask blastTask;
-					logger.info("Checking for READY blast tasks");
-					if ((blastTask = blastService.getNextBlastTask()) != null) {
-						executor.submit(new Runnable() {
-							@Override
-							public void run() {
-								try {
-									blastService.runBlast(blastTask.getId());
-								} catch (Throwable e) {
-									logger.error("Blast task failed"
-											+ e.toString());
-									blastService.updateBlastTaskStatus(
-											blastTask.getId(),
-											BlastTaskStatus.FAILED);
-								}
-							}
-						});
+        while (true) {
+            try {
+                logger.info("Checking for free threads");
+                if (executor.getActiveCount() < numThreads) {
+                    final BlastTask blastTask;
+                    logger.info("Checking for READY blast tasks");
+                    if ((blastTask = blastService.getNextBlastTask()) != null) {
+                        executor.submit(new Runnable() {
+                            @Override
+                            public void run() {
+                                try {
+                                    blastService.runBlast(blastTask.getId());
+                                } catch (Throwable e) {
+                                    logger.error("Blast task failed" + e.toString());
+                                    blastService.updateBlastTaskStatus(blastTask.getId(), BlastTaskStatus.FAILED);
+                                }
+                            }
+                        });
 
-					} else {
-						logger.info("No more blast tasks, sleeping for 60 seconds");
-						ProcessUtil.sleep(60000);
-					}
+                    } else {
+                        logger.info("No more blast tasks, sleeping for 60 seconds");
+                        ProcessUtil.sleep(60000);
+                    }
 
-				} else {
-					logger.info("All threads in use, sleeping for 5 seconds");
-					ProcessUtil.sleep(5000);
+                } else {
+                    logger.info("All threads in use, sleeping for 5 seconds");
+                    ProcessUtil.sleep(5000);
 
-				}
-			} catch (Exception e) {
-				logger.error("Received eexception", e);
-			}
+                }
+            } catch (Exception e) {
+                logger.error("Received eexception", e);
+            }
 
-			ProcessUtil.sleep(1000);
-		}
+            ProcessUtil.sleep(1000);
+        }
 
-	}
+    }
 }

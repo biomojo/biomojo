@@ -24,12 +24,11 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class SubstitutionMatrixFactory {
-	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory
-			.getLogger(SubstitutionMatrixFactory.class.getName());
+    @SuppressWarnings("unused")
+    private static final Logger logger = LoggerFactory.getLogger(SubstitutionMatrixFactory.class.getName());
 
-	public ByteSubstitutionMatrix getMatrix(int baseType, int variant) {
-		return null;
+    public ByteSubstitutionMatrix getMatrix(int baseType, int variant) {
+        return null;
 
-	}
+    }
 }

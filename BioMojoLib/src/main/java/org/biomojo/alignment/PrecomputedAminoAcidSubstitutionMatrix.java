@@ -41,86 +41,77 @@ import org.slf4j.LoggerFactory;
  * @author Hugh Eaves
  *
  */
-public class PrecomputedAminoAcidSubstitutionMatrix extends
-		AbstractByteSubstitutionMatrix implements ByteSubstitutionMatrix {
-	private static final Logger logger = LoggerFactory
-			.getLogger(PrecomputedAminoAcidSubstitutionMatrix.class.getName());
+public class PrecomputedAminoAcidSubstitutionMatrix extends AbstractByteSubstitutionMatrix
+        implements ByteSubstitutionMatrix {
+    private static final Logger logger = LoggerFactory
+            .getLogger(PrecomputedAminoAcidSubstitutionMatrix.class.getName());
 
-	public static char[] AMINO_ACID_ORDER = { AminoAcids.ALANINE,
-			AminoAcids.ARGININE, AminoAcids.ASPARAGINE,
-			AminoAcids.ASPARTIC_ACID, AminoAcids.CYSTEINE,
-			AminoAcids.GLUTAMINE, AminoAcids.GLUTAMIC_ACID, AminoAcids.GLYCINE,
-			AminoAcids.HISTIDINE, AminoAcids.ISOLEUCINE, AminoAcids.LEUCINE,
-			AminoAcids.LYSINE, AminoAcids.METHIONINE, AminoAcids.PHENYLALANINE,
-			AminoAcids.PROLINE, AminoAcids.SERINE, AminoAcids.THREONINE,
-			AminoAcids.TRYPTOPHAN, AminoAcids.TYROSINE, AminoAcids.VALINE,
-			AminoAcids.ASPARTIC_ACID_OR_ASPARAGINE,
-			AminoAcids.GLUTAMIC_ACID_OR_GLUTAMINE, AminoAcids.ANY,
-			AminoAcids.STOP };
+    public static char[] AMINO_ACID_ORDER = { AminoAcids.ALANINE, AminoAcids.ARGININE, AminoAcids.ASPARAGINE,
+            AminoAcids.ASPARTIC_ACID, AminoAcids.CYSTEINE, AminoAcids.GLUTAMINE, AminoAcids.GLUTAMIC_ACID,
+            AminoAcids.GLYCINE, AminoAcids.HISTIDINE, AminoAcids.ISOLEUCINE, AminoAcids.LEUCINE, AminoAcids.LYSINE,
+            AminoAcids.METHIONINE, AminoAcids.PHENYLALANINE, AminoAcids.PROLINE, AminoAcids.SERINE,
+            AminoAcids.THREONINE, AminoAcids.TRYPTOPHAN, AminoAcids.TYROSINE, AminoAcids.VALINE,
+            AminoAcids.ASPARTIC_ACID_OR_ASPARAGINE, AminoAcids.GLUTAMIC_ACID_OR_GLUTAMINE, AminoAcids.ANY,
+            AminoAcids.STOP };
 
-	protected static final String PATH_PREFIX = "org/biomojo/alignment/matrix/";
+    protected static final String PATH_PREFIX = "org/biomojo/alignment/matrix/";
 
-	public PrecomputedAminoAcidSubstitutionMatrix(String prefix, int instance) {
-		super(Alphabets.getAlphabet(AlphabetId.AMINO_ACID
-				| IUPACAlphabetVariant.WITH_ANY
-				| IUPACAlphabetVariant.WITH_AMBIGIGUITY, ByteAlphabet.class));
+    public PrecomputedAminoAcidSubstitutionMatrix(String prefix, int instance) {
+        super(Alphabets.getAlphabet(
+                AlphabetId.AMINO_ACID | IUPACAlphabetVariant.WITH_ANY | IUPACAlphabetVariant.WITH_AMBIGIGUITY,
+                ByteAlphabet.class));
 
-		String fileName = PATH_PREFIX + prefix + instance;
+        String fileName = PATH_PREFIX + prefix + instance;
 
-		logger.debug("Reading substitution matrix from file {}", fileName);
+        logger.debug("Reading substitution matrix from file {}", fileName);
 
-		BufferedReader reader = new BufferedReader(new InputStreamReader(Thread
-				.currentThread().getContextClassLoader()
-				.getResourceAsStream(fileName)));
+        BufferedReader reader = new BufferedReader(
+                new InputStreamReader(Thread.currentThread().getContextClassLoader().getResourceAsStream(fileName)));
 
-		try {
-			int validLines = 0;
-			for (String line = reader.readLine(); line != null; line = reader
-					.readLine()) {
-				logger.debug("Read line [{}]", line);
-				line = line.trim();
-				String[] tokens = line.split("\\s+");
-				if ((tokens.length == AMINO_ACID_ORDER.length + 1)
-						&& tokens[0] != "#") {
-					String aminoAcid = tokens[0];
-					if (aminoAcid.length() != 1) {
-						throw new ParseException(
-								"Invalid substitution matrix line in "
-										+ fileName + ": [" + line + "]");
+        try {
+            int validLines = 0;
+            for (String line = reader.readLine(); line != null; line = reader.readLine()) {
+                logger.debug("Read line [{}]", line);
+                line = line.trim();
+                String[] tokens = line.split("\\s+");
+                if ((tokens.length == AMINO_ACID_ORDER.length + 1) && tokens[0] != "#") {
+                    String aminoAcid = tokens[0];
+                    if (aminoAcid.length() != 1) {
+                        throw new ParseException(
+                                "Invalid substitution matrix line in " + fileName + ": [" + line + "]");
 
-					}
-					char fromChar = aminoAcid.charAt(0);
-					if (getOrder(fromChar) < 0) {
-						throw new ParseException(
-								"Invalid substitution matrix line in "
-										+ fileName + ": [" + line + "]");
-					}
+                    }
+                    char fromChar = aminoAcid.charAt(0);
+                    if (getOrder(fromChar) < 0) {
+                        throw new ParseException(
+                                "Invalid substitution matrix line in " + fileName + ": [" + line + "]");
+                    }
 
-					for (int i = 1; i < tokens.length; ++i) {
-						int score = Integer.parseInt(tokens[i]);
-						char toChar = AMINO_ACID_ORDER[i - 1];
-						setScore(fromChar, toChar, score);
-					}
-					++validLines;
-				}
-			}
+                    for (int i = 1; i < tokens.length; ++i) {
+                        int score = Integer.parseInt(tokens[i]);
+                        char toChar = AMINO_ACID_ORDER[i - 1];
+                        setScore(fromChar, toChar, score);
+                    }
+                    ++validLines;
+                }
+            }
 
-			if (validLines < AMINO_ACID_ORDER.length) {
-				throw new ParseException("Missing lines in " + fileName);
-			}
+            if (validLines < AMINO_ACID_ORDER.length) {
+                throw new ParseException("Missing lines in " + fileName);
+            }
 
-			reader.close();
-		} catch (IOException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-		}
-	}
+            reader.close();
+        } catch (IOException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        }
+    }
 
-	protected int getOrder(char aminoAcid) {
-		for (int i = 0; i < AMINO_ACID_ORDER.length; ++i) {
-			if (AMINO_ACID_ORDER[i] == aminoAcid) {
-				return i;
-			}
-		}
-		return -1;
-	}
+    protected int getOrder(char aminoAcid) {
+        for (int i = 0; i < AMINO_ACID_ORDER.length; ++i) {
+            if (AMINO_ACID_ORDER[i] == aminoAcid) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

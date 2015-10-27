@@ -24,13 +24,10 @@ import org.biomojo.alphabet.DNAAlphabet;
  * @author Hugh Eaves
  *
  */
-public class BioJavaDNASequenceFactory implements
-		BioJavaSequenceFactory<DNASequence, DNAAlphabet> {
+public class BioJavaDNASequenceFactory implements BioJavaSequenceFactory<DNASequence, DNAAlphabet> {
 
-	@Override
-	public DNASequence createSequence(
-			final org.biomojo.sequence.ByteSeq<DNAAlphabet> sequence) {
-		return new DNASequence(new BioJavaSequenceAdapter<NucleotideCompound>(
-				sequence));
-	}
+    @Override
+    public DNASequence createSequence(final org.biomojo.sequence.ByteSeq<DNAAlphabet> sequence) {
+        return new DNASequence(new BioJavaSequenceAdapter<NucleotideCompound>(sequence));
+    }
 }

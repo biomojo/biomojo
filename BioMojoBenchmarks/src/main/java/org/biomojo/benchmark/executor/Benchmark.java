@@ -21,10 +21,10 @@ package org.biomojo.benchmark.executor;
  *
  */
 public enum Benchmark {
-	LOAD_FASTA, LOAD_FASTQ, READ_FASTA, READ_FASTQ, ALIGN, TRANSLATE, TRIM;
+    LOAD_FASTA, LOAD_FASTQ, READ_FASTA, READ_FASTQ, ALIGN, TRANSLATE, TRIM;
 
-	@Override
-	public String toString() {
-		return super.toString().toLowerCase();
-	}
+    @Override
+    public String toString() {
+        return super.toString().toLowerCase();
+    }
 }

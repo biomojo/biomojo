@@ -39,59 +39,57 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(commandNames = "load_fasta")
 public class LoadFastaCommand extends BaseCommand {
-	private static final Logger logger = LoggerFactory
-			.getLogger(LoadFastaCommand.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(LoadFastaCommand.class.getName());
 
-	/**
-	 * @see org.java0.cli.Command#run()
-	 */
-	@Override
-	public void run() {
-		try {
-			logger.info("BioMojo Fasta Load Benchmark");
+    /**
+     * @see org.java0.cli.Command#run()
+     */
+    @Override
+    public void run() {
+        try {
+            logger.info("BioMojo Fasta Load Benchmark");
 
-			final FastaInputStream inputStream = new FastaInputStream(
-					new FileInputStream(inputFile),
-					new SequenceIdHeaderParser());
-			final List<ByteSeq<IUPACAlphabet>> sequences = new ArrayList<ByteSeq<IUPACAlphabet>>();
+            final FastaInputStream inputStream = new FastaInputStream(new FileInputStream(inputFile),
+                    new SequenceIdHeaderParser());
+            final List<ByteSeq<IUPACAlphabet>> sequences = new ArrayList<ByteSeq<IUPACAlphabet>>();
 
-			int recordCount = 0;
-			long totalLength = 0;
-			int lastLog = 0;
+            int recordCount = 0;
+            long totalLength = 0;
+            int lastLog = 0;
 
-			Supplier<ByteSeq<IUPACAlphabet>> suppier = new ByteSeqProvider();
-			if (encode) {
-				suppier = new EncodedByteSeqProvider();
-			}
-			ByteSeq<IUPACAlphabet> sequence = suppier.get();
+            Supplier<ByteSeq<IUPACAlphabet>> suppier = new ByteSeqProvider();
+            if (encode) {
+                suppier = new EncodedByteSeqProvider();
+            }
+            ByteSeq<IUPACAlphabet> sequence = suppier.get();
 
-			while (inputStream.read(sequence)) {
-				sequences.add(sequence);
-				totalLength += sequence.size();
-				++recordCount;
-				final int log = (int) (Math.log(recordCount) / Math.log(1.015));
-				if (log != lastLog) {
-					lastLog = log;
-					logger.info("Loaded " + recordCount + " sequences so far");
-					System.gc();
-				}
-				sequence = suppier.get();
-			}
+            while (inputStream.read(sequence)) {
+                sequences.add(sequence);
+                totalLength += sequence.size();
+                ++recordCount;
+                final int log = (int) (Math.log(recordCount) / Math.log(1.015));
+                if (log != lastLog) {
+                    lastLog = log;
+                    logger.info("Loaded " + recordCount + " sequences so far");
+                    System.gc();
+                }
+                sequence = suppier.get();
+            }
 
-			inputStream.close();
-			System.gc();
-			logger.info("Done loading " + sequences.size() + " sequences");
-			logger.info("Total length is " + totalLength + " bases");
+            inputStream.close();
+            System.gc();
+            logger.info("Done loading " + sequences.size() + " sequences");
+            logger.info("Total length is " + totalLength + " bases");
 
-			Thread.sleep(0);
+            Thread.sleep(0);
 
-		} catch (final FileNotFoundException e) {
-			throw new UncheckedException(e);
-		} catch (final IOException e) {
-			throw new UncheckedException(e);
-		} catch (final InterruptedException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-		}
+        } catch (final FileNotFoundException e) {
+            throw new UncheckedException(e);
+        } catch (final IOException e) {
+            throw new UncheckedException(e);
+        } catch (final InterruptedException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        }
 
-	}
+    }
 }

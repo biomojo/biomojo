@@ -16,9 +16,8 @@
  */
 package org.biomojo.task;
 
-
 public interface LocalResource {
-	public Node getNode();
+    public Node getNode();
 
-	public void setNode(Node node);
+    public void setNode(Node node);
 }

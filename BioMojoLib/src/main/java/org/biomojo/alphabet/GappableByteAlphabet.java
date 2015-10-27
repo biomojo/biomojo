@@ -25,21 +25,20 @@ import org.biomojo.symbols.CommonSymbols;
  *
  */
 public interface GappableByteAlphabet<A extends GappableByteAlphabet<A>>
-		extends ByteAlphabet, GappableAlphabet<Byte, A> {
+        extends ByteAlphabet, GappableAlphabet<Byte, A> {
 
-	@Override
-	public default A getGapped() {
-		return (A) Alphabets.getAlphabet(getId()
-				| IUPACAlphabetVariant.WITH_GAP, IUPACAlphabet.class);
-	}
+    @Override
+    public default A getGapped() {
+        return (A) Alphabets.getAlphabet(getId() | IUPACAlphabetVariant.WITH_GAP, IUPACAlphabet.class);
+    }
 
-	@Override
-	public default boolean supportsGaps() {
-		return ((getId() & IUPACAlphabetVariant.WITH_GAP) != 0);
-	}
+    @Override
+    public default boolean supportsGaps() {
+        return ((getId() & IUPACAlphabetVariant.WITH_GAP) != 0);
+    }
 
-	@Override
-	public default Byte gapSymbol() {
-		return CommonSymbols.GAP;
-	}
+    @Override
+    public default Byte gapSymbol() {
+        return CommonSymbols.GAP;
+    }
 }

@@ -24,7 +24,6 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class ProcessFastaCommand {
-	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory
-			.getLogger(ProcessFastaCommand.class.getName());
+    @SuppressWarnings("unused")
+    private static final Logger logger = LoggerFactory.getLogger(ProcessFastaCommand.class.getName());
 }

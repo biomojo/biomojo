@@ -31,23 +31,22 @@ import org.java0.collection.DefaultList;
  */
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class AbstractSeqList<T extends Seq<?, ?>> extends
-		AbstractPropertiedEntity implements SeqList<T>, Serializable,
-		DefaultList<T> {
-	/**
+public abstract class AbstractSeqList<T extends Seq<?, ?>> extends AbstractPropertiedEntity
+        implements SeqList<T>, Serializable, DefaultList<T> {
+    /**
      *
      */
-	private static final long serialVersionUID = 717088554484595404L;
+    private static final long serialVersionUID = 717088554484595404L;
 
-	CharSequence description;
+    CharSequence description;
 
-	@Override
-	public CharSequence getDescription() {
-		return description;
-	}
+    @Override
+    public CharSequence getDescription() {
+        return description;
+    }
 
-	@Override
-	public void setDescription(final CharSequence description) {
-		this.description = description;
-	}
+    @Override
+    public void setDescription(final CharSequence description) {
+        this.description = description;
+    }
 }

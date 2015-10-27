@@ -42,51 +42,48 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(commandNames = "fastahead", commandDescription = "Copy n records from the head of a FASTA file")
 public class FastaHeadCommand extends InputOutputCommand {
-	private static final Logger logger = LoggerFactory
-			.getLogger(FastaHeadCommand.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(FastaHeadCommand.class.getName());
 
-	@Parameter(names = { "-n", "--numrecs" }, required = true, description = "Number of records to copy")
-	protected int numRecords = 0;
+    @Parameter(names = { "-n", "--numrecs" }, required = true, description = "Number of records to copy")
+    protected int numRecords = 0;
 
-	@Parameter(names = { "-c", "--canonicalize" }, description = "Canonicalize characters")
-	protected boolean canonicalize;
+    @Parameter(names = { "-c", "--canonicalize" }, description = "Canonicalize characters")
+    protected boolean canonicalize;
 
-	/**
-	 * @see org.java0.cli.Command#run()
-	 */
-	@Override
-	public void run() {
+    /**
+     * @see org.java0.cli.Command#run()
+     */
+    @Override
+    public void run() {
 
-		try {
-			final FastaInputStream input = new FastaInputStream(
-					new FileInputStream(inputFile));
-			final FastaOutputStream output = new FastaOutputStream(
-					new FileOutputStream(outputFile));
-			ByteSeq<ByteAlphabet> record = new ByteSeqImpl<ByteAlphabet>(
-					Alphabets.getAlphabet(AlphabetId.DNA, ByteAlphabet.class));
-			int i = 0;
-			while (i < numRecords) {
-				try {
-					if (!input.read(record)) {
-						break;
-					}
-					if (canonicalize) {
-						record.canonicalize();
-					}
-					output.write(record);
-					++i;
-				} catch (final InvalidSymbolException e) {
-					logger.info("Skipping record ", e);
-				}
+        try {
+            final FastaInputStream input = new FastaInputStream(new FileInputStream(inputFile));
+            final FastaOutputStream output = new FastaOutputStream(new FileOutputStream(outputFile));
+            ByteSeq<ByteAlphabet> record = new ByteSeqImpl<ByteAlphabet>(
+                    Alphabets.getAlphabet(AlphabetId.DNA, ByteAlphabet.class));
+            int i = 0;
+            while (i < numRecords) {
+                try {
+                    if (!input.read(record)) {
+                        break;
+                    }
+                    if (canonicalize) {
+                        record.canonicalize();
+                    }
+                    output.write(record);
+                    ++i;
+                } catch (final InvalidSymbolException e) {
+                    logger.info("Skipping record ", e);
+                }
 
-			}
-			record = null;
-			input.close();
-			output.close();
-		} catch (final FileNotFoundException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-		} catch (final IOException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-		}
-	}
+            }
+            record = null;
+            input.close();
+            output.close();
+        } catch (final FileNotFoundException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        } catch (final IOException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        }
+    }
 }

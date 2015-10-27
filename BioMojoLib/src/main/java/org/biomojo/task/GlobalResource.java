@@ -16,7 +16,6 @@
  */
 package org.biomojo.task;
 
-
 public interface GlobalResource {
 
 }

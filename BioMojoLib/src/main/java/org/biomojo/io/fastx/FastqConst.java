@@ -21,10 +21,10 @@ package org.biomojo.io.fastx;
  *
  */
 public class FastqConst {
-	public static final byte RECORD_DELIMITER = '@';
-	public static final byte QUALITY_DELIMITER = '+';
+    public static final byte RECORD_DELIMITER = '@';
+    public static final byte QUALITY_DELIMITER = '+';
 
-	private FastqConst() {
+    private FastqConst() {
 
-	}
+    }
 }

@@ -23,9 +23,9 @@ import org.biomojo.core.IdBasedFactory;
  *
  */
 public class CodonTables {
-	private static IdBasedFactory<CodonTable> factory = new DefaultCodonTableFactory();
+    private static IdBasedFactory<CodonTable> factory = new DefaultCodonTableFactory();
 
-	public static CodonTable getCodonTable(int id) {
-		return factory.getInstance(id, CodonTable.class);
-	}
+    public static CodonTable getCodonTable(int id) {
+        return factory.getInstance(id, CodonTable.class);
+    }
 }

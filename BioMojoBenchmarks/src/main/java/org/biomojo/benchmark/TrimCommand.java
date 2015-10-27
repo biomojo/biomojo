@@ -42,87 +42,80 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(commandNames = "trim")
 public class TrimCommand extends BaseCommand {
-	private static final Logger logger = LoggerFactory
-			.getLogger(TrimCommand.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(TrimCommand.class.getName());
 
-	@Parameter(names = { "-q", "--qscore" }, description = "Minimum quality score for trimming")
-	private final int cutoff = 30;
+    @Parameter(names = { "-q", "--qscore" }, description = "Minimum quality score for trimming")
+    private final int cutoff = 30;
 
-	/**
-	 * @see org.java0.cli.Command#run()
-	 */
-	@Override
-	public void run() {
-		try {
-			logger.info("BioMojo Fastq trim benchmark");
+    /**
+     * @see org.java0.cli.Command#run()
+     */
+    @Override
+    public void run() {
+        try {
+            logger.info("BioMojo Fastq trim benchmark");
 
-			final FastqInputStream inputStream = new FastqInputStream(
-					new FileInputStream(inputFile), false);
-			final FastqOutputStream outputStream = new FastqOutputStream(
-					new BufferedOutputStream(new FileOutputStream(outputFile),
-							1024 * 1024));
+            final FastqInputStream inputStream = new FastqInputStream(new FileInputStream(inputFile), false);
+            final FastqOutputStream outputStream = new FastqOutputStream(
+                    new BufferedOutputStream(new FileOutputStream(outputFile), 1024 * 1024));
 
-			Supplier<FastqSeq<NucleotideAlphabet>> provider = new FastqSeqProvider();
-			if (encode) {
-				provider = new EncodedFastqSeqProvider();
-			}
-			final FastqSeq<NucleotideAlphabet> sequence = provider.get();
+            Supplier<FastqSeq<NucleotideAlphabet>> provider = new FastqSeqProvider();
+            if (encode) {
+                provider = new EncodedFastqSeqProvider();
+            }
+            final FastqSeq<NucleotideAlphabet> sequence = provider.get();
 
-			int recordCount = 0;
-			long totalLength = 0;
-			long qualityLength = 0;
+            int recordCount = 0;
+            long totalLength = 0;
+            long qualityLength = 0;
 
-			while (inputStream.read(sequence)) {
+            while (inputStream.read(sequence)) {
 
-				final int end = sequence.size() - 1;
-				final byte[] sequenceData = sequence.getAllBytes();
-				final byte[] quality = sequence.getQualityScores()
-						.getAllBytes();
-				++recordCount;
-				totalLength += sequenceData.length;
-				qualityLength += quality.length;
+                final int end = sequence.size() - 1;
+                final byte[] sequenceData = sequence.getAllBytes();
+                final byte[] quality = sequence.getQualityScores().getAllBytes();
+                ++recordCount;
+                totalLength += sequenceData.length;
+                qualityLength += quality.length;
 
-				int trimPos = -1;
-				for (int j = end; j >= 0; --j) {
-					if ((quality[j] - 33) >= cutoff) {
-						trimPos = j;
-						break;
-					}
-				}
+                int trimPos = -1;
+                for (int j = end; j >= 0; --j) {
+                    if ((quality[j] - 33) >= cutoff) {
+                        trimPos = j;
+                        break;
+                    }
+                }
 
-				if (trimPos >= 0) {
+                if (trimPos >= 0) {
 
-					if (trimPos < end) {
-						sequence.setAll(Arrays.copyOfRange(sequenceData, 0,
-								trimPos + 1), false);
-						sequence.getQualityScores().setAll(
-								Arrays.copyOfRange(quality, 0, trimPos + 1),
-								false);
-					}
+                    if (trimPos < end) {
+                        sequence.setAll(Arrays.copyOfRange(sequenceData, 0, trimPos + 1), false);
+                        sequence.getQualityScores().setAll(Arrays.copyOfRange(quality, 0, trimPos + 1), false);
+                    }
 
-					outputStream.write(sequence);
-				}
-			}
+                    outputStream.write(sequence);
+                }
+            }
 
-			inputStream.close();
-			outputStream.close();
-			logger.info("Done loading " + recordCount + " sequences");
-			logger.info("Total sequence length is " + totalLength + " bases");
-			logger.info("Total quality length is " + qualityLength + " values");
+            inputStream.close();
+            outputStream.close();
+            logger.info("Done loading " + recordCount + " sequences");
+            logger.info("Total sequence length is " + totalLength + " bases");
+            logger.info("Total quality length is " + qualityLength + " values");
 
-			try {
-				Thread.sleep(0);
-			} catch (final InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+            try {
+                Thread.sleep(0);
+            } catch (final InterruptedException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
 
-		} catch (final ParseException e) {
-			throw new UncheckedException(e);
-		} catch (final FileNotFoundException e) {
-			throw new UncheckedException(e);
-		} catch (final IOException e) {
-			throw new UncheckedException(e);
-		}
-	}
+        } catch (final ParseException e) {
+            throw new UncheckedException(e);
+        } catch (final FileNotFoundException e) {
+            throw new UncheckedException(e);
+        } catch (final IOException e) {
+            throw new UncheckedException(e);
+        }
+    }
 }

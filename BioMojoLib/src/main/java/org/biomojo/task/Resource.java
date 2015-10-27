@@ -20,9 +20,9 @@ import org.biomojo.core.AbstractEntity;
 
 public abstract class Resource extends AbstractEntity {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -6045171143568357020L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -6045171143568357020L;
 
 }

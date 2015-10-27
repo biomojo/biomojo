@@ -29,77 +29,71 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class LockUtil {
-	private static final Logger logger = LoggerFactory.getLogger(LockUtil.class
-			.getName());
+    private static final Logger logger = LoggerFactory.getLogger(LockUtil.class.getName());
 
-	private static final int MAX_ATTEMPTS = 1000;
+    private static final int MAX_ATTEMPTS = 1000;
 
-	private Path path;
-	private FileChannel fileChannel;
-	private FileLock fileLock;
+    private Path path;
+    private FileChannel fileChannel;
+    private FileLock fileLock;
 
-	public LockUtil(File file) {
-		try {
-			path = FileSystems.getDefault().getPath(
-					file.getCanonicalPath() + ".lock");
-		} catch (IOException e) {
-			throw new UncheckedException(e);
-		}
-	}
+    public LockUtil(File file) {
+        try {
+            path = FileSystems.getDefault().getPath(file.getCanonicalPath() + ".lock");
+        } catch (IOException e) {
+            throw new UncheckedException(e);
+        }
+    }
 
-	public void lock() {
+    public void lock() {
 
-		if (fileLock != null) {
-			throw new UncheckedException("lock file " + path + " already locked");
-		}
+        if (fileLock != null) {
+            throw new UncheckedException("lock file " + path + " already locked");
+        }
 
-		try {
-			logger.debug("Creating lock file: " + path);
-			fileChannel = FileChannel.open(path, StandardOpenOption.WRITE,
-					StandardOpenOption.CREATE);
-		} catch (IOException e) {
-			throw new UncheckedException(e);
-		}
+        try {
+            logger.debug("Creating lock file: " + path);
+            fileChannel = FileChannel.open(path, StandardOpenOption.WRITE, StandardOpenOption.CREATE);
+        } catch (IOException e) {
+            throw new UncheckedException(e);
+        }
 
-		for (int i = 1; i <= MAX_ATTEMPTS; ++i) {
-			try {
-				logger.debug("Attempting lock on lock file: " + path);
-				fileLock = fileChannel.lock();
-				logger.debug("Obtained lock on lock file: " + path);
-				break;
-			} catch (IOException e) {
-				logger.debug("Lock attempt " + i + ", received IOException: "
-						+ e.toString());
-				int sleepTime = (5000 * (i - 1)) + 2000;
-				logger.debug("Sleeping for " + sleepTime
-						+ "ms before next attempt");
-				try {
-					Thread.sleep(sleepTime);
-				} catch (InterruptedException e1) {
-				}
-			}
-		}
+        for (int i = 1; i <= MAX_ATTEMPTS; ++i) {
+            try {
+                logger.debug("Attempting lock on lock file: " + path);
+                fileLock = fileChannel.lock();
+                logger.debug("Obtained lock on lock file: " + path);
+                break;
+            } catch (IOException e) {
+                logger.debug("Lock attempt " + i + ", received IOException: " + e.toString());
+                int sleepTime = (5000 * (i - 1)) + 2000;
+                logger.debug("Sleeping for " + sleepTime + "ms before next attempt");
+                try {
+                    Thread.sleep(sleepTime);
+                } catch (InterruptedException e1) {
+                }
+            }
+        }
 
-		if (fileLock == null) {
-			throw new UncheckedException("Unable to obtain lock on lock file: "
-					+ path);
-		}
+        if (fileLock == null) {
+            throw new UncheckedException("Unable to obtain lock on lock file: " + path);
+        }
 
-	}
+    }
 
-	public void unlock() {
-		try {
-			logger.debug("Releasing lock on lock file: " + path);
+    public void unlock() {
+        try {
+            logger.debug("Releasing lock on lock file: " + path);
 
-			fileLock.release();
-			fileChannel.close();
+            fileLock.release();
+            fileChannel.close();
 
-			logger.debug("Released lock on lock file: " + path);
+            logger.debug("Released lock on lock file: " + path);
 
-			fileLock = null;
-			fileChannel = null;
-		} catch (IOException e) {
-			throw new UncheckedException(e);
-		}
-	}
+            fileLock = null;
+            fileChannel = null;
+        } catch (IOException e) {
+            throw new UncheckedException(e);
+        }
+    }
 }

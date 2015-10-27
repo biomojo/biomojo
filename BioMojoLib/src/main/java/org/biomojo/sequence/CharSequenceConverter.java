@@ -24,15 +24,14 @@ import javax.persistence.Converter;
  *
  */
 @Converter(autoApply = true)
-public class CharSequenceConverter implements
-		AttributeConverter<CharSequence, String> {
-	@Override
-	public String convertToDatabaseColumn(CharSequence charSequence) {
-		return charSequence.toString();
-	}
+public class CharSequenceConverter implements AttributeConverter<CharSequence, String> {
+    @Override
+    public String convertToDatabaseColumn(CharSequence charSequence) {
+        return charSequence.toString();
+    }
 
-	@Override
-	public CharSequence convertToEntityAttribute(String string) {
-		return string;
-	}
+    @Override
+    public CharSequence convertToEntityAttribute(String string) {
+        return string;
+    }
 }

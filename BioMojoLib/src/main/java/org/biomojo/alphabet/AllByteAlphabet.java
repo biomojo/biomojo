@@ -17,98 +17,95 @@
 
 package org.biomojo.alphabet;
 
+public class AllByteAlphabet extends AbstractAlphabet<Byte> implements ByteAlphabet {
+    public static final AllByteAlphabet INSTANCE = new AllByteAlphabet();
 
-public class AllByteAlphabet extends AbstractAlphabet<Byte> implements
-		ByteAlphabet {
-	public static final AllByteAlphabet INSTANCE = new AllByteAlphabet();
+    private static final int NUM_SYMBOLS = 256;
 
-	private static final int NUM_SYMBOLS = 256;
+    private AllByteAlphabet() {
+        super(AlphabetId.ALL_BYTE);
+    }
 
-	private AllByteAlphabet() {
-		super(AlphabetId.ALL_BYTE);
-	}
+    /**
+     * @see org.biomojo.alphabet.Alphabet#numSymbols()
+     */
+    @Override
+    public int numSymbols() {
+        return NUM_SYMBOLS;
+    }
 
-	/**
-	 * @see org.biomojo.alphabet.Alphabet#numSymbols()
-	 */
-	@Override
-	public int numSymbols() {
-		return NUM_SYMBOLS;
-	}
+    /**
+     * @see org.biomojo.alphabet.Alphabet#numCanonicalSymbols()
+     */
+    @Override
+    public int numCanonicalSymbols() {
+        return NUM_SYMBOLS;
+    }
 
-	/**
-	 * @see org.biomojo.alphabet.Alphabet#numCanonicalSymbols()
-	 */
-	@Override
-	public int numCanonicalSymbols() {
-		return NUM_SYMBOLS;
-	}
+    /**
+     * @see org.biomojo.alphabet.ByteAlphabet#getOrdinalForSymbol(byte)
+     */
+    @Override
+    public int getOrdinalForSymbol(final byte value) {
+        return value & 0xff;
+    }
 
-	/**
-	 * @see org.biomojo.alphabet.ByteAlphabet#getOrdinalForSymbol(byte)
-	 */
-	@Override
-	public int getOrdinalForSymbol(final byte value) {
-		return value & 0xff;
-	}
+    /**
+     * @see org.biomojo.alphabet.ByteAlphabet#getByteSymbolForOrdinal(int)
+     */
+    @Override
+    public byte getByteSymbolForOrdinal(final int ordinal) {
+        return (byte) (ordinal & 0xff);
+    }
 
-	/**
-	 * @see org.biomojo.alphabet.ByteAlphabet#getByteSymbolForOrdinal(int)
-	 */
-	@Override
-	public byte getByteSymbolForOrdinal(final int ordinal) {
-		return (byte) (ordinal & 0xff);
-	}
+    /**
+     * @see org.biomojo.alphabet.ByteAlphabet#isValid(byte)
+     */
+    @Override
+    public boolean isValid(final byte symbol) {
+        return true;
+    }
 
-	/**
-	 * @see org.biomojo.alphabet.ByteAlphabet#isValid(byte)
-	 */
-	@Override
-	public boolean isValid(final byte symbol) {
-		return true;
-	}
+    /**
+     * @see org.biomojo.alphabet.ByteAlphabet#isValid(byte[], int, int)
+     */
+    @Override
+    public boolean isValid(final byte[] symbols, final int start, final int end) {
+        return true;
+    }
 
-	/**
-	 * @see org.biomojo.alphabet.ByteAlphabet#isValid(byte[], int, int)
-	 */
-	@Override
-	public boolean isValid(final byte[] symbols, final int start, final int end) {
-		return true;
-	}
+    /**
+     * @see org.biomojo.alphabet.ByteAlphabet#getCanonical(byte)
+     */
+    @Override
+    public byte getCanonical(final byte symbol) {
+        return symbol;
+    }
 
-	/**
-	 * @see org.biomojo.alphabet.ByteAlphabet#getCanonical(byte)
-	 */
-	@Override
-	public byte getCanonical(final byte symbol) {
-		return symbol;
-	}
+    /**
+     * @see org.biomojo.alphabet.ByteAlphabet#getCanonical(byte[], int, int)
+     */
+    @Override
+    public byte[] getCanonical(final byte[] values, final int start, final int end) {
+        return values;
+    }
 
-	/**
-	 * @see org.biomojo.alphabet.ByteAlphabet#getCanonical(byte[], int, int)
-	 */
-	@Override
-	public byte[] getCanonical(final byte[] values, final int start,
-			final int end) {
-		return values;
-	}
+    /**
+     * @see org.biomojo.alphabet.ByteAlphabet#isCanonical(byte)
+     */
+    @Override
+    public boolean isCanonical(final byte symbol) {
+        return true;
+    }
 
-	/**
-	 * @see org.biomojo.alphabet.ByteAlphabet#isCanonical(byte)
-	 */
-	@Override
-	public boolean isCanonical(final byte symbol) {
-		return true;
-	}
+    @Override
+    public boolean isCanonical() {
+        return true;
+    }
 
-	@Override
-	public boolean isCanonical() {
-		return true;
-	}
-
-	@Override
-	public ByteAlphabet getCanonical() {
-		return this;
-	}
+    @Override
+    public ByteAlphabet getCanonical() {
+        return this;
+    }
 
 }

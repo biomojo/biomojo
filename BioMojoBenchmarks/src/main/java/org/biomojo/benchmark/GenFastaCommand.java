@@ -24,11 +24,11 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(commandNames = "gen_fasta")
 public class GenFastaCommand extends GenCommand {
-	/**
-	 * @see org.java0.cli.Command#run()
-	 */
-	@Override
-	public void run() {
-		new RandomFastaGenerator().createFile(outputFile, numSeqs, seqLength);
-	}
+    /**
+     * @see org.java0.cli.Command#run()
+     */
+    @Override
+    public void run() {
+        new RandomFastaGenerator().createFile(outputFile, numSeqs, seqLength);
+    }
 }

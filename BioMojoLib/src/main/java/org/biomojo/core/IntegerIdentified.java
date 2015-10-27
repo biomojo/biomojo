@@ -21,10 +21,10 @@ package org.biomojo.core;
  *
  */
 public interface IntegerIdentified {
-	/**
-	 * Get the unique numeric identifier for this object.
-	 *
-	 * @return the id
-	 */
-	public int getId();
+    /**
+     * Get the unique numeric identifier for this object.
+     *
+     * @return the id
+     */
+    public int getId();
 }

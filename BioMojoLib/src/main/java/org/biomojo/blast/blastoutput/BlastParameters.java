@@ -28,9 +28,8 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "matrix", "expect", "include", "matchScore",
-        "mismatchScore", "gapOpen", "gapExtend", "filter", "pattern",
-        "entrezQuery" })
+@XmlType(name = "", propOrder = { "matrix", "expect", "include", "matchScore", "mismatchScore", "gapOpen", "gapExtend",
+        "filter", "pattern", "entrezQuery" })
 @XmlRootElement(name = "Parameters")
 @Entity
 public class BlastParameters {

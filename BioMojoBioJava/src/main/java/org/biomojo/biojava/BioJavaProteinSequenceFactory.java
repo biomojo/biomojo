@@ -24,13 +24,10 @@ import org.biomojo.alphabet.AminoAcidAlphabet;
  * @author Hugh Eaves
  *
  */
-public class BioJavaProteinSequenceFactory implements
-		BioJavaSequenceFactory<ProteinSequence, AminoAcidAlphabet> {
+public class BioJavaProteinSequenceFactory implements BioJavaSequenceFactory<ProteinSequence, AminoAcidAlphabet> {
 
-	@Override
-	public ProteinSequence createSequence(
-			final org.biomojo.sequence.ByteSeq<AminoAcidAlphabet> sequence) {
-		return new ProteinSequence(
-				new BioJavaSequenceAdapter<AminoAcidCompound>(sequence));
-	}
+    @Override
+    public ProteinSequence createSequence(final org.biomojo.sequence.ByteSeq<AminoAcidAlphabet> sequence) {
+        return new ProteinSequence(new BioJavaSequenceAdapter<AminoAcidCompound>(sequence));
+    }
 }

@@ -23,50 +23,49 @@ import org.biojava.nbio.core.sequence.template.CompoundSet;
  * @author Hugh Eaves
  *
  */
-public class AbstractBioJavaCompoundFactory<T extends Compound> implements
-		BioJavaCompoundFactory<T> {
+public class AbstractBioJavaCompoundFactory<T extends Compound> implements BioJavaCompoundFactory<T> {
 
-	/** The compounds. */
-	protected Object[] compounds = new Object[Byte.MAX_VALUE + 1];
+    /** The compounds. */
+    protected Object[] compounds = new Object[Byte.MAX_VALUE + 1];
 
-	/** The compound set. */
-	protected CompoundSet<T> compoundSet;
+    /** The compound set. */
+    protected CompoundSet<T> compoundSet;
 
-	/**
-	 * Instantiates a new compound factory.
-	 *
-	 * @param compoundSet
-	 *            the compound set
-	 */
-	protected AbstractBioJavaCompoundFactory(CompoundSet<T> compoundSet) {
-		this.compoundSet = compoundSet;
-		char[] symbol = new char[1];
-		for (char i = 0; i < compounds.length; ++i) {
-			symbol[0] = i;
-			compounds[i] = compoundSet.getCompoundForString(new String(symbol));
-		}
-	}
+    /**
+     * Instantiates a new compound factory.
+     *
+     * @param compoundSet
+     *            the compound set
+     */
+    protected AbstractBioJavaCompoundFactory(CompoundSet<T> compoundSet) {
+        this.compoundSet = compoundSet;
+        char[] symbol = new char[1];
+        for (char i = 0; i < compounds.length; ++i) {
+            symbol[0] = i;
+            compounds[i] = compoundSet.getCompoundForString(new String(symbol));
+        }
+    }
 
-	/**
-	 * Gets the compound for.
-	 *
-	 * @param b
-	 *            the b
-	 * @return the compound for
-	 */
-	@Override
-	@SuppressWarnings("unchecked")
-	public T getCompoundFor(byte b) {
-		return (T) compounds[b];
-	}
+    /**
+     * Gets the compound for.
+     *
+     * @param b
+     *            the b
+     * @return the compound for
+     */
+    @Override
+    @SuppressWarnings("unchecked")
+    public T getCompoundFor(byte b) {
+        return (T) compounds[b];
+    }
 
-	/**
-	 * Gets the compound set.
-	 *
-	 * @return the compound set
-	 */
-	@Override
-	public CompoundSet<T> getCompoundSet() {
-		return compoundSet;
-	}
+    /**
+     * Gets the compound set.
+     *
+     * @return the compound set
+     */
+    @Override
+    public CompoundSet<T> getCompoundSet() {
+        return compoundSet;
+    }
 }

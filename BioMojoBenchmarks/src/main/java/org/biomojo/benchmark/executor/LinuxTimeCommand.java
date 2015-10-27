@@ -32,62 +32,60 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class LinuxTimeCommand {
-	private static final Logger logger = LoggerFactory
-			.getLogger(LinuxTimeCommand.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(LinuxTimeCommand.class.getName());
 
-	private File timeOutputFile;
+    private File timeOutputFile;
 
-	public List<String> prepareCommandLine(List<String> command) {
-		try {
-			timeOutputFile = File.createTempFile("time", ".txt");
-		} catch (IOException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-			return command;
-		}
+    public List<String> prepareCommandLine(List<String> command) {
+        try {
+            timeOutputFile = File.createTempFile("time", ".txt");
+        } catch (IOException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+            return command;
+        }
 
-		List<String> newTimeCommand = new ArrayList<>();
+        List<String> newTimeCommand = new ArrayList<>();
 
-		newTimeCommand.add("/usr/bin/time");
-		newTimeCommand.add("-o");
-		newTimeCommand.add(timeOutputFile.getAbsolutePath());
-		newTimeCommand.add("-f");
-		List<String> fields = new ArrayList<>();
-		for (LinuxTimeCommandField field : LinuxTimeCommandField.values()) {
-			fields.add("%" + field.getFieldCode());
-		}
-		newTimeCommand.add(String.join("^", fields));
-		newTimeCommand.addAll(command);
+        newTimeCommand.add("/usr/bin/time");
+        newTimeCommand.add("-o");
+        newTimeCommand.add(timeOutputFile.getAbsolutePath());
+        newTimeCommand.add("-f");
+        List<String> fields = new ArrayList<>();
+        for (LinuxTimeCommandField field : LinuxTimeCommandField.values()) {
+            fields.add("%" + field.getFieldCode());
+        }
+        newTimeCommand.add(String.join("^", fields));
+        newTimeCommand.addAll(command);
 
-		return newTimeCommand;
-	}
+        return newTimeCommand;
+    }
 
-	public Map<LinuxTimeCommandField, Object> getExecutionResults() {
-		List<String> lines;
-		try {
-			lines = Files.readAllLines(timeOutputFile.toPath());
-			timeOutputFile.delete();
-		} catch (IOException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-			return null;
-		}
+    public Map<LinuxTimeCommandField, Object> getExecutionResults() {
+        List<String> lines;
+        try {
+            lines = Files.readAllLines(timeOutputFile.toPath());
+            timeOutputFile.delete();
+        } catch (IOException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+            return null;
+        }
 
-		logger.info("time command result: {} ", lines.get(0));
+        logger.info("time command result: {} ", lines.get(0));
 
-		String[] parsed = lines.get(0).split("\\^");
+        String[] parsed = lines.get(0).split("\\^");
 
-		if (parsed.length == LinuxTimeCommandField.values().length) {
-			Map<LinuxTimeCommandField, Object> result = new HashMap<>();
-			for (LinuxTimeCommandField field : LinuxTimeCommandField.values()) {
-				result.put(field, field.getValue(parsed));
-			}
-			return result;
-		} else {
-			logger.error(
-					"missing fields in parsed time command result {} != {}",
-					parsed.length, LinuxTimeCommandField.values().length);
+        if (parsed.length == LinuxTimeCommandField.values().length) {
+            Map<LinuxTimeCommandField, Object> result = new HashMap<>();
+            for (LinuxTimeCommandField field : LinuxTimeCommandField.values()) {
+                result.put(field, field.getValue(parsed));
+            }
+            return result;
+        } else {
+            logger.error("missing fields in parsed time command result {} != {}", parsed.length,
+                    LinuxTimeCommandField.values().length);
 
-		}
+        }
 
-		return null;
-	}
+        return null;
+    }
 }

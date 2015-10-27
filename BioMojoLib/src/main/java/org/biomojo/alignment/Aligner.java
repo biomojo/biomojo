@@ -26,5 +26,5 @@ import org.biomojo.sequence.Seq;
  *
  */
 public interface Aligner<T extends Seq<?, ? extends GappableAlphabet<?, ?>>> {
-	public Alignment<T> align(List<T> sequences);
+    public Alignment<T> align(List<T> sequences);
 }

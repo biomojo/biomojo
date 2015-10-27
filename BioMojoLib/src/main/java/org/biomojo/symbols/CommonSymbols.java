@@ -21,12 +21,12 @@ package org.biomojo.symbols;
  *
  */
 public class CommonSymbols {
-	protected CommonSymbols() {
+    protected CommonSymbols() {
 
-	}
+    }
 
-	public static final byte GAP = '-';
-	public static final byte ALT_GAP = '.';
+    public static final byte GAP = '-';
+    public static final byte ALT_GAP = '.';
 
-	public static final byte[] GAP_SYMBOLS = { GAP, ALT_GAP };
+    public static final byte[] GAP_SYMBOLS = { GAP, ALT_GAP };
 }

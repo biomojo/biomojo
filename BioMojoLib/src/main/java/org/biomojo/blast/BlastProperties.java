@@ -17,5 +17,5 @@
 package org.biomojo.blast;
 
 public interface BlastProperties {
-	public static final String MAX_TARGET_SEQS = "MAX_TARGET_SEQS";
+    public static final String MAX_TARGET_SEQS = "MAX_TARGET_SEQS";
 }

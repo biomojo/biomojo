@@ -29,16 +29,15 @@ import com.beust.jcommander.Parameter;
  */
 
 public abstract class GenCommand extends AbstractCommand {
-	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory
-			.getLogger(GenCommand.class.getName());
+    @SuppressWarnings("unused")
+    private static final Logger logger = LoggerFactory.getLogger(GenCommand.class.getName());
 
-	@Parameter(names = { "-n", "--numseqs" }, description = "Number of sequences")
-	protected Integer numSeqs;
+    @Parameter(names = { "-n", "--numseqs" }, description = "Number of sequences")
+    protected Integer numSeqs;
 
-	@Parameter(names = { "-l", "--seqlength" }, description = "Length of sequences")
-	protected Integer seqLength;
+    @Parameter(names = { "-l", "--seqlength" }, description = "Length of sequences")
+    protected Integer seqLength;
 
-	@Parameter(names = { "-o", "--out" }, description = "Output file name")
-	protected OutputFile outputFile;
+    @Parameter(names = { "-o", "--out" }, description = "Output file name")
+    protected OutputFile outputFile;
 }

@@ -29,25 +29,25 @@ import org.biomojo.alphabet.Alphabet;
  */
 public abstract class AbstractCodec<D, E> implements Codec<D, E> {
 
-	protected int id;
+    protected int id;
 
-	protected AbstractCodec(int id) {
-		this.id = id;
-	}
+    protected AbstractCodec(int id) {
+        this.id = id;
+    }
 
-	/**
-	 * Return the unique identifier for this codec.
-	 *
-	 * @return
-	 */
-	@Override
-	public int getId() {
-		return id;
-	}
+    /**
+     * Return the unique identifier for this codec.
+     *
+     * @return
+     */
+    @Override
+    public int getId() {
+        return id;
+    }
 
-	@Override
-	public boolean supportsAlphabet(Alphabet<D> alphabet) {
-		return true;
-	}
+    @Override
+    public boolean supportsAlphabet(Alphabet<D> alphabet) {
+        return true;
+    }
 
 }

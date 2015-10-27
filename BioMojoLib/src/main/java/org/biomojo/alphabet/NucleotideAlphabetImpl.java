@@ -22,14 +22,13 @@ import org.biomojo.symbols.Nucleotides;
  * @author Hugh Eaves
  *
  */
-public class NucleotideAlphabetImpl extends AbstractNucleotideAlphabet
-		implements NucleotideAlphabet {
-	/**
-	 * Create a new DNAAlphabetImpl.
-	 *
-	 * @param id
-	 */
-	protected NucleotideAlphabetImpl(int id) {
-		super(id, Nucleotides.CORE_SYMBOLS);
-	}
+public class NucleotideAlphabetImpl extends AbstractNucleotideAlphabet implements NucleotideAlphabet {
+    /**
+     * Create a new DNAAlphabetImpl.
+     *
+     * @param id
+     */
+    protected NucleotideAlphabetImpl(int id) {
+        super(id, Nucleotides.CORE_SYMBOLS);
+    }
 }

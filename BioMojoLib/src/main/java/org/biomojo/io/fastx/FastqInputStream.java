@@ -31,86 +31,80 @@ import org.biomojo.sequence.FastqSeq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class FastqInputStream extends MarkAndCopyInputStream implements
-		SequenceInputStream<FastqSeq<? extends NucleotideAlphabet>> {
-	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory
-			.getLogger(FastqInputStream.class.getName());
+public class FastqInputStream extends MarkAndCopyInputStream
+        implements SequenceInputStream<FastqSeq<? extends NucleotideAlphabet>> {
+    @SuppressWarnings("unused")
+    private static final Logger logger = LoggerFactory.getLogger(FastqInputStream.class.getName());
 
-	private final HeaderParser sequenceHeaderParser;
-	private final boolean validateSequenceData;
+    private final HeaderParser sequenceHeaderParser;
+    private final boolean validateSequenceData;
 
-	public FastqInputStream(final InputStream inputStream) {
-		super(inputStream);
-		validateSequenceData = false;
-		sequenceHeaderParser = new DefaultHeaderParser();
-	}
+    public FastqInputStream(final InputStream inputStream) {
+        super(inputStream);
+        validateSequenceData = false;
+        sequenceHeaderParser = new DefaultHeaderParser();
+    }
 
-	public FastqInputStream(final InputStream inputStream,
-			final HeaderParser sequenceHeaderParser) {
-		super(inputStream);
-		validateSequenceData = false;
-		this.sequenceHeaderParser = sequenceHeaderParser;
-	}
+    public FastqInputStream(final InputStream inputStream, final HeaderParser sequenceHeaderParser) {
+        super(inputStream);
+        validateSequenceData = false;
+        this.sequenceHeaderParser = sequenceHeaderParser;
+    }
 
-	public FastqInputStream(final InputStream inputStream, final int bufferSize) {
-		super(inputStream, bufferSize);
-		validateSequenceData = false;
-		sequenceHeaderParser = new DefaultHeaderParser();
-	}
+    public FastqInputStream(final InputStream inputStream, final int bufferSize) {
+        super(inputStream, bufferSize);
+        validateSequenceData = false;
+        sequenceHeaderParser = new DefaultHeaderParser();
+    }
 
-	public FastqInputStream(final InputStream inputStream,
-			final boolean validateSequence) {
-		super(inputStream);
-		this.validateSequenceData = validateSequence;
-		sequenceHeaderParser = new DefaultHeaderParser();
-	}
+    public FastqInputStream(final InputStream inputStream, final boolean validateSequence) {
+        super(inputStream);
+        this.validateSequenceData = validateSequence;
+        sequenceHeaderParser = new DefaultHeaderParser();
+    }
 
-	@Override
-	public boolean read(final FastqSeq<? extends NucleotideAlphabet> fastQSeq)
-			throws ParseException {
-		if (isEof()) {
-			return false;
-		}
+    @Override
+    public boolean read(final FastqSeq<? extends NucleotideAlphabet> fastQSeq) throws ParseException {
+        if (isEof()) {
+            return false;
+        }
 
-		skipByte(FastqConst.RECORD_DELIMITER);
+        skipByte(FastqConst.RECORD_DELIMITER);
 
-		// read the Header line
-		readToEndOfLine();
+        // read the Header line
+        readToEndOfLine();
 
-		// parse the header
-		sequenceHeaderParser.parseHeader(fastQSeq, assembleSegments());
+        // parse the header
+        sequenceHeaderParser.parseHeader(fastQSeq, assembleSegments());
 
-		// read all the sequence data
-		while (peek() != FastqConst.QUALITY_DELIMITER) {
-			readToEndOfLine();
-		}
+        // read all the sequence data
+        while (peek() != FastqConst.QUALITY_DELIMITER) {
+            readToEndOfLine();
+        }
 
-		final int sequenceLength = getTotalLength();
+        final int sequenceLength = getTotalLength();
 
-		if (sequenceLength == 0) {
-			throw new ParseException("Zero length sequence data");
-		}
+        if (sequenceLength == 0) {
+            throw new ParseException("Zero length sequence data");
+        }
 
-		// assembly the sequence data
-		fastQSeq.setAll(assembleSegments(), validateSequenceData);
+        // assembly the sequence data
+        fastQSeq.setAll(assembleSegments(), validateSequenceData);
 
-		// read and discard the second Header line
-		skipNextLine();
+        // read and discard the second Header line
+        skipNextLine();
 
-		final ByteSeq<QualityScoreAlphabet> qualityScores = fastQSeq
-				.getQualityScores();
+        final ByteSeq<QualityScoreAlphabet> qualityScores = fastQSeq.getQualityScores();
 
-		while (getTotalLength() < sequenceLength && !readToEndOfLineOrEOF())
-			;
+        while (getTotalLength() < sequenceLength && !readToEndOfLineOrEOF())
+            ;
 
-		if (getTotalLength() != sequenceLength) {
-			throw new ParseException(
-					"Length of quality data differs from sequence data");
-		}
+        if (getTotalLength() != sequenceLength) {
+            throw new ParseException("Length of quality data differs from sequence data");
+        }
 
-		qualityScores.setAll(assembleSegments(), validateSequenceData);
+        qualityScores.setAll(assembleSegments(), validateSequenceData);
 
-		return true;
-	}
+        return true;
+    }
 }

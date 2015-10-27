@@ -40,58 +40,57 @@ import org.java0.collection.ArrayMap;
  *
  */
 @MappedSuperclass
-public abstract class AbstractPropertiedEntity extends AbstractEntity implements
-		Propertied {
+public abstract class AbstractPropertiedEntity extends AbstractEntity implements Propertied {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@OneToMany(cascade = CascadeType.ALL, targetEntity = BasicProperty.class)
-	protected Map<String, Object> properties = null;
+    @OneToMany(cascade = CascadeType.ALL, targetEntity = BasicProperty.class)
+    protected Map<String, Object> properties = null;
 
-	@Transient
-	private PropertyMapManager propertyMapManager = DefaultPropertyMapManager.INSTANCE;
+    @Transient
+    private PropertyMapManager propertyMapManager = DefaultPropertyMapManager.INSTANCE;
 
-	@PrePersist
-	@PreUpdate
-	protected void wrapProps() {
-		if (propertyMapManager != DbPropertyMapManager.INSTANCE) {
-			properties.replaceAll((k, v) -> DbPropertyMapManager.wrap(v));
-		}
-	}
+    @PrePersist
+    @PreUpdate
+    protected void wrapProps() {
+        if (propertyMapManager != DbPropertyMapManager.INSTANCE) {
+            properties.replaceAll((k, v) -> DbPropertyMapManager.wrap(v));
+        }
+    }
 
-	@PostPersist
-	@PostUpdate
-	@PostLoad
-	protected void useDbPropertyManager() {
-		propertyMapManager = DbPropertyMapManager.INSTANCE;
-	}
+    @PostPersist
+    @PostUpdate
+    @PostLoad
+    protected void useDbPropertyManager() {
+        propertyMapManager = DbPropertyMapManager.INSTANCE;
+    }
 
-	@Override
-	public <T> T getProp(final String key) {
-		return propertyMapManager.get(getProperties(), key);
-	}
+    @Override
+    public <T> T getProp(final String key) {
+        return propertyMapManager.get(getProperties(), key);
+    }
 
-	@Override
-	public <T> T getProp(final String key, final Class<T> type) {
-		return propertyMapManager.get(getProperties(), key);
-	}
+    @Override
+    public <T> T getProp(final String key, final Class<T> type) {
+        return propertyMapManager.get(getProperties(), key);
+    }
 
-	@Override
-	public <T> T setProp(final String key, final Object value) {
-		return propertyMapManager.put(getProperties(), key, value);
+    @Override
+    public <T> T setProp(final String key, final Object value) {
+        return propertyMapManager.put(getProperties(), key, value);
 
-	}
+    }
 
-	@Override
-	public <T> T removeProp(final String key) {
-		return propertyMapManager.remove(getProperties(), key);
-	}
+    @Override
+    public <T> T removeProp(final String key) {
+        return propertyMapManager.remove(getProperties(), key);
+    }
 
-	protected Map<String, Object> getProperties() {
-		if (properties == null) {
-			properties = new ArrayMap<>();
-		}
-		return properties;
-	}
+    protected Map<String, Object> getProperties() {
+        if (properties == null) {
+            properties = new ArrayMap<>();
+        }
+        return properties;
+    }
 
 }

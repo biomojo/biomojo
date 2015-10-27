@@ -16,7 +16,6 @@
  */
 package org.biomojo.alphabet;
 
-
 /**
  * @author Hugh Eaves
  *

@@ -21,9 +21,9 @@ import org.java0.string.ByteArrayConverter;
 
 public class SequenceIdHeaderBuilder implements HeaderBuilder {
 
-	@Override
-	public byte[] buildHeader(final Seq<?, ?> sequence) {
-		return ByteArrayConverter.toArray(sequence.getId());
-	}
+    @Override
+    public byte[] buildHeader(final Seq<?, ?> sequence) {
+        return ByteArrayConverter.toArray(sequence.getId());
+    }
 
 }

@@ -18,38 +18,36 @@ package org.biomojo.alignment;
 
 import org.biomojo.alphabet.GappableByteAlphabet;
 
-public class SmithWatermanAligner<A extends GappableByteAlphabet<A>> extends
-		AbstractByteSeqAligner<A> {
-	private int maxScore;
+public class SmithWatermanAligner<A extends GappableByteAlphabet<A>> extends AbstractByteSeqAligner<A> {
+    private int maxScore;
 
-	public SmithWatermanAligner(final ByteSubstitutionMatrix matrix,
-			final int gapPenalty) {
-		super(matrix, gapPenalty);
-	}
+    public SmithWatermanAligner(final ByteSubstitutionMatrix matrix, final int gapPenalty) {
+        super(matrix, gapPenalty);
+    }
 
-	@Override
-	protected void initScoreMatrix() {
-		maxScore = 0;
-		for (int i = 1; i < getSeq1Dim(); ++i) {
-			scores[i][0] = 0;
-		}
+    @Override
+    protected void initScoreMatrix() {
+        maxScore = 0;
+        for (int i = 1; i < getSeq1Dim(); ++i) {
+            scores[i][0] = 0;
+        }
 
-		for (int i = 1; i < getSeq2Dim(); ++i) {
-			scores[0][i] = 0;
-		}
-	}
+        for (int i = 1; i < getSeq2Dim(); ++i) {
+            scores[0][i] = 0;
+        }
+    }
 
-	protected int calcCellScore2(final int seq1Pos, final int seq2Pos) {
-		int score = 0;
-		if (score < 0) {
-			score = 0;
-		}
-		if (score > maxScore) {
-			seq1TracebackStart = seq1Pos;
-			seq2TracebackStart = seq2Pos;
-		}
-		scores[seq1Pos][seq2Pos] = score;
+    protected int calcCellScore2(final int seq1Pos, final int seq2Pos) {
+        int score = 0;
+        if (score < 0) {
+            score = 0;
+        }
+        if (score > maxScore) {
+            seq1TracebackStart = seq1Pos;
+            seq2TracebackStart = seq2Pos;
+        }
+        scores[seq1Pos][seq2Pos] = score;
 
-		return score;
-	}
+        return score;
+    }
 }

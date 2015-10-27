@@ -38,96 +38,94 @@ import org.biomojo.sequence.AbstractSeqList;
 @Entity
 public class BlastTask {
 
-	@TableGenerator(name = "BlastTaskGenerator", allocationSize = 1)
-	@Id
-	@GeneratedValue(generator = "BlastTaskGenerator")
-	private long id;
+    @TableGenerator(name = "BlastTaskGenerator", allocationSize = 1)
+    @Id
+    @GeneratedValue(generator = "BlastTaskGenerator")
+    private long id;
 
-	@ManyToOne
-	private BlastDataSet blastDataSet;
+    @ManyToOne
+    private BlastDataSet blastDataSet;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	private AbstractSeqList<ByteSeqImpl<ByteAlphabet>> querySequences;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private AbstractSeqList<ByteSeqImpl<ByteAlphabet>> querySequences;
 
-	@ManyToOne(cascade = CascadeType.ALL)
-	private AbstractSeqList<ByteSeqImpl<ByteAlphabet>> databaseSequences;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private AbstractSeqList<ByteSeqImpl<ByteAlphabet>> databaseSequences;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	private BlastOutput blastOutput;
+    @OneToOne(cascade = CascadeType.ALL)
+    private BlastOutput blastOutput;
 
-	private Date startTime;
+    private Date startTime;
 
-	private Date endTime;
+    private Date endTime;
 
-	@Enumerated(EnumType.STRING)
-	private BlastTaskStatus status;
+    @Enumerated(EnumType.STRING)
+    private BlastTaskStatus status;
 
-	@Version
-	private short version;
+    @Version
+    private short version;
 
-	public long getId() {
-		return id;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setId(final long id) {
-		this.id = id;
-	}
+    public void setId(final long id) {
+        this.id = id;
+    }
 
-	public BlastDataSet getBlastDataSet() {
-		return blastDataSet;
-	}
+    public BlastDataSet getBlastDataSet() {
+        return blastDataSet;
+    }
 
-	public void setBlastDataSet(final BlastDataSet blastDataset) {
-		this.blastDataSet = blastDataset;
-	}
+    public void setBlastDataSet(final BlastDataSet blastDataset) {
+        this.blastDataSet = blastDataset;
+    }
 
-	public BlastOutput getBlastOutput() {
-		return blastOutput;
-	}
+    public BlastOutput getBlastOutput() {
+        return blastOutput;
+    }
 
-	public void setBlastOutput(final BlastOutput blastOutput) {
-		this.blastOutput = blastOutput;
-	}
+    public void setBlastOutput(final BlastOutput blastOutput) {
+        this.blastOutput = blastOutput;
+    }
 
-	public AbstractSeqList<ByteSeqImpl<ByteAlphabet>> getQuerySequences() {
-		return querySequences;
-	}
+    public AbstractSeqList<ByteSeqImpl<ByteAlphabet>> getQuerySequences() {
+        return querySequences;
+    }
 
-	public void setQuerySequences(
-			final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> querySequences) {
-		this.querySequences = querySequences;
-	}
+    public void setQuerySequences(final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> querySequences) {
+        this.querySequences = querySequences;
+    }
 
-	public AbstractSeqList<ByteSeqImpl<ByteAlphabet>> getDatabaseSequences() {
-		return databaseSequences;
-	}
+    public AbstractSeqList<ByteSeqImpl<ByteAlphabet>> getDatabaseSequences() {
+        return databaseSequences;
+    }
 
-	public void setDatabaseSequences(
-			final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> databaseSequences) {
-		this.databaseSequences = databaseSequences;
-	}
+    public void setDatabaseSequences(final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> databaseSequences) {
+        this.databaseSequences = databaseSequences;
+    }
 
-	public Date getStartTime() {
-		return startTime;
-	}
+    public Date getStartTime() {
+        return startTime;
+    }
 
-	public void setStartTime(final Date startTime) {
-		this.startTime = startTime;
-	}
+    public void setStartTime(final Date startTime) {
+        this.startTime = startTime;
+    }
 
-	public Date getEndTime() {
-		return endTime;
-	}
+    public Date getEndTime() {
+        return endTime;
+    }
 
-	public void setEndTime(final Date endTime) {
-		this.endTime = endTime;
-	}
+    public void setEndTime(final Date endTime) {
+        this.endTime = endTime;
+    }
 
-	public BlastTaskStatus getStatus() {
-		return status;
-	}
+    public BlastTaskStatus getStatus() {
+        return status;
+    }
 
-	public void setStatus(final BlastTaskStatus status) {
-		this.status = status;
-	}
+    public void setStatus(final BlastTaskStatus status) {
+        this.status = status;
+    }
 }

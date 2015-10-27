@@ -19,5 +19,5 @@ package org.biomojo.io;
 import org.biomojo.sequence.Seq;
 
 public interface HeaderBuilder {
-	public byte[] buildHeader(Seq<?, ?> sequence);
+    public byte[] buildHeader(Seq<?, ?> sequence);
 }

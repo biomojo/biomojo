@@ -28,58 +28,56 @@ import org.slf4j.LoggerFactory;
  */
 public class AbstractByteSubstitutionMatrix implements ByteSubstitutionMatrix {
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(AbstractByteSubstitutionMatrix.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(AbstractByteSubstitutionMatrix.class.getName());
 
-	ByteAlphabet alphabet;
-	protected int scores[][] = new int[Byte.MAX_VALUE + 1][Byte.MAX_VALUE + 1];
+    ByteAlphabet alphabet;
+    protected int scores[][] = new int[Byte.MAX_VALUE + 1][Byte.MAX_VALUE + 1];
 
-	protected AbstractByteSubstitutionMatrix(ByteAlphabet alphabet) {
-		this.alphabet = alphabet;
-	}
+    protected AbstractByteSubstitutionMatrix(ByteAlphabet alphabet) {
+        this.alphabet = alphabet;
+    }
 
-	protected void initMatrix(int score) {
-		for (int[] scoresRow : scores) {
-			Arrays.fill(scoresRow, score);
-		}
-	}
+    protected void initMatrix(int score) {
+        for (int[] scoresRow : scores) {
+            Arrays.fill(scoresRow, score);
+        }
+    }
 
-	/**
-	 * Sets a score in the matrix for both upper and lowercase versions of the
-	 * character.
-	 *
-	 * @param fromChar
-	 * @param toChar
-	 * @param score
-	 */
-	protected void setScore(char fromChar, char toChar, int score) {
-		logger.debug("setScore: fromChar = {}, toChar = {}, score = {}",
-				fromChar, toChar, score);
-		scores[Character.toLowerCase(fromChar)][Character.toLowerCase(toChar)] = score;
-		scores[Character.toLowerCase(fromChar)][Character.toUpperCase(toChar)] = score;
-		scores[Character.toUpperCase(fromChar)][Character.toLowerCase(toChar)] = score;
-		scores[Character.toUpperCase(fromChar)][Character.toUpperCase(toChar)] = score;
-	}
+    /**
+     * Sets a score in the matrix for both upper and lowercase versions of the
+     * character.
+     *
+     * @param fromChar
+     * @param toChar
+     * @param score
+     */
+    protected void setScore(char fromChar, char toChar, int score) {
+        logger.debug("setScore: fromChar = {}, toChar = {}, score = {}", fromChar, toChar, score);
+        scores[Character.toLowerCase(fromChar)][Character.toLowerCase(toChar)] = score;
+        scores[Character.toLowerCase(fromChar)][Character.toUpperCase(toChar)] = score;
+        scores[Character.toUpperCase(fromChar)][Character.toLowerCase(toChar)] = score;
+        scores[Character.toUpperCase(fromChar)][Character.toUpperCase(toChar)] = score;
+    }
 
-	/**
-	 * @see org.biomojo.alignment.matrix.ByteSubstitutionMatrix#getAlphabet()
-	 */
-	@Override
-	public ByteAlphabet getAlphabet() {
-		return alphabet;
-	}
+    /**
+     * @see org.biomojo.alignment.matrix.ByteSubstitutionMatrix#getAlphabet()
+     */
+    @Override
+    public ByteAlphabet getAlphabet() {
+        return alphabet;
+    }
 
-	@Override
-	public int getScore(byte from, byte to) {
-		return scores[from][to];
-	}
+    @Override
+    public int getScore(byte from, byte to) {
+        return scores[from][to];
+    }
 
-	/**
-	 * @see org.biomojo.alignment.SubstitutionMatrix#getScore(java.lang.Object,
-	 *      java.lang.Object)
-	 */
-	@Override
-	public int getScore(Byte from, Byte to) {
-		return scores[from][to];
-	}
+    /**
+     * @see org.biomojo.alignment.SubstitutionMatrix#getScore(java.lang.Object,
+     *      java.lang.Object)
+     */
+    @Override
+    public int getScore(Byte from, Byte to) {
+        return scores[from][to];
+    }
 }

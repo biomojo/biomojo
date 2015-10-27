@@ -21,31 +21,31 @@ package org.biomojo.property;
  *
  */
 public class IntegerProperty extends NumericProperty {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1448961994278386666L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1448961994278386666L;
 
-	protected int intValue;
+    protected int intValue;
 
-	public IntegerProperty() {
-	}
+    public IntegerProperty() {
+    }
 
-	public IntegerProperty(int intValue) {
-		this.intValue = intValue;
-	}
+    public IntegerProperty(int intValue) {
+        this.intValue = intValue;
+    }
 
-	@Override
-	public void setValue(Object value) {
-		setInteger((int) value);
-	}
+    @Override
+    public void setValue(Object value) {
+        setInteger((int) value);
+    }
 
-	@Override
-	public Object getValue() {
-		return intValue;
-	}
+    @Override
+    public Object getValue() {
+        return intValue;
+    }
 
-	public void setInteger(int intValue) {
-		this.intValue = intValue;
-	}
+    public void setInteger(int intValue) {
+        this.intValue = intValue;
+    }
 }

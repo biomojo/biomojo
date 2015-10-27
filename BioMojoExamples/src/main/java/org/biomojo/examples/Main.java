@@ -8,7 +8,7 @@ import org.biomojo.examples.simpledb.SimpleDBExample;
 @Named
 public class Main {
 
-	public static void main(final String[] args) {
-		BioMojo.init(args, new SimpleDBExample(), new FastaHeadCommand());
-	}
+    public static void main(final String[] args) {
+        BioMojo.init(args, new SimpleDBExample(), new FastaHeadCommand());
+    }
 }

@@ -21,30 +21,27 @@ import org.biomojo.alphabet.InvalidSymbolException;
 
 public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A> {
 
-	public byte[] getAllBytes();
+    public byte[] getAllBytes();
 
-	public void setAll(byte[] sequence) throws InvalidSymbolException;
+    public void setAll(byte[] sequence) throws InvalidSymbolException;
 
-	public void setAll(byte[] sequence, boolean validate)
-			throws InvalidSymbolException;
+    public void setAll(byte[] sequence, boolean validate) throws InvalidSymbolException;
 
-	public byte getValue(int index);
+    public byte getValue(int index);
 
-	public void setValue(byte symbol, int index) throws InvalidSymbolException;
+    public void setValue(byte symbol, int index) throws InvalidSymbolException;
 
-	public default Byte get(final int index) {
-		return getValue(index);
-	}
+    public default Byte get(final int index) {
+        return getValue(index);
+    }
 
-	public default Byte set(final int index, final Byte symbol)
-			throws InvalidSymbolException {
-		final byte oldVal = getValue(index);
-		set(index, symbol);
-		return oldVal;
-	}
+    public default Byte set(final int index, final Byte symbol) throws InvalidSymbolException {
+        final byte oldVal = getValue(index);
+        set(index, symbol);
+        return oldVal;
+    }
 
-	public void replace(final byte[] srcSeq, final int srcPos,
-			final int destPos, final int length);
+    public void replace(final byte[] srcSeq, final int srcPos, final int destPos, final int length);
 
-	public void append(final byte symbol);
+    public void append(final byte symbol);
 }

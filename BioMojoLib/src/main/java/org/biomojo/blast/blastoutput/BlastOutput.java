@@ -38,9 +38,8 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlAccessorType(XmlAccessType.NONE)
-@XmlType(name = "", propOrder = { "program", "version", "reference", "db",
-        "queryID", "queryDef", "queryLen", "querySeq", "parameters",
-        "iterations", "statistics" })
+@XmlType(name = "", propOrder = { "program", "version", "reference", "db", "queryID", "queryDef", "queryLen",
+        "querySeq", "parameters", "iterations", "statistics" })
 @XmlRootElement(name = "BlastOutput")
 @Entity
 public class BlastOutput {

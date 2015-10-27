@@ -30,56 +30,56 @@ import org.hibernate.annotations.LazyCollectionOption;
 @Entity
 public class SeqArrayList<T extends Seq<?, ?>> extends AbstractSeqList<T> {
 
-	/**
+    /**
      *
      */
-	private static final long serialVersionUID = 5511937136125948750L;
+    private static final long serialVersionUID = 5511937136125948750L;
 
-	@ManyToMany(targetEntity = AbstractSeq.class)
-	@OrderColumn
-	@LazyCollection(LazyCollectionOption.EXTRA)
-	protected List<T> sequences = new ArrayList<>();
+    @ManyToMany(targetEntity = AbstractSeq.class)
+    @OrderColumn
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    protected List<T> sequences = new ArrayList<>();
 
-	public SeqArrayList() {
+    public SeqArrayList() {
 
-	}
+    }
 
-	/**
-	 * Create a new BasicMultiSequence.
-	 *
-	 * @param name
-	 */
-	public SeqArrayList(final String name) {
-		setProp(CommonProperties.NAME, name);
-	}
+    /**
+     * Create a new BasicMultiSequence.
+     *
+     * @param name
+     */
+    public SeqArrayList(final String name) {
+        setProp(CommonProperties.NAME, name);
+    }
 
-	@Override
-	public T get(final int index) {
-		return sequences.get(index);
-	}
+    @Override
+    public T get(final int index) {
+        return sequences.get(index);
+    }
 
-	@Override
-	public T set(final int index, final T value) {
-		return sequences.get(index);
-	}
+    @Override
+    public T set(final int index, final T value) {
+        return sequences.get(index);
+    }
 
-	@Override
-	public int size() {
-		return sequences.size();
-	}
+    @Override
+    public int size() {
+        return sequences.size();
+    }
 
-	@Override
-	public List<T> subList(final int start, final int end) {
-		return new SeqSubList<T>(this, start, end);
-	}
+    @Override
+    public List<T> subList(final int start, final int end) {
+        return new SeqSubList<T>(this, start, end);
+    }
 
-	@Override
-	public boolean add(final T e) {
-		return sequences.add(e);
-	}
+    @Override
+    public boolean add(final T e) {
+        return sequences.add(e);
+    }
 
-	@Override
-	public T remove(final int pos) {
-		return sequences.remove(pos);
-	}
+    @Override
+    public T remove(final int pos) {
+        return sequences.remove(pos);
+    }
 }

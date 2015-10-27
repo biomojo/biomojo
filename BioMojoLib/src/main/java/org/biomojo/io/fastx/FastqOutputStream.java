@@ -28,50 +28,46 @@ import org.biomojo.io.SequenceOutputStream;
 import org.biomojo.sequence.FastqSeq;
 import org.biomojo.util.OutputUtil;
 
-public class FastqOutputStream extends FilterOutputStream implements
-		SequenceOutputStream<FastqSeq<? extends NucleotideAlphabet>> {
-	private static final int DEFAULT_LINE_LENGTH = Integer.MAX_VALUE;
+public class FastqOutputStream extends FilterOutputStream
+        implements SequenceOutputStream<FastqSeq<? extends NucleotideAlphabet>> {
+    private static final int DEFAULT_LINE_LENGTH = Integer.MAX_VALUE;
 
-	private final HeaderBuilder headerBuilder;
-	private final int maxLineLength;
+    private final HeaderBuilder headerBuilder;
+    private final int maxLineLength;
 
-	public FastqOutputStream(final OutputStream outputStream) {
-		super(outputStream);
-		maxLineLength = DEFAULT_LINE_LENGTH;
-		headerBuilder = new DefaultHeaderBuilder();
-	}
+    public FastqOutputStream(final OutputStream outputStream) {
+        super(outputStream);
+        maxLineLength = DEFAULT_LINE_LENGTH;
+        headerBuilder = new DefaultHeaderBuilder();
+    }
 
-	public FastqOutputStream(final OutputStream outputStream,
-			final HeaderBuilder sequenceHeaderBuilder) {
-		super(outputStream);
-		maxLineLength = DEFAULT_LINE_LENGTH;
-		this.headerBuilder = sequenceHeaderBuilder;
-	}
+    public FastqOutputStream(final OutputStream outputStream, final HeaderBuilder sequenceHeaderBuilder) {
+        super(outputStream);
+        maxLineLength = DEFAULT_LINE_LENGTH;
+        this.headerBuilder = sequenceHeaderBuilder;
+    }
 
-	public FastqOutputStream(final OutputStream outputStream,
-			final HeaderBuilder sequenceHeaderBuilder, final int maxLineLength) {
-		super(outputStream);
-		this.maxLineLength = maxLineLength;
-		this.headerBuilder = sequenceHeaderBuilder;
-	}
+    public FastqOutputStream(final OutputStream outputStream, final HeaderBuilder sequenceHeaderBuilder,
+            final int maxLineLength) {
+        super(outputStream);
+        this.maxLineLength = maxLineLength;
+        this.headerBuilder = sequenceHeaderBuilder;
+    }
 
-	public FastqOutputStream(final OutputStream outputStream,
-			final int maxLineLength) {
-		super(outputStream);
-		this.maxLineLength = maxLineLength;
-		headerBuilder = new DefaultHeaderBuilder();
-	}
+    public FastqOutputStream(final OutputStream outputStream, final int maxLineLength) {
+        super(outputStream);
+        this.maxLineLength = maxLineLength;
+        headerBuilder = new DefaultHeaderBuilder();
+    }
 
-	@Override
-	public void write(final FastqSeq<? extends NucleotideAlphabet> sequence)
-			throws IOException {
-		out.write(FastqConst.RECORD_DELIMITER);
-		out.write(headerBuilder.buildHeader(sequence));
-		out.write('\n');
-		OutputUtil.writeSplitLines(out, maxLineLength, sequence.getAllBytes());
-		out.write(FastqConst.QUALITY_DELIMITER);
-		out.write('\n');
-		OutputUtil.writeSplitLines(out, maxLineLength, sequence
-				.getQualityScores().getAllBytes());
-	}
+    @Override
+    public void write(final FastqSeq<? extends NucleotideAlphabet> sequence) throws IOException {
+        out.write(FastqConst.RECORD_DELIMITER);
+        out.write(headerBuilder.buildHeader(sequence));
+        out.write('\n');
+        OutputUtil.writeSplitLines(out, maxLineLength, sequence.getAllBytes());
+        out.write(FastqConst.QUALITY_DELIMITER);
+        out.write('\n');
+        OutputUtil.writeSplitLines(out, maxLineLength, sequence.getQualityScores().getAllBytes());
+    }
 }

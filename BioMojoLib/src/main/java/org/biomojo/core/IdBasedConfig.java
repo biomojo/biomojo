@@ -23,31 +23,31 @@ import org.java0.factory.Config;
  *
  */
 public class IdBasedConfig<T> implements Config<T> {
-	public int id;
+    public int id;
 
-	/**
-	 * Create a new IdBasedConfig.
-	 *
-	 * @param id
-	 */
-	public IdBasedConfig(int id) {
-		this.id = id;
-	}
+    /**
+     * Create a new IdBasedConfig.
+     *
+     * @param id
+     */
+    public IdBasedConfig(int id) {
+        this.id = id;
+    }
 
-	/**
-	 * @see org.java0.factory.Config#values()
-	 */
-	@Override
-	public Object[] values() {
-		return new Object[] { id };
-	}
+    /**
+     * @see org.java0.factory.Config#values()
+     */
+    @Override
+    public Object[] values() {
+        return new Object[] { id };
+    }
 
-	/**
-	 * @see org.java0.factory.Config#getValue(java.lang.String)
-	 */
-	@Override
-	public Object getValue(Object key) {
-		return null;
-	}
+    /**
+     * @see org.java0.factory.Config#getValue(java.lang.String)
+     */
+    @Override
+    public Object getValue(Object key) {
+        return null;
+    }
 
 }

@@ -25,14 +25,13 @@ import org.biomojo.core.IdBasedFactory;
  */
 public abstract class Codecs {
 
-	private static IdBasedFactory<Codec<?, ?>> factory = new DefaultCodecFactory();
+    private static IdBasedFactory<Codec<?, ?>> factory = new DefaultCodecFactory();
 
-	public static <T extends Codec<?, ?>> T getCodec(int codecId) {
-		return (T) factory.getInstance(codecId, Codec.class);
-	}
+    public static <T extends Codec<?, ?>> T getCodec(int codecId) {
+        return (T) factory.getInstance(codecId, Codec.class);
+    }
 
-	public static <T extends Codec<?, ?>> T getCodec(int codecId,
-			Class<T> requiredType) {
-		return factory.getInstance(codecId, requiredType);
-	}
+    public static <T extends Codec<?, ?>> T getCodec(int codecId, Class<T> requiredType) {
+        return factory.getInstance(codecId, requiredType);
+    }
 }

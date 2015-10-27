@@ -33,61 +33,58 @@ import org.slf4j.LoggerFactory;
  */
 @Entity
 @DiscriminatorValue("F")
-public class FastqSeqImpl<A extends NucleotideAlphabet> extends ByteSeqImpl<A>
-		implements FastqSeq<A> {
+public class FastqSeqImpl<A extends NucleotideAlphabet> extends ByteSeqImpl<A> implements FastqSeq<A> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory.getLogger(FastqSeqImpl.class
-			.getName());
+    @SuppressWarnings("unused")
+    private static final Logger logger = LoggerFactory.getLogger(FastqSeqImpl.class.getName());
 
-	@OneToOne(targetEntity = ByteSeqImpl.class)
-	protected ByteSeq<QualityScoreAlphabet> seq;
+    @OneToOne(targetEntity = ByteSeqImpl.class)
+    protected ByteSeq<QualityScoreAlphabet> seq;
 
-	public FastqSeqImpl() {
-		super();
-		seq = new ByteSeqImpl<QualityScoreAlphabet>(Alphabets.getAlphabet(
-				AlphabetId.QUALITY_SANGER, QualityScoreAlphabet.class));
+    public FastqSeqImpl() {
+        super();
+        seq = new ByteSeqImpl<QualityScoreAlphabet>(
+                Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScoreAlphabet.class));
 
-	}
+    }
 
-	public FastqSeqImpl(final byte[] data, final A alphabet) {
-		super(data, alphabet);
-		seq = new ByteSeqImpl<QualityScoreAlphabet>(Alphabets.getAlphabet(
-				AlphabetId.QUALITY_SANGER, QualityScoreAlphabet.class));
+    public FastqSeqImpl(final byte[] data, final A alphabet) {
+        super(data, alphabet);
+        seq = new ByteSeqImpl<QualityScoreAlphabet>(
+                Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScoreAlphabet.class));
 
-	}
+    }
 
-	public FastqSeqImpl(final byte[] data) {
-		super(data);
-		seq = new ByteSeqImpl<QualityScoreAlphabet>(Alphabets.getAlphabet(
-				AlphabetId.QUALITY_SANGER, QualityScoreAlphabet.class));
+    public FastqSeqImpl(final byte[] data) {
+        super(data);
+        seq = new ByteSeqImpl<QualityScoreAlphabet>(
+                Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScoreAlphabet.class));
 
-	}
+    }
 
-	public FastqSeqImpl(final A alphabet) {
-		super(alphabet);
-		seq = new ByteSeqImpl<QualityScoreAlphabet>(Alphabets.getAlphabet(
-				AlphabetId.QUALITY_SANGER, QualityScoreAlphabet.class));
+    public FastqSeqImpl(final A alphabet) {
+        super(alphabet);
+        seq = new ByteSeqImpl<QualityScoreAlphabet>(
+                Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScoreAlphabet.class));
 
-	}
+    }
 
-	/**
-	 * @return the qualityScores
-	 */
-	@Override
-	public ByteSeq<QualityScoreAlphabet> getQualityScores() {
-		return seq;
-	}
+    /**
+     * @return the qualityScores
+     */
+    @Override
+    public ByteSeq<QualityScoreAlphabet> getQualityScores() {
+        return seq;
+    }
 
-	/**
-	 * @param qualityScores
-	 *            the qualityScores to set
-	 */
-	public void setQualityScores(
-			final ByteSeq<QualityScoreAlphabet> qualityScores) {
-		this.seq = qualityScores;
-	}
+    /**
+     * @param qualityScores
+     *            the qualityScores to set
+     */
+    public void setQualityScores(final ByteSeq<QualityScoreAlphabet> qualityScores) {
+        this.seq = qualityScores;
+    }
 
 }

@@ -17,5 +17,5 @@
 package org.biomojo.core;
 
 public interface CommonProperties {
-	public static final String NAME = "NAME";
+    public static final String NAME = "NAME";
 }

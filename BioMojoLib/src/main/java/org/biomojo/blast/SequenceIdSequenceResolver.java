@@ -29,22 +29,20 @@ import org.biomojo.sequence.ByteSeqImpl;
 @Named
 public class SequenceIdSequenceResolver implements BlastSequenceResolver {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@Override
-	public void resolveSequences(final BlastOutput blastOutput) {
-		for (final BlastIteration iteration : blastOutput.getIterations()) {
-			final long queryId = Long.parseLong(iteration.getQueryDef());
-			final ByteSeqImpl<ByteAlphabet> querySequence = entityManager.find(
-					ByteSeqImpl.class, queryId);
-			iteration.setQuerySequence(querySequence);
-			for (final BlastHit hit : iteration.getHits()) {
-				final long hitId = Long.parseLong(hit.getHitDef());
-				final ByteSeqImpl<ByteAlphabet> hitSequence = entityManager.find(
-						ByteSeqImpl.class, hitId);
-				hit.setHitSequence(hitSequence);
-			}
-		}
-	}
+    @Override
+    public void resolveSequences(final BlastOutput blastOutput) {
+        for (final BlastIteration iteration : blastOutput.getIterations()) {
+            final long queryId = Long.parseLong(iteration.getQueryDef());
+            final ByteSeqImpl<ByteAlphabet> querySequence = entityManager.find(ByteSeqImpl.class, queryId);
+            iteration.setQuerySequence(querySequence);
+            for (final BlastHit hit : iteration.getHits()) {
+                final long hitId = Long.parseLong(hit.getHitDef());
+                final ByteSeqImpl<ByteAlphabet> hitSequence = entityManager.find(ByteSeqImpl.class, hitId);
+                hit.setHitSequence(hitSequence);
+            }
+        }
+    }
 }

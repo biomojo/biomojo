@@ -18,8 +18,7 @@ package org.biomojo.blast.blastoutput;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
-public class BlastOutputParamAdapter extends
-        XmlAdapter<BlastOutputParam, BlastParameters> {
+public class BlastOutputParamAdapter extends XmlAdapter<BlastOutputParam, BlastParameters> {
 
     @Override
     public BlastParameters unmarshal(BlastOutputParam v) throws Exception {

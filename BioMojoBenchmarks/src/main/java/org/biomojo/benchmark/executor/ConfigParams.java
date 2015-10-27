@@ -21,16 +21,16 @@ package org.biomojo.benchmark.executor;
  *
  */
 public interface ConfigParams {
-	public static final String JAVA_MEM = "JAVA_MEM";
-	public static final String GC_LOG_FILE = "GC_LOG_FILE";
-	public static final String PROGRAM_NAME = "PROGRAM_NAME";
-	public static final String PROGRAM_BASE_DIR = "PROGRAM_BASE_DIR";
-	public static final String INTERPRETER = "INTERPRETER";
-	public static final String PROGRAM_SUB_DIR = "PROGRAM_SUB_DIR";
-	public static final String ENCODED = "ENCODED";
-	public static final String CUTOFF = "CUTOFF";
-	public static final String INPUT_FILE = "INPUT_FILE";
-	public static final String OUTPUT_FILE = "OUTPUT_FILE";
-	public static final String SEQUENCE_LENGTH = "SEQUENCE_LENGTH";
-	public static final String NUM_SEQUENCES = "NUM_SEQUENCES";
+    public static final String JAVA_MEM = "JAVA_MEM";
+    public static final String GC_LOG_FILE = "GC_LOG_FILE";
+    public static final String PROGRAM_NAME = "PROGRAM_NAME";
+    public static final String PROGRAM_BASE_DIR = "PROGRAM_BASE_DIR";
+    public static final String INTERPRETER = "INTERPRETER";
+    public static final String PROGRAM_SUB_DIR = "PROGRAM_SUB_DIR";
+    public static final String ENCODED = "ENCODED";
+    public static final String CUTOFF = "CUTOFF";
+    public static final String INPUT_FILE = "INPUT_FILE";
+    public static final String OUTPUT_FILE = "OUTPUT_FILE";
+    public static final String SEQUENCE_LENGTH = "SEQUENCE_LENGTH";
+    public static final String NUM_SEQUENCES = "NUM_SEQUENCES";
 }

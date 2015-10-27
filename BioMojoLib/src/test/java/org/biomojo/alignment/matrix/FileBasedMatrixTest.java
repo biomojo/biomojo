@@ -32,70 +32,57 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class FileBasedMatrixTest extends BaseTest {
-	private static final Logger logger = LoggerFactory
-			.getLogger(FileBasedMatrixTest.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(FileBasedMatrixTest.class.getName());
 
-	public FileBasedMatrixTest() {
-	}
+    public FileBasedMatrixTest() {
+    }
 
-	@Test
-	public void testBLOSUM62() throws Exception {
-		ByteSubstitutionMatrix matrix = new PrecomputedAminoAcidSubstitutionMatrix(
-				"BLOSUM", 62);
+    @Test
+    public void testBLOSUM62() throws Exception {
+        ByteSubstitutionMatrix matrix = new PrecomputedAminoAcidSubstitutionMatrix("BLOSUM", 62);
 
-		assertEquals(11,
-				matrix.getScore(AminoAcids.TRYPTOPHAN, AminoAcids.TRYPTOPHAN),
-				0);
-		assertEquals(-3, matrix.getScore(
-				AminoAcids.ASPARTIC_ACID_OR_ASPARAGINE, AminoAcids.CYSTEINE), 0);
+        assertEquals(11, matrix.getScore(AminoAcids.TRYPTOPHAN, AminoAcids.TRYPTOPHAN), 0);
+        assertEquals(-3, matrix.getScore(AminoAcids.ASPARTIC_ACID_OR_ASPARAGINE, AminoAcids.CYSTEINE), 0);
 
-		checkSumMatrix(matrix, -726);
-	}
+        checkSumMatrix(matrix, -726);
+    }
 
-	@Test
-	public void testPAM250() throws Exception {
-		ByteSubstitutionMatrix matrix = new PrecomputedAminoAcidSubstitutionMatrix(
-				"PAM", 250);
+    @Test
+    public void testPAM250() throws Exception {
+        ByteSubstitutionMatrix matrix = new PrecomputedAminoAcidSubstitutionMatrix("PAM", 250);
 
-		assertEquals(17,
-				matrix.getScore(AminoAcids.TRYPTOPHAN, AminoAcids.TRYPTOPHAN),
-				0);
-		assertEquals(2,
-				matrix.getScore(AminoAcids.ALANINE, AminoAcids.ALANINE), 0);
-		assertEquals(-8, matrix.getScore(AminoAcids.ALANINE, AminoAcids.STOP),
-				0);
+        assertEquals(17, matrix.getScore(AminoAcids.TRYPTOPHAN, AminoAcids.TRYPTOPHAN), 0);
+        assertEquals(2, matrix.getScore(AminoAcids.ALANINE, AminoAcids.ALANINE), 0);
+        assertEquals(-8, matrix.getScore(AminoAcids.ALANINE, AminoAcids.STOP), 0);
 
-		checkSumMatrix(matrix, -932);
-	}
+        checkSumMatrix(matrix, -932);
+    }
 
-	/**
-	 * @param matrix
-	 */
-	private void checkSumMatrix(ByteSubstitutionMatrix matrix,
-			float expectedCheckSum) {
-		ByteAlphabet alphabet = matrix.getAlphabet();
+    /**
+     * @param matrix
+     */
+    private void checkSumMatrix(ByteSubstitutionMatrix matrix, float expectedCheckSum) {
+        ByteAlphabet alphabet = matrix.getAlphabet();
 
-		float checkSum = 0;
-		int cells = 0;
-		for (int i = 0; i < alphabet.numCanonicalSymbols(); ++i) {
-			for (int j = 0; j < alphabet.numCanonicalSymbols(); ++j) {
+        float checkSum = 0;
+        int cells = 0;
+        for (int i = 0; i < alphabet.numCanonicalSymbols(); ++i) {
+            for (int j = 0; j < alphabet.numCanonicalSymbols(); ++j) {
 
-				byte from = alphabet.getByteSymbolForOrdinal(i);
-				byte to = alphabet.getByteSymbolForOrdinal(j);
+                byte from = alphabet.getByteSymbolForOrdinal(i);
+                byte to = alphabet.getByteSymbolForOrdinal(j);
 
-				float score = matrix.getScore(from, to);
-				checkSum += score;
-				cells++;
-				logger.debug("from: {} to: {} score: {} cells: {}",
-						(char) from, (char) to, score, cells);
+                float score = matrix.getScore(from, to);
+                checkSum += score;
+                cells++;
+                logger.debug("from: {} to: {} score: {} cells: {}", (char) from, (char) to, score, cells);
 
-				assertEquals(matrix.getScore(from, to),
-						matrix.getScore(to, from), 0);
+                assertEquals(matrix.getScore(from, to), matrix.getScore(to, from), 0);
 
-			}
-		}
+            }
+        }
 
-		assertEquals(expectedCheckSum, checkSum, 0);
-		assertEquals(576, cells, 0);
-	}
+        assertEquals(expectedCheckSum, checkSum, 0);
+        assertEquals(576, cells, 0);
+    }
 }

@@ -20,40 +20,40 @@ import org.java0.core.exception.UncheckedException;
 
 public class InvalidSymbolException extends UncheckedException {
 
-	private static final long serialVersionUID = 3542399307112927726L;
+    private static final long serialVersionUID = 3542399307112927726L;
 
-	private final InvalidSymbolInfo info;
+    private final InvalidSymbolInfo info;
 
-	public InvalidSymbolException(final Object symbol, final int position) {
-		this.info = new InvalidSymbolInfo(symbol, position);
-	}
+    public InvalidSymbolException(final Object symbol, final int position) {
+        this.info = new InvalidSymbolInfo(symbol, position);
+    }
 
-	public InvalidSymbolException(final Object symbol) {
-		this.info = new InvalidSymbolInfo(symbol, null);
+    public InvalidSymbolException(final Object symbol) {
+        this.info = new InvalidSymbolInfo(symbol, null);
 
-	}
+    }
 
-	public InvalidSymbolException(final InvalidSymbolInfo info) {
-		this.info = info;
-	}
+    public InvalidSymbolException(final InvalidSymbolInfo info) {
+        this.info = info;
+    }
 
-	/**
-	 * @return the symbol
-	 */
-	public Object getSymbol() {
-		return info.getSymbol();
-	}
+    /**
+     * @return the symbol
+     */
+    public Object getSymbol() {
+        return info.getSymbol();
+    }
 
-	/**
-	 * @return the position
-	 */
-	public Integer getPosition() {
-		return info.getPosition();
-	}
+    /**
+     * @return the position
+     */
+    public Integer getPosition() {
+        return info.getPosition();
+    }
 
-	@Override
-	public String getMessage() {
-		return info.toString();
-	}
+    @Override
+    public String getMessage() {
+        return info.toString();
+    }
 
 }

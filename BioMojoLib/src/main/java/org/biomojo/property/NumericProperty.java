@@ -23,58 +23,58 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("N")
 public abstract class NumericProperty extends BasicProperty {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 8901783423194087216L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 8901783423194087216L;
 
-	//
-	// private short exponent;
-	//
-	// @Column(scale = 10, precision = 20)
-	// private BigDecimal number;
-	//
-	// private boolean exact;
+    //
+    // private short exponent;
+    //
+    // @Column(scale = 10, precision = 20)
+    // private BigDecimal number;
+    //
+    // private boolean exact;
 
-	public NumericProperty() {
-	}
-	//
-	// public boolean isExact() {
-	// return exact;
-	// }
-	//
-	// @PrePersist
-	// @PreUpdate
-	// protected void onPrePersist() {
-	// normalize();
-	// }
-	//
-	// @PostLoad
-	// protected void onPostLoad() {
-	// denormalize();
-	// }
-	//
-	// private void normalize() {
-	// // TO DO Finish this
-	// if (!isNormalized()) {
-	// if (number instanceof BigDecimal) {
-	// decimal = (BigDecimal) number;
-	// } else if (number instanceof Double || number instanceof Float) {
-	// decimal = new BigDecimal((Double) number);
-	// } else if (number instanceof Integer || number instanceof Short
-	// || number instanceof Byte) {
-	// decimal = new BigDecimal(number.intValue());
-	// } else if (number instanceof Long) {
-	// decimal = new BigDecimal((Long) number);
-	// } else if (number instanceof BigInteger) {
-	// decimal = new BigDecimal((BigInteger) number);
-	// } else {
-	//
-	// }
-	// }
-	// }
-	//
-	// private void denormalize() {
-	//
-	// }
+    public NumericProperty() {
+    }
+    //
+    // public boolean isExact() {
+    // return exact;
+    // }
+    //
+    // @PrePersist
+    // @PreUpdate
+    // protected void onPrePersist() {
+    // normalize();
+    // }
+    //
+    // @PostLoad
+    // protected void onPostLoad() {
+    // denormalize();
+    // }
+    //
+    // private void normalize() {
+    // // TO DO Finish this
+    // if (!isNormalized()) {
+    // if (number instanceof BigDecimal) {
+    // decimal = (BigDecimal) number;
+    // } else if (number instanceof Double || number instanceof Float) {
+    // decimal = new BigDecimal((Double) number);
+    // } else if (number instanceof Integer || number instanceof Short
+    // || number instanceof Byte) {
+    // decimal = new BigDecimal(number.intValue());
+    // } else if (number instanceof Long) {
+    // decimal = new BigDecimal((Long) number);
+    // } else if (number instanceof BigInteger) {
+    // decimal = new BigDecimal((BigInteger) number);
+    // } else {
+    //
+    // }
+    // }
+    // }
+    //
+    // private void denormalize() {
+    //
+    // }
 }

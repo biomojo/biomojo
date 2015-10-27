@@ -27,62 +27,57 @@ import org.biomojo.io.ParseException;
 import org.biomojo.io.SequenceInputStream;
 import org.biomojo.sequence.ByteSeq;
 
-public class FastaInputStream extends MarkAndCopyInputStream implements
-		SequenceInputStream<ByteSeq<? extends ByteAlphabet>> {
+public class FastaInputStream extends MarkAndCopyInputStream
+        implements SequenceInputStream<ByteSeq<? extends ByteAlphabet>> {
 
-	private final HeaderParser headerParser;
-	private final boolean validateSequenceData;
+    private final HeaderParser headerParser;
+    private final boolean validateSequenceData;
 
-	public FastaInputStream(final InputStream inputStream) {
-		super(inputStream);
-		headerParser = new DefaultHeaderParser();
-		validateSequenceData = true;
-	}
+    public FastaInputStream(final InputStream inputStream) {
+        super(inputStream);
+        headerParser = new DefaultHeaderParser();
+        validateSequenceData = true;
+    }
 
-	public FastaInputStream(final InputStream inputStream,
-			final HeaderParser sequenceHeaderParser) {
-		super(inputStream);
-		this.headerParser = sequenceHeaderParser;
-		validateSequenceData = true;
-	}
+    public FastaInputStream(final InputStream inputStream, final HeaderParser sequenceHeaderParser) {
+        super(inputStream);
+        this.headerParser = sequenceHeaderParser;
+        validateSequenceData = true;
+    }
 
-	public FastaInputStream(final InputStream inputStream,
-			final int readBufferSize) {
-		super(inputStream, readBufferSize);
-		headerParser = new DefaultHeaderParser();
-		validateSequenceData = true;
-	}
+    public FastaInputStream(final InputStream inputStream, final int readBufferSize) {
+        super(inputStream, readBufferSize);
+        headerParser = new DefaultHeaderParser();
+        validateSequenceData = true;
+    }
 
-	public FastaInputStream(final InputStream inputStream,
-			final boolean validateSequenceData) {
-		super(inputStream);
-		headerParser = new DefaultHeaderParser();
-		this.validateSequenceData = validateSequenceData;
-	}
+    public FastaInputStream(final InputStream inputStream, final boolean validateSequenceData) {
+        super(inputStream);
+        headerParser = new DefaultHeaderParser();
+        this.validateSequenceData = validateSequenceData;
+    }
 
-	@Override
-	public boolean read(final ByteSeq<? extends ByteAlphabet> seq)
-			throws ParseException {
-		if (isEof()) {
-			return false;
-		}
+    @Override
+    public boolean read(final ByteSeq<? extends ByteAlphabet> seq) throws ParseException {
+        if (isEof()) {
+            return false;
+        }
 
-		skipByte(FastaConst.RECORD_DELIMITER);
+        skipByte(FastaConst.RECORD_DELIMITER);
 
-		readToEndOfLine();
+        readToEndOfLine();
 
-		headerParser.parseHeader(seq, assembleSegments());
+        headerParser.parseHeader(seq, assembleSegments());
 
-		while ((peek() != FastaConst.RECORD_DELIMITER)
-				&& !readToEndOfLineOrEOF())
-			;
+        while ((peek() != FastaConst.RECORD_DELIMITER) && !readToEndOfLineOrEOF())
+            ;
 
-		if (getTotalLength() == 0) {
-			throw new ParseException("Zero length sequence data");
-		}
+        if (getTotalLength() == 0) {
+            throw new ParseException("Zero length sequence data");
+        }
 
-		seq.setAll(assembleSegments(), validateSequenceData);
+        seq.setAll(assembleSegments(), validateSequenceData);
 
-		return true;
-	}
+        return true;
+    }
 }

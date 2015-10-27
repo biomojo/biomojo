@@ -18,5 +18,5 @@
 package org.biomojo.blast;
 
 public enum BlastProgram {
-	BLASTN, TBLASTN, BLASTX, TBLASTX, BLASTP
+    BLASTN, TBLASTN, BLASTX, TBLASTX, BLASTP
 }

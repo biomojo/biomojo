@@ -36,48 +36,46 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(commandNames = "read_fasta")
 public class ReadFastaCommand extends BaseCommand {
-	private static final Logger logger = LoggerFactory
-			.getLogger(ReadFastaCommand.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ReadFastaCommand.class.getName());
 
-	/**
-	 * @see org.java0.cli.Command#run()
-	 */
-	@Override
-	public void run() {
-		try {
-			logger.info("BioMojo Fasta Read Benchmark");
+    /**
+     * @see org.java0.cli.Command#run()
+     */
+    @Override
+    public void run() {
+        try {
+            logger.info("BioMojo Fasta Read Benchmark");
 
-			// System.in.read();
-			final FastaInputStream inputStream = new FastaInputStream(
-					new FileInputStream(inputFile), false);
+            // System.in.read();
+            final FastaInputStream inputStream = new FastaInputStream(new FileInputStream(inputFile), false);
 
-			int recordCount = 0;
-			long totalLength = 0;
+            int recordCount = 0;
+            long totalLength = 0;
 
-			Supplier<ByteSeq<IUPACAlphabet>> provider = new ByteSeqProvider();
-			if (encode) {
-				provider = new EncodedByteSeqProvider();
-			}
-			final ByteSeq<IUPACAlphabet> sequence = provider.get();
+            Supplier<ByteSeq<IUPACAlphabet>> provider = new ByteSeqProvider();
+            if (encode) {
+                provider = new EncodedByteSeqProvider();
+            }
+            final ByteSeq<IUPACAlphabet> sequence = provider.get();
 
-			while (inputStream.read(sequence)) {
-				totalLength += sequence.size();
-				++recordCount;
-			}
-			inputStream.close();
-			System.gc();
-			logger.info("Done loading " + recordCount + " sequences");
-			logger.info("Total length is " + totalLength + " bases");
+            while (inputStream.read(sequence)) {
+                totalLength += sequence.size();
+                ++recordCount;
+            }
+            inputStream.close();
+            System.gc();
+            logger.info("Done loading " + recordCount + " sequences");
+            logger.info("Total length is " + totalLength + " bases");
 
-			Thread.sleep(0);
+            Thread.sleep(0);
 
-		} catch (final FileNotFoundException e) {
-			throw new UncheckedException(e);
-		} catch (final IOException e) {
-			throw new UncheckedException(e);
-		} catch (final InterruptedException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-		}
+        } catch (final FileNotFoundException e) {
+            throw new UncheckedException(e);
+        } catch (final IOException e) {
+            throw new UncheckedException(e);
+        } catch (final InterruptedException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        }
 
-	}
+    }
 }

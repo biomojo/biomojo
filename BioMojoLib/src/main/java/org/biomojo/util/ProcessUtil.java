@@ -26,77 +26,71 @@ import org.java0.core.exception.UncheckedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
-
 public class ProcessUtil {
-	private static final Logger logger = LoggerFactory.getLogger(ProcessUtil.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ProcessUtil.class.getName());
 
-	public static Process executeProcess(String[] params) {
-		try {
-		logger.info("Running process, command line params = "
-				+ Arrays.toString(params));
+    public static Process executeProcess(String[] params) {
+        try {
+            logger.info("Running process, command line params = " + Arrays.toString(params));
 
-		ProcessBuilder pb = new ProcessBuilder(params);
-		Process pr = pb.start();
+            ProcessBuilder pb = new ProcessBuilder(params);
+            Process pr = pb.start();
 
-		final BufferedReader errorReader = new BufferedReader(
-				new InputStreamReader(pr.getErrorStream()));
+            final BufferedReader errorReader = new BufferedReader(new InputStreamReader(pr.getErrorStream()));
 
-		/*
-		 * This thread reads the stderr output of the process. If we don't do
-		 * this, the process will hang.
-		 */
-		Thread thread = new Thread() {
-			@Override
-			public void run() {
-				try {
-					for (String line = errorReader.readLine(); line != null; line = errorReader
-							.readLine()) {
-						logger.info("Subprocess stderr output: " + line);
-					}
-					errorReader.close();
-				} catch (IOException e) {
-					logger.error("Error reading sub-process stderr: " + e.toString());
-				}
-			}
-		};
-		thread.start();
+            /*
+             * This thread reads the stderr output of the process. If we don't
+             * do this, the process will hang.
+             */
+            Thread thread = new Thread() {
+                @Override
+                public void run() {
+                    try {
+                        for (String line = errorReader.readLine(); line != null; line = errorReader.readLine()) {
+                            logger.info("Subprocess stderr output: " + line);
+                        }
+                        errorReader.close();
+                    } catch (IOException e) {
+                        logger.error("Error reading sub-process stderr: " + e.toString());
+                    }
+                }
+            };
+            thread.start();
 
-		return pr;
-		}
-		catch (IOException e) {
-			throw new UncheckedException(e);
-		}
-	}
-	
-	public static int executeProcessWithExitCode(String[] params) {
+            return pr;
+        } catch (IOException e) {
+            throw new UncheckedException(e);
+        }
+    }
 
-		try {
-			Process pr = executeProcess(params);
-			
-			BufferedReader reader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
-			String line;
-			while ((line = reader.readLine()) != null) {
-				logger.info(line);
-			}
-			
-			try {
-				pr.waitFor();
-			} catch (InterruptedException e) {
-			}
-			
-			return pr.exitValue();
-		} catch (IOException e) {
-			throw new UncheckedException(e);
-		}
+    public static int executeProcessWithExitCode(String[] params) {
 
-	}
-	
-	public static void sleep(int millis) {
-		try {
-			Thread.sleep(millis);
-		} catch (InterruptedException e) {
-		}
-	}
+        try {
+            Process pr = executeProcess(params);
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                logger.info(line);
+            }
+
+            try {
+                pr.waitFor();
+            } catch (InterruptedException e) {
+            }
+
+            return pr.exitValue();
+        } catch (IOException e) {
+            throw new UncheckedException(e);
+        }
+
+    }
+
+    public static void sleep(int millis) {
+        try {
+            Thread.sleep(millis);
+        } catch (InterruptedException e) {
+        }
+    }
 
 }

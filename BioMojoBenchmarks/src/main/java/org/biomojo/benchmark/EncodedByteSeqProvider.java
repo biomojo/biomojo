@@ -29,16 +29,15 @@ import org.biomojo.sequence.EncodedByteSeq;
  * @author Hugh Eaves
  *
  */
-public class EncodedByteSeqProvider implements
-		Supplier<ByteSeq<IUPACAlphabet>> {
+public class EncodedByteSeqProvider implements Supplier<ByteSeq<IUPACAlphabet>> {
 
-	/**
-	 * @see java.util.function.Supplier#get()
-	 */
-	@Override
-	public ByteSeq<IUPACAlphabet> get() {
-		final EncodedByteSeq<IUPACAlphabet> seq = new EncodedByteSeq<>(
-				Alphabets.getAlphabet(AlphabetId.DNA, NucleotideAlphabet.class));
-		return seq;
-	}
+    /**
+     * @see java.util.function.Supplier#get()
+     */
+    @Override
+    public ByteSeq<IUPACAlphabet> get() {
+        final EncodedByteSeq<IUPACAlphabet> seq = new EncodedByteSeq<>(
+                Alphabets.getAlphabet(AlphabetId.DNA, NucleotideAlphabet.class));
+        return seq;
+    }
 }

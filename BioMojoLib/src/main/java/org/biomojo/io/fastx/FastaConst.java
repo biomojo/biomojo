@@ -16,15 +16,14 @@
  */
 package org.biomojo.io.fastx;
 
-
 /**
  * @author Hugh Eaves
  *
  */
 public class FastaConst {
-	public static final byte RECORD_DELIMITER = '>';
+    public static final byte RECORD_DELIMITER = '>';
 
-	private FastaConst() {
+    private FastaConst() {
 
-	}
+    }
 }

@@ -26,22 +26,21 @@ import org.slf4j.LoggerFactory;
  * @author Hugh Eaves
  *
  */
-public class PairwiseAlignment<T extends Seq<?, ? extends GappableAlphabet<?, ?>>>
-		extends SeqArrayList<T> implements Alignment<T> {
-	private static final long serialVersionUID = 1L;
+public class PairwiseAlignment<T extends Seq<?, ? extends GappableAlphabet<?, ?>>> extends SeqArrayList<T>
+        implements Alignment<T> {
+    private static final long serialVersionUID = 1L;
 
-	private static final String SCORE = "score";
+    private static final String SCORE = "score";
 
-	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory
-			.getLogger(PairwiseAlignment.class.getName());
+    @SuppressWarnings("unused")
+    private static final Logger logger = LoggerFactory.getLogger(PairwiseAlignment.class.getName());
 
-	@Override
-	public int getScore() {
-		return getProp(SCORE);
-	}
+    @Override
+    public int getScore() {
+        return getProp(SCORE);
+    }
 
-	public void setScore(final int score) {
-		setProp(SCORE, score);
-	}
+    public void setScore(final int score) {
+        setProp(SCORE, score);
+    }
 }

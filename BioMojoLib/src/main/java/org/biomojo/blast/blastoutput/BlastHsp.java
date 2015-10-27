@@ -31,10 +31,9 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "hspNum", "bitScore", "score", "evalue",
-        "queryFrom", "queryTo", "hitFrom", "hitTo", "patternFrom", "patternTo",
-        "queryFrame", "hitFrame", "identity", "positive", "gaps", "alignLen",
-        "density", "qseq", "hseq", "midline" })
+@XmlType(name = "", propOrder = { "hspNum", "bitScore", "score", "evalue", "queryFrom", "queryTo", "hitFrom", "hitTo",
+        "patternFrom", "patternTo", "queryFrame", "hitFrame", "identity", "positive", "gaps", "alignLen", "density",
+        "qseq", "hseq", "midline" })
 @XmlRootElement(name = "Hsp")
 @Entity
 public class BlastHsp {

@@ -23,9 +23,9 @@ import java.util.Map;
  *
  */
 public interface PropertyMapManager {
-	public <T> T put(Map<String, Object> properties, String key, Object value);
+    public <T> T put(Map<String, Object> properties, String key, Object value);
 
-	public <T> T get(Map<String, Object> properties, String key);
+    public <T> T get(Map<String, Object> properties, String key);
 
-	public <T> T remove(Map<String, Object> properties, String key);
+    public <T> T remove(Map<String, Object> properties, String key);
 }

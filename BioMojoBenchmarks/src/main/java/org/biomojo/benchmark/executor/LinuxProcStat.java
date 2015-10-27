@@ -33,59 +33,55 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class LinuxProcStat implements Closeable {
-	private static final Logger logger = LoggerFactory
-			.getLogger(LinuxProcStat.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(LinuxProcStat.class.getName());
 
-	private String[] fieldValues;
+    private String[] fieldValues;
 
-	private RandomAccessFile statFile;
+    private RandomAccessFile statFile;
 
-	private int pid;
+    private int pid;
 
-	private static final Pattern splitPattern = Pattern.compile("\\s+");
+    private static final Pattern splitPattern = Pattern.compile("\\s+");
 
-	public LinuxProcStat(Process process) {
-		try {
-			// grab the private pid field via reflection
-			Field pidField = process.getClass().getDeclaredField("pid");
-			pidField.setAccessible(true);
-			pid = (Integer) pidField.get(process);
-			statFile = new RandomAccessFile("/proc/" + pid + "/stat", "r");
-		} catch (FileNotFoundException | NoSuchFieldException
-				| SecurityException | IllegalArgumentException
-				| IllegalAccessException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-		}
-	}
+    public LinuxProcStat(Process process) {
+        try {
+            // grab the private pid field via reflection
+            Field pidField = process.getClass().getDeclaredField("pid");
+            pidField.setAccessible(true);
+            pid = (Integer) pidField.get(process);
+            statFile = new RandomAccessFile("/proc/" + pid + "/stat", "r");
+        } catch (FileNotFoundException | NoSuchFieldException | SecurityException | IllegalArgumentException
+                | IllegalAccessException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        }
+    }
 
-	public Map<LinuxProcStatField, Object> getInfo() throws IOException {
-		if (statFile != null) {
-			try {
-				statFile.seek(0);
-				String line = statFile.readLine();
-				logger.info("proc stat line: {}", line);
-				fieldValues = splitPattern.split(line);
-				Map<LinuxProcStatField, Object> result = new HashMap<>();
-				for (LinuxProcStatField field : LinuxProcStatField.values()) {
-					logger.info("field {} : {}", field,
-							fieldValues[field.ordinal()]);
-					result.put(field, field.getValue(fieldValues));
-				}
-				return result;
-			} catch (IOException e) {
-				logger.error("Caught exception in auto-generated catch block",
-						e);
-			}
-		}
-		return null;
-	}
+    public Map<LinuxProcStatField, Object> getInfo() throws IOException {
+        if (statFile != null) {
+            try {
+                statFile.seek(0);
+                String line = statFile.readLine();
+                logger.info("proc stat line: {}", line);
+                fieldValues = splitPattern.split(line);
+                Map<LinuxProcStatField, Object> result = new HashMap<>();
+                for (LinuxProcStatField field : LinuxProcStatField.values()) {
+                    logger.info("field {} : {}", field, fieldValues[field.ordinal()]);
+                    result.put(field, field.getValue(fieldValues));
+                }
+                return result;
+            } catch (IOException e) {
+                logger.error("Caught exception in auto-generated catch block", e);
+            }
+        }
+        return null;
+    }
 
-	/**
-	 * @see java.io.Closeable#close()
-	 */
-	@Override
-	public void close() throws IOException {
-		statFile.close();
-	}
+    /**
+     * @see java.io.Closeable#close()
+     */
+    @Override
+    public void close() throws IOException {
+        statFile.close();
+    }
 
 }

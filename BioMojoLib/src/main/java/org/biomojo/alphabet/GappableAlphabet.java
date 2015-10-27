@@ -27,9 +27,9 @@ package org.biomojo.alphabet;
  * @author Hugh Eaves
  */
 public interface GappableAlphabet<T, A extends Alphabet<T>> extends Alphabet<T> {
-	public boolean supportsGaps();
+    public boolean supportsGaps();
 
-	public A getGapped();
+    public A getGapped();
 
-	public T gapSymbol();
+    public T gapSymbol();
 }

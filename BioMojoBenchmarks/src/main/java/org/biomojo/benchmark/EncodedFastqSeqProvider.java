@@ -31,17 +31,16 @@ import org.biomojo.sequence.FastqSeq;
  * @author Hugh Eaves
  *
  */
-public class EncodedFastqSeqProvider implements
-		Supplier<FastqSeq<NucleotideAlphabet>> {
+public class EncodedFastqSeqProvider implements Supplier<FastqSeq<NucleotideAlphabet>> {
 
-	/**
-	 * @see java.util.function.Supplier#get()
-	 */
-	@Override
-	public FastqSeq<NucleotideAlphabet> get() {
-		final FastqSeq<NucleotideAlphabet> seq = new EncodedFastqSeq<NucleotideAlphabet>(
-				Alphabets.getAlphabet(AlphabetId.DNA, NucleotideAlphabet.class),
-				Codecs.getCodec(CodecId.TWO_BIT_BYTE_CODEC, ByteCodec.class));
-		return seq;
-	}
+    /**
+     * @see java.util.function.Supplier#get()
+     */
+    @Override
+    public FastqSeq<NucleotideAlphabet> get() {
+        final FastqSeq<NucleotideAlphabet> seq = new EncodedFastqSeq<NucleotideAlphabet>(
+                Alphabets.getAlphabet(AlphabetId.DNA, NucleotideAlphabet.class),
+                Codecs.getCodec(CodecId.TWO_BIT_BYTE_CODEC, ByteCodec.class));
+        return seq;
+    }
 }

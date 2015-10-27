@@ -24,11 +24,11 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(commandNames = "gen_fastq")
 public class GenFastqCommand extends GenCommand {
-	/**
-	 * @see org.java0.cli.Command#run()
-	 */
-	@Override
-	public void run() {
-		new RandomFastqGenerator().createFile(outputFile, numSeqs, seqLength);
-	}
+    /**
+     * @see org.java0.cli.Command#run()
+     */
+    @Override
+    public void run() {
+        new RandomFastqGenerator().createFile(outputFile, numSeqs, seqLength);
+    }
 }

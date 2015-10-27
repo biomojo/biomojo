@@ -25,12 +25,10 @@ import org.biomojo.sequence.Seq;
 
 public class DefaultHeaderBuilder implements HeaderBuilder {
 
-	@Override
-	public byte[] buildHeader(final Seq<?, ?> sequence) {
-		final ByteBuffer buffer = Charset.forName("US-ASCII").encode(
-				CharBuffer.wrap(sequence.getDescription()));
-		return Arrays.copyOfRange(buffer.array(), buffer.arrayOffset(),
-				buffer.arrayOffset() + buffer.limit());
-	}
+    @Override
+    public byte[] buildHeader(final Seq<?, ?> sequence) {
+        final ByteBuffer buffer = Charset.forName("US-ASCII").encode(CharBuffer.wrap(sequence.getDescription()));
+        return Arrays.copyOfRange(buffer.array(), buffer.arrayOffset(), buffer.arrayOffset() + buffer.limit());
+    }
 
 }

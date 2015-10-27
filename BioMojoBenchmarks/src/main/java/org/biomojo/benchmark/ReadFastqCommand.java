@@ -33,43 +33,41 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(commandNames = "read_fastq")
 public class ReadFastqCommand extends BaseCommand {
-	private static final Logger logger = LoggerFactory
-			.getLogger(ReadFastqCommand.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(ReadFastqCommand.class.getName());
 
-	/**
-	 * @see org.java0.cli.Command#run()
-	 */
-	@Override
-	public void run() {
-		try {
-			logger.info("BioMojo Fastq Read Benchmark");
-			final FastqInputStream inputStream = new FastqInputStream(
-					new FileInputStream(inputFile), false);
+    /**
+     * @see org.java0.cli.Command#run()
+     */
+    @Override
+    public void run() {
+        try {
+            logger.info("BioMojo Fastq Read Benchmark");
+            final FastqInputStream inputStream = new FastqInputStream(new FileInputStream(inputFile), false);
 
-			int recordCount = 0;
-			long totalLength = 0;
-			long qualityLength = 0;
+            int recordCount = 0;
+            long totalLength = 0;
+            long qualityLength = 0;
 
-			Supplier<FastqSeq<NucleotideAlphabet>> provider = new FastqSeqProvider();
-			if (encode) {
-				provider = new EncodedFastqSeqProvider();
-			}
-			final FastqSeq<NucleotideAlphabet> sequence = provider.get();
+            Supplier<FastqSeq<NucleotideAlphabet>> provider = new FastqSeqProvider();
+            if (encode) {
+                provider = new EncodedFastqSeqProvider();
+            }
+            final FastqSeq<NucleotideAlphabet> sequence = provider.get();
 
-			while (inputStream.read(sequence)) {
-				++recordCount;
-				totalLength += sequence.size();
-				qualityLength += sequence.getQualityScores().size();
-			}
-			inputStream.close();
-			System.gc();
-			logger.info("Done loading " + recordCount + " sequences");
-			logger.info("Total sequence length is " + totalLength + " bases");
-			logger.info("Total quality length is " + qualityLength + " values");
+            while (inputStream.read(sequence)) {
+                ++recordCount;
+                totalLength += sequence.size();
+                qualityLength += sequence.getQualityScores().size();
+            }
+            inputStream.close();
+            System.gc();
+            logger.info("Done loading " + recordCount + " sequences");
+            logger.info("Total sequence length is " + totalLength + " bases");
+            logger.info("Total quality length is " + qualityLength + " values");
 
-			Thread.sleep(0);
-		} catch (final Exception e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-		}
-	}
+            Thread.sleep(0);
+        } catch (final Exception e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        }
+    }
 }

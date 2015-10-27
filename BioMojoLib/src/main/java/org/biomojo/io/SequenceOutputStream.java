@@ -11,12 +11,12 @@ import org.biomojo.sequence.Seq;
  * @param <T>
  */
 public interface SequenceOutputStream<T extends Seq<?, ?>> extends Closeable {
-	/**
-	 * Writes data from the given {@link org.biomojo.sequence.Seq} object to the
-	 * output stream.
-	 *
-	 * @param sequence
-	 * @throws IOException
-	 */
-	public void write(T sequence) throws IOException;
+    /**
+     * Writes data from the given {@link org.biomojo.sequence.Seq} object to the
+     * output stream.
+     *
+     * @param sequence
+     * @throws IOException
+     */
+    public void write(T sequence) throws IOException;
 }

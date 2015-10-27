@@ -21,9 +21,9 @@ import javax.persistence.Entity;
 @Entity
 public class NodeGroup extends NamedResource {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 3788069366976346179L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 3788069366976346179L;
 
 }

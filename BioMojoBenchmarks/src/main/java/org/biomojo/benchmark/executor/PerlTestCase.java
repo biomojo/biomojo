@@ -27,49 +27,46 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class PerlTestCase extends TestCase {
-	/**
-	 * Create a new PerlTestCase.
-	 *
-	 * @param benchmark
-	 * @param library
-	 */
-	public PerlTestCase(Benchmark benchmark, Library library) {
-		super(benchmark, library);
+    /**
+     * Create a new PerlTestCase.
+     *
+     * @param benchmark
+     * @param library
+     */
+    public PerlTestCase(Benchmark benchmark, Library library) {
+        super(benchmark, library);
 
-	}
+    }
 
-	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory
-			.getLogger(PerlTestCase.class.getName());
+    @SuppressWarnings("unused")
+    private static final Logger logger = LoggerFactory.getLogger(PerlTestCase.class.getName());
 
-	/**
-	 * @see org.biomojo.benchmark.executor.TestCase#getCommandLine(java.util.List)
-	 */
-	@Override
-	public List<String> getCommandLine() {
-		List<String> commandLine = new ArrayList<String>();
-		commandLine.add("perl");
+    /**
+     * @see org.biomojo.benchmark.executor.TestCase#getCommandLine(java.util.List)
+     */
+    @Override
+    public List<String> getCommandLine() {
+        List<String> commandLine = new ArrayList<String>();
+        commandLine.add("perl");
 
-		commandLine.add("-I");
+        commandLine.add("-I");
 
-		commandLine.add(config.get(ConfigParams.PROGRAM_BASE_DIR) + "/"
-				+ config.get(ConfigParams.PROGRAM_SUB_DIR));
+        commandLine.add(config.get(ConfigParams.PROGRAM_BASE_DIR) + "/" + config.get(ConfigParams.PROGRAM_SUB_DIR));
 
-		commandLine.add(config.get(ConfigParams.PROGRAM_BASE_DIR) + "/"
-				+ config.get(ConfigParams.PROGRAM_SUB_DIR) + "/"
-				+ config.get(ConfigParams.PROGRAM_NAME));
+        commandLine.add(config.get(ConfigParams.PROGRAM_BASE_DIR) + "/" + config.get(ConfigParams.PROGRAM_SUB_DIR) + "/"
+                + config.get(ConfigParams.PROGRAM_NAME));
 
-		commandLine.add(benchmark.toString());
+        commandLine.add(benchmark.toString());
 
-		if (config.get(ConfigParams.INPUT_FILE) != null) {
-			commandLine.add(config.get(ConfigParams.INPUT_FILE));
-		}
-		if (config.get(ConfigParams.OUTPUT_FILE) != null) {
-			commandLine.add(config.get(ConfigParams.OUTPUT_FILE));
-		}
-		if (config.get(ConfigParams.CUTOFF) != null) {
-			commandLine.add(config.get(ConfigParams.CUTOFF));
-		}
-		return commandLine;
-	}
+        if (config.get(ConfigParams.INPUT_FILE) != null) {
+            commandLine.add(config.get(ConfigParams.INPUT_FILE));
+        }
+        if (config.get(ConfigParams.OUTPUT_FILE) != null) {
+            commandLine.add(config.get(ConfigParams.OUTPUT_FILE));
+        }
+        if (config.get(ConfigParams.CUTOFF) != null) {
+            commandLine.add(config.get(ConfigParams.CUTOFF));
+        }
+        return commandLine;
+    }
 }

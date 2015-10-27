@@ -16,16 +16,15 @@
  */
 package org.biomojo.core;
 
-
 /**
  * @author Hugh Eaves
  *
  */
 public interface Identified {
-	/**
-	 * Get the unique numeric identifier for this object.
-	 *
-	 * @return the id
-	 */
-	public long getId();
+    /**
+     * Get the unique numeric identifier for this object.
+     *
+     * @return the id
+     */
+    public long getId();
 }

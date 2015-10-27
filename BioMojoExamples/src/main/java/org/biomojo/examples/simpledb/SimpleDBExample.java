@@ -38,44 +38,41 @@ import com.beust.jcommander.Parameters;
 @Named
 @Parameters(commandNames = "simpledbexample", commandDescription = "Trivial example of database access")
 public class SimpleDBExample extends AbstractSpringCommand {
-	/**
-	 * Create a new SimpleDBExample.
-	 *
-	 * @param configLocation
-	 */
-	public SimpleDBExample() {
-		super("simpledb-context.xml");
+    /**
+     * Create a new SimpleDBExample.
+     *
+     * @param configLocation
+     */
+    public SimpleDBExample() {
+        super("simpledb-context.xml");
 
-	}
+    }
 
-	private static final Logger logger = LoggerFactory
-			.getLogger(SimpleDBExample.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(SimpleDBExample.class.getName());
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	public static void main(final String[] args) {
-		BioMojo.init(args, new SimpleDBExample());
-	}
+    public static void main(final String[] args) {
+        BioMojo.init(args, new SimpleDBExample());
+    }
 
-	/**
-	 * @see java.lang.Runnable#run()
-	 */
-	@Override
-	@Transactional
-	public void run() {
-		logger.info("Started");
+    /**
+     * @see java.lang.Runnable#run()
+     */
+    @Override
+    @Transactional
+    public void run() {
+        logger.info("Started");
 
-		final ByteSeq<ByteAlphabet> sequence = new ByteSeqImpl<ByteAlphabet>(
-				"AGTGCCGGTC".getBytes());
-		sequence.setProp("name", "name of the sequence");
-		sequence.setProp("another", "test value");
-		entityManager.persist(sequence);
+        final ByteSeq<ByteAlphabet> sequence = new ByteSeqImpl<ByteAlphabet>("AGTGCCGGTC".getBytes());
+        sequence.setProp("name", "name of the sequence");
+        sequence.setProp("another", "test value");
+        entityManager.persist(sequence);
 
-		final ByteSeq<ByteAlphabet> newSeq = entityManager.find(ByteSeq.class,
-				1L);
-		logger.info(newSeq.getProp("name", String.class));
+        final ByteSeq<ByteAlphabet> newSeq = entityManager.find(ByteSeq.class, 1L);
+        logger.info(newSeq.getProp("name", String.class));
 
-		logger.info("Done");
-	}
+        logger.info("Done");
+    }
 }

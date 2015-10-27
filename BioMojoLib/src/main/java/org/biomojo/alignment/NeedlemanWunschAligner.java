@@ -18,22 +18,20 @@ package org.biomojo.alignment;
 
 import org.biomojo.alphabet.GappableByteAlphabet;
 
-public class NeedlemanWunschAligner<A extends GappableByteAlphabet<A>> extends
-		AbstractByteSeqAligner<A> {
+public class NeedlemanWunschAligner<A extends GappableByteAlphabet<A>> extends AbstractByteSeqAligner<A> {
 
-	public NeedlemanWunschAligner(final ByteSubstitutionMatrix matrix,
-			final int gapPenalty) {
-		super(matrix, gapPenalty);
-	}
+    public NeedlemanWunschAligner(final ByteSubstitutionMatrix matrix, final int gapPenalty) {
+        super(matrix, gapPenalty);
+    }
 
-	@Override
-	protected void initScoreMatrix() {
-		for (int i = 1; i < getSeq1Dim(); ++i) {
-			scores[i][0] = i * getGapPenalty();
-		}
+    @Override
+    protected void initScoreMatrix() {
+        for (int i = 1; i < getSeq1Dim(); ++i) {
+            scores[i][0] = i * getGapPenalty();
+        }
 
-		for (int i = 1; i < getSeq2Dim(); ++i) {
-			scores[0][i] = i * getGapPenalty();
-		}
-	}
+        for (int i = 1; i < getSeq2Dim(); ++i) {
+            scores[0][i] = i * getGapPenalty();
+        }
+    }
 }

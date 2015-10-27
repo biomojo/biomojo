@@ -21,9 +21,9 @@ import org.java0.string.ByteCharSequence;
 
 public class DefaultHeaderParser implements HeaderParser {
 
-	@Override
-	public void parseHeader(final Seq<?, ?> sequence, final byte[] headerData) {
-		sequence.setDescription(new ByteCharSequence(headerData));
-	}
+    @Override
+    public void parseHeader(final Seq<?, ?> sequence, final byte[] headerData) {
+        sequence.setDescription(new ByteCharSequence(headerData));
+    }
 
 }

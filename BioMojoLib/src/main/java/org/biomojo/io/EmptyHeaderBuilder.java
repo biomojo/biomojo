@@ -20,9 +20,9 @@ import org.biomojo.sequence.Seq;
 import org.java0.core.type.Constants;
 
 public class EmptyHeaderBuilder implements HeaderBuilder {
-	@Override
-	public byte[] buildHeader(final Seq<?, ?> sequence) {
-		return Constants.EMPTY_BYTE_ARRAY;
-	}
+    @Override
+    public byte[] buildHeader(final Seq<?, ?> sequence) {
+        return Constants.EMPTY_BYTE_ARRAY;
+    }
 
 }

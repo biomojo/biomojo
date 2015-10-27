@@ -26,39 +26,38 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class TrimmomaticTestCase extends JavaTestCase {
-	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory
-			.getLogger(TrimmomaticTestCase.class.getName());
+    @SuppressWarnings("unused")
+    private static final Logger logger = LoggerFactory.getLogger(TrimmomaticTestCase.class.getName());
 
-	/**
-	 * Create a new TrimmomaticTestCase.
-	 *
-	 * @param benchmark
-	 * @param library
-	 */
-	public TrimmomaticTestCase(Benchmark benchmark, Library library) {
-		super(benchmark, library);
+    /**
+     * Create a new TrimmomaticTestCase.
+     *
+     * @param benchmark
+     * @param library
+     */
+    public TrimmomaticTestCase(Benchmark benchmark, Library library) {
+        super(benchmark, library);
 
-	}
+    }
 
-	/**
-	 * @see org.biomojo.benchmark.executor.TestCase#getCommandLine()
-	 */
-	@Override
-	public List<String> getCommandLine() {
-		List<String> commandLine = startCommandLine();
+    /**
+     * @see org.biomojo.benchmark.executor.TestCase#getCommandLine()
+     */
+    @Override
+    public List<String> getCommandLine() {
+        List<String> commandLine = startCommandLine();
 
-		commandLine.add("SE");
-		commandLine.add("-phred33");
-		commandLine.add(config.get(ConfigParams.INPUT_FILE));
-		commandLine.add(config.get(ConfigParams.OUTPUT_FILE));
-		commandLine.add("TRAILING:" + config.get(ConfigParams.CUTOFF));
+        commandLine.add("SE");
+        commandLine.add("-phred33");
+        commandLine.add(config.get(ConfigParams.INPUT_FILE));
+        commandLine.add(config.get(ConfigParams.OUTPUT_FILE));
+        commandLine.add("TRAILING:" + config.get(ConfigParams.CUTOFF));
 
-		return commandLine;
-	}
+        return commandLine;
+    }
 
-	@Override
-	protected void addBenchmarkName(List<String> commandLine) {
+    @Override
+    protected void addBenchmarkName(List<String> commandLine) {
 
-	}
+    }
 }

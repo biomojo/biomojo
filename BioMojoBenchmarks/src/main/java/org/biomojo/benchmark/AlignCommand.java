@@ -46,71 +46,66 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(commandNames = "align")
 public class AlignCommand extends BaseCommand {
-	private static final Logger logger = LoggerFactory
-			.getLogger(AlignCommand.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(AlignCommand.class.getName());
 
-	/**
-	 * @see org.java0.cli.Command#run()
-	 */
-	@Override
-	public void run() {
-		try {
-			logger.info("BioMojo alignment benchmark");
+    /**
+     * @see org.java0.cli.Command#run()
+     */
+    @Override
+    public void run() {
+        try {
+            logger.info("BioMojo alignment benchmark");
 
-			final FastaInputStream inputStream = new FastaInputStream(
-					new FileInputStream(inputFile));
-			final List<ByteSeq<IUPACAlphabet>> sequences = new ArrayList<>();
+            final FastaInputStream inputStream = new FastaInputStream(new FileInputStream(inputFile));
+            final List<ByteSeq<IUPACAlphabet>> sequences = new ArrayList<>();
 
-			Supplier<ByteSeq<IUPACAlphabet>> provider = new ByteSeqProvider();
-			if (encode) {
-				provider = new EncodedByteSeqProvider();
-			}
-			ByteSeq<IUPACAlphabet> sequence = provider.get();
-			while (inputStream.read(sequence)) {
-				logger.info("Read sequence" + sequence.getDescription());
-				sequences.add(sequence);
-				sequence = provider.get();
-			}
-			inputStream.close();
+            Supplier<ByteSeq<IUPACAlphabet>> provider = new ByteSeqProvider();
+            if (encode) {
+                provider = new EncodedByteSeqProvider();
+            }
+            ByteSeq<IUPACAlphabet> sequence = provider.get();
+            while (inputStream.read(sequence)) {
+                logger.info("Read sequence" + sequence.getDescription());
+                sequences.add(sequence);
+                sequence = provider.get();
+            }
+            inputStream.close();
 
-			logger.info("Done loading " + sequences.size() + " sequences");
+            logger.info("Done loading " + sequences.size() + " sequences");
 
-			logger.info("Running alignments");
+            logger.info("Running alignments");
 
-			final int numSeqs = sequences.size();
+            final int numSeqs = sequences.size();
 
-			final ByteSubstitutionMatrix matrix = new MatchMismatchByteSubstitutionMatrix(
-					Alphabets.getAlphabet(AlphabetId.NUCLEOTIDE,
-							ByteAlphabet.class), 1, -1);
+            final ByteSubstitutionMatrix matrix = new MatchMismatchByteSubstitutionMatrix(
+                    Alphabets.getAlphabet(AlphabetId.NUCLEOTIDE, ByteAlphabet.class), 1, -1);
 
-			final Aligner<ByteSeq<IUPACAlphabet>> aligner = new NeedlemanWunschAligner<IUPACAlphabet>(
-					matrix, -2);
-			final List<ByteSeq<IUPACAlphabet>> seqList = new ArrayList<ByteSeq<IUPACAlphabet>>();
-			for (int i = 0; i < numSeqs; ++i) {
-				for (int j = 0; j < i; ++j) {
-					seqList.clear();
-					seqList.add(sequences.get(i));
-					seqList.add(sequences.get(j));
-					logger.debug("Aligning {} and {}", i, j);
-					final Alignment<ByteSeq<IUPACAlphabet>> alignment = aligner
-							.align(seqList);
-					System.out.print(alignment.getScore() + "\t");
-				}
-				System.out.println();
-			}
+            final Aligner<ByteSeq<IUPACAlphabet>> aligner = new NeedlemanWunschAligner<IUPACAlphabet>(matrix, -2);
+            final List<ByteSeq<IUPACAlphabet>> seqList = new ArrayList<ByteSeq<IUPACAlphabet>>();
+            for (int i = 0; i < numSeqs; ++i) {
+                for (int j = 0; j < i; ++j) {
+                    seqList.clear();
+                    seqList.add(sequences.get(i));
+                    seqList.add(sequences.get(j));
+                    logger.debug("Aligning {} and {}", i, j);
+                    final Alignment<ByteSeq<IUPACAlphabet>> alignment = aligner.align(seqList);
+                    System.out.print(alignment.getScore() + "\t");
+                }
+                System.out.println();
+            }
 
-			// seqList.add(new DNASeq("AGTC".getBytes()));
-			// seqList.add(new DNASeq("AGTC".getBytes()));
-			// Alignment alignment = aligner.align(seqList);
-			logger.info("Done");
+            // seqList.add(new DNASeq("AGTC".getBytes()));
+            // seqList.add(new DNASeq("AGTC".getBytes()));
+            // Alignment alignment = aligner.align(seqList);
+            logger.info("Done");
 
-			Thread.sleep(10);
-		} catch (final FileNotFoundException e) {
-			throw new UncheckedException(e);
-		} catch (final IOException e) {
-			throw new UncheckedException(e);
-		} catch (final InterruptedException e) {
-			throw new UncheckedException(e);
-		}
-	}
+            Thread.sleep(10);
+        } catch (final FileNotFoundException e) {
+            throw new UncheckedException(e);
+        } catch (final IOException e) {
+            throw new UncheckedException(e);
+        } catch (final InterruptedException e) {
+            throw new UncheckedException(e);
+        }
+    }
 }

@@ -25,19 +25,18 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class NamedResource extends Resource implements NamedObject {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 4996505227539819704L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 4996505227539819704L;
 
-	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory.getLogger(NamedResource.class
-			.getName());
+    @SuppressWarnings("unused")
+    private static final Logger logger = LoggerFactory.getLogger(NamedResource.class.getName());
 
-	protected String name;
+    protected String name;
 
-	@Override
-	public String getName() {
-		return name;
-	}
+    @Override
+    public String getName() {
+        return name;
+    }
 }

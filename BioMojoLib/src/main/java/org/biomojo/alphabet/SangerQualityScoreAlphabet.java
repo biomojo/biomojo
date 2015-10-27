@@ -7,7 +7,7 @@ package org.biomojo.alphabet;
  *
  */
 public class SangerQualityScoreAlphabet extends AbstractQualityScoreAlphabet {
-	public SangerQualityScoreAlphabet() {
-		super(AlphabetId.QUALITY_SANGER, 33, 126);
-	}
+    public SangerQualityScoreAlphabet() {
+        super(AlphabetId.QUALITY_SANGER, 33, 126);
+    }
 }

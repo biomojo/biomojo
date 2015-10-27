@@ -40,46 +40,41 @@ import org.xml.sax.XMLReader;
 
 @Named
 public class BlastOutputParser {
-	private final static Logger logger = LoggerFactory
-			.getLogger(BlastOutputParser.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(BlastOutputParser.class.getName());
 
-	@Transactional
-	public BlastOutput parseResults(InputStream blastOutputStream,
-			BlastSequenceResolver sequenceResolver) {
+    @Transactional
+    public BlastOutput parseResults(InputStream blastOutputStream, BlastSequenceResolver sequenceResolver) {
 
-		logger.info("Parsing BLAST results");
+        logger.info("Parsing BLAST results");
 
-		try {
-			SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-			parserFactory.setFeature("http://xml.org/sax/features/validation",
-					false);
-			parserFactory.setFeature(XMLConstants.ACCESS_EXTERNAL_DTD, false);
+        try {
+            SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+            parserFactory.setFeature("http://xml.org/sax/features/validation", false);
+            parserFactory.setFeature(XMLConstants.ACCESS_EXTERNAL_DTD, false);
 
-			XMLReader xmlReader = parserFactory.newSAXParser().getXMLReader();
-			InputSource inputSource = new InputSource(blastOutputStream);
-			SAXSource source = new SAXSource(xmlReader, inputSource);
+            XMLReader xmlReader = parserFactory.newSAXParser().getXMLReader();
+            InputSource inputSource = new InputSource(blastOutputStream);
+            SAXSource source = new SAXSource(xmlReader, inputSource);
 
-			JAXBContext jaxBContext = JAXBContext.newInstance(BlastOutput.class
-					.getName());
-			Unmarshaller unmarshaller = jaxBContext.createUnmarshaller();
-			BlastOutput blastOutput = (BlastOutput) unmarshaller
-					.unmarshal(source);
+            JAXBContext jaxBContext = JAXBContext.newInstance(BlastOutput.class.getName());
+            Unmarshaller unmarshaller = jaxBContext.createUnmarshaller();
+            BlastOutput blastOutput = (BlastOutput) unmarshaller.unmarshal(source);
 
-			sequenceResolver.resolveSequences(blastOutput);
+            sequenceResolver.resolveSequences(blastOutput);
 
-			logger.info("Successfully parsed BLAST output");
-			return blastOutput;
-		} catch (JAXBException e) {
-			throw new UncheckedException(e);
-		} catch (SAXNotRecognizedException e) {
-			throw new UncheckedException(e);
-		} catch (SAXNotSupportedException e) {
-			throw new UncheckedException(e);
-		} catch (ParserConfigurationException e) {
-			throw new UncheckedException(e);
-		} catch (SAXException e) {
-			throw new UncheckedException(e);
-		}
+            logger.info("Successfully parsed BLAST output");
+            return blastOutput;
+        } catch (JAXBException e) {
+            throw new UncheckedException(e);
+        } catch (SAXNotRecognizedException e) {
+            throw new UncheckedException(e);
+        } catch (SAXNotSupportedException e) {
+            throw new UncheckedException(e);
+        } catch (ParserConfigurationException e) {
+            throw new UncheckedException(e);
+        } catch (SAXException e) {
+            throw new UncheckedException(e);
+        }
 
-	}
+    }
 }

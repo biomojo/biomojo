@@ -22,16 +22,16 @@ import java.io.OutputStream;
 
 public class OutputUtil {
 
-	public static void writeSplitLines(final OutputStream outputStream,
-			final int maxLineLength, final byte[] data) throws IOException {
-		final int size = data.length;
-		for (int i = 0; i < size; i += maxLineLength) {
-			if (size - i < maxLineLength) {
-				outputStream.write(data, i, size - i);
-			} else {
-				outputStream.write(data, i, maxLineLength);
-			}
-			outputStream.write('\n');
-		}
-	}
+    public static void writeSplitLines(final OutputStream outputStream, final int maxLineLength, final byte[] data)
+            throws IOException {
+        final int size = data.length;
+        for (int i = 0; i < size; i += maxLineLength) {
+            if (size - i < maxLineLength) {
+                outputStream.write(data, i, size - i);
+            } else {
+                outputStream.write(data, i, maxLineLength);
+            }
+            outputStream.write('\n');
+        }
+    }
 }

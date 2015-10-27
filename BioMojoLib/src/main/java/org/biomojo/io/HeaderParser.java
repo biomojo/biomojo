@@ -19,5 +19,5 @@ package org.biomojo.io;
 import org.biomojo.sequence.Seq;
 
 public interface HeaderParser {
-	public void parseHeader(Seq<?, ?> sequence, byte[] headerData);
+    public void parseHeader(Seq<?, ?> sequence, byte[] headerData);
 }

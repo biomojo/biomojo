@@ -27,16 +27,15 @@ import org.biomojo.codec.Codecs;
  *
  */
 @Converter(autoApply = true)
-public class ByteCodecConverter implements
-		AttributeConverter<ByteCodec, Integer> {
-	@Override
-	public Integer convertToDatabaseColumn(ByteCodec codec) {
-		return (int) codec.getId();
-	}
+public class ByteCodecConverter implements AttributeConverter<ByteCodec, Integer> {
+    @Override
+    public Integer convertToDatabaseColumn(ByteCodec codec) {
+        return (int) codec.getId();
+    }
 
-	@Override
-	public ByteCodec convertToEntityAttribute(Integer codecId) {
-		return Codecs.getCodec(codecId, ByteCodec.class);
-	}
+    @Override
+    public ByteCodec convertToEntityAttribute(Integer codecId) {
+        return Codecs.getCodec(codecId, ByteCodec.class);
+    }
 
 }

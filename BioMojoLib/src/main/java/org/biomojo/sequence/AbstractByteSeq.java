@@ -28,27 +28,26 @@ import org.biomojo.alphabet.ByteAlphabet;
  */
 @Entity
 @DiscriminatorValue("Y")
-public abstract class AbstractByteSeq<A extends ByteAlphabet> extends
-		AbstractSeq<Byte, A> implements ByteSeq<A> {
+public abstract class AbstractByteSeq<A extends ByteAlphabet> extends AbstractSeq<Byte, A> implements ByteSeq<A> {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected ByteAlphabet alphabet;
+    protected ByteAlphabet alphabet;
 
-	public AbstractByteSeq() {
-	}
+    public AbstractByteSeq() {
+    }
 
-	public AbstractByteSeq(final A alphabet) {
-		initAlphabet(alphabet);
-	}
+    public AbstractByteSeq(final A alphabet) {
+        initAlphabet(alphabet);
+    }
 
-	protected void initAlphabet(final A alphabet) {
-		this.alphabet = alphabet;
-	}
+    protected void initAlphabet(final A alphabet) {
+        this.alphabet = alphabet;
+    }
 
-	@Override
-	public A getAlphabet() {
-		return (A) alphabet;
-	}
+    @Override
+    public A getAlphabet() {
+        return (A) alphabet;
+    }
 
 }

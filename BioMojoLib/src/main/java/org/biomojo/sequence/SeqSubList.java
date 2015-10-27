@@ -23,67 +23,66 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class SeqSubList<T extends Seq<?, ?>> extends AbstractSeqList<T> {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -8154271883890794936L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8154271883890794936L;
 
-	@ManyToOne(targetEntity = AbstractSeqList.class)
-	protected SeqList<T> targetList;
+    @ManyToOne(targetEntity = AbstractSeqList.class)
+    protected SeqList<T> targetList;
 
-	private int fromIndex;
+    private int fromIndex;
 
-	private int toIndex;
+    private int toIndex;
 
-	protected SeqSubList() {
-	}
+    protected SeqSubList() {
+    }
 
-	public SeqSubList(final SeqList<T> sequenceList, final int fromIndex,
-			final int toIndex) {
-		this.targetList = sequenceList;
-		this.fromIndex = fromIndex;
-		this.toIndex = toIndex;
-	}
+    public SeqSubList(final SeqList<T> sequenceList, final int fromIndex, final int toIndex) {
+        this.targetList = sequenceList;
+        this.fromIndex = fromIndex;
+        this.toIndex = toIndex;
+    }
 
-	public int getFromIndex() {
-		return fromIndex;
-	}
+    public int getFromIndex() {
+        return fromIndex;
+    }
 
-	public int getToIndex() {
-		return toIndex;
-	}
+    public int getToIndex() {
+        return toIndex;
+    }
 
-	public SeqList<T> getTargetList() {
-		return targetList;
-	}
+    public SeqList<T> getTargetList() {
+        return targetList;
+    }
 
-	@Override
-	public T get(final int index) {
-		return targetList.get(fromIndex + index);
-	}
+    @Override
+    public T get(final int index) {
+        return targetList.get(fromIndex + index);
+    }
 
-	@Override
-	public T set(final int index, final T value) {
-		return targetList.set(fromIndex + index, value);
-	}
+    @Override
+    public T set(final int index, final T value) {
+        return targetList.set(fromIndex + index, value);
+    }
 
-	@Override
-	public int size() {
-		return toIndex - fromIndex;
-	}
+    @Override
+    public int size() {
+        return toIndex - fromIndex;
+    }
 
-	@Override
-	public boolean add(final T value) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public boolean add(final T value) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public List<T> subList(final int from, final int to) {
-		return new SeqSubList<T>(targetList, fromIndex + from, toIndex + to);
-	}
+    @Override
+    public List<T> subList(final int from, final int to) {
+        return new SeqSubList<T>(targetList, fromIndex + from, toIndex + to);
+    }
 
-	@Override
-	public T remove(final int pos) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public T remove(final int pos) {
+        throw new UnsupportedOperationException();
+    }
 }

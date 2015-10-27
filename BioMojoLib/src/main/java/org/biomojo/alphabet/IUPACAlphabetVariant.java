@@ -21,9 +21,9 @@ package org.biomojo.alphabet;
  *
  */
 public class IUPACAlphabetVariant {
-	public static final int WITH_NON_CANONICAL = 1;
-	public static final int WITH_GAP = 2;
-	public static final int WITH_ANY = 4;
-	public static final int WITH_AMBIGIGUITY = 8;
-	public static final int NUM_VARIANTS = 16;
+    public static final int WITH_NON_CANONICAL = 1;
+    public static final int WITH_GAP = 2;
+    public static final int WITH_ANY = 4;
+    public static final int WITH_AMBIGIGUITY = 8;
+    public static final int NUM_VARIANTS = 16;
 }

@@ -23,39 +23,39 @@ import java.util.Map;
  *
  */
 public class DefaultPropertyMapManager implements PropertyMapManager {
-	public static final DefaultPropertyMapManager INSTANCE = new DefaultPropertyMapManager();
+    public static final DefaultPropertyMapManager INSTANCE = new DefaultPropertyMapManager();
 
-	private DefaultPropertyMapManager() {
+    private DefaultPropertyMapManager() {
 
-	}
+    }
 
-	/**
-	 * @see org.biomojo.property.PropertyMapManager#put(java.util.Map,
-	 *      java.lang.String, java.lang.Object)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T put(Map<String, Object> properties, String key, Object value) {
-		return (T) properties.put(key, value);
-	}
+    /**
+     * @see org.biomojo.property.PropertyMapManager#put(java.util.Map,
+     *      java.lang.String, java.lang.Object)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T put(Map<String, Object> properties, String key, Object value) {
+        return (T) properties.put(key, value);
+    }
 
-	/**
-	 * @see org.biomojo.property.PropertyMapManager#get(java.util.Map,
-	 *      java.lang.String)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T get(Map<String, Object> properties, String key) {
-		return (T) properties.get(key);
-	}
+    /**
+     * @see org.biomojo.property.PropertyMapManager#get(java.util.Map,
+     *      java.lang.String)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T get(Map<String, Object> properties, String key) {
+        return (T) properties.get(key);
+    }
 
-	/**
-	 * @see org.biomojo.property.PropertyMapManager#remove(java.util.Map,
-	 *      java.lang.String)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T remove(Map<String, Object> properties, String key) {
-		return (T) properties.remove(key);
-	}
+    /**
+     * @see org.biomojo.property.PropertyMapManager#remove(java.util.Map,
+     *      java.lang.String)
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    public <T> T remove(Map<String, Object> properties, String key) {
+        return (T) properties.remove(key);
+    }
 }

@@ -9,37 +9,38 @@ import com.beust.jcommander.Parameters;
 
 @Parameters(commandNames = "taxonomyload", commandDescription = "Load NCBI Taxonomy Files")
 public class TaxonomyLoadCommand extends AbstractCommand {
-	@Parameter(names = { "-i", "--input" }, required = true, description = "Input File Name")
-	private InputStream inputStream;
+    @Parameter(names = { "-i", "--input" }, required = true, description = "Input File Name")
+    private InputStream inputStream;
 
-	public enum TYPE {
-		DIVISION, NODES, NAMES, GENCODE
-	};
+    public enum TYPE {
+        DIVISION, NODES, NAMES, GENCODE
+    };
 
-	@Parameter(names = { "-t", "--type" }, required = true, description = "Input File Type (division, nodes, names, gencode)")
-	private TYPE type;
+    @Parameter(names = { "-t",
+            "--type" }, required = true, description = "Input File Type (division, nodes, names, gencode)")
+    private TYPE type;
 
-	public InputStream getInputStream() {
-		return inputStream;
-	}
+    public InputStream getInputStream() {
+        return inputStream;
+    }
 
-	public void setInputStream(InputStream inputStream) {
-		this.inputStream = inputStream;
-	}
+    public void setInputStream(InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
 
-	public TYPE getType() {
-		return type;
-	}
+    public TYPE getType() {
+        return type;
+    }
 
-	public void setType(TYPE type) {
-		this.type = type;
-	}
+    public void setType(TYPE type) {
+        this.type = type;
+    }
 
-	/**
-	 * @see org.java0.cli.Command#run()
-	 */
-	@Override
-	public void run() {
-	}
+    /**
+     * @see org.java0.cli.Command#run()
+     */
+    @Override
+    public void run() {
+    }
 
 }

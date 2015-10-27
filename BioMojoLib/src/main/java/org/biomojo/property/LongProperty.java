@@ -24,36 +24,36 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value = "L")
 public class LongProperty extends NumericProperty {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1448961994278386666L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1448961994278386666L;
 
-	protected long longValue;
+    protected long longValue;
 
-	public LongProperty() {
-	}
+    public LongProperty() {
+    }
 
-	public LongProperty(long longValue) {
-		this.longValue = longValue;
-	}
+    public LongProperty(long longValue) {
+        this.longValue = longValue;
+    }
 
-	@Override
-	public void setValue(Object value) {
-		setLong((long) value);
-	}
+    @Override
+    public void setValue(Object value) {
+        setLong((long) value);
+    }
 
-	@Override
-	public Object getValue() {
-		return longValue;
-	}
+    @Override
+    public Object getValue() {
+        return longValue;
+    }
 
-	public void setLong(long longValue) {
-		this.longValue = longValue;
-	}
+    public void setLong(long longValue) {
+        this.longValue = longValue;
+    }
 
-	public long getLong() {
-		return longValue;
-	}
+    public long getLong() {
+        return longValue;
+    }
 
 }

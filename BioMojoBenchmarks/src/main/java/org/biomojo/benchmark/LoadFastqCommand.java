@@ -40,60 +40,58 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(commandNames = "load_fastq")
 public class LoadFastqCommand extends BaseCommand {
-	private static final Logger logger = LoggerFactory
-			.getLogger(LoadFastqCommand.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(LoadFastqCommand.class.getName());
 
-	/**
-	 * @see org.java0.cli.Command#run()
-	 */
-	@Override
-	public void run() {
-		try {
-			logger.info("BioMojo Fastq Load Benchmark");
+    /**
+     * @see org.java0.cli.Command#run()
+     */
+    @Override
+    public void run() {
+        try {
+            logger.info("BioMojo Fastq Load Benchmark");
 
-			final FastqInputStream inputStream = new FastqInputStream(
-					new FileInputStream(inputFile),
-					new SequenceIdHeaderParser());
-			final List<ByteSeq<NucleotideAlphabet>> sequences = new ArrayList<ByteSeq<NucleotideAlphabet>>();
+            final FastqInputStream inputStream = new FastqInputStream(new FileInputStream(inputFile),
+                    new SequenceIdHeaderParser());
+            final List<ByteSeq<NucleotideAlphabet>> sequences = new ArrayList<ByteSeq<NucleotideAlphabet>>();
 
-			int recordCount = 0;
-			long totalLength = 0;
-			long qualityLength = 0;
-			int lastLog = 0;
+            int recordCount = 0;
+            long totalLength = 0;
+            long qualityLength = 0;
+            int lastLog = 0;
 
-			Supplier<FastqSeq<NucleotideAlphabet>> provider = new FastqSeqProvider();
-			if (encode) {
-				provider = new EncodedFastqSeqProvider();
-			}
-			FastqSeq<NucleotideAlphabet> sequence = provider.get();
+            Supplier<FastqSeq<NucleotideAlphabet>> provider = new FastqSeqProvider();
+            if (encode) {
+                provider = new EncodedFastqSeqProvider();
+            }
+            FastqSeq<NucleotideAlphabet> sequence = provider.get();
 
-			while (inputStream.read(sequence)) {
-				sequences.add(sequence);
-				++recordCount;
-				totalLength += sequence.size();
-				qualityLength += sequence.getQualityScores().size();
-				final int log = (int) (Math.log(recordCount) / Math.log(1.015));
-				if (log != lastLog) {
-					lastLog = log;
-					logger.info("Loaded " + recordCount + " sequences so far");
-					System.gc();
-				}
-				sequence = provider.get();
-			}
-			inputStream.close();
-			System.gc();
-			logger.info("Done loading " + sequences.size() + " sequences");
-			logger.info("Total sequence length is " + totalLength + " bases");
-			logger.info("Total quality length is " + qualityLength + " values");
+            while (inputStream.read(sequence)) {
+                sequences.add(sequence);
+                ++recordCount;
+                totalLength += sequence.size();
+                qualityLength += sequence.getQualityScores().size();
+                final int log = (int) (Math.log(recordCount) / Math.log(1.015));
+                if (log != lastLog) {
+                    lastLog = log;
+                    logger.info("Loaded " + recordCount + " sequences so far");
+                    System.gc();
+                }
+                sequence = provider.get();
+            }
+            inputStream.close();
+            System.gc();
+            logger.info("Done loading " + sequences.size() + " sequences");
+            logger.info("Total sequence length is " + totalLength + " bases");
+            logger.info("Total quality length is " + qualityLength + " values");
 
-			Thread.sleep(0);
+            Thread.sleep(0);
 
-		} catch (final FileNotFoundException e) {
-			throw new UncheckedException(e);
-		} catch (final IOException e) {
-			throw new UncheckedException(e);
-		} catch (final InterruptedException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-		}
-	}
+        } catch (final FileNotFoundException e) {
+            throw new UncheckedException(e);
+        } catch (final IOException e) {
+            throw new UncheckedException(e);
+        } catch (final InterruptedException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        }
+    }
 }

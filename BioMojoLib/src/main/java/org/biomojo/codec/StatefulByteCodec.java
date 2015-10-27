@@ -23,5 +23,5 @@ import org.biomojo.alphabet.ByteAlphabet;
  *
  */
 public interface StatefulByteCodec extends StatefulCodec, ByteCodec {
-	public byte[] getEncodedData(ByteAlphabet alphabet);
+    public byte[] getEncodedData(ByteAlphabet alphabet);
 }

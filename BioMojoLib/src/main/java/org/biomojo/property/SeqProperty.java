@@ -12,26 +12,25 @@ import org.slf4j.LoggerFactory;
 @Entity
 @DiscriminatorValue(value = "E")
 public class SeqProperty extends BasicProperty {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 8959250872527073219L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 8959250872527073219L;
 
-	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory
-			.getLogger(SeqProperty.class.getName());
+    @SuppressWarnings("unused")
+    private static final Logger logger = LoggerFactory.getLogger(SeqProperty.class.getName());
 
-	@ManyToOne
-	@JoinColumn(name = "longValue")
-	private AbstractSeq<?, ?> sequence;
+    @ManyToOne
+    @JoinColumn(name = "longValue")
+    private AbstractSeq<?, ?> sequence;
 
-	@Override
-	public Object getValue() {
-		return sequence;
-	}
+    @Override
+    public Object getValue() {
+        return sequence;
+    }
 
-	@Override
-	public void setValue(final Object value) {
-		sequence = (AbstractSeq<?, ?>) value;
-	}
+    @Override
+    public void setValue(final Object value) {
+        sequence = (AbstractSeq<?, ?>) value;
+    }
 }

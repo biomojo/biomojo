@@ -23,7 +23,7 @@ package org.biomojo.alphabet;
  *
  */
 public interface AmbiguitySupport {
-	public boolean supportsAny();
+    public boolean supportsAny();
 
-	public boolean supportsAmbiguity();
+    public boolean supportsAmbiguity();
 }

@@ -30,14 +30,14 @@ import org.biomojo.sequence.ByteSeq;
  *
  */
 public class ByteSeqProvider implements Supplier<ByteSeq<IUPACAlphabet>> {
-	/**
-	 * @see java.util.function.Supplier#get()
-	 */
-	@Override
-	public ByteSeq<IUPACAlphabet> get() {
-		final ByteSeqImpl<IUPACAlphabet> seq = new ByteSeqImpl<>(Alphabets.getAlphabet(
-				AlphabetId.DNA, NucleotideAlphabet.class));
-		return seq;
-	}
+    /**
+     * @see java.util.function.Supplier#get()
+     */
+    @Override
+    public ByteSeq<IUPACAlphabet> get() {
+        final ByteSeqImpl<IUPACAlphabet> seq = new ByteSeqImpl<>(
+                Alphabets.getAlphabet(AlphabetId.DNA, NucleotideAlphabet.class));
+        return seq;
+    }
 
 }

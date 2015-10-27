@@ -35,273 +35,255 @@ import org.slf4j.LoggerFactory;
 
 @Named
 public class TaxonomyService {
-	private static final Logger logger = LoggerFactory
-			.getLogger(SequenceService.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(SequenceService.class.getName());
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@Transactional
-	public void loadDivisisions(final InputStream divisions) {
-		try {
-			final BufferedReader reader = new BufferedReader(
-					new InputStreamReader(divisions));
+    @Transactional
+    public void loadDivisisions(final InputStream divisions) {
+        try {
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(divisions));
 
-			for (String line; (line = reader.readLine()) != null;) {
-				final String[] fields = splitLine(line);
-				if (fields.length != 4) {
-					throw new UncheckedException(
-							"Invalid Taxonomy Division file");
-				}
+            for (String line; (line = reader.readLine()) != null;) {
+                final String[] fields = splitLine(line);
+                if (fields.length != 4) {
+                    throw new UncheckedException("Invalid Taxonomy Division file");
+                }
 
-				TaxonomyDivision division = findDivision(fields[0]);
-				if (division == null) {
-					division = new TaxonomyDivision();
-					division.setId(Long.parseLong(fields[0]));
-					entityManager.persist(division);
-				}
+                TaxonomyDivision division = findDivision(fields[0]);
+                if (division == null) {
+                    division = new TaxonomyDivision();
+                    division.setId(Long.parseLong(fields[0]));
+                    entityManager.persist(division);
+                }
 
-				division.setCode(fields[1]);
-				division.setName(fields[2]);
-				division.setComments(fields[3]);
-			}
-		} catch (final IOException e) {
-			throw new UncheckedException(e);
-		}
-	}
+                division.setCode(fields[1]);
+                division.setName(fields[2]);
+                division.setComments(fields[3]);
+            }
+        } catch (final IOException e) {
+            throw new UncheckedException(e);
+        }
+    }
 
-	// tax_id -- node id in GenBank taxonomy database
-	// parent tax_id -- parent node id in GenBank taxonomy database
-	// rank -- rank of this node (superkingdom, kingdom, ...)
-	// embl code -- locus-name prefix; not unique
-	// division id -- see division.dmp file
-	// inherited div flag (1 or 0) -- 1 if node inherits division from parent
-	// genetic code id -- see gencode.dmp file
-	// inherited GC flag (1 or 0) -- 1 if node inherits genetic code from parent
-	// mitochondrial genetic code id -- see gencode.dmp file
-	// inherited MGC flag (1 or 0) -- 1 if node inherits mitochondrial gencode
-	// from parent
-	// GenBank hidden flag (1 or 0) -- 1 if name is suppressed in GenBank entry
-	// lineage
-	// hidden subtree root flag (1 or 0) -- 1 if this subtree has no rawData
-	// data yet
-	// comments -- free-text comments and citations
+    // tax_id -- node id in GenBank taxonomy database
+    // parent tax_id -- parent node id in GenBank taxonomy database
+    // rank -- rank of this node (superkingdom, kingdom, ...)
+    // embl code -- locus-name prefix; not unique
+    // division id -- see division.dmp file
+    // inherited div flag (1 or 0) -- 1 if node inherits division from parent
+    // genetic code id -- see gencode.dmp file
+    // inherited GC flag (1 or 0) -- 1 if node inherits genetic code from parent
+    // mitochondrial genetic code id -- see gencode.dmp file
+    // inherited MGC flag (1 or 0) -- 1 if node inherits mitochondrial gencode
+    // from parent
+    // GenBank hidden flag (1 or 0) -- 1 if name is suppressed in GenBank entry
+    // lineage
+    // hidden subtree root flag (1 or 0) -- 1 if this subtree has no rawData
+    // data yet
+    // comments -- free-text comments and citations
 
-	@Transactional
-	public void loadTaxonomyNodes(final InputStream taxonomyNodes) {
-		try {
-			final BufferedReader reader = new BufferedReader(
-					new InputStreamReader(taxonomyNodes));
+    @Transactional
+    public void loadTaxonomyNodes(final InputStream taxonomyNodes) {
+        try {
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(taxonomyNodes));
 
-			final Map<Long, TaxonomyNode> nodeCache = new HashMap<Long, TaxonomyNode>();
+            final Map<Long, TaxonomyNode> nodeCache = new HashMap<Long, TaxonomyNode>();
 
-			int lineCount = 0;
-			for (String line; (line = reader.readLine()) != null;) {
-				++lineCount;
-				if (lineCount % 1000 == 0) {
-					logger.info("Processing line " + lineCount);
-				}
+            int lineCount = 0;
+            for (String line; (line = reader.readLine()) != null;) {
+                ++lineCount;
+                if (lineCount % 1000 == 0) {
+                    logger.info("Processing line " + lineCount);
+                }
 
-				final String[] fields = splitLine(line);
+                final String[] fields = splitLine(line);
 
-				if (fields.length != 13) {
-					throw new UncheckedException("Invalid Taxonomy Nodes file");
-				}
+                if (fields.length != 13) {
+                    throw new UncheckedException("Invalid Taxonomy Nodes file");
+                }
 
-				final long taxonomyId = Long.parseLong(fields[0]);
-				TaxonomyNode taxonomyNode = findTaxonomyNode(taxonomyId,
-						nodeCache);
-				if (taxonomyNode == null) {
-					// logger.info("Creating node for id " + taxonomyId);
-					taxonomyNode = new TaxonomyNode();
-					taxonomyNode.setId(taxonomyId);
-					entityManager.persist(taxonomyNode);
-					nodeCache.put(taxonomyId, taxonomyNode);
-				}
+                final long taxonomyId = Long.parseLong(fields[0]);
+                TaxonomyNode taxonomyNode = findTaxonomyNode(taxonomyId, nodeCache);
+                if (taxonomyNode == null) {
+                    // logger.info("Creating node for id " + taxonomyId);
+                    taxonomyNode = new TaxonomyNode();
+                    taxonomyNode.setId(taxonomyId);
+                    entityManager.persist(taxonomyNode);
+                    nodeCache.put(taxonomyId, taxonomyNode);
+                }
 
-				final long parentTaxonomyId = Long.parseLong(fields[1]);
-				TaxonomyNode parentTaxonomyNode = findTaxonomyNode(
-						parentTaxonomyId, nodeCache);
-				if (parentTaxonomyNode == null) {
-					// logger.info("Creating parent node for id " +
-					// parentTaxonomyId);
-					parentTaxonomyNode = new TaxonomyNode();
-					parentTaxonomyNode.setId(parentTaxonomyId);
-					entityManager.persist(parentTaxonomyNode);
-					nodeCache.put(parentTaxonomyId, parentTaxonomyNode);
-				}
+                final long parentTaxonomyId = Long.parseLong(fields[1]);
+                TaxonomyNode parentTaxonomyNode = findTaxonomyNode(parentTaxonomyId, nodeCache);
+                if (parentTaxonomyNode == null) {
+                    // logger.info("Creating parent node for id " +
+                    // parentTaxonomyId);
+                    parentTaxonomyNode = new TaxonomyNode();
+                    parentTaxonomyNode.setId(parentTaxonomyId);
+                    entityManager.persist(parentTaxonomyNode);
+                    nodeCache.put(parentTaxonomyId, parentTaxonomyNode);
+                }
 
-				// logger.info("Node Cache:");
-				// for (Long l : nodeCache.keySet()) {
-				// logger.info ("l = " + l);
-				// }
+                // logger.info("Node Cache:");
+                // for (Long l : nodeCache.keySet()) {
+                // logger.info ("l = " + l);
+                // }
 
-				taxonomyNode.setParent(parentTaxonomyNode);
-				taxonomyNode.setRank(fields[2]);
-				taxonomyNode.setEmblCode(fields[3]);
+                taxonomyNode.setParent(parentTaxonomyNode);
+                taxonomyNode.setRank(fields[2]);
+                taxonomyNode.setEmblCode(fields[3]);
 
-				final TaxonomyDivision division = findDivision(fields[4]);
-				if (division != null) {
-					taxonomyNode.setDivision(division);
-				} else {
-					throw new UncheckedException(
-							"Invalid Taxonomy Nodes file - taxonomy division not found");
-				}
+                final TaxonomyDivision division = findDivision(fields[4]);
+                if (division != null) {
+                    taxonomyNode.setDivision(division);
+                } else {
+                    throw new UncheckedException("Invalid Taxonomy Nodes file - taxonomy division not found");
+                }
 
-				taxonomyNode.setInheritedDivision(translateBoolean(fields[5]));
+                taxonomyNode.setInheritedDivision(translateBoolean(fields[5]));
 
-				final TaxonomyGeneticCode geneticCode = findGeneticCode(fields[6]);
-				if (geneticCode != null) {
-					taxonomyNode.setGeneticCode(geneticCode);
-				} else {
-					throw new UncheckedException(
-							"Invalid Taxonomy Nodes file - genetic code not found");
-				}
+                final TaxonomyGeneticCode geneticCode = findGeneticCode(fields[6]);
+                if (geneticCode != null) {
+                    taxonomyNode.setGeneticCode(geneticCode);
+                } else {
+                    throw new UncheckedException("Invalid Taxonomy Nodes file - genetic code not found");
+                }
 
-				taxonomyNode
-						.setInheritedGeneticCode(translateBoolean(fields[7]));
+                taxonomyNode.setInheritedGeneticCode(translateBoolean(fields[7]));
 
-				final TaxonomyGeneticCode mcGeneticCode = findGeneticCode(fields[8]);
-				if (mcGeneticCode != null) {
-					taxonomyNode.setMcGeneticCode(mcGeneticCode);
-				} else {
-					throw new UncheckedException(
-							"Invalid Taxonomy Nodes file - mitochondrial genetic code not found");
-				}
+                final TaxonomyGeneticCode mcGeneticCode = findGeneticCode(fields[8]);
+                if (mcGeneticCode != null) {
+                    taxonomyNode.setMcGeneticCode(mcGeneticCode);
+                } else {
+                    throw new UncheckedException("Invalid Taxonomy Nodes file - mitochondrial genetic code not found");
+                }
 
-				taxonomyNode
-						.setInheritedMcGeneticCode(translateBoolean(fields[9]));
+                taxonomyNode.setInheritedMcGeneticCode(translateBoolean(fields[9]));
 
-				taxonomyNode.setHiddenGenbankName(translateBoolean(fields[10]));
-				taxonomyNode.setHiddenSubtree(translateBoolean(fields[11]));
-				taxonomyNode.setComments(fields[12]);
+                taxonomyNode.setHiddenGenbankName(translateBoolean(fields[10]));
+                taxonomyNode.setHiddenSubtree(translateBoolean(fields[11]));
+                taxonomyNode.setComments(fields[12]);
 
-			}
-		} catch (final IOException e) {
-			throw new UncheckedException(e);
-		}
+            }
+        } catch (final IOException e) {
+            throw new UncheckedException(e);
+        }
 
-	}
+    }
 
-	@Transactional
-	public void loadNames(final InputStream taxaNames) {
-		try {
-			final BufferedReader reader = new BufferedReader(
-					new InputStreamReader(taxaNames));
+    @Transactional
+    public void loadNames(final InputStream taxaNames) {
+        try {
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(taxaNames));
 
-			int lineCount = 0;
-			for (String line; (line = reader.readLine()) != null;) {
-				++lineCount;
-				if (lineCount % 100 == 0) {
-					logger.info("Processing line " + lineCount);
-				}
+            int lineCount = 0;
+            for (String line; (line = reader.readLine()) != null;) {
+                ++lineCount;
+                if (lineCount % 100 == 0) {
+                    logger.info("Processing line " + lineCount);
+                }
 
-				final String[] fields = splitLine(line);
-				if (fields.length != 4) {
-					throw new UncheckedException("Invalid Taxonomy Name file");
-				}
+                final String[] fields = splitLine(line);
+                if (fields.length != 4) {
+                    throw new UncheckedException("Invalid Taxonomy Name file");
+                }
 
-				final long taxonomyId = Long.parseLong(fields[0]);
-				TaxonomyNode taxonomyNode = findTaxonomyNode(taxonomyId, null);
-				if (taxonomyNode == null) {
-					taxonomyNode = new TaxonomyNode();
-					taxonomyNode.setId(taxonomyId);
-					entityManager.persist(taxonomyNode);
-				}
+                final long taxonomyId = Long.parseLong(fields[0]);
+                TaxonomyNode taxonomyNode = findTaxonomyNode(taxonomyId, null);
+                if (taxonomyNode == null) {
+                    taxonomyNode = new TaxonomyNode();
+                    taxonomyNode.setId(taxonomyId);
+                    entityManager.persist(taxonomyNode);
+                }
 
-				final String name = fields[1];
-				final String uniqueName = fields[2];
-				final String nameClass = fields[3];
-				TaxonomyName taxonomyName = taxonomyNode.getName(name,
-						nameClass);
-				if (taxonomyName == null) {
-					taxonomyName = new TaxonomyName(name, nameClass, uniqueName);
-					taxonomyNode.addName(taxonomyName);
-				} else {
-					taxonomyName.setUniqueName(uniqueName);
-				}
-			}
-		} catch (final IOException e) {
-			throw new UncheckedException(e);
-		}
-	}
+                final String name = fields[1];
+                final String uniqueName = fields[2];
+                final String nameClass = fields[3];
+                TaxonomyName taxonomyName = taxonomyNode.getName(name, nameClass);
+                if (taxonomyName == null) {
+                    taxonomyName = new TaxonomyName(name, nameClass, uniqueName);
+                    taxonomyNode.addName(taxonomyName);
+                } else {
+                    taxonomyName.setUniqueName(uniqueName);
+                }
+            }
+        } catch (final IOException e) {
+            throw new UncheckedException(e);
+        }
+    }
 
-	@Transactional
-	public void loadGeneticCodes(final InputStream geneticCodes) {
-		try {
-			final BufferedReader reader = new BufferedReader(
-					new InputStreamReader(geneticCodes));
+    @Transactional
+    public void loadGeneticCodes(final InputStream geneticCodes) {
+        try {
+            final BufferedReader reader = new BufferedReader(new InputStreamReader(geneticCodes));
 
-			for (String line; (line = reader.readLine()) != null;) {
-				final String[] fields = splitLine(line);
-				if (fields.length != 5) {
-					throw new UncheckedException("Invalid Genetic Codes file");
-				}
+            for (String line; (line = reader.readLine()) != null;) {
+                final String[] fields = splitLine(line);
+                if (fields.length != 5) {
+                    throw new UncheckedException("Invalid Genetic Codes file");
+                }
 
-				TaxonomyGeneticCode taxonomyGeneticCode = findGeneticCode(fields[0]);
-				if (taxonomyGeneticCode == null) {
-					taxonomyGeneticCode = new TaxonomyGeneticCode();
-					taxonomyGeneticCode.setId(Long.parseLong(fields[0]));
-					entityManager.persist(taxonomyGeneticCode);
-				}
+                TaxonomyGeneticCode taxonomyGeneticCode = findGeneticCode(fields[0]);
+                if (taxonomyGeneticCode == null) {
+                    taxonomyGeneticCode = new TaxonomyGeneticCode();
+                    taxonomyGeneticCode.setId(Long.parseLong(fields[0]));
+                    entityManager.persist(taxonomyGeneticCode);
+                }
 
-				taxonomyGeneticCode.setAbbreviation(fields[1]);
-				taxonomyGeneticCode.setName(fields[2]);
-				taxonomyGeneticCode.setTranslationTable(fields[3]);
-				taxonomyGeneticCode.setStartCodons(fields[4]);
-			}
-		} catch (final IOException e) {
-			throw new UncheckedException(e);
-		}
+                taxonomyGeneticCode.setAbbreviation(fields[1]);
+                taxonomyGeneticCode.setName(fields[2]);
+                taxonomyGeneticCode.setTranslationTable(fields[3]);
+                taxonomyGeneticCode.setStartCodons(fields[4]);
+            }
+        } catch (final IOException e) {
+            throw new UncheckedException(e);
+        }
 
-	}
+    }
 
-	private boolean translateBoolean(final String string) {
-		if ("1".equals(string)) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+    private boolean translateBoolean(final String string) {
+        if ("1".equals(string)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
-	@Transactional
-	private TaxonomyDivision findDivision(final String divisionIdStr) {
-		final long divisionId = Integer.parseInt(divisionIdStr);
-		final TaxonomyDivision division = entityManager.find(
-				TaxonomyDivision.class, divisionId);
-		return division;
-	}
+    @Transactional
+    private TaxonomyDivision findDivision(final String divisionIdStr) {
+        final long divisionId = Integer.parseInt(divisionIdStr);
+        final TaxonomyDivision division = entityManager.find(TaxonomyDivision.class, divisionId);
+        return division;
+    }
 
-	@Transactional
-	private TaxonomyGeneticCode findGeneticCode(final String codeId) {
-		final long geneticCodeId = Integer.parseInt(codeId);
-		final TaxonomyGeneticCode geneticCode = entityManager.find(
-				TaxonomyGeneticCode.class, geneticCodeId);
-		return geneticCode;
+    @Transactional
+    private TaxonomyGeneticCode findGeneticCode(final String codeId) {
+        final long geneticCodeId = Integer.parseInt(codeId);
+        final TaxonomyGeneticCode geneticCode = entityManager.find(TaxonomyGeneticCode.class, geneticCodeId);
+        return geneticCode;
 
-	}
+    }
 
-	@Transactional
-	private TaxonomyNode findTaxonomyNode(final long taxonomyId,
-			final Map<Long, TaxonomyNode> nodeCache) {
+    @Transactional
+    private TaxonomyNode findTaxonomyNode(final long taxonomyId, final Map<Long, TaxonomyNode> nodeCache) {
 
-		if (nodeCache != null) {
-			final TaxonomyNode node = nodeCache.get(taxonomyId);
-			if (node != null) {
-				return node;
-			}
-		}
-		final TaxonomyNode node = entityManager.find(TaxonomyNode.class,
-				taxonomyId);
+        if (nodeCache != null) {
+            final TaxonomyNode node = nodeCache.get(taxonomyId);
+            if (node != null) {
+                return node;
+            }
+        }
+        final TaxonomyNode node = entityManager.find(TaxonomyNode.class, taxonomyId);
 
-		return node;
-	}
+        return node;
+    }
 
-	private String[] splitLine(final String line) {
-		final String[] fields = line.split("\t\\|");
-		for (int i = 0; i < fields.length; ++i) {
-			fields[i] = fields[i].trim();
-		}
-		return fields;
-	}
+    private String[] splitLine(final String line) {
+        final String[] fields = line.split("\t\\|");
+        for (int i = 0; i < fields.length; ++i) {
+            fields[i] = fields[i].trim();
+        }
+        return fields;
+    }
 };

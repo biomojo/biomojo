@@ -21,13 +21,13 @@ package org.biomojo.alignment;
  *
  */
 public interface SubstitutionMatrices {
-	public static final int BLOSUM = 1;
-	public static final int PAM = 2;
-	public static final int BLOSUMN = 0;
-	public static final int DAYHOFF = 0;
-	public static final int GONNET = 0;
-	public static final int IDENTITY = 0;
-	public static final int MATCH = 0;
-	public static final int NUC_4_2 = 0;
-	public static final int NUC_4_4 = 0;
+    public static final int BLOSUM = 1;
+    public static final int PAM = 2;
+    public static final int BLOSUMN = 0;
+    public static final int DAYHOFF = 0;
+    public static final int GONNET = 0;
+    public static final int IDENTITY = 0;
+    public static final int MATCH = 0;
+    public static final int NUC_4_2 = 0;
+    public static final int NUC_4_4 = 0;
 }

@@ -38,8 +38,7 @@ public class ProjectService {
     public Project createProject(String name, String description) {
 
         // Create the Project only if it doesn't already exist
-        Project project = dbUtil.findByAttribute(Project.class,
-                CommonProperties.NAME, name);
+        Project project = dbUtil.findByAttribute(Project.class, CommonProperties.NAME, name);
 
         if (project == null) {
             project = new Project(name);

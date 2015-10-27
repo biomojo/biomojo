@@ -39,135 +39,134 @@ import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.sequence.ByteSeqImpl;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "hitNum", "hitId", "hitDef", "hitAccession",
-		"hitLen", "hsps" })
+@XmlType(name = "", propOrder = { "hitNum", "hitId", "hitDef", "hitAccession", "hitLen", "hsps" })
 @XmlRootElement(name = "Hit")
 @Entity
 public class BlastHit {
-	@TableGenerator(name = "BlastHitGenerator", allocationSize = 1000)
-	@Id
-	@GeneratedValue(generator = "BlastHitGenerator")
-	@XmlTransient
-	private long id;
+    @TableGenerator(name = "BlastHitGenerator", allocationSize = 1000)
+    @Id
+    @GeneratedValue(generator = "BlastHitGenerator")
+    @XmlTransient
+    private long id;
 
-	@XmlElement(name = "Hit_num", required = true)
-	protected int hitNum;
-	@XmlElement(name = "Hit_id", required = true)
-	protected String hitId;
-	@XmlElement(name = "Hit_def", required = true)
-	protected String hitDef;
-	@XmlElement(name = "Hit_accession", required = true)
-	protected String hitAccession;
-	@XmlElement(name = "Hit_len", required = true)
-	protected int hitLen;
+    @XmlElement(name = "Hit_num", required = true)
+    protected int hitNum;
+    @XmlElement(name = "Hit_id", required = true)
+    protected String hitId;
+    @XmlElement(name = "Hit_def", required = true)
+    protected String hitDef;
+    @XmlElement(name = "Hit_accession", required = true)
+    protected String hitAccession;
+    @XmlElement(name = "Hit_len", required = true)
+    protected int hitLen;
 
-	@XmlElement(name = "Hsp")
-	@XmlElementWrapper(name = "Hit_hsps")
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "BlastHit_id")
-	protected List<BlastHsp> hsps;
+    @XmlElement(name = "Hsp")
+    @XmlElementWrapper(name = "Hit_hsps")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "BlastHit_id")
+    protected List<BlastHsp> hsps;
 
-	@XmlTransient
-	@OneToOne
-	protected ByteSeqImpl<ByteAlphabet> hitSequence;
+    @XmlTransient
+    @OneToOne
+    protected ByteSeqImpl<ByteAlphabet> hitSequence;
 
-	@XmlTransient
-	@ManyToOne
-	protected BlastIteration blastIteration;
+    @XmlTransient
+    @ManyToOne
+    protected BlastIteration blastIteration;
 
-	public long getId() {
-		return id;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setId(final long id) {
-		this.id = id;
-	}
+    public void setId(final long id) {
+        this.id = id;
+    }
 
-	public int getHitNum() {
-		return hitNum;
-	}
+    public int getHitNum() {
+        return hitNum;
+    }
 
-	public void setHitNum(final int hitNum) {
-		this.hitNum = hitNum;
-	}
+    public void setHitNum(final int hitNum) {
+        this.hitNum = hitNum;
+    }
 
-	public String getHitId() {
-		return hitId;
-	}
+    public String getHitId() {
+        return hitId;
+    }
 
-	public void setHitId(final String hitId) {
-		this.hitId = hitId;
-	}
+    public void setHitId(final String hitId) {
+        this.hitId = hitId;
+    }
 
-	public String getHitDef() {
-		return hitDef;
-	}
+    public String getHitDef() {
+        return hitDef;
+    }
 
-	public void setHitDef(final String hitDef) {
-		this.hitDef = hitDef;
-	}
+    public void setHitDef(final String hitDef) {
+        this.hitDef = hitDef;
+    }
 
-	public String getHitAccession() {
-		return hitAccession;
-	}
+    public String getHitAccession() {
+        return hitAccession;
+    }
 
-	public void setHitAccession(final String hitAccession) {
-		this.hitAccession = hitAccession;
-	}
+    public void setHitAccession(final String hitAccession) {
+        this.hitAccession = hitAccession;
+    }
 
-	public int getHitLen() {
-		return hitLen;
-	}
+    public int getHitLen() {
+        return hitLen;
+    }
 
-	public void setHitLen(final int len) {
-		this.hitLen = len;
-	}
+    public void setHitLen(final int len) {
+        this.hitLen = len;
+    }
 
-	public List<BlastHsp> getHsps() {
-		return hsps;
-	}
+    public List<BlastHsp> getHsps() {
+        return hsps;
+    }
 
-	public void setHsps(final List<BlastHsp> hsps) {
-		this.hsps = hsps;
-	}
+    public void setHsps(final List<BlastHsp> hsps) {
+        this.hsps = hsps;
+    }
 
-	public BlastIteration getIteration() {
-		return blastIteration;
-	}
+    public BlastIteration getIteration() {
+        return blastIteration;
+    }
 
-	public void setIteration(final BlastIteration blastIteration) {
-		this.blastIteration = blastIteration;
-	}
+    public void setIteration(final BlastIteration blastIteration) {
+        this.blastIteration = blastIteration;
+    }
 
-	public ByteSeqImpl<ByteAlphabet> getHitSequence() {
-		return hitSequence;
-	}
+    public ByteSeqImpl<ByteAlphabet> getHitSequence() {
+        return hitSequence;
+    }
 
-	public void setHitSequence(final ByteSeqImpl<ByteAlphabet> hitSequence) {
-		this.hitSequence = hitSequence;
-	}
+    public void setHitSequence(final ByteSeqImpl<ByteAlphabet> hitSequence) {
+        this.hitSequence = hitSequence;
+    }
 
-	public BlastIteration getBlastIteration() {
-		return blastIteration;
-	}
+    public BlastIteration getBlastIteration() {
+        return blastIteration;
+    }
 
-	public void setBlastIteration(final BlastIteration blastIteration) {
-		this.blastIteration = blastIteration;
-	}
+    public void setBlastIteration(final BlastIteration blastIteration) {
+        this.blastIteration = blastIteration;
+    }
 
-	@Override
-	public String toString() {
-		final StringBuffer buf = new StringBuffer();
-		buf.append("Blast Hit:\n");
+    @Override
+    public String toString() {
+        final StringBuffer buf = new StringBuffer();
+        buf.append("Blast Hit:\n");
 
-		buf.append("id: " + id + "\n");
-		buf.append("hitNum: " + hitNum + "\n");
-		buf.append("hitId: " + hitId + "\n");
-		buf.append("hitDef: " + hitDef + "\n");
-		buf.append("hitAccession: " + hitAccession + "\n");
-		buf.append("hitLen: " + hitLen + "\n");
+        buf.append("id: " + id + "\n");
+        buf.append("hitNum: " + hitNum + "\n");
+        buf.append("hitId: " + hitId + "\n");
+        buf.append("hitDef: " + hitDef + "\n");
+        buf.append("hitAccession: " + hitAccession + "\n");
+        buf.append("hitLen: " + hitLen + "\n");
 
-		return buf.toString();
-	}
+        return buf.toString();
+    }
 
 }

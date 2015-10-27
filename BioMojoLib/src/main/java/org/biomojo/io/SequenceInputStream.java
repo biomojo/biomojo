@@ -10,14 +10,14 @@ import org.biomojo.sequence.Seq;
  * @param <T>
  */
 public interface SequenceInputStream<T extends Seq<?, ?>> extends Closeable {
-	/**
-	 * Reads data from the InputStream into a {@link org.biomojo.sequence.Seq}
-	 * object. Returns true if the data was read successfully, false on end of
-	 * data.
-	 *
-	 * @param sequence
-	 * @return
-	 * @throws ParseException
-	 */
-	public boolean read(T sequence) throws ParseException;
+    /**
+     * Reads data from the InputStream into a {@link org.biomojo.sequence.Seq}
+     * object. Returns true if the data was read successfully, false on end of
+     * data.
+     *
+     * @param sequence
+     * @return
+     * @throws ParseException
+     */
+    public boolean read(T sequence) throws ParseException;
 }

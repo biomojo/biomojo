@@ -32,42 +32,37 @@ import org.slf4j.LoggerFactory;
  * @author Hugh Eaves
  *
  */
-public class AmbiguousNucleotideSubstitutionMatrix extends
-		AbstractByteSubstitutionMatrix {
-	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory
-			.getLogger(AmbiguousNucleotideSubstitutionMatrix.class.getName());
+public class AmbiguousNucleotideSubstitutionMatrix extends AbstractByteSubstitutionMatrix {
+    @SuppressWarnings("unused")
+    private static final Logger logger = LoggerFactory.getLogger(AmbiguousNucleotideSubstitutionMatrix.class.getName());
 
-	char matrixOrder[] = { 'A', 'T', 'G', 'C', 'S', 'W', 'R', 'Y', 'K', 'M',
-			'B', 'V', 'H', 'D', 'N' };
+    char matrixOrder[] = { 'A', 'T', 'G', 'C', 'S', 'W', 'R', 'Y', 'K', 'M', 'B', 'V', 'H', 'D', 'N' };
 
-	int scoreMatrix[][] = {
-			{ 5, -4, -4, -4, -4, 1, 1, -4, -4, 1, -4, -1, -1, -1, -2 },
-			{ -4, 5, -4, -4, -4, 1, -4, 1, 1, -4, -1, -4, -1, -1, -2 },
-			{ 4, -4, 5, -4, 1, -4, 1, -4, 1, -4, -1, -1, -4, -1, -2 },
-			{ -4, -4, -4, 5, 1, -4, -4, 1, -4, 1, -1, -1, -1, -4, -2 },
-			{ -4, -4, 1, 1, -1, -4, -2, -2, -2, -2, -1, -1, -3, -3, -1 },
-			{ 1, 1, -4, -4, -4, -1, -2, -2, -2, -2, -3, -3, -1, -1, -1 },
-			{ 1, -4, 1, -4, -2, -2, -1, -4, -2, -2, -3, -1, -3, -1, -1 },
-			{ -4, 1, -4, 1, -2, -2, -4, -1, -2, -2, -1, -3, -1, -3, -1 },
-			{ -4, 1, 1, -4, -2, -2, -2, -2, -1, -4, -1, -3, -3, -1, -1 },
-			{ 1, -4, -4, 1, -2, -2, -2, -2, -4, -1, -3, -1, -1, -3, -1 },
-			{ -4, -1, -1, -1, -1, -3, -3, -1, -1, -3, -1, -2, -2, -2, -1 },
-			{ -1, -4, -1, -1, -1, -3, -1, -3, -3, -1, -2, -1, -2, -2, -1 },
-			{ -1, -1, -4, -1, -3, -1, -3, -1, -3, -1, -2, -2, -1, -2, -1 },
-			{ -1, -1, -1, -4, -3, -1, -1, -3, -1, -3, -2, -2, -2, -1, -1 },
-			{ -2, -2, -2, -2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 } };
+    int scoreMatrix[][] = { { 5, -4, -4, -4, -4, 1, 1, -4, -4, 1, -4, -1, -1, -1, -2 },
+            { -4, 5, -4, -4, -4, 1, -4, 1, 1, -4, -1, -4, -1, -1, -2 },
+            { 4, -4, 5, -4, 1, -4, 1, -4, 1, -4, -1, -1, -4, -1, -2 },
+            { -4, -4, -4, 5, 1, -4, -4, 1, -4, 1, -1, -1, -1, -4, -2 },
+            { -4, -4, 1, 1, -1, -4, -2, -2, -2, -2, -1, -1, -3, -3, -1 },
+            { 1, 1, -4, -4, -4, -1, -2, -2, -2, -2, -3, -3, -1, -1, -1 },
+            { 1, -4, 1, -4, -2, -2, -1, -4, -2, -2, -3, -1, -3, -1, -1 },
+            { -4, 1, -4, 1, -2, -2, -4, -1, -2, -2, -1, -3, -1, -3, -1 },
+            { -4, 1, 1, -4, -2, -2, -2, -2, -1, -4, -1, -3, -3, -1, -1 },
+            { 1, -4, -4, 1, -2, -2, -2, -2, -4, -1, -3, -1, -1, -3, -1 },
+            { -4, -1, -1, -1, -1, -3, -3, -1, -1, -3, -1, -2, -2, -2, -1 },
+            { -1, -4, -1, -1, -1, -3, -1, -3, -3, -1, -2, -1, -2, -2, -1 },
+            { -1, -1, -4, -1, -3, -1, -3, -1, -3, -1, -2, -2, -1, -2, -1 },
+            { -1, -1, -1, -4, -3, -1, -1, -3, -1, -3, -2, -2, -2, -1, -1 },
+            { -2, -2, -2, -2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1 } };
 
-	public AmbiguousNucleotideSubstitutionMatrix() {
-		super(Alphabets.getAlphabet(AlphabetId.DNA
-				| IUPACAlphabetVariant.WITH_AMBIGIGUITY, ByteAlphabet.class));
+    public AmbiguousNucleotideSubstitutionMatrix() {
+        super(Alphabets.getAlphabet(AlphabetId.DNA | IUPACAlphabetVariant.WITH_AMBIGIGUITY, ByteAlphabet.class));
 
-		this.initMatrix(Integer.MIN_VALUE);
-		for (int i = 0; i < matrixOrder.length; ++i) {
-			for (int j = 0; j < matrixOrder.length; ++j) {
-				this.setScore(matrixOrder[i], matrixOrder[j], scoreMatrix[i][j]);
-			}
-		}
-	}
+        this.initMatrix(Integer.MIN_VALUE);
+        for (int i = 0; i < matrixOrder.length; ++i) {
+            for (int j = 0; j < matrixOrder.length; ++j) {
+                this.setScore(matrixOrder[i], matrixOrder[j], scoreMatrix[i][j]);
+            }
+        }
+    }
 
 }

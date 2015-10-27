@@ -27,46 +27,46 @@ import org.biomojo.core.CommonProperties;
 
 @Entity
 public class Project extends AbstractPropertiedEntity {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected String description;
+    protected String description;
 
-	@Version
-	protected long version;
+    @Version
+    protected long version;
 
-	protected Date lastUpdate;
+    protected Date lastUpdate;
 
-	public Project() {
+    public Project() {
 
-	}
+    }
 
-	public Project(String name) {
-		setProp(CommonProperties.NAME, name);
-	}
+    public Project(String name) {
+        setProp(CommonProperties.NAME, name);
+    }
 
-	@Override
-	public long getId() {
-		return id;
-	}
+    @Override
+    public long getId() {
+        return id;
+    }
 
-	@Override
-	public void setId(long id) {
-		this.id = id;
-	}
+    @Override
+    public void setId(long id) {
+        this.id = id;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Date getLastUpdate() {
-		return lastUpdate;
-	}
+    public Date getLastUpdate() {
+        return lastUpdate;
+    }
 
-	public void setLastUpdate(Date lastUpdate) {
-		this.lastUpdate = lastUpdate;
-	}
+    public void setLastUpdate(Date lastUpdate) {
+        this.lastUpdate = lastUpdate;
+    }
 }

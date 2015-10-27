@@ -34,66 +34,60 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class TestDir {
-	private static final Logger logger = LoggerFactory.getLogger(TestDir.class
-			.getName());
+    private static final Logger logger = LoggerFactory.getLogger(TestDir.class.getName());
 
-	public static void main(String[] args) {
-		File dirFile = new File("/proc");
-		Path dirPath = dirFile.toPath();
-		PathMatcher matcher = FileSystems.getDefault().getPathMatcher(
-				"regex:^/proc/[0-9]+$");
-		int matchCount = 0;
-		for (int i = 0; i < 10000; ++i) {
-			DirectoryStream<Path> stream = null;
-			try {
-				stream = Files.newDirectoryStream(dirPath);
-			} catch (IOException e) {
-				logger.error("Caught exception in auto-generated catch block",
-						e);
-			}
-			for (Path path : stream) {
-				if (matcher.matches(path)) {
-					Path statPath = path.resolve("stat");
-					Path fileName = path.getFileName();
-					try {
-						List<String> lines = Files.readAllLines(statPath);
-						quickParse(lines.get(0));
-					} catch (IOException e) {
-						logger.error(
-								"Caught exception in auto-generated catch block",
-								e);
-					}
-					// System.out.println(statPath);
-					++matchCount;
-				}
-			}
-			try {
-				stream.close();
-			} catch (IOException e) {
-				logger.error("Caught exception in auto-generated catch block",
-						e);
-			}
-			System.out.println(i);
+    public static void main(String[] args) {
+        File dirFile = new File("/proc");
+        Path dirPath = dirFile.toPath();
+        PathMatcher matcher = FileSystems.getDefault().getPathMatcher("regex:^/proc/[0-9]+$");
+        int matchCount = 0;
+        for (int i = 0; i < 10000; ++i) {
+            DirectoryStream<Path> stream = null;
+            try {
+                stream = Files.newDirectoryStream(dirPath);
+            } catch (IOException e) {
+                logger.error("Caught exception in auto-generated catch block", e);
+            }
+            for (Path path : stream) {
+                if (matcher.matches(path)) {
+                    Path statPath = path.resolve("stat");
+                    Path fileName = path.getFileName();
+                    try {
+                        List<String> lines = Files.readAllLines(statPath);
+                        quickParse(lines.get(0));
+                    } catch (IOException e) {
+                        logger.error("Caught exception in auto-generated catch block", e);
+                    }
+                    // System.out.println(statPath);
+                    ++matchCount;
+                }
+            }
+            try {
+                stream.close();
+            } catch (IOException e) {
+                logger.error("Caught exception in auto-generated catch block", e);
+            }
+            System.out.println(i);
 
-		}
-	}
+        }
+    }
 
-	public static List<String> quickParse(String line) {
-		List<String> parsed = new ArrayList<>(50);
-		parsed.add(line.substring(0, line.indexOf(' ')));
-		int endParen = line.lastIndexOf(')');
-		parsed.add(line.substring(line.indexOf('(') + 1, endParen));
-		int i = endParen + 2;
-		while (i < line.length()) {
-			int nextPos = line.indexOf(' ', i);
-			if (nextPos < 0) {
-				nextPos = line.length();
-			}
-			parsed.add(line.substring(i, nextPos));
-			i = nextPos + 1;
-		}
-		// System.out.println(parsed.size());
-		// System.out.println(parsed);
-		return parsed;
-	}
+    public static List<String> quickParse(String line) {
+        List<String> parsed = new ArrayList<>(50);
+        parsed.add(line.substring(0, line.indexOf(' ')));
+        int endParen = line.lastIndexOf(')');
+        parsed.add(line.substring(line.indexOf('(') + 1, endParen));
+        int i = endParen + 2;
+        while (i < line.length()) {
+            int nextPos = line.indexOf(' ', i);
+            if (nextPos < 0) {
+                nextPos = line.length();
+            }
+            parsed.add(line.substring(i, nextPos));
+            i = nextPos + 1;
+        }
+        // System.out.println(parsed.size());
+        // System.out.println(parsed);
+        return parsed;
+    }
 }

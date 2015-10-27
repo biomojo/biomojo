@@ -21,44 +21,41 @@ package org.biomojo.symbols;
  *
  */
 public class AminoAcids extends CommonSymbols {
-	private AminoAcids() {
+    private AminoAcids() {
 
-	}
+    }
 
-	public static final byte ALANINE = 'A';
-	public static final byte CYSTEINE = 'C';
-	public static final byte ASPARTIC_ACID = 'D';
-	public static final byte GLUTAMIC_ACID = 'E';
-	public static final byte PHENYLALANINE = 'F';
-	public static final byte GLYCINE = 'G';
-	public static final byte HISTIDINE = 'H';
-	public static final byte ISOLEUCINE = 'I';
-	public static final byte LYSINE = 'K';
-	public static final byte LEUCINE = 'L';
-	public static final byte METHIONINE = 'M';
-	public static final byte ASPARAGINE = 'N';
-	public static final byte PROLINE = 'P';
-	public static final byte GLUTAMINE = 'Q';
-	public static final byte ARGININE = 'R';
-	public static final byte SERINE = 'S';
-	public static final byte THREONINE = 'T';
-	public static final byte VALINE = 'V';
-	public static final byte TRYPTOPHAN = 'W';
-	public static final byte TYROSINE = 'Y';
+    public static final byte ALANINE = 'A';
+    public static final byte CYSTEINE = 'C';
+    public static final byte ASPARTIC_ACID = 'D';
+    public static final byte GLUTAMIC_ACID = 'E';
+    public static final byte PHENYLALANINE = 'F';
+    public static final byte GLYCINE = 'G';
+    public static final byte HISTIDINE = 'H';
+    public static final byte ISOLEUCINE = 'I';
+    public static final byte LYSINE = 'K';
+    public static final byte LEUCINE = 'L';
+    public static final byte METHIONINE = 'M';
+    public static final byte ASPARAGINE = 'N';
+    public static final byte PROLINE = 'P';
+    public static final byte GLUTAMINE = 'Q';
+    public static final byte ARGININE = 'R';
+    public static final byte SERINE = 'S';
+    public static final byte THREONINE = 'T';
+    public static final byte VALINE = 'V';
+    public static final byte TRYPTOPHAN = 'W';
+    public static final byte TYROSINE = 'Y';
 
-	public static final byte ASPARTIC_ACID_OR_ASPARAGINE = 'B';
-	public static final byte GLUTAMIC_ACID_OR_GLUTAMINE = 'Z';
-	public static final byte ANY = 'X';
+    public static final byte ASPARTIC_ACID_OR_ASPARAGINE = 'B';
+    public static final byte GLUTAMIC_ACID_OR_GLUTAMINE = 'Z';
+    public static final byte ANY = 'X';
 
-	public static final byte STOP = '*';
+    public static final byte STOP = '*';
 
-	public static final byte[] CORE_SYMBOLS = { ALANINE, CYSTEINE,
-			ASPARTIC_ACID, GLUTAMIC_ACID, PHENYLALANINE, GLYCINE, HISTIDINE,
-			ISOLEUCINE, LYSINE, LEUCINE, METHIONINE, ASPARAGINE, PROLINE,
-			GLUTAMINE, ARGININE, SERINE, THREONINE, VALINE, TRYPTOPHAN,
-			TYROSINE, STOP };
+    public static final byte[] CORE_SYMBOLS = { ALANINE, CYSTEINE, ASPARTIC_ACID, GLUTAMIC_ACID, PHENYLALANINE, GLYCINE,
+            HISTIDINE, ISOLEUCINE, LYSINE, LEUCINE, METHIONINE, ASPARAGINE, PROLINE, GLUTAMINE, ARGININE, SERINE,
+            THREONINE, VALINE, TRYPTOPHAN, TYROSINE, STOP };
 
-	public static final byte[] AMBIGUITY_SYMBOLS = { ANY,
-			ASPARTIC_ACID_OR_ASPARAGINE, GLUTAMIC_ACID_OR_GLUTAMINE };
+    public static final byte[] AMBIGUITY_SYMBOLS = { ANY, ASPARTIC_ACID_OR_ASPARAGINE, GLUTAMIC_ACID_OR_GLUTAMINE };
 
 }

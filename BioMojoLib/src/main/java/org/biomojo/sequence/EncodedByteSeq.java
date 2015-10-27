@@ -31,89 +31,86 @@ import org.biomojo.codec.Codecs;
 @Entity
 @DiscriminatorValue("E")
 public class EncodedByteSeq<A extends ByteAlphabet> extends ByteSeqImpl<A> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected ByteCodec codec;
+    protected ByteCodec codec;
 
-	public EncodedByteSeq() {
-		super();
-		setCodec(Codecs.getCodec(CodecId.NULL_BYTE_CODEC));
-	}
+    public EncodedByteSeq() {
+        super();
+        setCodec(Codecs.getCodec(CodecId.NULL_BYTE_CODEC));
+    }
 
-	public EncodedByteSeq(final byte[] data, final A alphabet) {
-		super(data, alphabet);
-		setCodec(Codecs.getCodec(CodecId.NULL_BYTE_CODEC));
-	}
+    public EncodedByteSeq(final byte[] data, final A alphabet) {
+        super(data, alphabet);
+        setCodec(Codecs.getCodec(CodecId.NULL_BYTE_CODEC));
+    }
 
-	public EncodedByteSeq(final byte[] data, final A alphabet,
-			final ByteCodec codec) {
-		super(data, alphabet);
-		setCodec(codec);
-	}
+    public EncodedByteSeq(final byte[] data, final A alphabet, final ByteCodec codec) {
+        super(data, alphabet);
+        setCodec(codec);
+    }
 
-	public EncodedByteSeq(final byte[] data) {
-		super(data);
-		setCodec(Codecs.getCodec(CodecId.NULL_BYTE_CODEC));
-	}
+    public EncodedByteSeq(final byte[] data) {
+        super(data);
+        setCodec(Codecs.getCodec(CodecId.NULL_BYTE_CODEC));
+    }
 
-	public EncodedByteSeq(final A alphabet) {
-		super(alphabet);
-		setCodec(Codecs.getCodec(CodecId.NULL_BYTE_CODEC));
-	}
+    public EncodedByteSeq(final A alphabet) {
+        super(alphabet);
+        setCodec(Codecs.getCodec(CodecId.NULL_BYTE_CODEC));
+    }
 
-	public EncodedByteSeq(final A alphabet, final ByteCodec codec) {
-		super(alphabet);
-		setCodec(codec);
-	}
+    public EncodedByteSeq(final A alphabet, final ByteCodec codec) {
+        super(alphabet);
+        setCodec(codec);
+    }
 
-	@Override
-	public byte[] getAllBytes() {
-		return codec.decode(getAlphabet(), data, length);
-	}
+    @Override
+    public byte[] getAllBytes() {
+        return codec.decode(getAlphabet(), data, length);
+    }
 
-	@Override
-	public void setAll(final byte[] sequence, final boolean validate) {
-		if (validate) {
-			alphabet.validate(sequence);
-		}
-		this.length = sequence.length;
-		data = codec.encode(getAlphabet(), data, sequence.length, sequence);
-	}
+    @Override
+    public void setAll(final byte[] sequence, final boolean validate) {
+        if (validate) {
+            alphabet.validate(sequence);
+        }
+        this.length = sequence.length;
+        data = codec.encode(getAlphabet(), data, sequence.length, sequence);
+    }
 
-	@Override
-	public byte getValue(final int index) {
-		return codec.decode(getAlphabet(), data, length, index);
-	}
+    @Override
+    public byte getValue(final int index) {
+        return codec.decode(getAlphabet(), data, length, index);
+    }
 
-	@Override
-	public void setValue(final byte value, final int index) {
-		alphabet.validate(value);
-		codec.encode(getAlphabet(), data, value, index);
-	}
+    @Override
+    public void setValue(final byte value, final int index) {
+        alphabet.validate(value);
+        codec.encode(getAlphabet(), data, value, index);
+    }
 
-	/**
-	 * @return the codec
-	 */
-	public ByteCodec getCodec() {
-		return codec;
-	}
+    /**
+     * @return the codec
+     */
+    public ByteCodec getCodec() {
+        return codec;
+    }
 
-	/**
-	 * @param codec
-	 *            the codec to set
-	 */
-	public void setCodec(final ByteCodec codec) {
-		if (codec.supportsAlphabet(getAlphabet())) {
-			this.codec = codec;
-		} else {
-			throw new IllegalArgumentException(
-					"Codec does not support alphabet");
-		}
-	}
+    /**
+     * @param codec
+     *            the codec to set
+     */
+    public void setCodec(final ByteCodec codec) {
+        if (codec.supportsAlphabet(getAlphabet())) {
+            this.codec = codec;
+        } else {
+            throw new IllegalArgumentException("Codec does not support alphabet");
+        }
+    }
 
-	@Override
-	public void replace(final byte[] srcSeq, final int srcPos,
-			final int destPos, final int length) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public void replace(final byte[] srcSeq, final int srcPos, final int destPos, final int length) {
+        throw new UnsupportedOperationException();
+    }
 }

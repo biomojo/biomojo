@@ -208,8 +208,7 @@ public class TaxonomyNode {
 
     public TaxonomyName getName(String name, String nameClass) {
         for (TaxonomyName taxonomyName : names) {
-            if (name.equals(taxonomyName.getName())
-                    && nameClass.equals(taxonomyName.getNameClass())) {
+            if (name.equals(taxonomyName.getName()) && nameClass.equals(taxonomyName.getNameClass())) {
                 return taxonomyName;
             }
         }

@@ -5,5 +5,5 @@ import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.sequence.ByteSeq;
 
 public interface BioJavaSequenceFactory<T extends Sequence<?>, A extends ByteAlphabet> {
-	public T createSequence(ByteSeq<A> sequence);
+    public T createSequence(ByteSeq<A> sequence);
 }

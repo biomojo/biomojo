@@ -24,36 +24,36 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value = "S")
 public class StringProperty extends BasicProperty {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -902224446132501216L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -902224446132501216L;
 
-	private String stringValue;
+    private String stringValue;
 
-	public StringProperty() {
+    public StringProperty() {
 
-	}
+    }
 
-	public StringProperty(String stringValue) {
-		this.stringValue = stringValue;
-	}
+    public StringProperty(String stringValue) {
+        this.stringValue = stringValue;
+    }
 
-	@Override
-	public void setValue(Object value) {
-		setString((String) value);
-	}
+    @Override
+    public void setValue(Object value) {
+        setString((String) value);
+    }
 
-	public void setString(String stringValue) {
-		this.stringValue = stringValue;
-	}
+    public void setString(String stringValue) {
+        this.stringValue = stringValue;
+    }
 
-	public String getString() {
-		return stringValue;
-	}
+    public String getString() {
+        return stringValue;
+    }
 
-	@Override
-	public Object getValue() {
-		return stringValue;
-	}
+    @Override
+    public Object getValue() {
+        return stringValue;
+    }
 }

@@ -23,55 +23,55 @@ import org.biomojo.core.AbstractEntity;
 
 @Entity
 public class TaxonomyName extends AbstractEntity {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private String name;
+    private String name;
 
-	private String uniqueName;
+    private String uniqueName;
 
-	private String nameClass;
+    private String nameClass;
 
-	@ManyToOne
-	private TaxonomyNode taxonomyNode;
+    @ManyToOne
+    private TaxonomyNode taxonomyNode;
 
-	public TaxonomyName() {
-	}
+    public TaxonomyName() {
+    }
 
-	public TaxonomyName(String name, String nameClass, String uniqueName) {
-		this.name = name;
-		this.nameClass = nameClass;
-		this.uniqueName = uniqueName;
-	}
+    public TaxonomyName(String name, String nameClass, String uniqueName) {
+        this.name = name;
+        this.nameClass = nameClass;
+        this.uniqueName = uniqueName;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getUniqueName() {
-		return uniqueName;
-	}
+    public String getUniqueName() {
+        return uniqueName;
+    }
 
-	public void setUniqueName(String uniqueName) {
-		this.uniqueName = uniqueName;
-	}
+    public void setUniqueName(String uniqueName) {
+        this.uniqueName = uniqueName;
+    }
 
-	public String getNameClass() {
-		return nameClass;
-	}
+    public String getNameClass() {
+        return nameClass;
+    }
 
-	public void setNameClass(String nameClass) {
-		this.nameClass = nameClass;
-	}
+    public void setNameClass(String nameClass) {
+        this.nameClass = nameClass;
+    }
 
-	public TaxonomyNode getTaxonomyNode() {
-		return taxonomyNode;
-	}
+    public TaxonomyNode getTaxonomyNode() {
+        return taxonomyNode;
+    }
 
-	public void setTaxonomyNode(TaxonomyNode taxonomyNode) {
-		this.taxonomyNode = taxonomyNode;
-	}
+    public void setTaxonomyNode(TaxonomyNode taxonomyNode) {
+        this.taxonomyNode = taxonomyNode;
+    }
 }

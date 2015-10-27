@@ -16,27 +16,26 @@
  */
 package org.biomojo.alphabet;
 
-
 /**
  * @author Hugh Eaves
  *
  */
 public abstract class AbstractAlphabet<T> implements Alphabet<T> {
 
-	private final int id;
+    private final int id;
 
-	protected AbstractAlphabet(final int id) {
-		this.id = id;
-	}
+    protected AbstractAlphabet(final int id) {
+        this.id = id;
+    }
 
-	@Override
-	public int getId() {
-		return id;
-	}
+    @Override
+    public int getId() {
+        return id;
+    }
 
-	@Override
-	public String toString() {
-		return this.getClass().getName() + "(id=" + id + ")";
-	}
+    @Override
+    public String toString() {
+        return this.getClass().getName() + "(id=" + id + ")";
+    }
 
 }

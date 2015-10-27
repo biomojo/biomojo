@@ -29,22 +29,19 @@ import org.slf4j.LoggerFactory;
  *
  */
 public abstract class RandomSeqGenerator {
-	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory
-			.getLogger(RandomSeqGenerator.class.getName());
+    @SuppressWarnings("unused")
+    private static final Logger logger = LoggerFactory.getLogger(RandomSeqGenerator.class.getName());
 
-	private final Random random = new Random(0);
+    private final Random random = new Random(0);
 
-	protected abstract void createFile(File file, int numSeqs, int seqLength);
+    protected abstract void createFile(File file, int numSeqs, int seqLength);
 
-	protected void createRandomSeqData(
-			final ByteSeq<? extends ByteAlphabet> seq, final int length) {
-		final byte[] seqData = new byte[length];
-		final ByteAlphabet alphabet = seq.getAlphabet();
-		for (int i = 0; i < length; ++i) {
-			seqData[i] = alphabet.getByteSymbolForOrdinal(random
-					.nextInt(alphabet.numCanonicalSymbols()));
-		}
-		seq.setAll(seqData);
-	}
+    protected void createRandomSeqData(final ByteSeq<? extends ByteAlphabet> seq, final int length) {
+        final byte[] seqData = new byte[length];
+        final ByteAlphabet alphabet = seq.getAlphabet();
+        for (int i = 0; i < length; ++i) {
+            seqData[i] = alphabet.getByteSymbolForOrdinal(random.nextInt(alphabet.numCanonicalSymbols()));
+        }
+        seq.setAll(seqData);
+    }
 }

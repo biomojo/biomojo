@@ -27,28 +27,28 @@ package org.biomojo.codon;
  *
  */
 public class CodonTableId {
-	private CodonTableId() {
+    private CodonTableId() {
 
-	}
+    }
 
-	public static final int UNKNOWN = 0;
-	public static final int STANDARD = 1;
-	public static final int VERTEBRATE_MITOCHONDRIAL = 2;
-	public static final int YEAST_MITOCHONDRIAL = 3;
-	public static final int MOLD_MITOCHONDRIAL = 4;
-	public static final int INVERTEBRATE_MITOCHONDRIAL = 5;
-	public static final int CILIATE_NUCLEAR = 6;
-	public static final int ECHINODERM_MITOCHONDRIAL = 9;
-	public static final int EUPLOTID_NUCLEAR = 10;
-	public static final int BACTERIAL_PLASTID = 11;
-	public static final int ALTERNATIVE_YEAST_NUCLEAR = 12;
-	public static final int ASCIDIAN_MITOCHONDRIAL = 13;
-	public static final int ALTERNATIVE_FLATWORM_MITOCHONDRIAL = 14;
-	public static final int BLEPHARISMA_MACRONUCLEAR = 15;
-	public static final int CHLOROPHYCEAN_MITOCHONDRIAL = 16;
-	public static final int TREMATODE_MITOCHONDRIAL = 21;
-	public static final int SCENEDESMUS_OBLIQUUS_MITOCHONDRIAL = 22;
-	public static final int THRAUSTOCHYTRIUM_MITOCHONDRIAL = 23;
-	public static final int PTEROBRANCHIA_MITOCHONDRIAL = 24;
-	public static final int CGRACILIBACTERIA = 25;
+    public static final int UNKNOWN = 0;
+    public static final int STANDARD = 1;
+    public static final int VERTEBRATE_MITOCHONDRIAL = 2;
+    public static final int YEAST_MITOCHONDRIAL = 3;
+    public static final int MOLD_MITOCHONDRIAL = 4;
+    public static final int INVERTEBRATE_MITOCHONDRIAL = 5;
+    public static final int CILIATE_NUCLEAR = 6;
+    public static final int ECHINODERM_MITOCHONDRIAL = 9;
+    public static final int EUPLOTID_NUCLEAR = 10;
+    public static final int BACTERIAL_PLASTID = 11;
+    public static final int ALTERNATIVE_YEAST_NUCLEAR = 12;
+    public static final int ASCIDIAN_MITOCHONDRIAL = 13;
+    public static final int ALTERNATIVE_FLATWORM_MITOCHONDRIAL = 14;
+    public static final int BLEPHARISMA_MACRONUCLEAR = 15;
+    public static final int CHLOROPHYCEAN_MITOCHONDRIAL = 16;
+    public static final int TREMATODE_MITOCHONDRIAL = 21;
+    public static final int SCENEDESMUS_OBLIQUUS_MITOCHONDRIAL = 22;
+    public static final int THRAUSTOCHYTRIUM_MITOCHONDRIAL = 23;
+    public static final int PTEROBRANCHIA_MITOCHONDRIAL = 24;
+    public static final int CGRACILIBACTERIA = 25;
 }

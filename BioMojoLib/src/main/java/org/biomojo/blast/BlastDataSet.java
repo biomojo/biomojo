@@ -37,80 +37,78 @@ import org.biomojo.sequence.AbstractSeqList;
 
 @Entity
 public class BlastDataSet extends AbstractPropertiedEntity {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@Enumerated(EnumType.STRING)
-	private BlastProgram program;
+    @Enumerated(EnumType.STRING)
+    private BlastProgram program;
 
-	@OneToMany(mappedBy = "blastDataSet", cascade = CascadeType.ALL)
-	private List<BlastTask> blastTasks = new ArrayList<BlastTask>();
+    @OneToMany(mappedBy = "blastDataSet", cascade = CascadeType.ALL)
+    private List<BlastTask> blastTasks = new ArrayList<BlastTask>();
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "BlastDataSet_QuerySequenceLists")
-	private List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> querySequenceLists = new ArrayList<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>();
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "BlastDataSet_QuerySequenceLists")
+    private List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> querySequenceLists = new ArrayList<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>();
 
-	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "BlastDataSet_DatabaseSequenceLists")
-	private List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> databaseSequenceLists = new ArrayList<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>();
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JoinTable(name = "BlastDataSet_DatabaseSequenceLists")
+    private List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> databaseSequenceLists = new ArrayList<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>();
 
-	private Date dateCreated;
+    private Date dateCreated;
 
-	public BlastDataSet() {
-	}
+    public BlastDataSet() {
+    }
 
-	/**
-	 * Create a new BlastDataSet.
-	 *
-	 * @param datasetName
-	 */
-	public BlastDataSet(final String datasetName) {
-		setProp(CommonProperties.NAME, datasetName);
-	}
+    /**
+     * Create a new BlastDataSet.
+     *
+     * @param datasetName
+     */
+    public BlastDataSet(final String datasetName) {
+        setProp(CommonProperties.NAME, datasetName);
+    }
 
-	public List<BlastTask> getBlastTasks() {
-		return blastTasks;
-	}
+    public List<BlastTask> getBlastTasks() {
+        return blastTasks;
+    }
 
-	public void setBlastTasks(final List<BlastTask> blastTasks) {
-		this.blastTasks = blastTasks;
-	}
+    public void setBlastTasks(final List<BlastTask> blastTasks) {
+        this.blastTasks = blastTasks;
+    }
 
-	public List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> getQuerySequenceLists() {
-		return (List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>) querySequenceLists;
-	}
+    public List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> getQuerySequenceLists() {
+        return (List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>) querySequenceLists;
+    }
 
-	public void setQuerySequenceLists(
-			final List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> querySequenceLists) {
-		this.querySequenceLists = (List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>) querySequenceLists;
-	}
+    public void setQuerySequenceLists(final List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> querySequenceLists) {
+        this.querySequenceLists = (List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>) querySequenceLists;
+    }
 
-	public List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> getDatabaseSequenceLists() {
-		return (List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>) databaseSequenceLists;
-	}
+    public List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> getDatabaseSequenceLists() {
+        return (List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>) databaseSequenceLists;
+    }
 
-	public void setDatabaseSequenceLists(
-			final List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> databaseSequenceLists) {
-		this.databaseSequenceLists = databaseSequenceLists;
-	}
+    public void setDatabaseSequenceLists(final List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> databaseSequenceLists) {
+        this.databaseSequenceLists = databaseSequenceLists;
+    }
 
-	public Date getDateCreated() {
-		return dateCreated;
-	}
+    public Date getDateCreated() {
+        return dateCreated;
+    }
 
-	public void setDateCreated(final Date dateCreated) {
-		this.dateCreated = dateCreated;
-	}
+    public void setDateCreated(final Date dateCreated) {
+        this.dateCreated = dateCreated;
+    }
 
-	public BlastProgram getProgram() {
-		return program;
-	}
+    public BlastProgram getProgram() {
+        return program;
+    }
 
-	public void setProgram(final BlastProgram program) {
-		this.program = program;
-	}
+    public void setProgram(final BlastProgram program) {
+        this.program = program;
+    }
 
-	public void add(final BlastTask blastTask) {
-		getBlastTasks().add(blastTask);
-		blastTask.setBlastDataSet(this);
-	}
+    public void add(final BlastTask blastTask) {
+        getBlastTasks().add(blastTask);
+        blastTask.setBlastDataSet(this);
+    }
 }

@@ -21,5 +21,5 @@ package org.biomojo.core;
  *
  */
 public interface IdBasedFactory<T extends IntegerIdentified> {
-	public <Z extends T> Z getInstance(int objectId, Class<Z> type);
+    public <Z extends T> Z getInstance(int objectId, Class<Z> type);
 }

@@ -21,18 +21,18 @@ import javax.persistence.Entity;
 @Entity
 public class FileSystemPath extends NamedResource {
 
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = -8987237191938387342L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8987237191938387342L;
 
-	private String path;
+    private String path;
 
-	public String getPath() {
-		return path;
-	}
+    public String getPath() {
+        return path;
+    }
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+    public void setPath(String path) {
+        this.path = path;
+    }
 }

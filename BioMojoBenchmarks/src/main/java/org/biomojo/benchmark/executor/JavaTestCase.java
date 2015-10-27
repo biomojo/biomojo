@@ -24,66 +24,65 @@ import java.util.List;
  *
  */
 public class JavaTestCase extends TestCase {
-	int javaMem;
+    int javaMem;
 
-	/**
-	 * Create a new JavaTestCase.
-	 *
-	 * @param benchmark
-	 * @param library
-	 */
-	public JavaTestCase(final Benchmark benchmark, final Library library) {
-		super(benchmark, library);
-	}
+    /**
+     * Create a new JavaTestCase.
+     *
+     * @param benchmark
+     * @param library
+     */
+    public JavaTestCase(final Benchmark benchmark, final Library library) {
+        super(benchmark, library);
+    }
 
-	/**
-	 * @see org.biomojo.benchmark.executor.TestCase#getCommandLine(java.util.List)
-	 */
-	@Override
-	public List<String> getCommandLine() {
-		final List<String> commandLine = startCommandLine();
+    /**
+     * @see org.biomojo.benchmark.executor.TestCase#getCommandLine(java.util.List)
+     */
+    @Override
+    public List<String> getCommandLine() {
+        final List<String> commandLine = startCommandLine();
 
-		if (config.get(ConfigParams.INPUT_FILE) != null) {
-			commandLine.add("-i");
-			commandLine.add(config.get(ConfigParams.INPUT_FILE));
-		}
-		if (config.get(ConfigParams.OUTPUT_FILE) != null) {
-			commandLine.add("-o");
-			commandLine.add(config.get(ConfigParams.OUTPUT_FILE));
-		}
-		if (config.get(ConfigParams.CUTOFF) != null) {
-			commandLine.add("-q");
-			commandLine.add(config.get(ConfigParams.CUTOFF));
-		}
-		if (config.get(ConfigParams.ENCODED) != null) {
-			commandLine.add("-e");
-		}
-		return commandLine;
-	}
+        if (config.get(ConfigParams.INPUT_FILE) != null) {
+            commandLine.add("-i");
+            commandLine.add(config.get(ConfigParams.INPUT_FILE));
+        }
+        if (config.get(ConfigParams.OUTPUT_FILE) != null) {
+            commandLine.add("-o");
+            commandLine.add(config.get(ConfigParams.OUTPUT_FILE));
+        }
+        if (config.get(ConfigParams.CUTOFF) != null) {
+            commandLine.add("-q");
+            commandLine.add(config.get(ConfigParams.CUTOFF));
+        }
+        if (config.get(ConfigParams.ENCODED) != null) {
+            commandLine.add("-e");
+        }
+        return commandLine;
+    }
 
-	/**
-	 * @return
-	 */
-	protected List<String> startCommandLine() {
-		final List<String> commandLine = new ArrayList<String>();
-		commandLine.add("java");
-		commandLine.add("-Xmx" + config.get(ConfigParams.JAVA_MEM) + "m");
-		// if (config.get(ConfigParams.GC_LOG_FILE) != null) {
-		// commandLine.add("-Xloggc:" + config.get(ConfigParams.GC_LOG_FILE));
-		// commandLine.add("-XX:+PrintGCDetails");
-		// }
-		commandLine.add("-jar");
-		commandLine.add(config.get(ConfigParams.PROGRAM_BASE_DIR) + "/"
-				+ config.get(ConfigParams.PROGRAM_SUB_DIR) + "/"
-				+ config.get(ConfigParams.PROGRAM_NAME));
-		addBenchmarkName(commandLine);
-		return commandLine;
-	}
+    /**
+     * @return
+     */
+    protected List<String> startCommandLine() {
+        final List<String> commandLine = new ArrayList<String>();
+        commandLine.add("java");
+        commandLine.add("-Xmx" + config.get(ConfigParams.JAVA_MEM) + "m");
+        // if (config.get(ConfigParams.GC_LOG_FILE) != null) {
+        // commandLine.add("-Xloggc:" + config.get(ConfigParams.GC_LOG_FILE));
+        // commandLine.add("-XX:+PrintGCDetails");
+        // }
+        commandLine.add("-jar");
+        commandLine.add(config.get(ConfigParams.PROGRAM_BASE_DIR) + "/" + config.get(ConfigParams.PROGRAM_SUB_DIR) + "/"
+                + config.get(ConfigParams.PROGRAM_NAME));
+        addBenchmarkName(commandLine);
+        return commandLine;
+    }
 
-	/**
-	 * @param commandLine
-	 */
-	protected void addBenchmarkName(final List<String> commandLine) {
-		commandLine.add(benchmark.toString());
-	}
+    /**
+     * @param commandLine
+     */
+    protected void addBenchmarkName(final List<String> commandLine) {
+        commandLine.add(benchmark.toString());
+    }
 }

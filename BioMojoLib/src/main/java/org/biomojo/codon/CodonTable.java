@@ -26,9 +26,9 @@ import org.biomojo.core.IntegerIdentified;
  */
 public interface CodonTable extends IntegerIdentified {
 
-	byte getAminoAcid(byte[] nucleotides, int offset);
+    byte getAminoAcid(byte[] nucleotides, int offset);
 
-	byte getAminoAcid(byte[] nucleotides);
+    byte getAminoAcid(byte[] nucleotides);
 
-	byte getAminoAcid(byte nucleotide1, byte nucleotide2, byte nucleotide3);
+    byte getAminoAcid(byte nucleotide1, byte nucleotide2, byte nucleotide3);
 }

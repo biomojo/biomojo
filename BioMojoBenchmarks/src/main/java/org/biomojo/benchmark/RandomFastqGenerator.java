@@ -33,36 +33,32 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class RandomFastqGenerator extends RandomSeqGenerator {
-	private static final Logger logger = LoggerFactory
-			.getLogger(RandomFastqGenerator.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(RandomFastqGenerator.class.getName());
 
-	private final FastqSeqProvider provider = new FastqSeqProvider();
+    private final FastqSeqProvider provider = new FastqSeqProvider();
 
-	@Override
-	public void createFile(final File file, final int numSeqs,
-			final int seqLength) {
-		try {
-			final FastqOutputStream output = new FastqOutputStream(
-					new BufferedOutputStream(new FileOutputStream(file)),
-					new FixedWidthSequenceIdHeaderBuilder(8), Integer.MAX_VALUE);
-			// Start seqNum at 1 because BioPerl blows up with a sequence id of
-			// zero!
-			for (int seqNum = 1; seqNum <= numSeqs; ++seqNum) {
-				output.write(genByteSeq(seqNum, seqLength));
-			}
+    @Override
+    public void createFile(final File file, final int numSeqs, final int seqLength) {
+        try {
+            final FastqOutputStream output = new FastqOutputStream(new BufferedOutputStream(new FileOutputStream(file)),
+                    new FixedWidthSequenceIdHeaderBuilder(8), Integer.MAX_VALUE);
+            // Start seqNum at 1 because BioPerl blows up with a sequence id of
+            // zero!
+            for (int seqNum = 1; seqNum <= numSeqs; ++seqNum) {
+                output.write(genByteSeq(seqNum, seqLength));
+            }
 
-			output.close();
-		} catch (final IOException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-		}
-	}
+            output.close();
+        } catch (final IOException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        }
+    }
 
-	protected FastqSeq<NucleotideAlphabet> genByteSeq(final int seqNum,
-			final int length) {
-		final FastqSeq<NucleotideAlphabet> record = provider.get();
-		record.setId(seqNum);
-		createRandomSeqData(record, length);
-		createRandomSeqData(record.getQualityScores(), length);
-		return record;
-	}
+    protected FastqSeq<NucleotideAlphabet> genByteSeq(final int seqNum, final int length) {
+        final FastqSeq<NucleotideAlphabet> record = provider.get();
+        record.setId(seqNum);
+        createRandomSeqData(record, length);
+        createRandomSeqData(record.getQualityScores(), length);
+        return record;
+    }
 }

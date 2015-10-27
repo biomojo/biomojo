@@ -27,15 +27,14 @@ import org.biomojo.alphabet.ByteAlphabet;
  *
  */
 @Converter(autoApply = true)
-public class ByteAlphabetConverter implements
-		AttributeConverter<ByteAlphabet, Integer> {
-	@Override
-	public Integer convertToDatabaseColumn(ByteAlphabet alphabet) {
-		return (int) alphabet.getId();
-	}
+public class ByteAlphabetConverter implements AttributeConverter<ByteAlphabet, Integer> {
+    @Override
+    public Integer convertToDatabaseColumn(ByteAlphabet alphabet) {
+        return (int) alphabet.getId();
+    }
 
-	@Override
-	public ByteAlphabet convertToEntityAttribute(Integer alphabetId) {
-		return Alphabets.getAlphabet(alphabetId, ByteAlphabet.class);
-	}
+    @Override
+    public ByteAlphabet convertToEntityAttribute(Integer alphabetId) {
+        return Alphabets.getAlphabet(alphabetId, ByteAlphabet.class);
+    }
 }

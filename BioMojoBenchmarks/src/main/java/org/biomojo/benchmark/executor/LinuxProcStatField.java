@@ -18,47 +18,50 @@ package org.biomojo.benchmark.executor;
 
 public enum LinuxProcStatField implements Field {
 
-	PID(INT_TYPE), COMMAND(STRING_TYPE), STATE(STRING_TYPE), PPID(INT_TYPE), PGRP(
-			INT_TYPE), SESSION(INT_TYPE), TTY_NR(INT_TYPE), TPGID(INT_TYPE), FLAGS(
-			INT_TYPE), MINOR_FAULTS, CHILD_MINOR_FAULTS, MAJOR_FAULTS, CHILD_MAJOR_FAULTS, USER_TIME(
-			TIME_TYPE), SYSTEM_TIME(TIME_TYPE), CHILD_USER_TIME(TIME_TYPE), CHILD_SYSTEM_TIME(
-			TIME_TYPE), PRIORITY, NICE, NUM_THREADS, ITREALVALUE, STARTTIME, TOTAL_MEM(
-			MEMORY_TYPE), RSS(MEMORY_TYPE), RSS_LIMIT(BIG_DECIMAL_TYPE), STARTCODE, ENDCODE, STARTSTACK, KSTKESP, KSTKEIP, SIGNAL, BLOCKED, SIGIGNORE, SIGCATCH, WCHAN(
-			BIG_DECIMAL_TYPE), NSWAP, CNSWAP, EXIT_SIGNAL(INT_TYPE), PROCESSOR(
-			INT_TYPE), RT_PRIORITY(INT_TYPE), POLICY(INT_TYPE), DELAYACCT_BLKIO_TICKS, GUEST_TIME, CGUEST_TIME, START_DATA, END_DATA, START_BRK, ARG_START, ARG_END, ENV_START, ENV_END, EXIT_CODE(
-			INT_TYPE);
+    PID(INT_TYPE), COMMAND(STRING_TYPE), STATE(STRING_TYPE), PPID(INT_TYPE), PGRP(INT_TYPE), SESSION(INT_TYPE), TTY_NR(
+            INT_TYPE), TPGID(INT_TYPE), FLAGS(
+                    INT_TYPE), MINOR_FAULTS, CHILD_MINOR_FAULTS, MAJOR_FAULTS, CHILD_MAJOR_FAULTS, USER_TIME(
+                            TIME_TYPE), SYSTEM_TIME(TIME_TYPE), CHILD_USER_TIME(TIME_TYPE), CHILD_SYSTEM_TIME(
+                                    TIME_TYPE), PRIORITY, NICE, NUM_THREADS, ITREALVALUE, STARTTIME, TOTAL_MEM(
+                                            MEMORY_TYPE), RSS(MEMORY_TYPE), RSS_LIMIT(
+                                                    BIG_DECIMAL_TYPE), STARTCODE, ENDCODE, STARTSTACK, KSTKESP, KSTKEIP, SIGNAL, BLOCKED, SIGIGNORE, SIGCATCH, WCHAN(
+                                                            BIG_DECIMAL_TYPE), NSWAP, CNSWAP, EXIT_SIGNAL(
+                                                                    INT_TYPE), PROCESSOR(INT_TYPE), RT_PRIORITY(
+                                                                            INT_TYPE), POLICY(
+                                                                                    INT_TYPE), DELAYACCT_BLKIO_TICKS, GUEST_TIME, CGUEST_TIME, START_DATA, END_DATA, START_BRK, ARG_START, ARG_END, ENV_START, ENV_END, EXIT_CODE(
+                                                                                            INT_TYPE);
 
-	int fieldType;
+    int fieldType;
 
-	LinuxProcStatField() {
+    LinuxProcStatField() {
 
-	}
+    }
 
-	LinuxProcStatField(int fieldType) {
-		this.fieldType = fieldType;
-	}
+    LinuxProcStatField(int fieldType) {
+        this.fieldType = fieldType;
+    }
 
-	/**
-	 * @see org.biomojo.benchmark.executor.ValueParser#getFieldType()
-	 */
-	@Override
-	public int getFieldType() {
-		return fieldType;
-	}
+    /**
+     * @see org.biomojo.benchmark.executor.ValueParser#getFieldType()
+     */
+    @Override
+    public int getFieldType() {
+        return fieldType;
+    }
 
-	/**
-	 * @see org.biomojo.benchmark.executor.ValueParser#convertTime(java.lang.String)
-	 */
-	@Override
-	public Object convertTime(String fieldValue) {
-		return Long.parseLong(fieldValue) * (1000L / 100L);
-	}
+    /**
+     * @see org.biomojo.benchmark.executor.ValueParser#convertTime(java.lang.String)
+     */
+    @Override
+    public Object convertTime(String fieldValue) {
+        return Long.parseLong(fieldValue) * (1000L / 100L);
+    }
 
-	/**
-	 * @see org.biomojo.benchmark.executor.ValueParser#convertMemory(java.lang.String)
-	 */
-	@Override
-	public Object convertMemory(String fieldValue) {
-		return Long.parseLong(fieldValue) * 4096;
-	}
+    /**
+     * @see org.biomojo.benchmark.executor.ValueParser#convertMemory(java.lang.String)
+     */
+    @Override
+    public Object convertMemory(String fieldValue) {
+        return Long.parseLong(fieldValue) * 4096;
+    }
 }

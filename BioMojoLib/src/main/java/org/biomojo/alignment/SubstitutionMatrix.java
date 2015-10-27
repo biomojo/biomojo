@@ -23,15 +23,15 @@ import org.biomojo.alphabet.Alphabet;
  *
  */
 public interface SubstitutionMatrix<T> {
-	/**
-	 * @return
-	 */
-	public Alphabet<T> getAlphabet();
+    /**
+     * @return
+     */
+    public Alphabet<T> getAlphabet();
 
-	/**
-	 * @param first
-	 * @param second
-	 * @return
-	 */
-	public int getScore(T from, T to);
+    /**
+     * @param first
+     * @param second
+     * @return
+     */
+    public int getScore(T from, T to);
 }

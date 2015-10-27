@@ -29,44 +29,40 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class AlphabetTest {
-	private static final Logger logger = LoggerFactory
-			.getLogger(AlphabetTest.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(AlphabetTest.class.getName());
 
-	Random random = new Random(0);
+    Random random = new Random(0);
 
-	public void testByteAlphabet() {
-		testAlphabet(Byte.class);
-	}
+    public void testByteAlphabet() {
+        testAlphabet(Byte.class);
+    }
 
-	public void testIt() {
-		final Alphabet<Byte> alphabet = AllByteAlphabet.INSTANCE;
-		alphabet.getSymbolForOrdinal(0);
+    public void testIt() {
+        final Alphabet<Byte> alphabet = AllByteAlphabet.INSTANCE;
+        alphabet.getSymbolForOrdinal(0);
 
-	}
+    }
 
-	public <T> void testAlphabet(final Class<T> type) {
-		for (int i = 0; i < AlphabetId.LAST_ALPHABET_ID; ++i) {
-			@SuppressWarnings("unchecked")
-			final Alphabet<T> alphabet = (Alphabet<T>) Alphabets.getAlphabet(i);
-			if (alphabet != null) {
-				logger.debug("testing alphabet id {}", alphabet.getId());
-				for (int j = 0; j < alphabet.numSymbols(); ++j) {
-					final T symbol = alphabet.getSymbolForOrdinal(j);
-					assertTrue(alphabet.isValid(symbol));
-					assertTrue(alphabet.getOrdinalForSymbol(symbol) == j);
-					assertTrue(alphabet.getOrdinalForSymbol(alphabet
-							.getCanonical(symbol)) <= j);
-					assertTrue(alphabet.isEquivalent(symbol,
-							alphabet.getCanonical(symbol)));
-					@SuppressWarnings("unchecked")
-					final T[] symbols = (T[]) Array.newInstance(type, 1000);
-					for (int k = 0; k < symbols.length; ++k) {
-						symbols[k] = alphabet.getSymbolForOrdinal(random
-								.nextInt(alphabet.numSymbols()));
-					}
-					assertTrue(alphabet.isValid(symbols));
-				}
-			}
-		}
-	}
+    public <T> void testAlphabet(final Class<T> type) {
+        for (int i = 0; i < AlphabetId.LAST_ALPHABET_ID; ++i) {
+            @SuppressWarnings("unchecked")
+            final Alphabet<T> alphabet = (Alphabet<T>) Alphabets.getAlphabet(i);
+            if (alphabet != null) {
+                logger.debug("testing alphabet id {}", alphabet.getId());
+                for (int j = 0; j < alphabet.numSymbols(); ++j) {
+                    final T symbol = alphabet.getSymbolForOrdinal(j);
+                    assertTrue(alphabet.isValid(symbol));
+                    assertTrue(alphabet.getOrdinalForSymbol(symbol) == j);
+                    assertTrue(alphabet.getOrdinalForSymbol(alphabet.getCanonical(symbol)) <= j);
+                    assertTrue(alphabet.isEquivalent(symbol, alphabet.getCanonical(symbol)));
+                    @SuppressWarnings("unchecked")
+                    final T[] symbols = (T[]) Array.newInstance(type, 1000);
+                    for (int k = 0; k < symbols.length; ++k) {
+                        symbols[k] = alphabet.getSymbolForOrdinal(random.nextInt(alphabet.numSymbols()));
+                    }
+                    assertTrue(alphabet.isValid(symbols));
+                }
+            }
+        }
+    }
 }

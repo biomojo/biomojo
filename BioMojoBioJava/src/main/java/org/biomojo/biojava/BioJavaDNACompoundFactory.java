@@ -23,18 +23,17 @@ import org.biojava.nbio.core.sequence.compound.NucleotideCompound;
  * @author Hugh Eaves
  *
  */
-public class BioJavaDNACompoundFactory extends
-		AbstractBioJavaCompoundFactory<NucleotideCompound> {
+public class BioJavaDNACompoundFactory extends AbstractBioJavaCompoundFactory<NucleotideCompound> {
 
-	public static final BioJavaCompoundFactory<NucleotideCompound> INSTANCE = new BioJavaDNACompoundFactory(
-			DNACompoundSet.getDNACompoundSet());
+    public static final BioJavaCompoundFactory<NucleotideCompound> INSTANCE = new BioJavaDNACompoundFactory(
+            DNACompoundSet.getDNACompoundSet());
 
-	/**
-	 * Create a new BioJavaNucleotideCompondFactory.
-	 *
-	 * @param dnaCompoundSet
-	 */
-	public BioJavaDNACompoundFactory(DNACompoundSet compoundSet) {
-		super(compoundSet);
-	}
+    /**
+     * Create a new BioJavaNucleotideCompondFactory.
+     *
+     * @param dnaCompoundSet
+     */
+    public BioJavaDNACompoundFactory(DNACompoundSet compoundSet) {
+        super(compoundSet);
+    }
 }

@@ -36,30 +36,29 @@ import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
 
 public class BlastTest extends BaseTest {
-	private static final Logger logger = LoggerFactory
-			.getLogger(BlastTest.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(BlastTest.class.getName());
 
-	@Test
-	public void testBlastParser() throws Exception {
-		File outFile = File.createTempFile("blast_output_", ".xml");
-		File inFile = new File("src/test/resources/data/BlastOutput.xml");
-		InputSource inputSource = new InputSource(new FileReader(inFile));
+    @Test
+    public void testBlastParser() throws Exception {
+        File outFile = File.createTempFile("blast_output_", ".xml");
+        File inFile = new File("src/test/resources/data/BlastOutput.xml");
+        InputSource inputSource = new InputSource(new FileReader(inFile));
 
-		SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-		XMLReader xmlReader = parserFactory.newSAXParser().getXMLReader();
-		SAXSource source = new SAXSource(xmlReader, inputSource);
+        SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+        XMLReader xmlReader = parserFactory.newSAXParser().getXMLReader();
+        SAXSource source = new SAXSource(xmlReader, inputSource);
 
-		JAXBContext jaxBContext = JAXBContext.newInstance(BlastOutput.class);
-		Unmarshaller unmarshaller = jaxBContext.createUnmarshaller();
-		// BlastOutput blastOutput = (BlastOutput)
-		// unmarshaller.unmarshal(inFile);
-		BlastOutput blastOutput = (BlastOutput) unmarshaller.unmarshal(source);
-		assertEquals("nr", blastOutput.getDb());
+        JAXBContext jaxBContext = JAXBContext.newInstance(BlastOutput.class);
+        Unmarshaller unmarshaller = jaxBContext.createUnmarshaller();
+        // BlastOutput blastOutput = (BlastOutput)
+        // unmarshaller.unmarshal(inFile);
+        BlastOutput blastOutput = (BlastOutput) unmarshaller.unmarshal(source);
+        assertEquals("nr", blastOutput.getDb());
 
-		Marshaller marshaller = jaxBContext.createMarshaller();
-		marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
-		marshaller.marshal(blastOutput, outFile);
+        Marshaller marshaller = jaxBContext.createMarshaller();
+        marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
+        marshaller.marshal(blastOutput, outFile);
 
-		outFile.delete();
-	}
+        outFile.delete();
+    }
 }

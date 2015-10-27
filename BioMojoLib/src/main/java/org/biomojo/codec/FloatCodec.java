@@ -21,11 +21,11 @@ package org.biomojo.codec;
  *
  */
 public interface FloatCodec extends Codec<Float, Byte> {
-	public float[] decode(byte[] encodedData, int length);
+    public float[] decode(byte[] encodedData, int length);
 
-	public float decode(byte[] encodedData, int length, int index);
+    public float decode(byte[] encodedData, int length, int index);
 
-	public byte[] encode(float[] decodedData);
+    public byte[] encode(float[] decodedData);
 
-	public void encode(byte[] encodedData, int length, float value, int index);
+    public void encode(byte[] encodedData, int length, float value, int index);
 }

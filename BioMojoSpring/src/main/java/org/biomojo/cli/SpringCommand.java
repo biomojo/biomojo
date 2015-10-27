@@ -24,7 +24,7 @@ import org.springframework.context.ApplicationContext;
  *
  */
 public interface SpringCommand extends Command {
-	String getConfigLocation();
+    String getConfigLocation();
 
-	ApplicationContext getApplicationContext();
+    ApplicationContext getApplicationContext();
 }

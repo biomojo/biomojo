@@ -28,39 +28,37 @@ import org.biomojo.io.SequenceOutputStream;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.util.OutputUtil;
 
-public class FastaOutputStream extends FilterOutputStream implements
-		SequenceOutputStream<ByteSeq<? extends ByteAlphabet>> {
-	private static final int DEFAULT_LINE_LENGTH = 60;
+public class FastaOutputStream extends FilterOutputStream
+        implements SequenceOutputStream<ByteSeq<? extends ByteAlphabet>> {
+    private static final int DEFAULT_LINE_LENGTH = 60;
 
-	private final HeaderBuilder headerBuilder;
-	private final int maxLineLength;
+    private final HeaderBuilder headerBuilder;
+    private final int maxLineLength;
 
-	public FastaOutputStream(final OutputStream outputStream) {
-		super(outputStream);
-		maxLineLength = DEFAULT_LINE_LENGTH;
-		headerBuilder = new DefaultHeaderBuilder();
-	}
+    public FastaOutputStream(final OutputStream outputStream) {
+        super(outputStream);
+        maxLineLength = DEFAULT_LINE_LENGTH;
+        headerBuilder = new DefaultHeaderBuilder();
+    }
 
-	public FastaOutputStream(final OutputStream outputStream,
-			final HeaderBuilder sequenceHeaderBuilder) {
-		super(outputStream);
-		this.headerBuilder = sequenceHeaderBuilder;
-		maxLineLength = DEFAULT_LINE_LENGTH;
-	}
+    public FastaOutputStream(final OutputStream outputStream, final HeaderBuilder sequenceHeaderBuilder) {
+        super(outputStream);
+        this.headerBuilder = sequenceHeaderBuilder;
+        maxLineLength = DEFAULT_LINE_LENGTH;
+    }
 
-	public FastaOutputStream(final OutputStream outputStream,
-			final HeaderBuilder sequenceHeaderBuilder, final int maxLineLength) {
-		super(outputStream);
-		this.maxLineLength = maxLineLength;
-		this.headerBuilder = sequenceHeaderBuilder;
-	}
+    public FastaOutputStream(final OutputStream outputStream, final HeaderBuilder sequenceHeaderBuilder,
+            final int maxLineLength) {
+        super(outputStream);
+        this.maxLineLength = maxLineLength;
+        this.headerBuilder = sequenceHeaderBuilder;
+    }
 
-	@Override
-	public void write(final ByteSeq<? extends ByteAlphabet> sequence)
-			throws IOException {
-		out.write(FastaConst.RECORD_DELIMITER);
-		out.write(headerBuilder.buildHeader(sequence));
-		out.write('\n');
-		OutputUtil.writeSplitLines(out, maxLineLength, sequence.getAllBytes());
-	}
+    @Override
+    public void write(final ByteSeq<? extends ByteAlphabet> sequence) throws IOException {
+        out.write(FastaConst.RECORD_DELIMITER);
+        out.write(headerBuilder.buildHeader(sequence));
+        out.write('\n');
+        OutputUtil.writeSplitLines(out, maxLineLength, sequence.getAllBytes());
+    }
 }

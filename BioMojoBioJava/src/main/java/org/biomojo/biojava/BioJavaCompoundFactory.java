@@ -26,7 +26,7 @@ import org.biojava.nbio.core.sequence.template.CompoundSet;
  *            the generic type
  */
 public interface BioJavaCompoundFactory<T extends Compound> {
-	public T getCompoundFor(byte b);
+    public T getCompoundFor(byte b);
 
-	public CompoundSet<T> getCompoundSet();
+    public CompoundSet<T> getCompoundSet();
 }

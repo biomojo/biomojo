@@ -23,53 +23,51 @@ import org.java0.string.ASCII;
  *
  */
 public class InvalidSymbolInfo {
-	private final Object symbol;
+    private final Object symbol;
 
-	private final Integer position;
+    private final Integer position;
 
-	public InvalidSymbolInfo(final Object symbol, final Integer position) {
-		super();
-		this.symbol = symbol;
-		this.position = position;
-	}
+    public InvalidSymbolInfo(final Object symbol, final Integer position) {
+        super();
+        this.symbol = symbol;
+        this.position = position;
+    }
 
-	public InvalidSymbolInfo(final Object symbol) {
-		super();
-		this.symbol = symbol;
-		position = null;
-	}
+    public InvalidSymbolInfo(final Object symbol) {
+        super();
+        this.symbol = symbol;
+        position = null;
+    }
 
-	/**
-	 * @return the symbol
-	 */
-	public Object getSymbol() {
-		return symbol;
-	}
+    /**
+     * @return the symbol
+     */
+    public Object getSymbol() {
+        return symbol;
+    }
 
-	/**
-	 * @return the position
-	 */
-	public Integer getPosition() {
-		return position;
-	}
+    /**
+     * @return the position
+     */
+    public Integer getPosition() {
+        return position;
+    }
 
-	@Override
-	public String toString() {
-		Object printableSymbol = symbol;
-		if (symbol instanceof Byte) {
-			final byte ch = ((Byte) symbol);
-			if (ASCII.isPrintable((Byte) symbol)) {
-				printableSymbol = new Character((char) ch);
-			} else {
-				printableSymbol = "byte value(" + ch + ")";
-			}
-		}
-		if (position == null) {
-			return "Invalid symbol [" + printableSymbol.toString()
-					+ "] @ unspecified position";
-		} else {
-			return "Invalid symbol [" + printableSymbol.toString()
-					+ "] @ position " + position;
-		}
-	}
+    @Override
+    public String toString() {
+        Object printableSymbol = symbol;
+        if (symbol instanceof Byte) {
+            final byte ch = ((Byte) symbol);
+            if (ASCII.isPrintable((Byte) symbol)) {
+                printableSymbol = new Character((char) ch);
+            } else {
+                printableSymbol = "byte value(" + ch + ")";
+            }
+        }
+        if (position == null) {
+            return "Invalid symbol [" + printableSymbol.toString() + "] @ unspecified position";
+        } else {
+            return "Invalid symbol [" + printableSymbol.toString() + "] @ position " + position;
+        }
+    }
 }

@@ -33,35 +33,31 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class RandomFastaGenerator extends RandomSeqGenerator {
-	private static final Logger logger = LoggerFactory
-			.getLogger(RandomFastaGenerator.class.getName());
-	private final ByteSeqProvider provider = new ByteSeqProvider();
+    private static final Logger logger = LoggerFactory.getLogger(RandomFastaGenerator.class.getName());
+    private final ByteSeqProvider provider = new ByteSeqProvider();
 
-	@Override
-	public void createFile(final File file, final int numSeqs,
-			final int seqLength) {
-		try {
-			final FastaOutputStream output = new FastaOutputStream(
-					new BufferedOutputStream(new FileOutputStream(file)),
-					new FixedWidthSequenceIdHeaderBuilder(8));
-			// Start seqNum at 1 because BioPerl blows up with a sequence id of
-			// zero!
-			for (int seqNum = 1; seqNum <= numSeqs; ++seqNum) {
-				output.write(genFastaSeq(seqNum, seqLength));
-			}
+    @Override
+    public void createFile(final File file, final int numSeqs, final int seqLength) {
+        try {
+            final FastaOutputStream output = new FastaOutputStream(new BufferedOutputStream(new FileOutputStream(file)),
+                    new FixedWidthSequenceIdHeaderBuilder(8));
+            // Start seqNum at 1 because BioPerl blows up with a sequence id of
+            // zero!
+            for (int seqNum = 1; seqNum <= numSeqs; ++seqNum) {
+                output.write(genFastaSeq(seqNum, seqLength));
+            }
 
-			output.close();
-		} catch (final IOException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-		}
-	}
+            output.close();
+        } catch (final IOException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        }
+    }
 
-	protected ByteSeq<IUPACAlphabet> genFastaSeq(final int seqNum,
-			final int length) {
-		final ByteSeq<IUPACAlphabet> record = provider.get();
-		record.setId(seqNum);
-		createRandomSeqData(record, length);
-		return record;
-	}
+    protected ByteSeq<IUPACAlphabet> genFastaSeq(final int seqNum, final int length) {
+        final ByteSeq<IUPACAlphabet> record = provider.get();
+        record.setId(seqNum);
+        createRandomSeqData(record, length);
+        return record;
+    }
 
 }

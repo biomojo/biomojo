@@ -20,37 +20,37 @@ import javax.persistence.Entity;
 
 @Entity
 public class FileResource extends NamedResource {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	private FileStore fileStore;
+    private FileStore fileStore;
 
-	private String path;
+    private String path;
 
-	private ResourceStatus status;
+    private ResourceStatus status;
 
-	private String name;
+    private String name;
 
-	public FileStore getFileStore() {
-		return fileStore;
-	}
+    public FileStore getFileStore() {
+        return fileStore;
+    }
 
-	public void setFileStore(FileStore fileStore) {
-		this.fileStore = fileStore;
-	}
+    public void setFileStore(FileStore fileStore) {
+        this.fileStore = fileStore;
+    }
 
-	public String getPath() {
-		return path;
-	}
+    public String getPath() {
+        return path;
+    }
 
-	public void setPath(String path) {
-		this.path = path;
-	}
+    public void setPath(String path) {
+        this.path = path;
+    }
 
-	public ResourceStatus getStatus() {
-		return status;
-	}
+    public ResourceStatus getStatus() {
+        return status;
+    }
 
-	public void setStatus(ResourceStatus status) {
-		this.status = status;
-	}
+    public void setStatus(ResourceStatus status) {
+        this.status = status;
+    }
 }

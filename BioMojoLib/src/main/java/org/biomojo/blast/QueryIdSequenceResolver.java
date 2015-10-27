@@ -28,17 +28,16 @@ import org.biomojo.sequence.ByteSeqImpl;
 @Named
 public class QueryIdSequenceResolver implements BlastSequenceResolver {
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@Override
-	public void resolveSequences(final BlastOutput blastOutput) {
-		for (final BlastIteration iteration : blastOutput.getIterations()) {
-			final long queryId = Long.parseLong(iteration.getQueryDef());
-			final ByteSeqImpl<ByteAlphabet> querySequence = entityManager.find(
-					ByteSeqImpl.class, queryId);
-			iteration.setQuerySequence(querySequence);
-		}
-	}
+    @Override
+    public void resolveSequences(final BlastOutput blastOutput) {
+        for (final BlastIteration iteration : blastOutput.getIterations()) {
+            final long queryId = Long.parseLong(iteration.getQueryDef());
+            final ByteSeqImpl<ByteAlphabet> querySequence = entityManager.find(ByteSeqImpl.class, queryId);
+            iteration.setQuerySequence(querySequence);
+        }
+    }
 
 }

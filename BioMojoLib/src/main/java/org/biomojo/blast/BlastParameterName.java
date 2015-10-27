@@ -18,5 +18,5 @@
 package org.biomojo.blast;
 
 public enum BlastParameterName {
-	BLAST_PARAM_MAX_TARGET_SEQS, BLAST_PARAM_WORD_SIZE
+    BLAST_PARAM_MAX_TARGET_SEQS, BLAST_PARAM_WORD_SIZE
 }

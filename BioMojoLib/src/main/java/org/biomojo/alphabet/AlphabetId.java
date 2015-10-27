@@ -21,28 +21,28 @@ package org.biomojo.alphabet;
  *
  */
 public class AlphabetId {
-	private AlphabetId() {
+    private AlphabetId() {
 
-	}
+    }
 
-	public static final int UNKNOWN = 0;
+    public static final int UNKNOWN = 0;
 
-	public static final int ALL_BYTE = 32;
+    public static final int ALL_BYTE = 32;
 
-	public static final int NUCLEOTIDE = 64;
+    public static final int NUCLEOTIDE = 64;
 
-	public static final int DNA = 96;
+    public static final int DNA = 96;
 
-	public static final int RNA = 128;
+    public static final int RNA = 128;
 
-	public static final int AMINO_ACID = 160;
+    public static final int AMINO_ACID = 160;
 
-	public static final int QUALITY_SANGER = 192;
-	public static final int QUALITY_ILLUMINA_10 = 193;
-	public static final int QUALITY_ILLUMINA_13 = 194;
+    public static final int QUALITY_SANGER = 192;
+    public static final int QUALITY_ILLUMINA_10 = 193;
+    public static final int QUALITY_ILLUMINA_13 = 194;
 
-	public static final int ASCII = 224;
+    public static final int ASCII = 224;
 
-	public static final int LAST_ALPHABET_ID = ASCII;
+    public static final int LAST_ALPHABET_ID = ASCII;
 
 }

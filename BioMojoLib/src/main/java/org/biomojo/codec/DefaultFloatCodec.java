@@ -22,53 +22,52 @@ import java.nio.ByteBuffer;
  * @author Hugh Eaves
  *
  */
-public class DefaultFloatCodec extends AbstractCodec<Float, Byte> implements
-		FloatCodec {
+public class DefaultFloatCodec extends AbstractCodec<Float, Byte> implements FloatCodec {
 
-	DefaultFloatCodec(int id) {
-		super(id);
-	}
+    DefaultFloatCodec(int id) {
+        super(id);
+    }
 
-	/**
-	 * @see org.biomojo.codec.FloatCodec#decode(byte[], int)
-	 */
-	@Override
-	public float[] decode(byte[] encodedData, int length) {
-		ByteBuffer buffer = ByteBuffer.wrap(encodedData);
-		float[] decodedData = new float[length];
-		int pos = 0;
-		while (buffer.position() < buffer.limit()) {
-			decodedData[pos++] = buffer.getFloat();
-		}
-		return decodedData;
-	}
+    /**
+     * @see org.biomojo.codec.FloatCodec#decode(byte[], int)
+     */
+    @Override
+    public float[] decode(byte[] encodedData, int length) {
+        ByteBuffer buffer = ByteBuffer.wrap(encodedData);
+        float[] decodedData = new float[length];
+        int pos = 0;
+        while (buffer.position() < buffer.limit()) {
+            decodedData[pos++] = buffer.getFloat();
+        }
+        return decodedData;
+    }
 
-	/**
-	 * @see org.biomojo.codec.FloatCodec#decode(byte[], int, int)
-	 */
-	@Override
-	public float decode(byte[] encodedData, int length, int index) {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @see org.biomojo.codec.FloatCodec#decode(byte[], int, int)
+     */
+    @Override
+    public float decode(byte[] encodedData, int length, int index) {
+        throw new UnsupportedOperationException();
+    }
 
-	/**
-	 * @see org.biomojo.codec.FloatCodec#encode(float[])
-	 */
-	@Override
-	public byte[] encode(float[] decodedData) {
-		byte[] byteBuf = new byte[decodedData.length * 4];
-		ByteBuffer buffer = ByteBuffer.wrap(byteBuf);
-		for (float f : decodedData) {
-			buffer.putFloat(f);
-		}
-		return byteBuf;
-	}
+    /**
+     * @see org.biomojo.codec.FloatCodec#encode(float[])
+     */
+    @Override
+    public byte[] encode(float[] decodedData) {
+        byte[] byteBuf = new byte[decodedData.length * 4];
+        ByteBuffer buffer = ByteBuffer.wrap(byteBuf);
+        for (float f : decodedData) {
+            buffer.putFloat(f);
+        }
+        return byteBuf;
+    }
 
-	/**
-	 * @see org.biomojo.codec.FloatCodec#encode(byte[], int, float, int)
-	 */
-	@Override
-	public void encode(byte[] encodedData, int length, float value, int index) {
-		throw new UnsupportedOperationException();
-	}
+    /**
+     * @see org.biomojo.codec.FloatCodec#encode(byte[], int, float, int)
+     */
+    @Override
+    public void encode(byte[] encodedData, int length, float value, int index) {
+        throw new UnsupportedOperationException();
+    }
 }

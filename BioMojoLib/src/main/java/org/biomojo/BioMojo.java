@@ -26,15 +26,14 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class BioMojo {
-	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory.getLogger(BioMojo.class
-			.getName());
+    @SuppressWarnings("unused")
+    private static final Logger logger = LoggerFactory.getLogger(BioMojo.class.getName());
 
-	private BioMojo() {
+    private BioMojo() {
 
-	}
+    }
 
-	public static void init(final String[] args, final Command... commands) {
-		CLIUtil.processCommandLine(args, commands);
-	}
+    public static void init(final String[] args, final Command... commands) {
+        CLIUtil.processCommandLine(args, commands);
+    }
 }

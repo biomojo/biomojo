@@ -22,10 +22,10 @@ package org.biomojo.benchmark.executor;
  */
 public enum Library {
 
-	BIOJAVA, BIOPERL, BIOPYTHON, BIOMOJO, SEQAN, HTSJDK, HTSEQ, JEBL, TRIMMOMATIC;
+    BIOJAVA, BIOPERL, BIOPYTHON, BIOMOJO, SEQAN, HTSJDK, HTSEQ, JEBL, TRIMMOMATIC;
 
-	Library() {
+    Library() {
 
-	}
+    }
 
 }

@@ -40,143 +40,142 @@ import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.sequence.ByteSeqImpl;
 
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = { "iterNum", "queryID", "queryDef", "queryLen",
-		"hits", "message", "statistics" })
+@XmlType(name = "", propOrder = { "iterNum", "queryID", "queryDef", "queryLen", "hits", "message", "statistics" })
 @XmlRootElement(name = "Iteration")
 @Entity
 public class BlastIteration {
-	@TableGenerator(name = "BlastIterationGenerator", allocationSize = 1000)
-	@Id
-	@GeneratedValue(generator = "BlastIterationGenerator")
-	@XmlTransient
-	private long id;
+    @TableGenerator(name = "BlastIterationGenerator", allocationSize = 1000)
+    @Id
+    @GeneratedValue(generator = "BlastIterationGenerator")
+    @XmlTransient
+    private long id;
 
-	@XmlElement(name = "Iteration_iter-num", required = true)
-	protected int iterNum;
+    @XmlElement(name = "Iteration_iter-num", required = true)
+    protected int iterNum;
 
-	@XmlElement(name = "Iteration_query-ID")
-	protected String queryID;
+    @XmlElement(name = "Iteration_query-ID")
+    protected String queryID;
 
-	@XmlElement(name = "Iteration_query-def")
-	protected String queryDef;
+    @XmlElement(name = "Iteration_query-def")
+    protected String queryDef;
 
-	@XmlElement(name = "Iteration_query-len")
-	protected int queryLen;
+    @XmlElement(name = "Iteration_query-len")
+    protected int queryLen;
 
-	@XmlElement(name = "Hit")
-	@XmlElementWrapper(name = "Iteration_hits")
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name = "BlastIteration_id")
-	protected List<BlastHit> hits;
+    @XmlElement(name = "Hit")
+    @XmlElementWrapper(name = "Iteration_hits")
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "BlastIteration_id")
+    protected List<BlastHit> hits;
 
-	@XmlElement(name = "Iteration_stat")
-	@XmlJavaTypeAdapter(BlastIterationStatAdapter.class)
-	@OneToOne(cascade = CascadeType.ALL)
-	protected BlastStatistics statistics;
+    @XmlElement(name = "Iteration_stat")
+    @XmlJavaTypeAdapter(BlastIterationStatAdapter.class)
+    @OneToOne(cascade = CascadeType.ALL)
+    protected BlastStatistics statistics;
 
-	@XmlElement(name = "Iteration_message")
-	protected String message;
+    @XmlElement(name = "Iteration_message")
+    protected String message;
 
-	@XmlTransient
-	@ManyToOne(cascade = CascadeType.ALL)
-	protected ByteSeqImpl<ByteAlphabet> querySequence;
+    @XmlTransient
+    @ManyToOne(cascade = CascadeType.ALL)
+    protected ByteSeqImpl<ByteAlphabet> querySequence;
 
-	@XmlTransient
-	@ManyToOne
-	protected BlastOutput blastOutput;
+    @XmlTransient
+    @ManyToOne
+    protected BlastOutput blastOutput;
 
-	public long getId() {
-		return id;
-	}
+    public long getId() {
+        return id;
+    }
 
-	public void setId(final long id) {
-		this.id = id;
-	}
+    public void setId(final long id) {
+        this.id = id;
+    }
 
-	public int getIterNum() {
-		return iterNum;
-	}
+    public int getIterNum() {
+        return iterNum;
+    }
 
-	public void setIterNum(final int iterNum) {
-		this.iterNum = iterNum;
-	}
+    public void setIterNum(final int iterNum) {
+        this.iterNum = iterNum;
+    }
 
-	public String getQueryID() {
-		return queryID;
-	}
+    public String getQueryID() {
+        return queryID;
+    }
 
-	public void setQueryID(final String iterationQueryID) {
-		this.queryID = iterationQueryID;
-	}
+    public void setQueryID(final String iterationQueryID) {
+        this.queryID = iterationQueryID;
+    }
 
-	public String getQueryDef() {
-		return queryDef;
-	}
+    public String getQueryDef() {
+        return queryDef;
+    }
 
-	public void setQueryDef(final String iterationQueryDef) {
-		this.queryDef = iterationQueryDef;
-	}
+    public void setQueryDef(final String iterationQueryDef) {
+        this.queryDef = iterationQueryDef;
+    }
 
-	public int getQueryLen() {
-		return queryLen;
-	}
+    public int getQueryLen() {
+        return queryLen;
+    }
 
-	public void setQueryLen(final int iterationQueryLen) {
-		this.queryLen = iterationQueryLen;
-	}
+    public void setQueryLen(final int iterationQueryLen) {
+        this.queryLen = iterationQueryLen;
+    }
 
-	public List<BlastHit> getHits() {
-		return hits;
-	}
+    public List<BlastHit> getHits() {
+        return hits;
+    }
 
-	public void setHits(final List<BlastHit> hit) {
-		this.hits = hit;
-	}
+    public void setHits(final List<BlastHit> hit) {
+        this.hits = hit;
+    }
 
-	public BlastStatistics getStatistics() {
-		return statistics;
-	}
+    public BlastStatistics getStatistics() {
+        return statistics;
+    }
 
-	public void setStatistics(final BlastStatistics statistics) {
-		this.statistics = statistics;
-	}
+    public void setStatistics(final BlastStatistics statistics) {
+        this.statistics = statistics;
+    }
 
-	public String getMessage() {
-		return message;
-	}
+    public String getMessage() {
+        return message;
+    }
 
-	public void setMessage(final String message) {
-		this.message = message;
-	}
+    public void setMessage(final String message) {
+        this.message = message;
+    }
 
-	public BlastOutput getBlastOutput() {
-		return blastOutput;
-	}
+    public BlastOutput getBlastOutput() {
+        return blastOutput;
+    }
 
-	public void setBlastOutput(final BlastOutput blastOutput) {
-		this.blastOutput = blastOutput;
-	}
+    public void setBlastOutput(final BlastOutput blastOutput) {
+        this.blastOutput = blastOutput;
+    }
 
-	public ByteSeqImpl<ByteAlphabet> getQuerySequence() {
-		return querySequence;
-	}
+    public ByteSeqImpl<ByteAlphabet> getQuerySequence() {
+        return querySequence;
+    }
 
-	public void setQuerySequence(final ByteSeqImpl<ByteAlphabet> querySequence) {
-		this.querySequence = querySequence;
-	}
+    public void setQuerySequence(final ByteSeqImpl<ByteAlphabet> querySequence) {
+        this.querySequence = querySequence;
+    }
 
-	@Override
-	public String toString() {
-		final StringBuffer buf = new StringBuffer();
-		buf.append("Blast Iteration:\n");
+    @Override
+    public String toString() {
+        final StringBuffer buf = new StringBuffer();
+        buf.append("Blast Iteration:\n");
 
-		buf.append("id: " + id + "\n");
-		buf.append("iterationIterNum: " + iterNum + "\n");
-		buf.append("iterationQueryID: " + queryID + "\n");
-		buf.append("iterationQueryDef: " + queryDef + "\n");
-		buf.append("iterationQueryLen: " + queryLen + "\n");
+        buf.append("id: " + id + "\n");
+        buf.append("iterationIterNum: " + iterNum + "\n");
+        buf.append("iterationQueryID: " + queryID + "\n");
+        buf.append("iterationQueryDef: " + queryDef + "\n");
+        buf.append("iterationQueryLen: " + queryLen + "\n");
 
-		return buf.toString();
-	}
+        return buf.toString();
+    }
 
 }

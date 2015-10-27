@@ -44,294 +44,283 @@ import org.slf4j.LoggerFactory;
 @SuppressWarnings("serial")
 @Entity
 public class BenchmarkRun extends AbstractEntity {
-	private static final Logger logger = LoggerFactory
-			.getLogger(BenchmarkRun.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(BenchmarkRun.class.getName());
 
-	private String runGroup;
-	@Column(length = 10000)
-	private Timestamp startTime;
-	private Timestamp endTime;
-	@Enumerated(EnumType.STRING)
-	private Library library;
-	@Enumerated(EnumType.STRING)
-	private Benchmark benchmark;
-	private int exitStatus;
-	private long userMilliseconds;
-	private long systemMilliseconds;
-	private long maxResidentBytes;
-	private long avgResidentBytes;
-	private long majorFaults;
-	private long minorFaults;
-	private long elapsedMilliseconds;
-	@Column(length = Integer.MAX_VALUE)
-	private String standardOut;
-	@Column(length = Integer.MAX_VALUE)
-	private String gcLog;
-	private int runNumber;
+    private String runGroup;
+    @Column(length = 10000)
+    private Timestamp startTime;
+    private Timestamp endTime;
+    @Enumerated(EnumType.STRING)
+    private Library library;
+    @Enumerated(EnumType.STRING)
+    private Benchmark benchmark;
+    private int exitStatus;
+    private long userMilliseconds;
+    private long systemMilliseconds;
+    private long maxResidentBytes;
+    private long avgResidentBytes;
+    private long majorFaults;
+    private long minorFaults;
+    private long elapsedMilliseconds;
+    @Column(length = Integer.MAX_VALUE)
+    private String standardOut;
+    @Column(length = Integer.MAX_VALUE)
+    private String gcLog;
+    private int runNumber;
 
-	@ElementCollection
-	Map<String, String> config = new HashMap<>();
+    @ElementCollection
+    Map<String, String> config = new HashMap<>();
 
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<BenchmarkSample> samples = new ArrayList<BenchmarkSample>();
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<BenchmarkSample> samples = new ArrayList<BenchmarkSample>();
 
-	public BenchmarkRun() {
+    public BenchmarkRun() {
 
-	}
+    }
 
-	public BenchmarkRun(String runGroup) {
-		this.runGroup = runGroup;
-	}
+    public BenchmarkRun(String runGroup) {
+        this.runGroup = runGroup;
+    }
 
-	public Timestamp getStartTime() {
-		return startTime;
-	}
+    public Timestamp getStartTime() {
+        return startTime;
+    }
 
-	public void setStartTime(Timestamp startTime) {
-		this.startTime = startTime;
-	}
+    public void setStartTime(Timestamp startTime) {
+        this.startTime = startTime;
+    }
 
-	public Timestamp getEndTime() {
-		return endTime;
-	}
+    public Timestamp getEndTime() {
+        return endTime;
+    }
 
-	public void setEndTime(Timestamp endTime) {
-		this.endTime = endTime;
-	}
+    public void setEndTime(Timestamp endTime) {
+        this.endTime = endTime;
+    }
 
-	public List<BenchmarkSample> getSamples() {
-		return samples;
-	}
+    public List<BenchmarkSample> getSamples() {
+        return samples;
+    }
 
-	public void setSamples(List<BenchmarkSample> samples) {
-		this.samples = samples;
-	}
+    public void setSamples(List<BenchmarkSample> samples) {
+        this.samples = samples;
+    }
 
-	public void addProcesInfo(Map<LinuxProcStatField, Object> info) {
-		samples.add(new BenchmarkSample(info));
-	}
+    public void addProcesInfo(Map<LinuxProcStatField, Object> info) {
+        samples.add(new BenchmarkSample(info));
+    }
 
-	public Library getLibrary() {
-		return library;
-	}
+    public Library getLibrary() {
+        return library;
+    }
 
-	public void setLibrary(Library library) {
-		this.library = library;
-	}
+    public void setLibrary(Library library) {
+        this.library = library;
+    }
 
-	public Benchmark getBenchmark() {
-		return benchmark;
-	}
+    public Benchmark getBenchmark() {
+        return benchmark;
+    }
 
-	public void setBenchmark(Benchmark benchmark) {
-		this.benchmark = benchmark;
-	}
+    public void setBenchmark(Benchmark benchmark) {
+        this.benchmark = benchmark;
+    }
 
-	public void runBenchmark(int runNumber, TestCase testCase) {
-		File processOutputFile = null;
+    public void runBenchmark(int runNumber, TestCase testCase) {
+        File processOutputFile = null;
 
-		this.runNumber = runNumber;
-		this.library = testCase.getLibrary();
-		this.benchmark = testCase.getBenchmark();
-		this.config.putAll(testCase.getConfig());
+        this.runNumber = runNumber;
+        this.library = testCase.getLibrary();
+        this.benchmark = testCase.getBenchmark();
+        this.config.putAll(testCase.getConfig());
 
-		try {
+        try {
 
-			processOutputFile = File.createTempFile("output", ".txt");
+            processOutputFile = File.createTempFile("output", ".txt");
 
-			List<String> command = testCase.getCommandLine();
+            List<String> command = testCase.getCommandLine();
 
-			LinuxTimeCommand timeCapture = new LinuxTimeCommand();
-			command = timeCapture.prepareCommandLine(command);
-			logger.info("Running benchmark {} {} {}", library, benchmark,
-					command);
+            LinuxTimeCommand timeCapture = new LinuxTimeCommand();
+            command = timeCapture.prepareCommandLine(command);
+            logger.info("Running benchmark {} {} {}", library, benchmark, command);
 
-			ProcessBuilder processBuilder = new ProcessBuilder(command);
-			processBuilder.redirectErrorStream(true);
-			processBuilder.redirectOutput(processOutputFile);
+            ProcessBuilder processBuilder = new ProcessBuilder(command);
+            processBuilder.redirectErrorStream(true);
+            processBuilder.redirectOutput(processOutputFile);
 
-			Process process = processBuilder.start();
-			Thread closer = new Thread() {
-				@Override
-				public void run() {
-					System.out.println("Running shutdown hook");
-					process.destroy();
-				}
-			};
+            Process process = processBuilder.start();
+            Thread closer = new Thread() {
+                @Override
+                public void run() {
+                    System.out.println("Running shutdown hook");
+                    process.destroy();
+                }
+            };
 
-			Runtime.getRuntime().addShutdownHook(closer);
+            Runtime.getRuntime().addShutdownHook(closer);
 
-			setStartTime(new Timestamp(System.currentTimeMillis()));
+            setStartTime(new Timestamp(System.currentTimeMillis()));
 
-			process.waitFor();
-			// LinuxProcStat procStat = new LinuxProcStat(process);
+            process.waitFor();
+            // LinuxProcStat procStat = new LinuxProcStat(process);
 
-			// while (process.isAlive()) {
-			// Map<LinuxProcStatField, Object> info = procStat.getInfo();
-			// if (info != null) {
-			// addProcesInfo(info);
-			// }
-			// Thread.sleep(200);
-			// }
+            // while (process.isAlive()) {
+            // Map<LinuxProcStatField, Object> info = procStat.getInfo();
+            // if (info != null) {
+            // addProcesInfo(info);
+            // }
+            // Thread.sleep(200);
+            // }
 
-			setExitStatus(process.exitValue());
+            setExitStatus(process.exitValue());
 
-			setEndTime(new Timestamp(System.currentTimeMillis()));
+            setEndTime(new Timestamp(System.currentTimeMillis()));
 
-			Runtime.getRuntime().removeShutdownHook(closer);
+            Runtime.getRuntime().removeShutdownHook(closer);
 
-			standardOut = new String(Files.readAllBytes(processOutputFile
-					.toPath()));
+            standardOut = new String(Files.readAllBytes(processOutputFile.toPath()));
 
-			File gcLogFile = new File(testCase.get(ConfigParams.GC_LOG_FILE));
-			if (gcLogFile.exists()) {
-				gcLog = new String(Files.readAllBytes(gcLogFile.toPath()));
-			}
+            File gcLogFile = new File(testCase.get(ConfigParams.GC_LOG_FILE));
+            if (gcLogFile.exists()) {
+                gcLog = new String(Files.readAllBytes(gcLogFile.toPath()));
+            }
 
-			Map<LinuxTimeCommandField, Object> timeFields = timeCapture
-					.getExecutionResults();
-			if (timeFields != null) {
-				userMilliseconds = (long) timeFields
-						.get(LinuxTimeCommandField.USER_TIME);
-				systemMilliseconds = (long) timeFields
-						.get(LinuxTimeCommandField.SYSTEM_TIME);
-				maxResidentBytes = (long) timeFields
-						.get(LinuxTimeCommandField.MAX_RSS);
-				avgResidentBytes = (long) timeFields
-						.get(LinuxTimeCommandField.AVG_RSS);
-				majorFaults = (long) timeFields
-						.get(LinuxTimeCommandField.MAJOR_FAULTS);
-				minorFaults = (long) timeFields
-						.get(LinuxTimeCommandField.MINOR_FAULTS);
-				elapsedMilliseconds = (long) timeFields
-						.get(LinuxTimeCommandField.WALL_CLOCK_TIME);
-			}
+            Map<LinuxTimeCommandField, Object> timeFields = timeCapture.getExecutionResults();
+            if (timeFields != null) {
+                userMilliseconds = (long) timeFields.get(LinuxTimeCommandField.USER_TIME);
+                systemMilliseconds = (long) timeFields.get(LinuxTimeCommandField.SYSTEM_TIME);
+                maxResidentBytes = (long) timeFields.get(LinuxTimeCommandField.MAX_RSS);
+                avgResidentBytes = (long) timeFields.get(LinuxTimeCommandField.AVG_RSS);
+                majorFaults = (long) timeFields.get(LinuxTimeCommandField.MAJOR_FAULTS);
+                minorFaults = (long) timeFields.get(LinuxTimeCommandField.MINOR_FAULTS);
+                elapsedMilliseconds = (long) timeFields.get(LinuxTimeCommandField.WALL_CLOCK_TIME);
+            }
 
-		} catch (IOException | SecurityException | InterruptedException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-		} finally {
-			if (processOutputFile != null) {
-				processOutputFile.delete();
-			}
-		}
-	}
+        } catch (IOException | SecurityException | InterruptedException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        } finally {
+            if (processOutputFile != null) {
+                processOutputFile.delete();
+            }
+        }
+    }
 
-	public long getUserMilliseconds() {
-		return userMilliseconds;
-	}
+    public long getUserMilliseconds() {
+        return userMilliseconds;
+    }
 
-	public void setUserMilliseconds(long userMilliseconds) {
-		this.userMilliseconds = userMilliseconds;
-	}
+    public void setUserMilliseconds(long userMilliseconds) {
+        this.userMilliseconds = userMilliseconds;
+    }
 
-	public long getSystemMilliseconds() {
-		return systemMilliseconds;
-	}
+    public long getSystemMilliseconds() {
+        return systemMilliseconds;
+    }
 
-	public void setSystemMilliseconds(long systemMilliseconds) {
-		this.systemMilliseconds = systemMilliseconds;
-	}
+    public void setSystemMilliseconds(long systemMilliseconds) {
+        this.systemMilliseconds = systemMilliseconds;
+    }
 
-	public long getMaxResidentBytes() {
-		return maxResidentBytes;
-	}
+    public long getMaxResidentBytes() {
+        return maxResidentBytes;
+    }
 
-	public void setMaxResidentBytes(long maxResidentBytes) {
-		this.maxResidentBytes = maxResidentBytes;
-	}
+    public void setMaxResidentBytes(long maxResidentBytes) {
+        this.maxResidentBytes = maxResidentBytes;
+    }
 
-	public long getAvgResidentBytes() {
-		return avgResidentBytes;
-	}
+    public long getAvgResidentBytes() {
+        return avgResidentBytes;
+    }
 
-	public void setAvgResidentBytes(long avgResidentBytes) {
-		this.avgResidentBytes = avgResidentBytes;
-	}
+    public void setAvgResidentBytes(long avgResidentBytes) {
+        this.avgResidentBytes = avgResidentBytes;
+    }
 
-	public long getMajorFaults() {
-		return majorFaults;
-	}
+    public long getMajorFaults() {
+        return majorFaults;
+    }
 
-	public void setMajorFaults(long majorFaults) {
-		this.majorFaults = majorFaults;
-	}
+    public void setMajorFaults(long majorFaults) {
+        this.majorFaults = majorFaults;
+    }
 
-	public long getMinorFaults() {
-		return minorFaults;
-	}
+    public long getMinorFaults() {
+        return minorFaults;
+    }
 
-	public void setMinorFaults(long minorFaults) {
-		this.minorFaults = minorFaults;
-	}
+    public void setMinorFaults(long minorFaults) {
+        this.minorFaults = minorFaults;
+    }
 
-	public long getElapsedMilliseconds() {
-		return elapsedMilliseconds;
-	}
+    public long getElapsedMilliseconds() {
+        return elapsedMilliseconds;
+    }
 
-	public void setElapsedMilliseconds(long elapsedMilliseconds) {
-		this.elapsedMilliseconds = elapsedMilliseconds;
-	}
+    public void setElapsedMilliseconds(long elapsedMilliseconds) {
+        this.elapsedMilliseconds = elapsedMilliseconds;
+    }
 
-	public String getStandardOut() {
-		return standardOut;
-	}
+    public String getStandardOut() {
+        return standardOut;
+    }
 
-	public void setStandardOut(String standardOut) {
-		this.standardOut = standardOut;
-	}
+    public void setStandardOut(String standardOut) {
+        this.standardOut = standardOut;
+    }
 
-	public String getGcLog() {
-		return gcLog;
-	}
+    public String getGcLog() {
+        return gcLog;
+    }
 
-	public void setGcLog(String gcLog) {
-		this.gcLog = gcLog;
-	}
+    public void setGcLog(String gcLog) {
+        this.gcLog = gcLog;
+    }
 
-	public int getRunNumber() {
-		return runNumber;
-	}
+    public int getRunNumber() {
+        return runNumber;
+    }
 
-	public void setRunNumber(int runNumber) {
-		this.runNumber = runNumber;
-	}
+    public void setRunNumber(int runNumber) {
+        this.runNumber = runNumber;
+    }
 
-	public Map<String, String> getConfig() {
-		return config;
-	}
+    public Map<String, String> getConfig() {
+        return config;
+    }
 
-	public void setConfig(Map<String, String> config) {
-		this.config = config;
-	}
+    public void setConfig(Map<String, String> config) {
+        this.config = config;
+    }
 
-	/**
-	 * @return the exitStatus
-	 */
-	public int getExitStatus() {
-		return exitStatus;
-	}
+    /**
+     * @return the exitStatus
+     */
+    public int getExitStatus() {
+        return exitStatus;
+    }
 
-	/**
-	 * @param exitStatus
-	 *            the exitStatus to set
-	 */
-	public void setExitStatus(int exitStatus) {
-		this.exitStatus = exitStatus;
-	}
+    /**
+     * @param exitStatus
+     *            the exitStatus to set
+     */
+    public void setExitStatus(int exitStatus) {
+        this.exitStatus = exitStatus;
+    }
 
-	/**
-	 * @return the runGroup
-	 */
-	public String getRunGroup() {
-		return runGroup;
-	}
+    /**
+     * @return the runGroup
+     */
+    public String getRunGroup() {
+        return runGroup;
+    }
 
-	/**
-	 * @param runGroup
-	 *            the runGroup to set
-	 */
-	public void setRunGroup(String runGroup) {
-		this.runGroup = runGroup;
-	}
+    /**
+     * @param runGroup
+     *            the runGroup to set
+     */
+    public void setRunGroup(String runGroup) {
+        this.runGroup = runGroup;
+    }
 
 }

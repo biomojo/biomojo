@@ -24,28 +24,28 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class FileStore extends NamedResource {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	@ManyToOne
-	private FileSystemPath defaultPath;
+    @ManyToOne
+    private FileSystemPath defaultPath;
 
-	@ManyToMany
-	private Map<NodeGroup, FileSystemPath> pathOverrides;
+    @ManyToMany
+    private Map<NodeGroup, FileSystemPath> pathOverrides;
 
-	public FileSystemPath getDefaultPath() {
-		return defaultPath;
-	}
+    public FileSystemPath getDefaultPath() {
+        return defaultPath;
+    }
 
-	public void setDefaultPath(FileSystemPath defaultPath) {
-		this.defaultPath = defaultPath;
-	}
+    public void setDefaultPath(FileSystemPath defaultPath) {
+        this.defaultPath = defaultPath;
+    }
 
-	public Map<NodeGroup, FileSystemPath> getPathOverrides() {
-		return pathOverrides;
-	}
+    public Map<NodeGroup, FileSystemPath> getPathOverrides() {
+        return pathOverrides;
+    }
 
-	public void setPathOverrides(Map<NodeGroup, FileSystemPath> pathOverrides) {
-		this.pathOverrides = pathOverrides;
-	}
+    public void setPathOverrides(Map<NodeGroup, FileSystemPath> pathOverrides) {
+        this.pathOverrides = pathOverrides;
+    }
 
 }

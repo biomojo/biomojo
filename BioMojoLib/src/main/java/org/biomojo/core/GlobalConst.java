@@ -19,5 +19,5 @@ package org.biomojo.core;
 import java.nio.ByteBuffer;
 
 public class GlobalConst {
-	public static final String LIB_SPRING_CONTEXT = "biomojolib-context.xml";
+    public static final String LIB_SPRING_CONTEXT = "biomojolib-context.xml";
 }

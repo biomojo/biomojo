@@ -25,22 +25,22 @@ import javax.persistence.TableGenerator;
 
 @MappedSuperclass
 public abstract class AbstractEntity implements Serializable, Identified {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 181256412324146673L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = 181256412324146673L;
 
-	@TableGenerator(name = "AbstractEntityGenerator", allocationSize = 100)
-	@Id
-	@GeneratedValue(generator = "AbstractEntityGenerator")
-	protected long id;
+    @TableGenerator(name = "AbstractEntityGenerator", allocationSize = 100)
+    @Id
+    @GeneratedValue(generator = "AbstractEntityGenerator")
+    protected long id;
 
-	@Override
-	public long getId() {
-		return id;
-	}
+    @Override
+    public long getId() {
+        return id;
+    }
 
-	public void setId(long id) {
-		this.id = id;
-	}
+    public void setId(long id) {
+        this.id = id;
+    }
 }

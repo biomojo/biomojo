@@ -21,9 +21,9 @@ package org.biomojo.codec;
  *
  */
 public interface CodecId {
-	public static final int NULL_BYTE_CODEC = 64;
-	public static final int TWO_BIT_BYTE_CODEC = 128;
-	public static final int THREE_BIT_BYTE_CODEC = 129;
-	public static final int FOUR_BIT_BYTE_CODEC = 130;
-	public static final int ZLIB_BYTE_CODEC = 192;
+    public static final int NULL_BYTE_CODEC = 64;
+    public static final int TWO_BIT_BYTE_CODEC = 128;
+    public static final int THREE_BIT_BYTE_CODEC = 129;
+    public static final int FOUR_BIT_BYTE_CODEC = 130;
+    public static final int ZLIB_BYTE_CODEC = 192;
 }

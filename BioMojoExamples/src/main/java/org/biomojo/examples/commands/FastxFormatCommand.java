@@ -38,67 +38,65 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(commandNames = "fastxformat", commandDescription = "Reformat Fastx file")
 public class FastxFormatCommand extends AbstractCommand {
-	private static final Logger logger = LoggerFactory
-			.getLogger(FastxFormatCommand.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(FastxFormatCommand.class.getName());
 
-	@Parameter(names = { "-i", "--input" }, required = true, description = "Input File Name")
-	private InputStream inputStream;
+    @Parameter(names = { "-i", "--input" }, required = true, description = "Input File Name")
+    private InputStream inputStream;
 
-	@Parameter(names = { "-o", "--output" }, required = true, description = "Output File Name")
-	private OutputStream outputStream;
+    @Parameter(names = { "-o", "--output" }, required = true, description = "Output File Name")
+    private OutputStream outputStream;
 
-	/**
-	 * @return the inputStream
-	 */
-	public InputStream getInputStream() {
-		return inputStream;
-	}
+    /**
+     * @return the inputStream
+     */
+    public InputStream getInputStream() {
+        return inputStream;
+    }
 
-	/**
-	 * @param inputStream
-	 *            the inputStream to set
-	 */
-	public void setInputStream(final InputStream inputStream) {
-		this.inputStream = inputStream;
-	}
+    /**
+     * @param inputStream
+     *            the inputStream to set
+     */
+    public void setInputStream(final InputStream inputStream) {
+        this.inputStream = inputStream;
+    }
 
-	/**
-	 * @return the outputStream
-	 */
-	public OutputStream getOutputStream() {
-		return outputStream;
-	}
+    /**
+     * @return the outputStream
+     */
+    public OutputStream getOutputStream() {
+        return outputStream;
+    }
 
-	/**
-	 * @param outputStream
-	 *            the outputStream to set
-	 */
-	public void setOutputStream(final OutputStream outputStream) {
-		this.outputStream = outputStream;
-	}
+    /**
+     * @param outputStream
+     *            the outputStream to set
+     */
+    public void setOutputStream(final OutputStream outputStream) {
+        this.outputStream = outputStream;
+    }
 
-	/**
-	 * @see org.java0.cli.Command#run()
-	 */
-	@Override
-	public void run() {
-		try (FastaInputStream fastaInput = new FastaInputStream(inputStream);
-				FastaOutputStream fastaOutput = new FastaOutputStream(
-						outputStream)) {
+    /**
+     * @see org.java0.cli.Command#run()
+     */
+    @Override
+    public void run() {
+        try (FastaInputStream fastaInput = new FastaInputStream(inputStream);
+                FastaOutputStream fastaOutput = new FastaOutputStream(outputStream)) {
 
-			boolean readRecord = false;
-			ByteSeq<ByteAlphabet> record;
+            boolean readRecord = false;
+            ByteSeq<ByteAlphabet> record;
 
-			do {
-				record = new ByteSeqImpl<ByteAlphabet>();
-				readRecord = fastaInput.read(record);
-				if (readRecord) {
-					fastaOutput.write(record);
-				}
-			} while (readRecord);
+            do {
+                record = new ByteSeqImpl<ByteAlphabet>();
+                readRecord = fastaInput.read(record);
+                if (readRecord) {
+                    fastaOutput.write(record);
+                }
+            } while (readRecord);
 
-		} catch (final IOException e) {
-			logger.error("Caught exception in auto-generated catch block", e);
-		}
-	}
+        } catch (final IOException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        }
+    }
 }

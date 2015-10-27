@@ -40,161 +40,142 @@ import org.slf4j.LoggerFactory;
 
 @Named
 public class BlastFileService {
-	private final static Logger logger = LoggerFactory
-			.getLogger(BlastFileService.class.getName());
+    private final static Logger logger = LoggerFactory.getLogger(BlastFileService.class.getName());
 
-	@Inject
-	private SequenceService sequenceService;
+    @Inject
+    private SequenceService sequenceService;
 
-	private String dataPath;
+    private String dataPath;
 
-	private String blastPath;
+    private String blastPath;
 
-	private final Map<File, File> fastaFiles = Collections
-			.synchronizedMap(new HashMap<File, File>());
+    private final Map<File, File> fastaFiles = Collections.synchronizedMap(new HashMap<File, File>());
 
-	private final Map<File, File> dbFiles = Collections
-			.synchronizedMap(new HashMap<File, File>());
+    private final Map<File, File> dbFiles = Collections.synchronizedMap(new HashMap<File, File>());
 
-	public File getFastaFile(
-			final SeqList<? extends ByteSeq<ByteAlphabet>> querySequenceList) {
-		logger.info("Entering getFastaFile()");
+    public File getFastaFile(final SeqList<? extends ByteSeq<ByteAlphabet>> querySequenceList) {
+        logger.info("Entering getFastaFile()");
 
-		File fastaFile = null;
+        File fastaFile = null;
 
-		synchronized (fastaFiles) {
-			fastaFile = new File(dataPath + "sequencelist-"
-					+ querySequenceList.getId() + ".fa");
+        synchronized (fastaFiles) {
+            fastaFile = new File(dataPath + "sequencelist-" + querySequenceList.getId() + ".fa");
 
-			if (!fastaFiles.containsKey(fastaFile)) {
-				fastaFiles.put(fastaFile, fastaFile);
-			}
-		}
+            if (!fastaFiles.containsKey(fastaFile)) {
+                fastaFiles.put(fastaFile, fastaFile);
+            }
+        }
 
-		fastaFile = fastaFiles.get(fastaFile);
+        fastaFile = fastaFiles.get(fastaFile);
 
-		synchronized (fastaFile) {
-			createFastafile(querySequenceList, fastaFile);
-		}
+        synchronized (fastaFile) {
+            createFastafile(querySequenceList, fastaFile);
+        }
 
-		logger.info("Leaving getFastaFile()");
-		return fastaFile;
+        logger.info("Leaving getFastaFile()");
+        return fastaFile;
 
-	}
+    }
 
-	public File getBlastDatabase(
-			final SeqList<? extends ByteSeq<ByteAlphabet>> sequenceList) {
-		logger.info("Entering getBlastDatabase()");
+    public File getBlastDatabase(final SeqList<? extends ByteSeq<ByteAlphabet>> sequenceList) {
+        logger.info("Entering getBlastDatabase()");
 
-		File dbFile = null;
+        File dbFile = null;
 
-		logger.info("Looking up dbFile in dbFiles");
+        logger.info("Looking up dbFile in dbFiles");
 
-		synchronized (dbFiles) {
-			dbFile = new File(dataPath + "blastdb-" + sequenceList.getId()
-					+ ".fa");
+        synchronized (dbFiles) {
+            dbFile = new File(dataPath + "blastdb-" + sequenceList.getId() + ".fa");
 
-			if (!dbFiles.containsKey(dbFile)) {
-				dbFiles.put(dbFile, dbFile);
-			}
-		}
+            if (!dbFiles.containsKey(dbFile)) {
+                dbFiles.put(dbFile, dbFile);
+            }
+        }
 
-		logger.info("Retrieving dbFile from dbFiles");
-		dbFile = dbFiles.get(dbFile);
+        logger.info("Retrieving dbFile from dbFiles");
+        dbFile = dbFiles.get(dbFile);
 
-		synchronized (dbFile) {
-			logger.info("Getting fastaFile for database");
-			final File sequenceFile = getFastaFile(sequenceList);
-			logger.info("Creating database");
-			createDatabase(dbFile, sequenceFile, sequenceList);
-		}
+        synchronized (dbFile) {
+            logger.info("Getting fastaFile for database");
+            final File sequenceFile = getFastaFile(sequenceList);
+            logger.info("Creating database");
+            createDatabase(dbFile, sequenceFile, sequenceList);
+        }
 
-		logger.info("Leaving getBlastDatabase()");
-		return dbFile;
+        logger.info("Leaving getBlastDatabase()");
+        return dbFile;
 
-	}
+    }
 
-	private void createFastafile(
-			final SeqList<? extends ByteSeq<ByteAlphabet>> querySequenceList,
-			final File file) {
-		try {
-			logger.info("Checking for existance of fasta file: "
-					+ file.getCanonicalPath());
+    private void createFastafile(final SeqList<? extends ByteSeq<ByteAlphabet>> querySequenceList, final File file) {
+        try {
+            logger.info("Checking for existance of fasta file: " + file.getCanonicalPath());
 
-			final LockUtil lock = new LockUtil(file);
-			lock.lock();
+            final LockUtil lock = new LockUtil(file);
+            lock.lock();
 
-			if (file.exists()) {
-				logger.info("Fasta file exists: " + file.getCanonicalPath());
-			} else {
-				logger.info("Fasta file does not exist, creating: "
-						+ file.getCanonicalPath());
+            if (file.exists()) {
+                logger.info("Fasta file exists: " + file.getCanonicalPath());
+            } else {
+                logger.info("Fasta file does not exist, creating: " + file.getCanonicalPath());
 
-				sequenceService.saveFastxFile(file, querySequenceList);
+                sequenceService.saveFastxFile(file, querySequenceList);
 
-				logger.info("Done creating fasta file: "
-						+ file.getCanonicalPath());
-			}
+                logger.info("Done creating fasta file: " + file.getCanonicalPath());
+            }
 
-			lock.unlock();
-		} catch (final FileNotFoundException e) {
-			throw new UncheckedException(e);
-		} catch (final IOException e) {
-			throw new UncheckedException(e);
-		}
+            lock.unlock();
+        } catch (final FileNotFoundException e) {
+            throw new UncheckedException(e);
+        } catch (final IOException e) {
+            throw new UncheckedException(e);
+        }
 
-	}
+    }
 
-	public void createDatabase(final File dbFile, final File sequenceFile,
-			final SeqList<? extends ByteSeq<ByteAlphabet>> sequenceList) {
-		try {
-			logger.info("Checking for existance of blast database: "
-					+ dbFile.getCanonicalPath());
+    public void createDatabase(final File dbFile, final File sequenceFile,
+            final SeqList<? extends ByteSeq<ByteAlphabet>> sequenceList) {
+        try {
+            logger.info("Checking for existance of blast database: " + dbFile.getCanonicalPath());
 
-			final LockUtil lock = new LockUtil(dbFile);
-			lock.lock();
+            final LockUtil lock = new LockUtil(dbFile);
+            lock.lock();
 
-			if (dbFile.exists()) {
-				logger.info("Blast database exists: "
-						+ dbFile.getCanonicalPath());
-			} else {
-				logger.info("Blast database does not exist, creating: "
-						+ dbFile.getCanonicalPath() + " from: "
-						+ sequenceFile.getCanonicalPath());
+            if (dbFile.exists()) {
+                logger.info("Blast database exists: " + dbFile.getCanonicalPath());
+            } else {
+                logger.info("Blast database does not exist, creating: " + dbFile.getCanonicalPath() + " from: "
+                        + sequenceFile.getCanonicalPath());
 
-				dbFile.createNewFile();
+                dbFile.createNewFile();
 
-				// TO DO - Need a better way to represent / determine rawData
-				// type for rawData lists
-				final boolean protein = sequenceList.get(0).getAlphabet() instanceof AminoAcidAlphabet;
+                // TO DO - Need a better way to represent / determine rawData
+                // type for rawData lists
+                final boolean protein = sequenceList.get(0).getAlphabet() instanceof AminoAcidAlphabet;
 
-				String dbtype = "nucl";
-				if (protein) {
-					dbtype = "prot";
-				}
+                String dbtype = "nucl";
+                if (protein) {
+                    dbtype = "prot";
+                }
 
-				final String program = blastPath + "makeblastdb";
+                final String program = blastPath + "makeblastdb";
 
-				final String[] params = new String[] { program, "-dbtype",
-						dbtype, "-in", sequenceFile.getAbsolutePath(), "-out",
-						dbFile.getAbsolutePath() };
+                final String[] params = new String[] { program, "-dbtype", dbtype, "-in",
+                        sequenceFile.getAbsolutePath(), "-out", dbFile.getAbsolutePath() };
 
-				final int exitCode = ProcessUtil
-						.executeProcessWithExitCode(params);
+                final int exitCode = ProcessUtil.executeProcessWithExitCode(params);
 
-				if (exitCode != 0) {
-					throw new UncheckedException(
-							"Error creating blast database file");
-				}
+                if (exitCode != 0) {
+                    throw new UncheckedException("Error creating blast database file");
+                }
 
-			}
+            }
 
-			lock.unlock();
+            lock.unlock();
 
-		} catch (final Exception e) {
-			throw new UncheckedException("Error creating blast database file",
-					e);
-		}
+        } catch (final Exception e) {
+            throw new UncheckedException("Error creating blast database file", e);
+        }
 
-	}
+    }
 }

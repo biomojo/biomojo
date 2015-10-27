@@ -33,13 +33,13 @@ import org.biomojo.core.IntegerIdentified;
  */
 public interface Codec<D, E> extends IntegerIdentified {
 
-	/**
-	 * Supports alphabet.
-	 *
-	 * @param alphabet
-	 *            the alphabet
-	 * @return true, if the given alphabet is supported by this codec
-	 */
-	boolean supportsAlphabet(Alphabet<D> alphabet);
+    /**
+     * Supports alphabet.
+     *
+     * @param alphabet
+     *            the alphabet
+     * @return true, if the given alphabet is supported by this codec
+     */
+    boolean supportsAlphabet(Alphabet<D> alphabet);
 
 }

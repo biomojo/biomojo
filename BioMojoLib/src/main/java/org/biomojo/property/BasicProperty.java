@@ -31,32 +31,32 @@ import org.biomojo.core.AbstractEntity;
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.CHAR)
 @DiscriminatorValue("P")
 public abstract class BasicProperty extends AbstractEntity {
-	/**
+    /**
      *
      */
-	private static final long serialVersionUID = 7469166508807299605L;
+    private static final long serialVersionUID = 7469166508807299605L;
 
-	public abstract Object getValue();
+    public abstract Object getValue();
 
-	public abstract void setValue(Object value);
+    public abstract void setValue(Object value);
 
-	@Override
-	public boolean equals(Object obj) {
-		if (obj == null) {
-			return false;
-		} else if (obj == this) {
-			return true;
-		} else if (obj instanceof BasicProperty) {
-			BasicProperty attribute = (BasicProperty) obj;
-			if (getValue().equals(attribute.getValue())) {
-				return true;
-			}
-		}
-		return false;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        } else if (obj == this) {
+            return true;
+        } else if (obj instanceof BasicProperty) {
+            BasicProperty attribute = (BasicProperty) obj;
+            if (getValue().equals(attribute.getValue())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	@Override
-	public int hashCode() {
-		return getValue().hashCode();
-	}
+    @Override
+    public int hashCode() {
+        return getValue().hashCode();
+    }
 }

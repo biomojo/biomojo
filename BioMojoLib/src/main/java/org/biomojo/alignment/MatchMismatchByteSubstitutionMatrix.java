@@ -25,16 +25,14 @@ import org.slf4j.LoggerFactory;
  *
  */
 public class MatchMismatchByteSubstitutionMatrix extends AbstractByteSubstitutionMatrix {
-	@SuppressWarnings("unused")
-	private static final Logger logger = LoggerFactory
-			.getLogger(MatchMismatchByteSubstitutionMatrix.class.getName());
+    @SuppressWarnings("unused")
+    private static final Logger logger = LoggerFactory.getLogger(MatchMismatchByteSubstitutionMatrix.class.getName());
 
-	public MatchMismatchByteSubstitutionMatrix(ByteAlphabet alphabet,
-			int matchScore, int mismatchScore) {
-		super(alphabet);
-		initMatrix(mismatchScore);
-		for (int i = 0; i < scores.length; ++i) {
-			scores[i][i] = matchScore;
-		}
-	}
+    public MatchMismatchByteSubstitutionMatrix(ByteAlphabet alphabet, int matchScore, int mismatchScore) {
+        super(alphabet);
+        initMatrix(mismatchScore);
+        for (int i = 0; i < scores.length; ++i) {
+            scores[i][i] = matchScore;
+        }
+    }
 }

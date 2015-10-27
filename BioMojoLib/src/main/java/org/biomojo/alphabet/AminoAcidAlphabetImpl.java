@@ -22,26 +22,25 @@ import org.biomojo.symbols.AminoAcids;
  * @author Hugh Eaves
  *
  */
-public class AminoAcidAlphabetImpl extends AbstractIUPACAlphabet implements
-		AminoAcidAlphabet {
-	protected AminoAcidAlphabetImpl(final int id) {
-		super(id, AminoAcids.CORE_SYMBOLS);
-	}
+public class AminoAcidAlphabetImpl extends AbstractIUPACAlphabet implements AminoAcidAlphabet {
+    protected AminoAcidAlphabetImpl(final int id) {
+        super(id, AminoAcids.CORE_SYMBOLS);
+    }
 
-	/**
-	 * @see org.biomojo.alphabet.AbstractBioPolymerAlphabet#addAnySymbols()
-	 */
-	@Override
-	protected void addAnySymbols() {
-		addSymbol(AminoAcids.ANY);
-	}
+    /**
+     * @see org.biomojo.alphabet.AbstractBioPolymerAlphabet#addAnySymbols()
+     */
+    @Override
+    protected void addAnySymbols() {
+        addSymbol(AminoAcids.ANY);
+    }
 
-	/**
-	 * @see org.biomojo.alphabet.AbstractBioPolymerAlphabet#addAmbiguitySymbols()
-	 */
-	@Override
-	protected void addAmbiguitySymbols() {
-		addSymbols(AminoAcids.AMBIGUITY_SYMBOLS);
-	}
+    /**
+     * @see org.biomojo.alphabet.AbstractBioPolymerAlphabet#addAmbiguitySymbols()
+     */
+    @Override
+    protected void addAmbiguitySymbols() {
+        addSymbols(AminoAcids.AMBIGUITY_SYMBOLS);
+    }
 
 }

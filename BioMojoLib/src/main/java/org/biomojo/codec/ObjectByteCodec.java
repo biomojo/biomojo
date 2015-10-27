@@ -23,31 +23,29 @@ import org.biomojo.alphabet.Alphabet;
  *
  */
 public interface ObjectByteCodec<T> extends Codec<T, Byte> {
-	/**
-	 * Decode all the data in the sequence.
-	 *
-	 * @param seq
-	 *            the seq
-	 * @return the d[]
-	 */
-	public T[] decode(Alphabet<T> alphabet, byte[] encodedData, int length);
+    /**
+     * Decode all the data in the sequence.
+     *
+     * @param seq
+     *            the seq
+     * @return the d[]
+     */
+    public T[] decode(Alphabet<T> alphabet, byte[] encodedData, int length);
 
-	/**
-	 * Decode a single position in the sequence.
-	 */
-	public T decode(Alphabet<T> alphabet, byte[] encodedData, int length,
-			int pos);
+    /**
+     * Decode a single position in the sequence.
+     */
+    public T decode(Alphabet<T> alphabet, byte[] encodedData, int length, int pos);
 
-	/**
-	 * Encode a single value, replacing the value at the given position.
-	 *
-	 */
-	public void encode(Alphabet<T> alphabet, byte[] encodedData, T symbol,
-			int pos);
+    /**
+     * Encode a single value, replacing the value at the given position.
+     *
+     */
+    public void encode(Alphabet<T> alphabet, byte[] encodedData, T symbol, int pos);
 
-	/**
-	 * Encode all the data into the sequence, replacing any existing data.
-	 *
-	 */
-	public byte[] encode(Alphabet<T> alphabet, T[] decodedData);
+    /**
+     * Encode all the data into the sequence, replacing any existing data.
+     *
+     */
+    public byte[] encode(Alphabet<T> alphabet, T[] decodedData);
 }

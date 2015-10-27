@@ -23,16 +23,16 @@ import org.biomojo.alphabet.ByteAlphabet;
  *
  */
 public interface ByteSubstitutionMatrix extends SubstitutionMatrix<Byte> {
-	/**
-	 * @return
-	 */
-	@Override
-	public ByteAlphabet getAlphabet();
+    /**
+     * @return
+     */
+    @Override
+    public ByteAlphabet getAlphabet();
 
-	/**
-	 * @param first
-	 * @param second
-	 * @return
-	 */
-	public int getScore(byte from, byte to);
+    /**
+     * @param first
+     * @param second
+     * @return
+     */
+    public int getScore(byte from, byte to);
 }

@@ -23,18 +23,17 @@ import org.biojava.nbio.core.sequence.compound.AminoAcidCompoundSet;
  * @author Hugh Eaves
  *
  */
-public class BioJavaAminoAcidCompoundFactory extends
-		AbstractBioJavaCompoundFactory<AminoAcidCompound> {
+public class BioJavaAminoAcidCompoundFactory extends AbstractBioJavaCompoundFactory<AminoAcidCompound> {
 
-	public static final BioJavaCompoundFactory<AminoAcidCompound> INSTANCE = new BioJavaAminoAcidCompoundFactory(
-			AminoAcidCompoundSet.getAminoAcidCompoundSet());
+    public static final BioJavaCompoundFactory<AminoAcidCompound> INSTANCE = new BioJavaAminoAcidCompoundFactory(
+            AminoAcidCompoundSet.getAminoAcidCompoundSet());
 
-	/**
-	 * Create a new BioJavaNucleotideCompondFactory.
-	 *
-	 * @param dnaCompoundSet
-	 */
-	public BioJavaAminoAcidCompoundFactory(AminoAcidCompoundSet compoundSet) {
-		super(compoundSet);
-	}
+    /**
+     * Create a new BioJavaNucleotideCompondFactory.
+     *
+     * @param dnaCompoundSet
+     */
+    public BioJavaAminoAcidCompoundFactory(AminoAcidCompoundSet compoundSet) {
+        super(compoundSet);
+    }
 }

@@ -20,14 +20,14 @@ import org.biomojo.sequence.Seq;
 import org.java0.string.ByteArrayConverter;
 
 public class FixedWidthSequenceIdHeaderBuilder implements HeaderBuilder {
-	private final int width;
+    private final int width;
 
-	public FixedWidthSequenceIdHeaderBuilder(final int width) {
-		this.width = width;
-	}
+    public FixedWidthSequenceIdHeaderBuilder(final int width) {
+        this.width = width;
+    }
 
-	@Override
-	public byte[] buildHeader(final Seq<?, ?> sequence) {
-		return ByteArrayConverter.toArray(sequence.getId(), width);
-	}
+    @Override
+    public byte[] buildHeader(final Seq<?, ?> sequence) {
+        return ByteArrayConverter.toArray(sequence.getId(), width);
+    }
 }

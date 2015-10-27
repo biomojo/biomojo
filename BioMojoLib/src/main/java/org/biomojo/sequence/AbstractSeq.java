@@ -33,31 +33,30 @@ import org.biomojo.core.AbstractPropertiedEntity;
 @Entity
 @DiscriminatorValue("X")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public abstract class AbstractSeq<T, A extends Alphabet<T>> extends
-		AbstractPropertiedEntity implements Seq<T, A> {
-	private static final long serialVersionUID = 1L;
+public abstract class AbstractSeq<T, A extends Alphabet<T>> extends AbstractPropertiedEntity implements Seq<T, A> {
+    private static final long serialVersionUID = 1L;
 
-	public AbstractSeq() {
-	}
+    public AbstractSeq() {
+    }
 
-	@Override
-	public void setId(final long id) {
-		this.id = id;
-	}
+    @Override
+    public void setId(final long id) {
+        this.id = id;
+    }
 
-	@Override
-	public boolean add(final T value) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public boolean add(final T value) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public List<T> subList(final int from, final int to) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public List<T> subList(final int from, final int to) {
+        throw new UnsupportedOperationException();
+    }
 
-	@Override
-	public T remove(final int pos) {
-		throw new UnsupportedOperationException();
-	}
+    @Override
+    public T remove(final int pos) {
+        throw new UnsupportedOperationException();
+    }
 
 }

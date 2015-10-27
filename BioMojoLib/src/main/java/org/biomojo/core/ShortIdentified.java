@@ -21,10 +21,10 @@ package org.biomojo.core;
  *
  */
 public interface ShortIdentified {
-	/**
-	 * Get the unique numeric identifier for this object.
-	 *
-	 * @return the id
-	 */
-	public short getId();
+    /**
+     * Get the unique numeric identifier for this object.
+     *
+     * @return the id
+     */
+    public short getId();
 }

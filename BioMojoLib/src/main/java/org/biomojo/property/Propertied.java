@@ -24,51 +24,55 @@ package org.biomojo.property;
  */
 public interface Propertied {
 
-	/**
-	 * Gets the value of the property identified by the key.
-	 *
-	 * @param <P>
-	 *            the generic type
-	 * @param key
-	 *            the key
-	 * @return the prop
-	 */
-	public <P> P getProp(String key);
+    /**
+     * Gets the value of the property identified by the key.
+     *
+     * @param
+     *            <P>
+     *            the generic type
+     * @param key
+     *            the key
+     * @return the prop
+     */
+    public <P> P getProp(String key);
 
-	/**
-	 * Gets the prop.
-	 *
-	 * @param <P>
-	 *            the generic type
-	 * @param key
-	 *            the key
-	 * @param type
-	 *            the type
-	 * @return the prop
-	 */
-	public <P> P getProp(String key, Class<P> type);
+    /**
+     * Gets the prop.
+     *
+     * @param
+     *            <P>
+     *            the generic type
+     * @param key
+     *            the key
+     * @param type
+     *            the type
+     * @return the prop
+     */
+    public <P> P getProp(String key, Class<P> type);
 
-	/**
-	 * Adds the prop.
-	 *
-	 * @param <P>
-	 *            the generic type
-	 * @param key
-	 *            the key
-	 * @param value
-	 *            the value
-	 * @return the t
-	 */
-	public <P> P setProp(String key, Object value);
+    /**
+     * Adds the prop.
+     *
+     * @param
+     *            <P>
+     *            the generic type
+     * @param key
+     *            the key
+     * @param value
+     *            the value
+     * @return the t
+     */
+    public <P> P setProp(String key, Object value);
 
-	/**
-	 * Removes the prop.
-	 *
-	 * @param <P>
-	 *            the generic type
-	 * @param key
-	 *            the key
-	 * @return the t
-	 */
-	public <P> P removeProp(String key);
+    /**
+     * Removes the prop.
+     *
+     * @param
+     *            <P>
+     *            the generic type
+     * @param key
+     *            the key
+     * @return the t
+     */
+    public <P> P removeProp(String key);
 }

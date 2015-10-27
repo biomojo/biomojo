@@ -24,7 +24,6 @@ import org.biomojo.sequence.SeqList;
  * @author Hugh Eaves
  *
  */
-public interface Alignment<T extends Seq<?, ? extends GappableAlphabet<?, ?>>>
-		extends SeqList<T> {
-	int getScore();
+public interface Alignment<T extends Seq<?, ? extends GappableAlphabet<?, ?>>> extends SeqList<T> {
+    int getScore();
 }

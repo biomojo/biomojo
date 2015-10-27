@@ -24,5 +24,5 @@ import org.biomojo.alphabet.QualityScoreAlphabet;
  *
  */
 public interface FastqSeq<A extends NucleotideAlphabet> extends ByteSeq<A> {
-	public ByteSeq<QualityScoreAlphabet> getQualityScores();
+    public ByteSeq<QualityScoreAlphabet> getQualityScores();
 }

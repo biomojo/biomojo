@@ -24,37 +24,37 @@ import javax.persistence.Entity;
 @DiscriminatorValue(value = "D")
 public class DoubleProperty extends NumericProperty {
 
-	/**
+    /**
      *
      */
-	private static final long serialVersionUID = -2134118530015957486L;
+    private static final long serialVersionUID = -2134118530015957486L;
 
-	protected double doubleValue;
+    protected double doubleValue;
 
-	public DoubleProperty() {
+    public DoubleProperty() {
 
-	}
+    }
 
-	public DoubleProperty(double doubleValue) {
-		this.doubleValue = doubleValue;
-	}
+    public DoubleProperty(double doubleValue) {
+        this.doubleValue = doubleValue;
+    }
 
-	@Override
-	public void setValue(Object value) {
-		setDouble((double) value);
-	}
+    @Override
+    public void setValue(Object value) {
+        setDouble((double) value);
+    }
 
-	@Override
-	public Object getValue() {
-		return doubleValue;
-	}
+    @Override
+    public Object getValue() {
+        return doubleValue;
+    }
 
-	public void setDouble(double doubleValue) {
-		this.doubleValue = doubleValue;
-	}
+    public void setDouble(double doubleValue) {
+        this.doubleValue = doubleValue;
+    }
 
-	public double getDouble() {
-		return doubleValue;
-	}
+    public double getDouble() {
+        return doubleValue;
+    }
 
 }

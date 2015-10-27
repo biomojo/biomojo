@@ -32,121 +32,118 @@ import org.java0.core.type.Constants;
 @Entity
 @DiscriminatorValue("B")
 public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	protected byte[] data = Constants.EMPTY_BYTE_ARRAY;
+    protected byte[] data = Constants.EMPTY_BYTE_ARRAY;
 
-	protected CharSequence description = Constants.EMPTY_STRING;
+    protected CharSequence description = Constants.EMPTY_STRING;
 
-	protected int length;
+    protected int length;
 
-	public ByteSeqImpl() {
+    public ByteSeqImpl() {
 
-	}
+    }
 
-	public ByteSeqImpl(final A alphabet) {
-		super(alphabet);
-	}
+    public ByteSeqImpl(final A alphabet) {
+        super(alphabet);
+    }
 
-	public ByteSeqImpl(final byte[] data) {
-		super();
-		setAll(data);
-	}
+    public ByteSeqImpl(final byte[] data) {
+        super();
+        setAll(data);
+    }
 
-	public ByteSeqImpl(final byte[] data, final A alphabet) {
-		super(alphabet);
-		setAll(data);
-	}
+    public ByteSeqImpl(final byte[] data, final A alphabet) {
+        super(alphabet);
+        setAll(data);
+    }
 
-	public ByteSeqImpl(final int initialCapacity, final A alphabet) {
-		super(alphabet);
-		data = new byte[initialCapacity];
-	}
+    public ByteSeqImpl(final int initialCapacity, final A alphabet) {
+        super(alphabet);
+        data = new byte[initialCapacity];
+    }
 
-	@Override
-	public void setAll(final byte[] sequence) throws InvalidSymbolException {
-		setAll(sequence, true);
-	}
+    @Override
+    public void setAll(final byte[] sequence) throws InvalidSymbolException {
+        setAll(sequence, true);
+    }
 
-	@Override
-	public byte[] getAllBytes() {
-		if (data.length > length) {
-			data = Arrays.copyOf(data, length);
-		}
-		return data;
-	}
+    @Override
+    public byte[] getAllBytes() {
+        if (data.length > length) {
+            data = Arrays.copyOf(data, length);
+        }
+        return data;
+    }
 
-	@Override
-	public void setAll(final byte[] sequence, final boolean validate)
-			throws InvalidSymbolException {
-		if (validate) {
-			alphabet.validate(sequence);
-		}
-		length = sequence.length;
-		data = sequence;
-	}
+    @Override
+    public void setAll(final byte[] sequence, final boolean validate) throws InvalidSymbolException {
+        if (validate) {
+            alphabet.validate(sequence);
+        }
+        length = sequence.length;
+        data = sequence;
+    }
 
-	@Override
-	public byte getValue(final int index) {
-		return data[index];
-	}
+    @Override
+    public byte getValue(final int index) {
+        return data[index];
+    }
 
-	@Override
-	public void setValue(final byte symbol, final int index)
-			throws InvalidSymbolException {
-		alphabet.validate(symbol);
-		data[index] = symbol;
-	}
+    @Override
+    public void setValue(final byte symbol, final int index) throws InvalidSymbolException {
+        alphabet.validate(symbol);
+        data[index] = symbol;
+    }
 
-	@Override
-	public int size() {
-		return length;
-	}
+    @Override
+    public int size() {
+        return length;
+    }
 
-	@Override
-	public CharSequence getDescription() {
-		return description;
-	}
+    @Override
+    public CharSequence getDescription() {
+        return description;
+    }
 
-	@Override
-	public void setDescription(final CharSequence description) {
-		this.description = description;
-	}
+    @Override
+    public void setDescription(final CharSequence description) {
+        this.description = description;
+    }
 
-	@Override
-	public void setAlphabet(final A newAlphabet) {
-		newAlphabet.validate(data);
-		this.alphabet = newAlphabet;
-	}
+    @Override
+    public void setAlphabet(final A newAlphabet) {
+        newAlphabet.validate(data);
+        this.alphabet = newAlphabet;
+    }
 
-	/**
-	 * @see org.biomojo.sequence.SeqI#canonicalize()
-	 */
-	@Override
-	public void canonicalize() {
-		if (alphabet.isCanonical()) {
-			return;
-		} else {
-			alphabet.makeCanonical(data, 0, length);
-			alphabet = (A) alphabet.getCanonical();
-		}
-	}
+    /**
+     * @see org.biomojo.sequence.SeqI#canonicalize()
+     */
+    @Override
+    public void canonicalize() {
+        if (alphabet.isCanonical()) {
+            return;
+        } else {
+            alphabet.makeCanonical(data, 0, length);
+            alphabet = (A) alphabet.getCanonical();
+        }
+    }
 
-	@Override
-	public void replace(final byte[] srcSeq, final int srcPos,
-			final int destPos, final int length) {
-		System.arraycopy(srcSeq, srcPos, data, destPos, length);
-	}
+    @Override
+    public void replace(final byte[] srcSeq, final int srcPos, final int destPos, final int length) {
+        System.arraycopy(srcSeq, srcPos, data, destPos, length);
+    }
 
-	@Override
-	public void append(final byte symbol) {
-		checkStorage(1);
-		data[length++] = symbol;
-	}
+    @Override
+    public void append(final byte symbol) {
+        checkStorage(1);
+        data[length++] = symbol;
+    }
 
-	private final void checkStorage(final int numElements) {
-		if (data.length < length + numElements) {
-			data = Arrays.copyOf(data, (data.length + 1) * 2);
-		}
-	}
+    private final void checkStorage(final int numElements) {
+        if (data.length < length + numElements) {
+            data = Arrays.copyOf(data, (data.length + 1) * 2);
+        }
+    }
 }

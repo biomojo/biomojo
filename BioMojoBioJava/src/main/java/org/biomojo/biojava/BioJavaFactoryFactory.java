@@ -35,34 +35,27 @@ import org.java0.core.exception.UncheckedException;
  */
 public class BioJavaFactoryFactory {
 
-	@SuppressWarnings("unchecked")
-	public static <T extends Compound> BioJavaCompoundFactory<T> getCompoundFactory(
-			final ByteAlphabet alphabet) {
-		if (alphabet instanceof DNAAlphabet) {
-			return (BioJavaCompoundFactory<T>) BioJavaDNACompoundFactory.INSTANCE;
-		} else if (alphabet instanceof RNAAlphabet) {
-			return (BioJavaCompoundFactory<T>) BioJavaRNACompoundFactory.INSTANCE;
-		} else if (alphabet instanceof AminoAcidAlphabet) {
-			return (BioJavaCompoundFactory<T>) BioJavaAminoAcidCompoundFactory.INSTANCE;
-		}
-		throw new UncheckedException(
-				"Alphabet not supported for use with BioJava");
-	}
+    @SuppressWarnings("unchecked")
+    public static <T extends Compound> BioJavaCompoundFactory<T> getCompoundFactory(final ByteAlphabet alphabet) {
+        if (alphabet instanceof DNAAlphabet) {
+            return (BioJavaCompoundFactory<T>) BioJavaDNACompoundFactory.INSTANCE;
+        } else if (alphabet instanceof RNAAlphabet) {
+            return (BioJavaCompoundFactory<T>) BioJavaRNACompoundFactory.INSTANCE;
+        } else if (alphabet instanceof AminoAcidAlphabet) {
+            return (BioJavaCompoundFactory<T>) BioJavaAminoAcidCompoundFactory.INSTANCE;
+        }
+        throw new UncheckedException("Alphabet not supported for use with BioJava");
+    }
 
-	public static <T extends ByteAlphabet> T getByteAlphabet(
-			final CompoundSet<?> compoundSet) {
-		if (compoundSet instanceof DNACompoundSet) {
-			return (T) Alphabets
-					.getAlphabet(AlphabetId.DNA, ByteAlphabet.class);
-		} else if (compoundSet instanceof RNACompoundSet) {
-			return (T) Alphabets
-					.getAlphabet(AlphabetId.RNA, ByteAlphabet.class);
-		} else if (compoundSet instanceof AminoAcidCompoundSet) {
-			return (T) Alphabets.getAlphabet(AlphabetId.AMINO_ACID,
-					ByteAlphabet.class);
-		} else {
-			throw new UncheckedException("Unsupported BioJava compound set: "
-					+ compoundSet.toString());
-		}
-	}
+    public static <T extends ByteAlphabet> T getByteAlphabet(final CompoundSet<?> compoundSet) {
+        if (compoundSet instanceof DNACompoundSet) {
+            return (T) Alphabets.getAlphabet(AlphabetId.DNA, ByteAlphabet.class);
+        } else if (compoundSet instanceof RNACompoundSet) {
+            return (T) Alphabets.getAlphabet(AlphabetId.RNA, ByteAlphabet.class);
+        } else if (compoundSet instanceof AminoAcidCompoundSet) {
+            return (T) Alphabets.getAlphabet(AlphabetId.AMINO_ACID, ByteAlphabet.class);
+        } else {
+            throw new UncheckedException("Unsupported BioJava compound set: " + compoundSet.toString());
+        }
+    }
 }

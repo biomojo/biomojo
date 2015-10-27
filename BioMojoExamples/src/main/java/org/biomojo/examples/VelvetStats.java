@@ -31,61 +31,58 @@ import org.java0.core.exception.UncheckedException;
 @Named
 public class VelvetStats {
 
-	// private static final Logger logger = Logger
-	// .getLogger(VelvetStats.class.getName());
+    // private static final Logger logger = Logger
+    // .getLogger(VelvetStats.class.getName());
 
-	public static final int KMER_LENGTH = 51;
+    public static final int KMER_LENGTH = 51;
 
-	public VelvetStats() {
-	}
+    public VelvetStats() {
+    }
 
-	public void createStats() {
-		try {
-			BufferedReader reader = new BufferedReader(new FileReader(
-					"/home/hugh/stats.txt"));
-			BufferedWriter writer = new BufferedWriter(new FileWriter(
-					"/home/hugh/histogram.csv"));
+    public void createStats() {
+        try {
+            BufferedReader reader = new BufferedReader(new FileReader("/home/hugh/stats.txt"));
+            BufferedWriter writer = new BufferedWriter(new FileWriter("/home/hugh/histogram.csv"));
 
-			HashMap<Integer, Integer> counts = new HashMap<Integer, Integer>();
-			HashMap<Integer, Double> coverageSums = new HashMap<Integer, Double>();
+            HashMap<Integer, Integer> counts = new HashMap<Integer, Integer>();
+            HashMap<Integer, Double> coverageSums = new HashMap<Integer, Double>();
 
-			String line = null;
-			line = reader.readLine();
-			while ((line = reader.readLine()) != null) {
-				String[] values = line.split("\t");
-				int id = Integer.parseInt(values[0]);
-				if (id % 10000 == 0) {
-					System.out.println("id = " + id);
-				}
-				int length = Integer.parseInt(values[1]) + KMER_LENGTH + 1;
-				double coverage = 0;
-				if (!values[5].equals("Inf")) {
-					coverage = Double.parseDouble(values[5]);
-				}
-				Integer count;
-				if ((count = counts.get(length)) == null) {
-					counts.put(length, 1);
-				} else {
-					counts.put(length, count + 1);
-				}
-				Double sum;
-				if ((sum = coverageSums.get(length)) == null) {
-					coverageSums.put(length, coverage);
-				} else {
-					coverageSums.put(length, sum + coverage);
-				}
-			}
+            String line = null;
+            line = reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split("\t");
+                int id = Integer.parseInt(values[0]);
+                if (id % 10000 == 0) {
+                    System.out.println("id = " + id);
+                }
+                int length = Integer.parseInt(values[1]) + KMER_LENGTH + 1;
+                double coverage = 0;
+                if (!values[5].equals("Inf")) {
+                    coverage = Double.parseDouble(values[5]);
+                }
+                Integer count;
+                if ((count = counts.get(length)) == null) {
+                    counts.put(length, 1);
+                } else {
+                    counts.put(length, count + 1);
+                }
+                Double sum;
+                if ((sum = coverageSums.get(length)) == null) {
+                    coverageSums.put(length, coverage);
+                } else {
+                    coverageSums.put(length, sum + coverage);
+                }
+            }
 
-			for (int count : counts.keySet()) {
-				writer.write(count + "\t" + counts.get(count) + "\t"
-						+ coverageSums.get(count) + "\n");
-			}
+            for (int count : counts.keySet()) {
+                writer.write(count + "\t" + counts.get(count) + "\t" + coverageSums.get(count) + "\n");
+            }
 
-			reader.close();
-			writer.close();
-		} catch (IOException e) {
-			throw new UncheckedException(e);
-		}
-	}
+            reader.close();
+            writer.close();
+        } catch (IOException e) {
+            throw new UncheckedException(e);
+        }
+    }
 
 }

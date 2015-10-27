@@ -46,135 +46,123 @@ import org.slf4j.LoggerFactory;
 
 @Named
 public class SequenceService {
-	private static final Logger logger = LoggerFactory
-			.getLogger(SequenceService.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(SequenceService.class.getName());
 
-	public static final int BATCH_SIZE = 50000;
+    public static final int BATCH_SIZE = 50000;
 
-	@PersistenceContext
-	private EntityManager entityManager;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-	@Inject
-	private DbUtil dbUtil;
+    @Inject
+    private DbUtil dbUtil;
 
-	@Transactional
-	public SeqList<ByteSeq<ByteAlphabet>> loadFastxFile(final File fastxFile,
-			final String name, String description, final int alphabetId) {
+    @Transactional
+    public SeqList<ByteSeq<ByteAlphabet>> loadFastxFile(final File fastxFile, final String name, String description,
+            final int alphabetId) {
 
-		FastaInputStream fastxInputStream = null;
-		final ByteSeq<ByteAlphabet> sequence = null;
+        FastaInputStream fastxInputStream = null;
+        final ByteSeq<ByteAlphabet> sequence = null;
 
-		try {
-			fastxInputStream = new FastaInputStream(new BufferedInputStream(
-					new FileInputStream(fastxFile)));
-			fastxInputStream.read(sequence);
-		} catch (final FileNotFoundException e) {
-			throw new UncheckedException(e);
-		}
+        try {
+            fastxInputStream = new FastaInputStream(new BufferedInputStream(new FileInputStream(fastxFile)));
+            fastxInputStream.read(sequence);
+        } catch (final FileNotFoundException e) {
+            throw new UncheckedException(e);
+        }
 
-		if (description == null) {
-			description = name;
-		}
+        if (description == null) {
+            description = name;
+        }
 
-		final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> sequenceList = new SeqArrayList<ByteSeqImpl<ByteAlphabet>>(
-				name);
+        final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> sequenceList = new SeqArrayList<ByteSeqImpl<ByteAlphabet>>(
+                name);
 
-		int recordCount = 1;
+        int recordCount = 1;
 
-		final Collection<Object> clearList = new ArrayList<Object>();
+        final Collection<Object> clearList = new ArrayList<Object>();
 
-		do {
-			// sequenceList.add(sequence);
-			entityManager.persist(sequence);
-			clearList.add(sequence);
+        do {
+            // sequenceList.add(sequence);
+            entityManager.persist(sequence);
+            clearList.add(sequence);
 
-			if (recordCount % 1000 == 0) {
-				logger.info("Processed record # " + recordCount);
-			}
+            if (recordCount % 1000 == 0) {
+                logger.info("Processed record # " + recordCount);
+            }
 
-			if (recordCount % 5000 == 0) {
-				dbUtil.clearCache(clearList);
-				clearList.clear();
-			}
+            if (recordCount % 5000 == 0) {
+                dbUtil.clearCache(clearList);
+                clearList.clear();
+            }
 
-			++recordCount;
-		} while (fastxInputStream.read(sequence));
+            ++recordCount;
+        } while (fastxInputStream.read(sequence));
 
-		try {
-			fastxInputStream.close();
-		} catch (final IOException e) {
-		}
+        try {
+            fastxInputStream.close();
+        } catch (final IOException e) {
+        }
 
-		entityManager.persist(sequenceList);
+        entityManager.persist(sequenceList);
 
-		logger.info("Finished loading records");
-		return null;
-	}
+        logger.info("Finished loading records");
+        return null;
+    }
 
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public void saveFastxFile(final File fastxFile,
-			SeqList<? extends ByteSeq<ByteAlphabet>> sequenceList)
-			throws IOException {
-		final FastaOutputStream output = new FastaOutputStream(
-				new BufferedOutputStream(new FileOutputStream(fastxFile)),
-				new SequenceIdHeaderBuilder());
+    @SuppressWarnings("unchecked")
+    @Transactional
+    public void saveFastxFile(final File fastxFile, SeqList<? extends ByteSeq<ByteAlphabet>> sequenceList)
+            throws IOException {
+        final FastaOutputStream output = new FastaOutputStream(
+                new BufferedOutputStream(new FileOutputStream(fastxFile)), new SequenceIdHeaderBuilder());
 
-		// Write Fasta-formatted queryFile using the database ID as the
-		// header
-		int recordCount = 0;
+        // Write Fasta-formatted queryFile using the database ID as the
+        // header
+        int recordCount = 0;
 
-		int startPos = 0;
-		long endPos = 0;
-		if (sequenceList instanceof SeqSubList) {
-			startPos = ((SeqSubList<ByteSeqImpl<ByteAlphabet>>) sequenceList)
-					.getFromIndex();
-			endPos = ((SeqSubList<ByteSeqImpl<ByteAlphabet>>) sequenceList)
-					.getToIndex();
-			sequenceList = ((SeqSubList<ByteSeqImpl<ByteAlphabet>>) sequenceList)
-					.getTargetList();
-		} else {
-			endPos = sequenceList.size();
-		}
+        int startPos = 0;
+        long endPos = 0;
+        if (sequenceList instanceof SeqSubList) {
+            startPos = ((SeqSubList<ByteSeqImpl<ByteAlphabet>>) sequenceList).getFromIndex();
+            endPos = ((SeqSubList<ByteSeqImpl<ByteAlphabet>>) sequenceList).getToIndex();
+            sequenceList = ((SeqSubList<ByteSeqImpl<ByteAlphabet>>) sequenceList).getTargetList();
+        } else {
+            endPos = sequenceList.size();
+        }
 
-		final long id = sequenceList.getId();
-		for (long i = startPos; i < endPos; i = i + BATCH_SIZE) {
-			long lastPos = i + BATCH_SIZE;
-			if (lastPos > endPos) {
-				lastPos = endPos;
-			}
+        final long id = sequenceList.getId();
+        for (long i = startPos; i < endPos; i = i + BATCH_SIZE) {
+            long lastPos = i + BATCH_SIZE;
+            if (lastPos > endPos) {
+                lastPos = endPos;
+            }
 
-			logger.info("Retrieving sequences, start = " + i + ", end = "
-					+ lastPos);
-			final List<ByteSeqImpl<ByteAlphabet>> sequences = getSequences(id, i,
-					lastPos);
+            logger.info("Retrieving sequences, start = " + i + ", end = " + lastPos);
+            final List<ByteSeqImpl<ByteAlphabet>> sequences = getSequences(id, i, lastPos);
 
-			for (final ByteSeqImpl<ByteAlphabet> sequence : sequences) {
-				++recordCount;
-				if (recordCount % 10000 == 1) {
-					logger.info("Writing record #" + recordCount + " to "
-							+ fastxFile.getCanonicalPath());
-				}
-				output.write(sequence);
-			}
-		}
+            for (final ByteSeqImpl<ByteAlphabet> sequence : sequences) {
+                ++recordCount;
+                if (recordCount % 10000 == 1) {
+                    logger.info("Writing record #" + recordCount + " to " + fastxFile.getCanonicalPath());
+                }
+                output.write(sequence);
+            }
+        }
 
-		output.close();
+        output.close();
 
-	}
+    }
 
-	@SuppressWarnings("unchecked")
-	@Transactional
-	public List<ByteSeqImpl<ByteAlphabet>> getSequences(final long sequenceListId,
-			final long first, final long last) {
-		final Query query = entityManager.createQuery("select sequences from "
-				+ "AbstractMultiSequence MultiSeq "
-				+ "join MultiSeq.sequences sequences "
-				+ "where MultiSeq.id = :MultiSeqId "
-				+ "order by index(sequences)", ByteSeqImpl.class);
-		query.setParameter("MultiSeqId", sequenceListId);
-		query.setFirstResult((int) first);
-		query.setMaxResults((int) (last - first));
-		return query.getResultList();
-	}
+    @SuppressWarnings("unchecked")
+    @Transactional
+    public List<ByteSeqImpl<ByteAlphabet>> getSequences(final long sequenceListId, final long first, final long last) {
+        final Query query = entityManager.createQuery(
+                "select sequences from " + "AbstractMultiSequence MultiSeq " + "join MultiSeq.sequences sequences "
+                        + "where MultiSeq.id = :MultiSeqId " + "order by index(sequences)",
+                ByteSeqImpl.class);
+        query.setParameter("MultiSeqId", sequenceListId);
+        query.setFirstResult((int) first);
+        query.setMaxResults((int) (last - first));
+        return query.getResultList();
+    }
 }

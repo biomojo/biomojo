@@ -31,62 +31,58 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * The Class AbstractSpringCommand.
  */
-public abstract class AbstractSpringCommand extends AbstractCommand implements
-		SpringCommand {
+public abstract class AbstractSpringCommand extends AbstractCommand implements SpringCommand {
 
-	/** The Constant logger. */
-	private static final Logger logger = LoggerFactory
-			.getLogger(AbstractSpringCommand.class.getName());
+    /** The Constant logger. */
+    private static final Logger logger = LoggerFactory.getLogger(AbstractSpringCommand.class.getName());
 
-	/** The config location. */
-	private String configLocation;
+    /** The config location. */
+    private String configLocation;
 
-	/** The context. */
-	private AbstractApplicationContext applicationContext;
+    /** The context. */
+    private AbstractApplicationContext applicationContext;
 
-	/**
-	 * Instantiates a new abstract spring command.
-	 *
-	 * @param configLocation
-	 *            the config location
-	 */
-	public AbstractSpringCommand(String configLocation) {
-		this.configLocation = configLocation;
-	}
+    /**
+     * Instantiates a new abstract spring command.
+     *
+     * @param configLocation
+     *            the config location
+     */
+    public AbstractSpringCommand(String configLocation) {
+        this.configLocation = configLocation;
+    }
 
-	@Override
-	public String getConfigLocation() {
-		return configLocation;
-	}
+    @Override
+    public String getConfigLocation() {
+        return configLocation;
+    }
 
-	/**
-	 * @see org.biomojo.cli.SpringCommand#getApplicationContext()
-	 */
-	@Override
-	public ApplicationContext getApplicationContext() {
-		return applicationContext;
-	}
+    /**
+     * @see org.biomojo.cli.SpringCommand#getApplicationContext()
+     */
+    @Override
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
 
-	@Override
-	public Command prepare() {
-		applicationContext = new ClassPathXmlApplicationContext(
-				getConfigLocation());
-		applicationContext.registerShutdownHook();
-		AbstractSpringCommand command = applicationContext.getBean(getClass());
-		command.applicationContext = applicationContext;
-		return command;
+    @Override
+    public Command prepare() {
+        applicationContext = new ClassPathXmlApplicationContext(getConfigLocation());
+        applicationContext.registerShutdownHook();
+        AbstractSpringCommand command = applicationContext.getBean(getClass());
+        command.applicationContext = applicationContext;
+        return command;
 
-	}
+    }
 
-	@Override
-	public void finish() {
-		if (getApplicationContext() instanceof Closeable) {
-			try {
-				((Closeable) getApplicationContext()).close();
-			} catch (IOException e) {
-				logger.error("Caught exception in auto-generated catch block",
-						e);
-			}
-		}
-	}
+    @Override
+    public void finish() {
+        if (getApplicationContext() instanceof Closeable) {
+            try {
+                ((Closeable) getApplicationContext()).close();
+            } catch (IOException e) {
+                logger.error("Caught exception in auto-generated catch block", e);
+            }
+        }
+    }
 }

@@ -43,50 +43,46 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(commandNames = "translate")
 public class TranslateCommand extends BaseCommand {
-	private static final Logger logger = LoggerFactory
-			.getLogger(TranslateCommand.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(TranslateCommand.class.getName());
 
-	/**
-	 * @see org.java0.cli.Command#run()
-	 */
-	@Override
-	public void run() {
-		try {
-			logger.info("BioMojo sequence translation benchmark");
+    /**
+     * @see org.java0.cli.Command#run()
+     */
+    @Override
+    public void run() {
+        try {
+            logger.info("BioMojo sequence translation benchmark");
 
-			// System.in.read();
-			final FastaInputStream inputStream = new FastaInputStream(
-					new FileInputStream(inputFile));
-			final FastaOutputStream outputStream = new FastaOutputStream(
-					new BufferedOutputStream(new FileOutputStream(outputFile)));
+            // System.in.read();
+            final FastaInputStream inputStream = new FastaInputStream(new FileInputStream(inputFile));
+            final FastaOutputStream outputStream = new FastaOutputStream(
+                    new BufferedOutputStream(new FileOutputStream(outputFile)));
 
-			int recordCount = 0;
-			long totalLength = 0;
+            int recordCount = 0;
+            long totalLength = 0;
 
-			final ByteSeqImpl<NucleotideAlphabet> sequence = new ByteSeqImpl<NucleotideAlphabet>();
-			final TranslatedSeq translatedSeq = new TranslatedSeq(sequence,
-					Alphabets.getAlphabet(AlphabetId.AMINO_ACID
-							+ IUPACAlphabetVariant.WITH_AMBIGIGUITY,
-							AminoAcidAlphabet.class));
+            final ByteSeqImpl<NucleotideAlphabet> sequence = new ByteSeqImpl<NucleotideAlphabet>();
+            final TranslatedSeq translatedSeq = new TranslatedSeq(sequence, Alphabets.getAlphabet(
+                    AlphabetId.AMINO_ACID + IUPACAlphabetVariant.WITH_AMBIGIGUITY, AminoAcidAlphabet.class));
 
-			while (inputStream.read(sequence)) {
-				totalLength += sequence.size();
-				outputStream.write(translatedSeq);
-				++recordCount;
-			}
-			outputStream.close();
-			inputStream.close();
-			System.gc();
-			logger.info("Done loading " + recordCount + " sequences");
-			logger.info("Total length is " + totalLength + " bases");
+            while (inputStream.read(sequence)) {
+                totalLength += sequence.size();
+                outputStream.write(translatedSeq);
+                ++recordCount;
+            }
+            outputStream.close();
+            inputStream.close();
+            System.gc();
+            logger.info("Done loading " + recordCount + " sequences");
+            logger.info("Total length is " + totalLength + " bases");
 
-			Thread.sleep(0);
+            Thread.sleep(0);
 
-		} catch (final FileNotFoundException e) {
-			throw new UncheckedException(e);
-		} catch (final IOException e) {
-			throw new UncheckedException(e);
-		} catch (final InterruptedException e) {
-		}
-	}
+        } catch (final FileNotFoundException e) {
+            throw new UncheckedException(e);
+        } catch (final IOException e) {
+            throw new UncheckedException(e);
+        } catch (final InterruptedException e) {
+        }
+    }
 }

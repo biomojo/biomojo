@@ -21,5 +21,5 @@ package org.biomojo.sequence;
  *
  */
 public interface SeqTranslator<S extends Seq<?, ?>, D extends Seq<?, ?>> {
-	public D translate(S sourceSeq);
+    public D translate(S sourceSeq);
 }
