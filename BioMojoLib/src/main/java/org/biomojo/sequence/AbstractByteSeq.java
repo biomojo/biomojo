@@ -19,6 +19,7 @@ package org.biomojo.sequence;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import org.biomojo.alphabet.Alphabet;
 import org.biomojo.alphabet.ByteAlphabet;
 
 /**
@@ -32,7 +33,7 @@ public abstract class AbstractByteSeq<A extends ByteAlphabet> extends
 
 	private static final long serialVersionUID = 1L;
 
-	protected A alphabet;
+	protected ByteAlphabet alphabet;
 
 	public AbstractByteSeq() {
 	}
@@ -47,7 +48,7 @@ public abstract class AbstractByteSeq<A extends ByteAlphabet> extends
 
 	@Override
 	public A getAlphabet() {
-		return alphabet;
+		return (A) alphabet;
 	}
 
 }
