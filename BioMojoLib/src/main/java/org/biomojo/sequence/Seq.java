@@ -24,17 +24,16 @@ import org.biomojo.core.Identified;
 import org.biomojo.property.Propertied;
 import org.java0.collection.DefaultList;
 
+// TODO: Auto-generated Javadoc
 /**
  * The {@code Seq} interface represents a sequence of values of the specified
  * Java type from the specified {@link org.biomojo.alphabet.Alphabet}.
  *
+ * @author Hugh Eaves
  * @param <T>
  *            the type of values in the sequence
  * @param <A>
  *            the alphabet from which values are taken
- *
- * @author Hugh Eaves
- *
  */
 public interface Seq<T, A extends Alphabet<T>> extends DefaultList<T>, Propertied, Described, Identified {
 
@@ -67,36 +66,68 @@ public interface Seq<T, A extends Alphabet<T>> extends DefaultList<T>, Propertie
     public void canonicalize();
 
     /**
+     * Size.
+     *
+     * @return the int
      * @see java.util.List#size()
      */
     @Override
     int size();
 
     /**
+     * Gets the.
+     *
+     * @param index
+     *            the index
+     * @return the t
      * @see java.util.List#get(int)
      */
     @Override
     public T get(final int index);
 
     /**
+     * Sets the.
+     *
+     * @param index
+     *            the index
+     * @param value
+     *            the value
+     * @return the t
      * @see java.util.List#set(int, java.lang.Object)
      */
     @Override
     public T set(final int index, final T value);
 
     /**
+     * Adds the.
+     *
+     * @param value
+     *            the value
+     * @return true, if successful
      * @see java.util.List#add(java.lang.Object)
      */
     @Override
     public boolean add(final T value);
 
     /**
+     * Sub list.
+     *
+     * @param from
+     *            the from
+     * @param to
+     *            the to
+     * @return the list
      * @see java.util.List#subList(int, int)
      */
     @Override
     public List<T> subList(final int from, final int to);
 
     /**
+     * Removes the.
+     *
+     * @param pos
+     *            the pos
+     * @return the t
      * @see java.util.List#remove(int)
      */
     @Override
