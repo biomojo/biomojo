@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.biomojo.sequence.io;
+package org.biomojo.io.fastx;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -50,7 +50,7 @@ public class FastqParserTest extends
 	}
 
 	/**
-	 * @see org.biomojo.sequence.io.FastxParserTest#getInputStream(byte[], int)
+	 * @see org.biomojo.io.fastx.FastxParserTest#getInputStream(byte[], int)
 	 */
 	@Override
 	protected SequenceInputStream<FastqSeq<? extends NucleotideAlphabet>> getInputStream(
@@ -61,7 +61,7 @@ public class FastqParserTest extends
 	}
 
 	/**
-	 * @see org.biomojo.sequence.io.FastxParserTest#getOutputStream(java.io.ByteArrayOutputStream)
+	 * @see org.biomojo.io.fastx.FastxParserTest#getOutputStream(java.io.ByteArrayOutputStream)
 	 */
 	@Override
 	protected SequenceOutputStream<FastqSeq<? extends NucleotideAlphabet>> getOutputStream(
@@ -70,7 +70,7 @@ public class FastqParserTest extends
 	}
 
 	/**
-	 * @see org.biomojo.sequence.io.FastxParserTest#getSequence()
+	 * @see org.biomojo.io.fastx.FastxParserTest#getSequence()
 	 */
 	@Override
 	protected FastqSeq<NucleotideAlphabet> getSequence() {
