@@ -32,30 +32,10 @@ public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A> {
 
 	public void setValue(byte symbol, int index) throws InvalidSymbolException;
 
-	/**
-	 * Gets the.
-	 *
-	 * @param index
-	 *            the index
-	 * @return the byte
-	 * @see java.util.List#get(int)
-	 */
-	@Override
 	public default Byte get(final int index) {
 		return getValue(index);
 	}
 
-	/**
-	 * Sets the.
-	 *
-	 * @param index
-	 *            the index
-	 * @param value
-	 *            the value
-	 * @return the byte
-	 * @see java.util.List#set(int, java.lang.Object)
-	 */
-	@Override
 	public default Byte set(final int index, final Byte symbol)
 			throws InvalidSymbolException {
 		final byte oldVal = getValue(index);
