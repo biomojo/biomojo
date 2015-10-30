@@ -32,12 +32,12 @@ public abstract class GenCommand extends AbstractCommand {
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(GenCommand.class.getName());
 
-    @Parameter(names = { "-n", "--numseqs" }, description = "Number of sequences")
+    @Parameter(names = { "-n", "--numseqs" }, description = "Number of sequences", required = true)
     protected Integer numSeqs;
 
-    @Parameter(names = { "-l", "--seqlength" }, description = "Length of sequences")
+    @Parameter(names = { "-l", "--seqlength" }, description = "Length of sequences", required = true)
     protected Integer seqLength;
 
-    @Parameter(names = { "-o", "--out" }, description = "Output file name")
+    @Parameter(names = { "-o", "--out" }, description = "Output file name", required = true)
     protected OutputFile outputFile;
 }
