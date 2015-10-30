@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import org.biomojo.alphabet.IUPACAlphabet;
+import org.biomojo.benchmark.util.GCUtil;
 import org.biomojo.io.SequenceIdHeaderParser;
 import org.biomojo.io.fastx.FastaInputStream;
 import org.biomojo.sequence.ByteSeq;
@@ -55,7 +56,7 @@ public class LoadFastaCommand extends BaseCommand {
 
             int recordCount = 0;
             long totalLength = 0;
-            int lastLog = 0;
+            GCUtil gcUtil = new GCUtil();
 
             Supplier<ByteSeq<IUPACAlphabet>> suppier = new ByteSeqProvider();
             if (encode) {
@@ -67,13 +68,8 @@ public class LoadFastaCommand extends BaseCommand {
                 sequences.add(sequence);
                 totalLength += sequence.size();
                 ++recordCount;
-                final int log = (int) (Math.log(recordCount) / Math.log(1.015));
-                if (log != lastLog) {
-                    lastLog = log;
-                    logger.info("Loaded " + recordCount + " sequences so far");
-                    System.gc();
-                }
                 sequence = suppier.get();
+                gcUtil.recordAdded();
             }
 
             inputStream.close();
