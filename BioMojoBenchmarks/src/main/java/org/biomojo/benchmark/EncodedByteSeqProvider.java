@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014  Hugh Eaves
+ * Copyright (C) 2015  Hugh Eaves
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,6 +22,9 @@ import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.IUPACAlphabet;
 import org.biomojo.alphabet.NucleotideAlphabet;
+import org.biomojo.codec.ByteCodec;
+import org.biomojo.codec.CodecId;
+import org.biomojo.codec.Codecs;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.EncodedByteSeq;
 
@@ -37,7 +40,8 @@ public class EncodedByteSeqProvider implements Supplier<ByteSeq<IUPACAlphabet>> 
     @Override
     public ByteSeq<IUPACAlphabet> get() {
         final EncodedByteSeq<IUPACAlphabet> seq = new EncodedByteSeq<>(
-                Alphabets.getAlphabet(AlphabetId.DNA, NucleotideAlphabet.class));
+                Alphabets.getAlphabet(AlphabetId.DNA, NucleotideAlphabet.class),
+                Codecs.getCodec(CodecId.TWO_BIT_BYTE_CODEC, ByteCodec.class));
         return seq;
     }
 }
