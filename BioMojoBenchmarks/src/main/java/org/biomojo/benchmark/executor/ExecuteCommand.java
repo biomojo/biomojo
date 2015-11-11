@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2014  Hugh Eaves
+ * Copyright (C) 2015  Hugh Eaves
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -228,7 +228,8 @@ public class ExecuteCommand extends AbstractSpringCommand {
         addTestCase(new GenericTestCase(Benchmark.LOAD_FASTA, Library.HTSEQ));
         addTestCase(new JavaTestCase(Benchmark.LOAD_FASTA, Library.HTSJDK));
         addTestCase(new JavaTestCase(Benchmark.LOAD_FASTA, Library.JEBL));
-        addTestCase(new GenericTestCase(Benchmark.LOAD_FASTA, Library.SEQAN));
+        addTestCase(new CppTestCase(Benchmark.LOAD_FASTA, Library.SEQAN));
+        addTestCase(new CppTestCase(Benchmark.LOAD_FASTA, Library.SEQAN).add(ConfigParams.ENCODED, true));
 
         addTestCase(new JavaTestCase(Benchmark.LOAD_FASTQ, Library.BIOJAVA));
         addTestCase(new JavaTestCase(Benchmark.LOAD_FASTQ, Library.BIOMOJO));
@@ -237,7 +238,8 @@ public class ExecuteCommand extends AbstractSpringCommand {
         addTestCase(new GenericTestCase(Benchmark.LOAD_FASTQ, Library.BIOPYTHON));
         addTestCase(new GenericTestCase(Benchmark.LOAD_FASTQ, Library.HTSEQ));
         addTestCase(new JavaTestCase(Benchmark.LOAD_FASTQ, Library.HTSJDK));
-        addTestCase(new GenericTestCase(Benchmark.LOAD_FASTQ, Library.SEQAN));
+        addTestCase(new CppTestCase(Benchmark.LOAD_FASTQ, Library.SEQAN));
+        addTestCase(new CppTestCase(Benchmark.LOAD_FASTQ, Library.SEQAN).add(ConfigParams.ENCODED, true));
 
         addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.BIOJAVA));
         addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.BIOMOJO));
@@ -247,7 +249,9 @@ public class ExecuteCommand extends AbstractSpringCommand {
         addTestCase(new GenericTestCase(Benchmark.READ_FASTA, Library.HTSEQ));
         addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.HTSJDK));
         addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.JEBL));
-        addTestCase(new GenericTestCase(Benchmark.READ_FASTA, Library.SEQAN));
+        addTestCase(new CppTestCase(Benchmark.READ_FASTA, Library.SEQAN));
+        // addTestCase(new CppTestCase(Benchmark.READ_FASTA,
+        // Library.SEQAN).add(ConfigParams.ENCODED, true));
 
         addTestCase(new JavaTestCase(Benchmark.READ_FASTQ, Library.BIOJAVA));
         addTestCase(new JavaTestCase(Benchmark.READ_FASTQ, Library.BIOMOJO));
@@ -256,7 +260,9 @@ public class ExecuteCommand extends AbstractSpringCommand {
         addTestCase(new GenericTestCase(Benchmark.READ_FASTQ, Library.BIOPYTHON));
         addTestCase(new GenericTestCase(Benchmark.READ_FASTQ, Library.HTSEQ));
         addTestCase(new JavaTestCase(Benchmark.READ_FASTQ, Library.HTSJDK));
-        addTestCase(new GenericTestCase(Benchmark.READ_FASTQ, Library.SEQAN));
+        addTestCase(new CppTestCase(Benchmark.READ_FASTQ, Library.SEQAN));
+        // addTestCase(new CppTestCase(Benchmark.READ_FASTQ,
+        // Library.SEQAN).add(ConfigParams.ENCODED, true));
 
         addTestCase(new JavaTestCase(Benchmark.TRIM, Library.BIOJAVA));
         addTestCase(new JavaTestCase(Benchmark.TRIM, Library.BIOMOJO));
@@ -265,7 +271,9 @@ public class ExecuteCommand extends AbstractSpringCommand {
         addTestCase(new GenericTestCase(Benchmark.TRIM, Library.BIOPYTHON));
         addTestCase(new GenericTestCase(Benchmark.TRIM, Library.HTSEQ));
         addTestCase(new JavaTestCase(Benchmark.TRIM, Library.HTSJDK));
-        addTestCase(new GenericTestCase(Benchmark.TRIM, Library.SEQAN));
+        addTestCase(new CppTestCase(Benchmark.TRIM, Library.SEQAN));
+        // addTestCase(new CppTestCase(Benchmark.TRIM,
+        // Library.SEQAN).add(ConfigParams.ENCODED, true));
         addTestCase(new TrimmomaticTestCase(Benchmark.TRIM, Library.TRIMMOMATIC));
 
         addTestCase(new JavaTestCase(Benchmark.TRANSLATE, Library.BIOJAVA));
@@ -280,7 +288,9 @@ public class ExecuteCommand extends AbstractSpringCommand {
         addTestCase(new JavaTestCase(Benchmark.ALIGN, Library.BIOMOJO).add(ConfigParams.ENCODED, true));
         addTestCase(new GenericTestCase(Benchmark.ALIGN, Library.BIOPYTHON));
         addTestCase(new JavaTestCase(Benchmark.ALIGN, Library.JEBL));
-        addTestCase(new GenericTestCase(Benchmark.ALIGN, Library.SEQAN));
+        addTestCase(new CppTestCase(Benchmark.ALIGN, Library.SEQAN));
+        // addTestCase(new CppTestCase(Benchmark.ALIGN,
+        // Library.SEQAN).add(ConfigParams.ENCODED, true));
     }
 
     private void addTestCase(final TestCase testCase) {
