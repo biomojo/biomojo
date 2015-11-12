@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  * The Class TwoBitByteCodec.
  */
 public class TwoBitByteCodec extends AbstractByteCodec {
-    
+
     /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(TwoBitByteCodec.class.getName());
@@ -34,7 +34,8 @@ public class TwoBitByteCodec extends AbstractByteCodec {
     /**
      * Instantiates a new two bit byte codec.
      *
-     * @param id the id
+     * @param id
+     *            the id
      */
     TwoBitByteCodec(final int id) {
         super(id);
@@ -42,51 +43,54 @@ public class TwoBitByteCodec extends AbstractByteCodec {
 
     /** The Constant BITS_PER_SYMBOL. */
     private static final int BITS_PER_SYMBOL = 2;
-    
+
     /** The Constant SYMBOLS_PER_BYTE. */
     private static final int SYMBOLS_PER_BYTE = 8 / BITS_PER_SYMBOL;
-    
+
     /** The Constant NUM_SYMBOLS. */
     private static final int NUM_SYMBOLS = 1 << BITS_PER_SYMBOL;
 
     /** The Constant MASK_0. */
     // bit mask for character at position N in byte
     private static final int MASK_0 = 0xC0;
-    
+
     /** The Constant MASK_1. */
     private static final int MASK_1 = 0x30;
-    
+
     /** The Constant MASK_2. */
     private static final int MASK_2 = 0x0C;
-    
+
     /** The Constant MASK_3. */
     private static final int MASK_3 = 0x03;
-    
+
     /** The Constant MASK. */
     private static final int[] MASK = { MASK_0, MASK_1, MASK_2, MASK_3 };
 
     /** The Constant SHIFT_0. */
     // number of left shifts to move bits into correct position in byte
     private static final int SHIFT_0 = 6;
-    
+
     /** The Constant SHIFT_1. */
     private static final int SHIFT_1 = 4;
-    
+
     /** The Constant SHIFT_2. */
     private static final int SHIFT_2 = 2;
-    
+
     /** The Constant SHIFT_3. */
     private static final int SHIFT_3 = 0;
-    
+
     /** The Constant SHIFT. */
     private static final int[] SHIFT = { SHIFT_0, SHIFT_1, SHIFT_2, SHIFT_3 };
 
     /**
      * Decode.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
      * @return the byte[]
      * @see org.biomojo.codec.ByteCodec#decode(byte[])
      */
@@ -117,10 +121,14 @@ public class TwoBitByteCodec extends AbstractByteCodec {
     /**
      * Decode.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param pos the pos
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
+     * @param pos
+     *            the pos
      * @return the byte
      * @see org.biomojo.codec.ByteCodec#decode(byte[], int)
      */
@@ -134,10 +142,14 @@ public class TwoBitByteCodec extends AbstractByteCodec {
     /**
      * Encode.
      *
-     * @param alphabet the alphabet
-     * @param oldEncodedData the old encoded data
-     * @param length the length
-     * @param decodedData the decoded data
+     * @param alphabet
+     *            the alphabet
+     * @param oldEncodedData
+     *            the old encoded data
+     * @param length
+     *            the length
+     * @param decodedData
+     *            the decoded data
      * @return the byte[]
      * @see org.biomojo.codec.ByteCodec#encode(byte[])
      */
@@ -173,11 +185,16 @@ public class TwoBitByteCodec extends AbstractByteCodec {
     /**
      * Encode.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param symbol the symbol
-     * @param pos the pos
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
+     * @param symbol
+     *            the symbol
+     * @param pos
+     *            the pos
      * @see org.biomojo.codec.ByteCodec#encode(byte[], byte, int)
      */
     @Override
@@ -192,7 +209,8 @@ public class TwoBitByteCodec extends AbstractByteCodec {
     /**
      * Supports alphabet.
      *
-     * @param alphabet the alphabet
+     * @param alphabet
+     *            the alphabet
      * @return true, if successful
      * @see org.biomojo.codec.Codec#supportsAlphabet(org.biomojo.alphabet.Alphabet)
      */
