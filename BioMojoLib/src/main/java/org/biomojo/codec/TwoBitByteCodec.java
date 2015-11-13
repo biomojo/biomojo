@@ -50,21 +50,11 @@ public class TwoBitByteCodec extends AbstractByteCodec {
     /** The Constant NUM_SYMBOLS. */
     private static final int NUM_SYMBOLS = 1 << BITS_PER_SYMBOL;
 
-    /** The Constant MASK_0. */
-    // bit mask for character at position N in byte
-    private static final int MASK_0 = 0xC0;
-
-    /** The Constant MASK_1. */
-    private static final int MASK_1 = 0x30;
-
-    /** The Constant MASK_2. */
-    private static final int MASK_2 = 0x0C;
-
     /** The Constant MASK_3. */
-    private static final int MASK_3 = 0x03;
+    private static final int SYMBOL_MASK = 0x03;
 
     /** The Constant MASK. */
-    private static final int[] MASK = { MASK_0, MASK_1, MASK_2, MASK_3 };
+    private static final int[] MASK = { 0xC0, 0x30, 0x0C, SYMBOL_MASK };
 
     /** The Constant SHIFT_0. */
     // number of left shifts to move bits into correct position in byte
@@ -75,12 +65,6 @@ public class TwoBitByteCodec extends AbstractByteCodec {
 
     /** The Constant SHIFT_2. */
     private static final int SHIFT_2 = 2;
-
-    /** The Constant SHIFT_3. */
-    private static final int SHIFT_3 = 0;
-
-    /** The Constant SHIFT. */
-    private static final int[] SHIFT = { SHIFT_0, SHIFT_1, SHIFT_2, SHIFT_3 };
 
     /**
      * Decode.
@@ -102,18 +86,23 @@ public class TwoBitByteCodec extends AbstractByteCodec {
         int encodedPos = 0;
         // decode full bytes
         while (decodedPos < endPos) {
+            // logger.error("decoding {} - {}", decodedPos, decodedPos + 3);
             final int encodedByte = encodedData[encodedPos++];
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal((encodedByte & MASK_0) >> SHIFT_0);
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal((encodedByte & MASK_1) >> SHIFT_1);
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal((encodedByte & MASK_2) >> SHIFT_2);
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedByte & MASK_3);
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal((encodedByte >> SHIFT_0 & SYMBOL_MASK));
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal((encodedByte >> SHIFT_1 & SYMBOL_MASK));
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal((encodedByte >> SHIFT_2 & SYMBOL_MASK));
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedByte & SYMBOL_MASK);
         }
         // decode partial byte at the end (if any)
-        while (decodedPos < length) {
+        if (decodedPos < length) {
             final int encodedByte = encodedData[encodedPos];
-            final int charNum = decodedPos % SYMBOLS_PER_BYTE;
-            decodedData[decodedPos++] = alphabet
-                    .getByteSymbolForOrdinal((encodedByte & MASK[charNum]) >> SHIFT[charNum]);
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedByte >> SHIFT_0 & SYMBOL_MASK);
+            if (decodedPos < length) {
+                decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedByte >> SHIFT_1 & SYMBOL_MASK);
+            }
+            if (decodedPos < length) {
+                decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedByte >> SHIFT_2 & SYMBOL_MASK);
+            }
         }
         return decodedData;
     }
@@ -135,8 +124,9 @@ public class TwoBitByteCodec extends AbstractByteCodec {
     @Override
     public byte decode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final int pos) {
         final int bytePos = pos / SYMBOLS_PER_BYTE;
-        final int charPos = pos % SYMBOLS_PER_BYTE;
-        return alphabet.getByteSymbolForOrdinal((encodedData[bytePos] & MASK[charPos]) >> SHIFT[charPos]);
+        final int symbolPos = pos % SYMBOLS_PER_BYTE;
+        return alphabet
+                .getByteSymbolForOrdinal(encodedData[bytePos] >> (SHIFT_0 - BITS_PER_SYMBOL * symbolPos) & SYMBOL_MASK);
     }
 
     /**
@@ -157,26 +147,28 @@ public class TwoBitByteCodec extends AbstractByteCodec {
     public byte[] encode(final ByteAlphabet alphabet, final byte[] oldEncodedData, final int length,
             final byte[] decodedData) {
         final byte[] encodedData = new byte[(length + SYMBOLS_PER_BYTE - 1) / SYMBOLS_PER_BYTE];
-        final int finalByteNumChars = length % SYMBOLS_PER_BYTE;
-        final int endPos = length - finalByteNumChars;
+        final int finalByteNumSymbols = length % SYMBOLS_PER_BYTE;
+        final int endPos = length - finalByteNumSymbols;
         int decodedPos = 0;
         int encodedPos = 0;
         int encodedByte = 0;
         // encode full bytes
         while (decodedPos < endPos) {
-            encodedData[encodedPos++] = (byte) ((alphabet.getOrdinalForSymbol(decodedData[decodedPos++]) << SHIFT_0)
-                    | (alphabet.getOrdinalForSymbol(decodedData[decodedPos++]) << SHIFT_1)
-                    | (alphabet.getOrdinalForSymbol(decodedData[decodedPos++]) << SHIFT_2)
-                    | (alphabet.getOrdinalForSymbol(decodedData[decodedPos++])));
+            // logger.error("encoding {} - {}", decodedPos, decodedPos + 3);
+            encodedByte = alphabet.getOrdinalForSymbol(decodedData[decodedPos++]);
+            encodedByte = (encodedByte << BITS_PER_SYMBOL) | alphabet.getOrdinalForSymbol(decodedData[decodedPos++]);
+            encodedByte = (encodedByte << BITS_PER_SYMBOL) | alphabet.getOrdinalForSymbol(decodedData[decodedPos++]);
+            encodedByte = (encodedByte << BITS_PER_SYMBOL) | alphabet.getOrdinalForSymbol(decodedData[decodedPos++]);
+            encodedData[encodedPos++] = (byte) encodedByte;
         }
         // encode partial byte at the end (if any)
         if (decodedPos < length) {
-            encodedByte = 0;
+            encodedByte = alphabet.getOrdinalForSymbol(decodedData[decodedPos++]);
             while (decodedPos < length) {
                 encodedByte = (encodedByte << BITS_PER_SYMBOL)
                         | alphabet.getOrdinalForSymbol(decodedData[decodedPos++]);
             }
-            encodedByte = encodedByte << SHIFT[finalByteNumChars - 1];
+            encodedByte = encodedByte << ((NUM_SYMBOLS - finalByteNumSymbols) * BITS_PER_SYMBOL);
             encodedData[encodedPos] = (byte) encodedByte;
         }
         return encodedData;
@@ -201,9 +193,10 @@ public class TwoBitByteCodec extends AbstractByteCodec {
     public void encode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final byte symbol,
             final int pos) {
         final int bytePos = pos / SYMBOLS_PER_BYTE;
-        final int charPos = pos % SYMBOLS_PER_BYTE;
-        encodedData[bytePos] = (byte) (encodedData[bytePos] & ~MASK[charPos]
-                | (alphabet.getOrdinalForSymbol(symbol) << SHIFT[charPos]));
+        final int symbolPos = pos % SYMBOLS_PER_BYTE;
+        final int shift = SHIFT_0 - BITS_PER_SYMBOL * symbolPos;
+        encodedData[bytePos] = (byte) (encodedData[bytePos] & ~(SYMBOL_MASK << shift)
+                | (alphabet.getOrdinalForSymbol(symbol) << shift));
     }
 
     /**

@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
  * The Class FourBitByteCodec.
  */
 public class FourBitByteCodec extends AbstractByteCodec {
-    
+
     /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(FourBitByteCodec.class.getName());
@@ -34,7 +34,8 @@ public class FourBitByteCodec extends AbstractByteCodec {
     /**
      * Instantiates a new four bit byte codec.
      *
-     * @param id the id
+     * @param id
+     *            the id
      */
     FourBitByteCodec(final int id) {
         super(id);
@@ -42,28 +43,28 @@ public class FourBitByteCodec extends AbstractByteCodec {
 
     /** The Constant BITS_PER_SYMBOL. */
     private static final int BITS_PER_SYMBOL = 4;
-    
+
     /** The Constant SYMBOLS_PER_BYTE. */
     private static final int SYMBOLS_PER_BYTE = 8 / BITS_PER_SYMBOL;
-    
+
     /** The Constant NUM_SYMBOLS. */
     private static final int NUM_SYMBOLS = 1 << BITS_PER_SYMBOL;
 
     /** The Constant MASK_0. */
     private static final int MASK_0 = 0xF0;
-    
+
     /** The Constant MASK_1. */
     private static final int MASK_1 = 0x0F;
-    
-    /** The Constant SHIFT_0. */
-    private static final int SHIFT_0 = 4;
 
     /**
      * Decode.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
      * @return the byte[]
      * @see org.biomojo.codec.ByteCodec#decode(byte[])
      */
@@ -76,12 +77,13 @@ public class FourBitByteCodec extends AbstractByteCodec {
         // decode full bytes
         while (decodedPos < endPos) {
             final int encodedByte = encodedData[encodedPos++];
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal((encodedByte & MASK_0) >> SHIFT_0);
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedByte >> BITS_PER_SYMBOL & MASK_1);
             decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedByte & MASK_1);
         }
         // decode partial byte at the end (if any)
         if (decodedPos < length) {
-            decodedData[decodedPos] = alphabet.getByteSymbolForOrdinal((encodedData[encodedPos] & MASK_0) >> SHIFT_0);
+            decodedData[decodedPos] = alphabet
+                    .getByteSymbolForOrdinal(encodedData[encodedPos] >> BITS_PER_SYMBOL & MASK_1);
         }
         return decodedData;
     }
@@ -89,10 +91,14 @@ public class FourBitByteCodec extends AbstractByteCodec {
     /**
      * Decode.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param pos the pos
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
+     * @param pos
+     *            the pos
      * @return the byte
      * @see org.biomojo.codec.ByteCodec#decode(byte[], int)
      */
@@ -100,7 +106,7 @@ public class FourBitByteCodec extends AbstractByteCodec {
     public byte decode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final int pos) {
         final int bytePos = pos / SYMBOLS_PER_BYTE;
         if (pos % SYMBOLS_PER_BYTE == 0) {
-            return alphabet.getByteSymbolForOrdinal((encodedData[bytePos] & MASK_0) >> SHIFT_0);
+            return alphabet.getByteSymbolForOrdinal(encodedData[bytePos] >> BITS_PER_SYMBOL & MASK_1);
         } else {
             return alphabet.getByteSymbolForOrdinal(encodedData[bytePos] & MASK_1);
         }
@@ -109,10 +115,14 @@ public class FourBitByteCodec extends AbstractByteCodec {
     /**
      * Encode.
      *
-     * @param alphabet the alphabet
-     * @param oldEncodedData the old encoded data
-     * @param length the length
-     * @param decodedData the decoded data
+     * @param alphabet
+     *            the alphabet
+     * @param oldEncodedData
+     *            the old encoded data
+     * @param length
+     *            the length
+     * @param decodedData
+     *            the decoded data
      * @return the byte[]
      * @see org.biomojo.codec.ByteCodec#encode(byte[])
      */
@@ -126,12 +136,13 @@ public class FourBitByteCodec extends AbstractByteCodec {
         int encodedPos = 0;
         // encode full bytes
         while (decodedPos < endPos) {
-            encodedData[encodedPos++] = (byte) ((alphabet.getOrdinalForSymbol(decodedData[decodedPos++]) << SHIFT_0)
+            encodedData[encodedPos++] = (byte) ((alphabet
+                    .getOrdinalForSymbol(decodedData[decodedPos++]) << BITS_PER_SYMBOL)
                     | (alphabet.getOrdinalForSymbol(decodedData[decodedPos++])));
         }
         // encode partial byte at the end (if any)
         if (decodedPos < length) {
-            encodedData[encodedPos] = (byte) (alphabet.getOrdinalForSymbol(decodedData[decodedPos]) << SHIFT_0);
+            encodedData[encodedPos] = (byte) (alphabet.getOrdinalForSymbol(decodedData[decodedPos]) << BITS_PER_SYMBOL);
         }
         return encodedData;
     }
@@ -139,11 +150,16 @@ public class FourBitByteCodec extends AbstractByteCodec {
     /**
      * Encode.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param symbol the symbol
-     * @param pos the pos
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
+     * @param symbol
+     *            the symbol
+     * @param pos
+     *            the pos
      * @see org.biomojo.codec.ByteCodec#encode(byte[], byte, int)
      */
     @Override
@@ -152,7 +168,7 @@ public class FourBitByteCodec extends AbstractByteCodec {
         final int bytePos = pos / SYMBOLS_PER_BYTE;
         if (pos % SYMBOLS_PER_BYTE == 0) {
             encodedData[bytePos] = (byte) (encodedData[bytePos] & ~MASK_0
-                    | (alphabet.getOrdinalForSymbol(symbol) << SHIFT_0));
+                    | (alphabet.getOrdinalForSymbol(symbol) << BITS_PER_SYMBOL));
         } else {
             encodedData[bytePos] = (byte) (encodedData[bytePos] & ~MASK_1 | (alphabet.getOrdinalForSymbol(symbol)));
         }
@@ -161,7 +177,8 @@ public class FourBitByteCodec extends AbstractByteCodec {
     /**
      * Supports alphabet.
      *
-     * @param alphabet the alphabet
+     * @param alphabet
+     *            the alphabet
      * @return true, if successful
      * @see org.biomojo.codec.Codec#supportsAlphabet(org.biomojo.alphabet.Alphabet)
      */

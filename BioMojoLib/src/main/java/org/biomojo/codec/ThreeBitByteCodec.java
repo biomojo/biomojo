@@ -21,37 +21,74 @@ import org.biomojo.alphabet.ByteAlphabet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ThreeBitByteCodec.
+ * 
+ * Encodes alphabets with eight or less symbols into a bit array in network byte
+ * order. Three bytes are used for every eight symbols. (each symbol uses 3
+ * bits)
+ * 
+ * byte--: -------0------- -------1------- -------2-------
+ * 
+ * bit---: 7 6 5 4 3 2 1 0 7 6 5 4 3 2 1 0 7 6 5 4 3 2 1 0
+ * 
+ * symbol: --0-- --1-- --2-- --3-- --4-- --5-- --6-- --7--
  */
 public class ThreeBitByteCodec extends AbstractByteCodec {
-    
+
     /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(ThreeBitByteCodec.class.getName());
 
+    /** The Constant BITS_PER_SYMBOL. */
+    private static final int BITS_PER_SYMBOL = 3;
+
+    /** The Constant NUM_SYMBOLS. */
+    private static final int NUM_SYMBOLS = 1 << BITS_PER_SYMBOL;
+
+    private static final int MASK = 0x07;
+
+    private static final int SHIFT_0 = 5;
+    private static final int SHIFT_1 = 2;
+    private static final int SHIFT_2A = 1; // LSHIFT
+    private static final int SHIFT_2B = 7;
+    private static final int SHIFT_3 = 4;
+    private static final int SHIFT_4 = 1;
+    private static final int SHIFT_5A = 2; // LSHIFT
+    private static final int SHIFT_5B = 6;
+    private static final int SHIFT_6 = 3;
+    private static final int SHIFT_7 = 0;
+
+    private static final int MASK_0 = ~(MASK << SHIFT_0);
+    private static final int MASK_1 = ~(MASK << SHIFT_1);
+    private static final int MASK_2A = ~(MASK >> SHIFT_2A);
+    private static final int MASK_2B = ~(MASK << SHIFT_2B);
+    private static final int MASK_3 = ~(MASK << SHIFT_3);
+    private static final int MASK_4 = ~(MASK << SHIFT_4);
+    private static final int MASK_5A = ~(MASK >> SHIFT_5A);
+    private static final int MASK_5B = ~(MASK << SHIFT_5B);
+    private static final int MASK_6 = ~(MASK << SHIFT_6);
+    private static final int MASK_7 = ~(MASK << SHIFT_7);
+
     /**
      * Instantiates a new three bit byte codec.
      *
-     * @param id the id
+     * @param id
+     *            the id
      */
     ThreeBitByteCodec(final int id) {
         super(id);
     }
 
-    /** The Constant BITS_PER_SYMBOL. */
-    private static final int BITS_PER_SYMBOL = 3;
-    
-    /** The Constant NUM_SYMBOLS. */
-    private static final int NUM_SYMBOLS = 1 << BITS_PER_SYMBOL;
-
     /**
      * Decode.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
      * @return the byte[]
      * @see org.biomojo.codec.ByteCodec#decode(byte[])
      */
@@ -60,15 +97,15 @@ public class ThreeBitByteCodec extends AbstractByteCodec {
         final byte[] decodedData = new byte[length];
         int decodedPos = 0;
         int encodedPos = 0;
-        int numBits = 0;
-        int bits = 0;
+        int numDecodedBits = 0;
+        int decodedBits = 0;
         while (decodedPos < length) {
-            if (numBits < BITS_PER_SYMBOL) {
-                bits = (bits << 8) | (encodedData[encodedPos++] & 0xff);
-                numBits += 8;
+            if (numDecodedBits < BITS_PER_SYMBOL) {
+                decodedBits = (decodedBits << Byte.SIZE) | (encodedData[encodedPos++] & 0xff);
+                numDecodedBits += Byte.SIZE;
             }
-            numBits = numBits - BITS_PER_SYMBOL;
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal((bits >> numBits) & 0x07);
+            numDecodedBits = numDecodedBits - BITS_PER_SYMBOL;
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal((decodedBits >> numDecodedBits) & MASK);
 
         }
         return decodedData;
@@ -77,25 +114,66 @@ public class ThreeBitByteCodec extends AbstractByteCodec {
     /**
      * Decode.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param pos the pos
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
+     * @param pos
+     *            the pos
      * @return the byte
      * @see org.biomojo.codec.ByteCodec#decode(byte[], int)
      */
     @Override
     public byte decode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final int pos) {
-        return 0;
+        int ordinal = 0;
+
+        int start = pos / NUM_SYMBOLS * BITS_PER_SYMBOL;
+        switch (pos % NUM_SYMBOLS) {
+        case 0:
+            ordinal = encodedData[start] >>> SHIFT_0 & MASK;
+            break;
+        case 1:
+            ordinal = encodedData[start] >>> SHIFT_1 & MASK;
+            break;
+        case 2:
+            ordinal = encodedData[start] << SHIFT_2A & MASK | encodedData[start + 1] >>> 31;
+            break;
+        case 3:
+            ordinal = encodedData[start + 1] >>> SHIFT_3 & MASK;
+            break;
+        case 4:
+            ordinal = encodedData[start + 1] >>> SHIFT_4 & MASK;
+            break;
+        case 5:
+            ordinal = (encodedData[start + 1] & 1) << SHIFT_5A | ((encodedData[start + 2] & 0xff) >> SHIFT_5B);
+            break;
+        case 6:
+            ordinal = encodedData[start + 2] >>> SHIFT_6 & MASK;
+            break;
+        case 7:
+            ordinal = encodedData[start + 2] >>> SHIFT_7 & MASK;
+            break;
+
+        }
+        // logger.debug("ordinal = {}", ordinal);
+        // logger.debug("====================================================");
+
+        return alphabet.getByteSymbolForOrdinal(ordinal);
     }
 
     /**
      * Encode.
      *
-     * @param alphabet the alphabet
-     * @param oldEncodedData the old encoded data
-     * @param length the length
-     * @param decodedData the decoded data
+     * @param alphabet
+     *            the alphabet
+     * @param oldEncodedData
+     *            the old encoded data
+     * @param length
+     *            the length
+     * @param decodedData
+     *            the decoded data
      * @return the byte[]
      * @see org.biomojo.codec.ByteCodec#encode(byte[])
      */
@@ -103,23 +181,23 @@ public class ThreeBitByteCodec extends AbstractByteCodec {
     public byte[] encode(final ByteAlphabet alphabet, final byte[] oldEncodedData, final int length,
             final byte[] decodedData) {
         // TODO Handle overflow
-        final byte[] encodedData = new byte[((length * BITS_PER_SYMBOL - 1) / 8) + 1];
+        final byte[] encodedData = new byte[((length * BITS_PER_SYMBOL - 1) / Byte.SIZE) + 1];
         int decodedPos = 0;
         int encodedPos = 0;
-        int numBits = 0;
-        int bits = 0;
+        int numEncodedBits = 0;
+        int encodedBits = 0;
         while (decodedPos < length) {
-            bits = bits << BITS_PER_SYMBOL;
-            bits = bits | alphabet.getOrdinalForSymbol(decodedData[decodedPos++]);
-            numBits += BITS_PER_SYMBOL;
-            if (numBits >= 8) {
-                numBits -= 8;
-                encodedData[encodedPos++] = (byte) ((bits >> numBits) & 0xff);
+            encodedBits = encodedBits << BITS_PER_SYMBOL;
+            encodedBits = encodedBits | alphabet.getOrdinalForSymbol(decodedData[decodedPos++]);
+            numEncodedBits += BITS_PER_SYMBOL;
+            if (numEncodedBits >= Byte.SIZE) {
+                numEncodedBits -= Byte.SIZE;
+                encodedData[encodedPos++] = (byte) ((encodedBits >> numEncodedBits) & 0xff);
             }
         }
-        if (numBits > 0) {
-            bits = bits << (8 - numBits);
-            encodedData[encodedPos++] = (byte) (bits & 0xff);
+        if (numEncodedBits > 0) {
+            encodedBits = encodedBits << (8 - numEncodedBits);
+            encodedData[encodedPos++] = (byte) (encodedBits & 0xff);
         }
         return encodedData;
 
@@ -128,23 +206,61 @@ public class ThreeBitByteCodec extends AbstractByteCodec {
     /**
      * Encode.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param symbol the symbol
-     * @param pos the pos
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
+     * @param symbol
+     *            the symbol
+     * @param pos
+     *            the pos
      * @see org.biomojo.codec.ByteCodec#encode(byte[], byte, int)
      */
     @Override
     public void encode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final byte symbol,
             final int pos) {
+        int ordinal = alphabet.getOrdinalForSymbol(symbol);
+        int start = pos / NUM_SYMBOLS * BITS_PER_SYMBOL;
+        switch (pos % NUM_SYMBOLS) {
+        case 0:
+            encodedData[start] = (byte) (encodedData[start] & MASK_0 | ordinal << SHIFT_0);
+            break;
+        case 1:
+            encodedData[start] = (byte) (encodedData[start] & MASK_1 | ordinal << SHIFT_1);
+            break;
+        case 2:
+            encodedData[start] = (byte) (encodedData[start] & MASK_2A | ordinal >> SHIFT_2A);
+            encodedData[start + 1] = (byte) (encodedData[start + 1] & MASK_2B | (ordinal << SHIFT_2B));
+            break;
+        case 3:
+            encodedData[start + 1] = (byte) (encodedData[start + 1] & MASK_3 | ordinal << SHIFT_3);
+            break;
+        case 4:
+            encodedData[start + 1] = (byte) (encodedData[start + 1] & MASK_4 | ordinal << SHIFT_4);
+            break;
+        case 5:
+            encodedData[start + 1] = (byte) (encodedData[start + 1] & MASK_5A | ordinal >> SHIFT_5A);
+            encodedData[start + 2] = (byte) (encodedData[start + 2] & MASK_5B | ordinal << SHIFT_5B);
+            break;
+        case 6:
+            encodedData[start + 2] = (byte) (encodedData[start + 2] & MASK_6 | ordinal << SHIFT_6);
+            break;
+        case 7:
+            encodedData[start + 2] = (byte) (encodedData[start + 2] & MASK_7 | ordinal);
+            break;
+
+        }
+        return;
 
     }
 
     /**
      * Supports alphabet.
      *
-     * @param alphabet the alphabet
+     * @param alphabet
+     *            the alphabet
      * @return true, if successful
      * @see org.biomojo.codec.Codec#supportsAlphabet(org.biomojo.alphabet.Alphabet)
      */
