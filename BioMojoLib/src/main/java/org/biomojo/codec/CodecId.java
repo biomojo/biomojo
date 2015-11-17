@@ -23,19 +23,22 @@ package org.biomojo.codec;
  * @author Hugh Eaves
  */
 public interface CodecId {
-    
+
     /** The Constant NULL_BYTE_CODEC. */
     public static final int NULL_BYTE_CODEC = 64;
-    
+
     /** The Constant TWO_BIT_BYTE_CODEC. */
     public static final int TWO_BIT_BYTE_CODEC = 128;
-    
+
     /** The Constant THREE_BIT_BYTE_CODEC. */
     public static final int THREE_BIT_BYTE_CODEC = 129;
-    
+
     /** The Constant FOUR_BIT_BYTE_CODEC. */
     public static final int FOUR_BIT_BYTE_CODEC = 130;
-    
+
+    /** The Constant FIVE_BIT_BYTE_CODEC. */
+    public static final int FIVE_BIT_BYTE_CODEC = 131;
+
     /** The Constant ZLIB_BYTE_CODEC. */
     public static final int ZLIB_BYTE_CODEC = 192;
 }

@@ -26,7 +26,7 @@ import org.java0.factory.FactoryException;
  * A factory for creating DefaultCodec objects.
  */
 public class DefaultCodecFactory extends AbstractIdBasedFactory<Codec<?, ?>> {
-    
+
     /**
      * Instantiates a new default codec factory.
      */
@@ -54,6 +54,12 @@ public class DefaultCodecFactory extends AbstractIdBasedFactory<Codec<?, ?>> {
             @Override
             public Codec<?, ?> getObject(final Config<Codec<?, ?>> config) throws FactoryException {
                 return new FourBitByteCodec((int) config.values()[0]);
+            }
+        }, true);
+        registerProvider(CodecId.FIVE_BIT_BYTE_CODEC, new ConfiguredObjectProvider<Codec<?, ?>>() {
+            @Override
+            public Codec<?, ?> getObject(final Config<Codec<?, ?>> config) throws FactoryException {
+                return new FiveBitByteCodec((int) config.values()[0]);
             }
         }, true);
         registerProvider(CodecId.ZLIB_BYTE_CODEC, new ConfiguredObjectProvider<Codec<?, ?>>() {
