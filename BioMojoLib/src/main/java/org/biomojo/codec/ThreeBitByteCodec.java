@@ -28,11 +28,13 @@ import org.slf4j.LoggerFactory;
  * order. Three bytes are used for every eight symbols. (each symbol uses 3
  * bits)
  * 
- * byte--: -------0------- -------1------- -------2-------
+ * byte--: 00000000|11111111|22222222
  * 
- * bit---: 7 6 5 4 3 2 1 0 7 6 5 4 3 2 1 0 7 6 5 4 3 2 1 0
+ * bit---: 76543210|76543210|76543210
  * 
- * symbol: --0-- --1-- --2-- --3-- --4-- --5-- --6-- --7--
+ * symbol: 22111000|25444333|55777666
+ * 
+ * mask--: AA111000|BA444333|BB777666
  */
 public class ThreeBitByteCodec extends AbstractByteCodec {
 
@@ -43,32 +45,39 @@ public class ThreeBitByteCodec extends AbstractByteCodec {
     /** The Constant BITS_PER_SYMBOL. */
     private static final int BITS_PER_SYMBOL = 3;
 
+    private static final int SYMBOLS_PER_CHUNK = 8;
+
     /** The Constant NUM_SYMBOLS. */
     private static final int NUM_SYMBOLS = 1 << BITS_PER_SYMBOL;
 
-    private static final int MASK = 0x07;
+    private static final int MASK = 0b111;
 
-    private static final int SHIFT_0 = 5;
-    private static final int SHIFT_1 = 2;
-    private static final int SHIFT_2A = 1; // LSHIFT
+    private static final int SHIFT_0 = 0;
+    private static final int SHIFT_1 = 3;
+    private static final int SHIFT_2A = 5;
     private static final int SHIFT_2B = 7;
-    private static final int SHIFT_3 = 4;
-    private static final int SHIFT_4 = 1;
-    private static final int SHIFT_5A = 2; // LSHIFT
+    private static final int SHIFT_3 = 0;
+    private static final int SHIFT_4 = 3;
+    private static final int SHIFT_5A = 4;
     private static final int SHIFT_5B = 6;
-    private static final int SHIFT_6 = 3;
-    private static final int SHIFT_7 = 0;
+    private static final int SHIFT_6 = 0;
+    private static final int SHIFT_7 = 3;
 
-    private static final int MASK_0 = ~(MASK << SHIFT_0);
-    private static final int MASK_1 = ~(MASK << SHIFT_1);
-    private static final int MASK_2A = ~(MASK >> SHIFT_2A);
-    private static final int MASK_2B = ~(MASK << SHIFT_2B);
-    private static final int MASK_3 = ~(MASK << SHIFT_3);
-    private static final int MASK_4 = ~(MASK << SHIFT_4);
-    private static final int MASK_5A = ~(MASK >> SHIFT_5A);
-    private static final int MASK_5B = ~(MASK << SHIFT_5B);
-    private static final int MASK_6 = ~(MASK << SHIFT_6);
-    private static final int MASK_7 = ~(MASK << SHIFT_7);
+    private static final int MASK_2A = 0b110;
+    private static final int MASK_2B = 0b001;
+    private static final int MASK_5A = 0b100;
+    private static final int MASK_5B = 0b011;
+
+    private static final int CLEAR_MASK_0 = ~MASK;
+    private static final int CLEAR_MASK_1 = ~(MASK << SHIFT_1);
+    private static final int CLEAR_MASK_2A = ~(MASK_2A << SHIFT_2A);
+    private static final int CLEAR_MASK_2B = ~(MASK_2B << SHIFT_2B);
+    private static final int CLEAR_MASK_3 = ~MASK;
+    private static final int CLEAR_MASK_4 = ~(MASK << SHIFT_4);
+    private static final int CLEAR_MASK_5A = ~(MASK_5A << SHIFT_5A);
+    private static final int CLEAR_MASK_5B = ~(MASK_5B << SHIFT_5B);
+    private static final int CLEAR_MASK_6 = ~MASK;
+    private static final int CLEAR_MASK_7 = ~(MASK << SHIFT_7);
 
     /**
      * Instantiates a new three bit byte codec.
@@ -95,19 +104,27 @@ public class ThreeBitByteCodec extends AbstractByteCodec {
     @Override
     public byte[] decode(final ByteAlphabet alphabet, final byte[] encodedData, final int length) {
         final byte[] decodedData = new byte[length];
+        final int finalNumSymbols = length % SYMBOLS_PER_CHUNK;
+        final int endPos = length - finalNumSymbols;
         int decodedPos = 0;
         int encodedPos = 0;
-        int numDecodedBits = 0;
-        int decodedBits = 0;
-        while (decodedPos < length) {
-            if (numDecodedBits < BITS_PER_SYMBOL) {
-                decodedBits = (decodedBits << Byte.SIZE) | (encodedData[encodedPos++] & 0xff);
-                numDecodedBits += Byte.SIZE;
-            }
-            numDecodedBits = numDecodedBits - BITS_PER_SYMBOL;
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal((decodedBits >> numDecodedBits) & MASK);
-
+        while (decodedPos < endPos) {
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] & MASK);
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] >>> SHIFT_1 & MASK);
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(
+                    encodedData[encodedPos++] >>> SHIFT_2A & MASK_2A | encodedData[encodedPos] >>> 31);
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] & MASK);
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] >>> SHIFT_4 & MASK);
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(
+                    encodedData[encodedPos++] >>> SHIFT_5A & MASK_5A | encodedData[encodedPos] >>> SHIFT_5B & MASK_5B);
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] & MASK);
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos++] >>> SHIFT_7 & MASK);
         }
+        while (decodedPos < length) {
+            decodedData[decodedPos] = decode(alphabet, encodedData, length, decodedPos);
+            decodedPos++;
+        }
+
         return decodedData;
     }
 
@@ -129,36 +146,34 @@ public class ThreeBitByteCodec extends AbstractByteCodec {
     public byte decode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final int pos) {
         int ordinal = 0;
 
-        int start = pos / NUM_SYMBOLS * BITS_PER_SYMBOL;
-        switch (pos % NUM_SYMBOLS) {
+        final int start = pos / SYMBOLS_PER_CHUNK * BITS_PER_SYMBOL;
+        switch (pos % SYMBOLS_PER_CHUNK) {
         case 0:
-            ordinal = encodedData[start] >>> SHIFT_0 & MASK;
+            ordinal = encodedData[start] & MASK;
             break;
         case 1:
             ordinal = encodedData[start] >>> SHIFT_1 & MASK;
             break;
         case 2:
-            ordinal = encodedData[start] << SHIFT_2A & MASK | encodedData[start + 1] >>> 31;
+            ordinal = encodedData[start] >>> SHIFT_2A & MASK_2A | encodedData[start + 1] >>> 31;
             break;
         case 3:
-            ordinal = encodedData[start + 1] >>> SHIFT_3 & MASK;
+            ordinal = encodedData[start + 1] & MASK;
             break;
         case 4:
             ordinal = encodedData[start + 1] >>> SHIFT_4 & MASK;
             break;
         case 5:
-            ordinal = (encodedData[start + 1] & 1) << SHIFT_5A | ((encodedData[start + 2] & 0xff) >> SHIFT_5B);
+            ordinal = encodedData[start + 1] >>> SHIFT_5A & MASK_5A | encodedData[start + 2] >>> SHIFT_5B & MASK_5B;
             break;
         case 6:
-            ordinal = encodedData[start + 2] >>> SHIFT_6 & MASK;
+            ordinal = encodedData[start + 2] & MASK;
             break;
         case 7:
             ordinal = encodedData[start + 2] >>> SHIFT_7 & MASK;
             break;
 
         }
-        // logger.debug("ordinal = {}", ordinal);
-        // logger.debug("====================================================");
 
         return alphabet.getByteSymbolForOrdinal(ordinal);
     }
@@ -182,22 +197,34 @@ public class ThreeBitByteCodec extends AbstractByteCodec {
             final byte[] decodedData) {
         // TODO Handle overflow
         final byte[] encodedData = new byte[((length * BITS_PER_SYMBOL - 1) / Byte.SIZE) + 1];
+        final int finalNumSymbols = length % SYMBOLS_PER_CHUNK;
+        final int endPos = length - finalNumSymbols;
         int decodedPos = 0;
         int encodedPos = 0;
-        int numEncodedBits = 0;
-        int encodedBits = 0;
-        while (decodedPos < length) {
-            encodedBits = encodedBits << BITS_PER_SYMBOL;
-            encodedBits = encodedBits | alphabet.getOrdinalForSymbol(decodedData[decodedPos++]);
-            numEncodedBits += BITS_PER_SYMBOL;
-            if (numEncodedBits >= Byte.SIZE) {
-                numEncodedBits -= Byte.SIZE;
-                encodedData[encodedPos++] = (byte) ((encodedBits >> numEncodedBits) & 0xff);
-            }
+        int encodedByte = 0;
+
+        // encode three byte chunks
+        while (decodedPos < endPos) {
+            encodedByte = alphabet.getOrdinalForSymbol(decodedData[decodedPos++]);
+            encodedByte = encodedByte | (alphabet.getOrdinalForSymbol(decodedData[decodedPos++]) << SHIFT_1);
+            encodedByte = encodedByte | ((alphabet.getOrdinalForSymbol(decodedData[decodedPos]) & MASK_2A) << SHIFT_2A);
+            encodedData[encodedPos++] = (byte) encodedByte;
+
+            encodedByte = alphabet.getOrdinalForSymbol(decodedData[decodedPos++]) << SHIFT_2B;
+            encodedByte = encodedByte | alphabet.getOrdinalForSymbol(decodedData[decodedPos++]);
+            encodedByte = encodedByte | (alphabet.getOrdinalForSymbol(decodedData[decodedPos++]) << SHIFT_4);
+            encodedByte = encodedByte | (alphabet.getOrdinalForSymbol(decodedData[decodedPos]) & MASK_5A) << SHIFT_5A;
+            encodedData[encodedPos++] = (byte) encodedByte;
+
+            encodedByte = alphabet.getOrdinalForSymbol(decodedData[decodedPos++]) << SHIFT_5B;
+            encodedByte = encodedByte | alphabet.getOrdinalForSymbol(decodedData[decodedPos++]);
+            encodedByte = encodedByte | (alphabet.getOrdinalForSymbol(decodedData[decodedPos++]) << SHIFT_7);
+            encodedData[encodedPos++] = (byte) encodedByte;
         }
-        if (numEncodedBits > 0) {
-            encodedBits = encodedBits << (8 - numEncodedBits);
-            encodedData[encodedPos++] = (byte) (encodedBits & 0xff);
+
+        while (decodedPos < length) {
+            encode(alphabet, encodedData, length, decodedData[decodedPos], decodedPos);
+            ++decodedPos;
         }
         return encodedData;
 
@@ -222,33 +249,33 @@ public class ThreeBitByteCodec extends AbstractByteCodec {
     public void encode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final byte symbol,
             final int pos) {
         int ordinal = alphabet.getOrdinalForSymbol(symbol);
-        int start = pos / NUM_SYMBOLS * BITS_PER_SYMBOL;
-        switch (pos % NUM_SYMBOLS) {
+        int start = pos / SYMBOLS_PER_CHUNK * BITS_PER_SYMBOL;
+        switch (pos % SYMBOLS_PER_CHUNK) {
         case 0:
-            encodedData[start] = (byte) (encodedData[start] & MASK_0 | ordinal << SHIFT_0);
+            encodedData[start] = (byte) (encodedData[start] & CLEAR_MASK_0 | ordinal);
             break;
         case 1:
-            encodedData[start] = (byte) (encodedData[start] & MASK_1 | ordinal << SHIFT_1);
+            encodedData[start] = (byte) (encodedData[start] & CLEAR_MASK_1 | ordinal << SHIFT_1);
             break;
         case 2:
-            encodedData[start] = (byte) (encodedData[start] & MASK_2A | ordinal >> SHIFT_2A);
-            encodedData[start + 1] = (byte) (encodedData[start + 1] & MASK_2B | (ordinal << SHIFT_2B));
+            encodedData[start] = (byte) (encodedData[start] & CLEAR_MASK_2A | (ordinal & MASK_2A) << SHIFT_2A);
+            encodedData[start + 1] = (byte) (encodedData[start + 1] & CLEAR_MASK_2B | ordinal << SHIFT_2B);
             break;
         case 3:
-            encodedData[start + 1] = (byte) (encodedData[start + 1] & MASK_3 | ordinal << SHIFT_3);
+            encodedData[start + 1] = (byte) (encodedData[start + 1] & CLEAR_MASK_3 | ordinal);
             break;
         case 4:
-            encodedData[start + 1] = (byte) (encodedData[start + 1] & MASK_4 | ordinal << SHIFT_4);
+            encodedData[start + 1] = (byte) (encodedData[start + 1] & CLEAR_MASK_4 | ordinal << SHIFT_4);
             break;
         case 5:
-            encodedData[start + 1] = (byte) (encodedData[start + 1] & MASK_5A | ordinal >> SHIFT_5A);
-            encodedData[start + 2] = (byte) (encodedData[start + 2] & MASK_5B | ordinal << SHIFT_5B);
+            encodedData[start + 1] = (byte) (encodedData[start + 1] & CLEAR_MASK_5A | (ordinal & MASK_5A) << SHIFT_5A);
+            encodedData[start + 2] = (byte) (encodedData[start + 2] & CLEAR_MASK_5B | ordinal << SHIFT_5B);
             break;
         case 6:
-            encodedData[start + 2] = (byte) (encodedData[start + 2] & MASK_6 | ordinal << SHIFT_6);
+            encodedData[start + 2] = (byte) (encodedData[start + 2] & CLEAR_MASK_6 | ordinal);
             break;
         case 7:
-            encodedData[start + 2] = (byte) (encodedData[start + 2] & MASK_7 | ordinal);
+            encodedData[start + 2] = (byte) (encodedData[start + 2] & CLEAR_MASK_7 | ordinal << SHIFT_7);
             break;
 
         }

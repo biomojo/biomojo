@@ -50,11 +50,12 @@ public class FourBitByteCodec extends AbstractByteCodec {
     /** The Constant NUM_SYMBOLS. */
     private static final int NUM_SYMBOLS = 1 << BITS_PER_SYMBOL;
 
-    /** The Constant MASK_0. */
-    private static final int MASK_0 = 0xF0;
+    /** The Constant MASK. */
+    private static final int MASK = 0x0F;
 
-    /** The Constant MASK_1. */
-    private static final int MASK_1 = 0x0F;
+    /** The Constant MASK_0. */
+    private static final int CLEAR_MASK_0 = ~(MASK << BITS_PER_SYMBOL);
+    private static final int CLEAR_MASK_1 = ~MASK;
 
     /**
      * Decode.
@@ -77,13 +78,13 @@ public class FourBitByteCodec extends AbstractByteCodec {
         // decode full bytes
         while (decodedPos < endPos) {
             final int encodedByte = encodedData[encodedPos++];
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedByte >> BITS_PER_SYMBOL & MASK_1);
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedByte & MASK_1);
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedByte >> BITS_PER_SYMBOL & MASK);
+            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedByte & MASK);
         }
         // decode partial byte at the end (if any)
         if (decodedPos < length) {
             decodedData[decodedPos] = alphabet
-                    .getByteSymbolForOrdinal(encodedData[encodedPos] >> BITS_PER_SYMBOL & MASK_1);
+                    .getByteSymbolForOrdinal(encodedData[encodedPos] >> BITS_PER_SYMBOL & MASK);
         }
         return decodedData;
     }
@@ -106,9 +107,9 @@ public class FourBitByteCodec extends AbstractByteCodec {
     public byte decode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final int pos) {
         final int bytePos = pos / SYMBOLS_PER_BYTE;
         if (pos % SYMBOLS_PER_BYTE == 0) {
-            return alphabet.getByteSymbolForOrdinal(encodedData[bytePos] >> BITS_PER_SYMBOL & MASK_1);
+            return alphabet.getByteSymbolForOrdinal(encodedData[bytePos] >> BITS_PER_SYMBOL & MASK);
         } else {
-            return alphabet.getByteSymbolForOrdinal(encodedData[bytePos] & MASK_1);
+            return alphabet.getByteSymbolForOrdinal(encodedData[bytePos] & MASK);
         }
     }
 
@@ -167,10 +168,11 @@ public class FourBitByteCodec extends AbstractByteCodec {
             final int pos) {
         final int bytePos = pos / SYMBOLS_PER_BYTE;
         if (pos % SYMBOLS_PER_BYTE == 0) {
-            encodedData[bytePos] = (byte) (encodedData[bytePos] & ~MASK_0
+            encodedData[bytePos] = (byte) (encodedData[bytePos] & CLEAR_MASK_0
                     | (alphabet.getOrdinalForSymbol(symbol) << BITS_PER_SYMBOL));
         } else {
-            encodedData[bytePos] = (byte) (encodedData[bytePos] & ~MASK_1 | (alphabet.getOrdinalForSymbol(symbol)));
+            encodedData[bytePos] = (byte) (encodedData[bytePos] & CLEAR_MASK_1
+                    | (alphabet.getOrdinalForSymbol(symbol)));
         }
     }
 
