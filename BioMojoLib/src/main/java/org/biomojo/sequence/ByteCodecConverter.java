@@ -19,7 +19,7 @@ package org.biomojo.sequence;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import org.biomojo.codec.ByteCodec;
+import org.biomojo.codec.ByteByteCodec;
 import org.biomojo.codec.Codecs;
 
 // TODO: Auto-generated Javadoc
@@ -29,13 +29,13 @@ import org.biomojo.codec.Codecs;
  * @author Hugh Eaves
  */
 @Converter(autoApply = true)
-public class ByteCodecConverter implements AttributeConverter<ByteCodec, Integer> {
+public class ByteCodecConverter implements AttributeConverter<ByteByteCodec, Integer> {
     
     /* (non-Javadoc)
      * @see javax.persistence.AttributeConverter#convertToDatabaseColumn(java.lang.Object)
      */
     @Override
-    public Integer convertToDatabaseColumn(ByteCodec codec) {
+    public Integer convertToDatabaseColumn(ByteByteCodec codec) {
         return (int) codec.getId();
     }
 
@@ -43,8 +43,8 @@ public class ByteCodecConverter implements AttributeConverter<ByteCodec, Integer
      * @see javax.persistence.AttributeConverter#convertToEntityAttribute(java.lang.Object)
      */
     @Override
-    public ByteCodec convertToEntityAttribute(Integer codecId) {
-        return Codecs.getCodec(codecId, ByteCodec.class);
+    public ByteByteCodec convertToEntityAttribute(Integer codecId) {
+        return Codecs.getCodec(codecId, ByteByteCodec.class);
     }
 
 }

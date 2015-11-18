@@ -24,7 +24,7 @@ import org.biomojo.alphabet.ByteAlphabet;
  *
  * @author Hugh Eaves
  */
-public interface StatefulByteCodec extends StatefulCodec, ByteCodec {
+public interface StatefulByteCodec extends StatefulCodec, ByteByteCodec {
     
     /**
      * Gets the encoded data.

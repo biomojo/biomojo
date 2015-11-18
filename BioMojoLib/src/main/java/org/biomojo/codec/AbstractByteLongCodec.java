@@ -26,70 +26,84 @@ import org.slf4j.LoggerFactory;
  *
  * @author Hugh Eaves
  */
-public abstract class AbstractByteCodec extends AbstractCodec<Byte, Byte> implements ByteCodec {
-    
+public abstract class AbstractByteLongCodec extends AbstractCodec<Byte, Long> implements ByteLongCodec {
+
     /** The Constant logger. */
     @SuppressWarnings("unused")
-    private static final Logger logger = LoggerFactory.getLogger(AbstractByteCodec.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(AbstractByteLongCodec.class.getName());
 
     /**
      * Create a new AbstractByteCodec.
      *
-     * @param codecId the codec id
+     * @param codecId
+     *            the codec id
      */
-    public AbstractByteCodec(int codecId) {
+    public AbstractByteLongCodec(int codecId) {
         super(codecId);
     }
 
     /**
      * Decode all the data in the sequence.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
      * @return the d[]
      */
     @Override
-    public Byte[] decode(Alphabet<Byte> alphabet, byte[] encodedData, int length) {
+    public Byte[] decode(Alphabet<Byte> alphabet, long[] encodedData, int length) {
         throw new UnsupportedOperationException();
     }
 
     /**
      * Decode a single position in the sequence.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param pos the pos
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
+     * @param pos
+     *            the pos
      * @return the byte
      */
     @Override
-    public Byte decode(Alphabet<Byte> alphabet, byte[] encodedData, int length, int pos) {
+    public Byte decode(Alphabet<Byte> alphabet, long[] encodedData, int length, int pos) {
         throw new UnsupportedOperationException();
     }
 
     /**
      * Encode a single value, replacing the value at the given position.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param symbol the symbol
-     * @param pos the pos
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param symbol
+     *            the symbol
+     * @param pos
+     *            the pos
      */
     @Override
-    public void encode(Alphabet<Byte> alphabet, byte[] encodedData, Byte symbol, int pos) {
+    public void encode(Alphabet<Byte> alphabet, long[] encodedData, Byte symbol, int pos) {
         throw new UnsupportedOperationException();
     }
 
     /**
      * Encode all the data into the sequence, replacing any existing data.
      *
-     * @param alphabet the alphabet
-     * @param decodedData the decoded data
+     * @param alphabet
+     *            the alphabet
+     * @param decodedData
+     *            the decoded data
      * @return the byte[]
      */
     @Override
-    public byte[] encode(Alphabet<Byte> alphabet, Byte[] decodedData) {
+    public long[] encode(Alphabet<Byte> alphabet, Byte[] decodedData) {
         throw new UnsupportedOperationException();
     }
 }

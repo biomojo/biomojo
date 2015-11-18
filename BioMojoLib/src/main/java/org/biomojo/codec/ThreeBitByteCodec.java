@@ -36,7 +36,7 @@ import org.slf4j.LoggerFactory;
  * 
  * mask--: AA111000|BA444333|BB777666
  */
-public class ThreeBitByteCodec extends AbstractByteCodec {
+public class ThreeBitByteCodec extends AbstractByteByteCodec {
 
     /** The Constant logger. */
     @SuppressWarnings("unused")

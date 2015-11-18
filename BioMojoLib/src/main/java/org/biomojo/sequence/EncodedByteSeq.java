@@ -20,7 +20,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import org.biomojo.alphabet.ByteAlphabet;
-import org.biomojo.codec.ByteCodec;
+import org.biomojo.codec.ByteByteCodec;
 import org.biomojo.codec.CodecId;
 import org.biomojo.codec.Codecs;
 
@@ -39,7 +39,7 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends ByteSeqImpl<A> {
     private static final long serialVersionUID = 1L;
 
     /** The codec. */
-    protected ByteCodec codec;
+    protected ByteByteCodec codec;
 
     /**
      * Instantiates a new encoded byte seq.
@@ -67,7 +67,7 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends ByteSeqImpl<A> {
      * @param alphabet the alphabet
      * @param codec the codec
      */
-    public EncodedByteSeq(final byte[] data, final A alphabet, final ByteCodec codec) {
+    public EncodedByteSeq(final byte[] data, final A alphabet, final ByteByteCodec codec) {
         super(data, alphabet);
         setCodec(codec);
     }
@@ -98,7 +98,7 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends ByteSeqImpl<A> {
      * @param alphabet the alphabet
      * @param codec the codec
      */
-    public EncodedByteSeq(final A alphabet, final ByteCodec codec) {
+    public EncodedByteSeq(final A alphabet, final ByteByteCodec codec) {
         super(alphabet);
         setCodec(codec);
     }
@@ -145,7 +145,7 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends ByteSeqImpl<A> {
      *
      * @return the codec
      */
-    public ByteCodec getCodec() {
+    public ByteByteCodec getCodec() {
         return codec;
     }
 
@@ -154,7 +154,7 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends ByteSeqImpl<A> {
      *
      * @param codec            the codec to set
      */
-    public void setCodec(final ByteCodec codec) {
+    public void setCodec(final ByteByteCodec codec) {
         if (codec.supportsAlphabet(getAlphabet())) {
             this.codec = codec;
         } else {

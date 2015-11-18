@@ -26,6 +26,7 @@ import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.IUPACAlphabetVariant;
+import org.java0.util.timing.Stopwatch;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +59,58 @@ public class CodecTest {
     @Test
     public void testTwoBit() {
         testCodec(CodecId.TWO_BIT_BYTE_CODEC, AlphabetId.DNA);
+    }
+
+    @Test
+    public void testTwoBitPerf() {
+        final ByteAlphabet alphabet = Alphabets.getAlphabet(AlphabetId.DNA, ByteAlphabet.class);
+        final ByteByteCodec codec = Codecs.getCodec(CodecId.TWO_BIT_BYTE_CODEC, ByteByteCodec.class);
+        int NUM_SEQS = 1000;
+        int SEQ_LEN = 1000;
+        final byte[][] seq = new byte[NUM_SEQS][];
+        for (int i = 0; i < NUM_SEQS; ++i) {
+            final int length = random.nextInt(SEQ_LEN);
+            seq[i] = new byte[length];
+            for (int j = 0; j < length; ++j) {
+                seq[i][j] = alphabet.getByteSymbolForOrdinal(random.nextInt(alphabet.numSymbols()));
+            }
+        }
+        byte[] encoded = null;
+        Stopwatch sw = new Stopwatch();
+        sw.start();
+        for (int h = 0; h < 10; ++h) {
+            for (int i = 0; i < NUM_SEQS; ++i) {
+                encoded = codec.encode(alphabet, encoded, seq[i].length, seq[i]);
+                final byte[] decoded = codec.decode(alphabet, encoded, seq[i].length);
+            }
+        }
+        sw.stop();
+    }
+
+    @Test
+    public void testThreeBitPerf() {
+        final ByteAlphabet alphabet = Alphabets.getAlphabet(AlphabetId.DNA | IUPACAlphabetVariant.WITH_NON_CANONICAL,
+                ByteAlphabet.class);
+        final ByteByteCodec codec = Codecs.getCodec(CodecId.THREE_BIT_BYTE_CODEC, ByteByteCodec.class);
+        int NUM_SEQS = 1000;
+        int SEQ_LEN = 1000;
+        final byte[][] seq = new byte[NUM_SEQS][];
+        for (int i = 0; i < NUM_SEQS; ++i) {
+            final int length = random.nextInt(SEQ_LEN);
+            seq[i] = new byte[length];
+            for (int j = 0; j < length; ++j) {
+                seq[i][j] = alphabet.getByteSymbolForOrdinal(random.nextInt(alphabet.numSymbols()));
+            }
+        }
+        Stopwatch sw = new Stopwatch();
+        sw.start();
+        for (int h = 0; h < 10; ++h) {
+            for (int i = 0; i < NUM_SEQS; ++i) {
+                final byte[] encoded = codec.encode(alphabet, null, seq[i].length, seq[i]);
+                final byte[] decoded = codec.decode(alphabet, encoded, seq[i].length);
+            }
+        }
+        sw.stop();
     }
 
     /**
@@ -117,7 +170,7 @@ public class CodecTest {
      */
     public void runTest(final int codecId, final int alphabetId) {
         final ByteAlphabet alphabet = Alphabets.getAlphabet(alphabetId, ByteAlphabet.class);
-        final ByteCodec codec = Codecs.getCodec(codecId, ByteCodec.class);
+        final ByteByteCodec codec = Codecs.getCodec(codecId, ByteByteCodec.class);
         if (!codec.supportsAlphabet(alphabet)) {
 
         }

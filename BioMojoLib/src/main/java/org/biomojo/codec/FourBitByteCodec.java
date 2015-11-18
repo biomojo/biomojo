@@ -25,7 +25,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class FourBitByteCodec.
  */
-public class FourBitByteCodec extends AbstractByteCodec {
+public class FourBitByteCodec extends AbstractByteByteCodec {
 
     /** The Constant logger. */
     @SuppressWarnings("unused")

@@ -5,8 +5,6 @@ import org.biomojo.alphabet.ByteAlphabet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// WORKING ??????
-
 /**
  * The Class FiveBitByteCodec.
  * 
@@ -22,7 +20,7 @@ import org.slf4j.LoggerFactory;
  * mask--: AAA00000|BBA22222|AAAABBBB|BAA55555|BBB77777
  */
 
-public class FiveBitByteCodec extends AbstractByteCodec {
+public class FiveBitByteCodec extends AbstractByteByteCodec {
 
     /** The Constant logger. */
     @SuppressWarnings("unused")

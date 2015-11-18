@@ -24,7 +24,7 @@ import org.biomojo.alphabet.ByteAlphabet;
 /**
  * The Class NullByteCodec.
  */
-public class NullByteCodec extends AbstractByteCodec implements ByteCodec {
+public class NullByteCodec extends AbstractByteByteCodec implements ByteByteCodec {
     
     /**
      * Instantiates a new null byte codec.

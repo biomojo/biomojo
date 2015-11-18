@@ -5,7 +5,7 @@ import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.IUPACAlphabet;
 import org.biomojo.alphabet.InvalidSymbolException;
 import org.biomojo.alphabet.NucleotideAlphabet;
-import org.biomojo.codec.ByteCodec;
+import org.biomojo.codec.ByteByteCodec;
 import org.biomojo.codec.CodecId;
 import org.biomojo.codec.Codecs;
 import org.junit.Test;
@@ -27,7 +27,7 @@ public class SequenceTest {
     public void testValidation() {
         final EncodedByteSeq<IUPACAlphabet> seq = new EncodedByteSeq<>(
                 Alphabets.getAlphabet(AlphabetId.DNA, NucleotideAlphabet.class),
-                Codecs.getCodec(CodecId.TWO_BIT_BYTE_CODEC, ByteCodec.class));
+                Codecs.getCodec(CodecId.TWO_BIT_BYTE_CODEC, ByteByteCodec.class));
         seq.setAll("N".getBytes());
     }
 

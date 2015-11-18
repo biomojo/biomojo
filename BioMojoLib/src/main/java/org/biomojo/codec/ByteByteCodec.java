@@ -22,7 +22,7 @@ import org.biomojo.alphabet.ByteAlphabet;
 /**
  * The Interface ByteCodec.
  */
-public interface ByteCodec extends ObjectByteCodec<Byte> {
+public interface ByteByteCodec extends ObjectByteCodec<Byte> {
 
     /**
      * Decode all the data in the sequence.

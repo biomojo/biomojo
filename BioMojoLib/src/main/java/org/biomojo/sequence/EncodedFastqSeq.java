@@ -24,7 +24,7 @@ import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.NucleotideAlphabet;
 import org.biomojo.alphabet.QualityScoreAlphabet;
-import org.biomojo.codec.ByteCodec;
+import org.biomojo.codec.ByteByteCodec;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -61,7 +61,7 @@ public class EncodedFastqSeq<A extends NucleotideAlphabet> extends EncodedByteSe
      * @param alphabet the alphabet
      * @param codec the codec
      */
-    public EncodedFastqSeq(final byte[] data, final A alphabet, final ByteCodec codec) {
+    public EncodedFastqSeq(final byte[] data, final A alphabet, final ByteByteCodec codec) {
         super(data, alphabet, codec);
         seq = new ByteSeqImpl<QualityScoreAlphabet>(
                 Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScoreAlphabet.class));
@@ -99,7 +99,7 @@ public class EncodedFastqSeq<A extends NucleotideAlphabet> extends EncodedByteSe
      * @param alphabet the alphabet
      * @param codec the codec
      */
-    public EncodedFastqSeq(final A alphabet, final ByteCodec codec) {
+    public EncodedFastqSeq(final A alphabet, final ByteByteCodec codec) {
         super(alphabet, codec);
         seq = new ByteSeqImpl<QualityScoreAlphabet>(
                 Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScoreAlphabet.class));

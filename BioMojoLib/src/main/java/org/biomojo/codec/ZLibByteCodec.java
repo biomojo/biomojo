@@ -31,7 +31,7 @@ import com.jcraft.jzlib.InflaterInputStream;
 /**
  * The Class ZLibByteCodec.
  */
-public class ZLibByteCodec extends AbstractByteCodec implements StatefulByteCodec {
+public class ZLibByteCodec extends AbstractByteByteCodec implements StatefulByteCodec {
 
     /** The uncompressed data cache. */
     private transient volatile byte[] uncompressedDataCache;
