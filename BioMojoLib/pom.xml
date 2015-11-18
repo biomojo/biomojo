@@ -56,6 +56,11 @@
 			<version>${java0.version}</version>
 		</dependency>
 		<dependency>
+            <groupId>org.java0</groupId>
+            <artifactId>java0-util</artifactId>
+            <version>${java0.version}</version>
+        </dependency>
+		<dependency>
 			<groupId>org.java0</groupId>
 			<artifactId>java0-test</artifactId>
 			<version>${java0.version}</version>
