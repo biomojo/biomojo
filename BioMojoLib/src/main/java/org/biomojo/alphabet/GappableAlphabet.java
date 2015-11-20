@@ -21,11 +21,13 @@ package org.biomojo.alphabet;
  * Interface for alphabets supporting gap symbols. *
  *
  * @author Hugh Eaves
- * @param <T>            the type of values in the alphabet
- * @param <A>            the type of alphabet returned when a gapped alphabet is requested
+ * @param <T>
+ *            the type of values in the alphabet
+ * @param <A>
+ *            the type of alphabet returned when a gapped alphabet is requested
  */
-public interface GappableAlphabet<T, A extends Alphabet<T>> extends Alphabet<T> {
-    
+public interface GappableAlphabet<T> extends Alphabet<T> {
+
     /**
      * Supports gaps.
      *
@@ -38,7 +40,8 @@ public interface GappableAlphabet<T, A extends Alphabet<T>> extends Alphabet<T> 
      *
      * @return the gapped
      */
-    public A getGapped();
+    // public <Z extends A> Z getGapped();
+    public GappableAlphabet<T> getGapped();
 
     /**
      * Gap symbol.

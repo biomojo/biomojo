@@ -22,24 +22,29 @@ import org.biomojo.alphabet.GappableByteAlphabet;
 /**
  * The Class SmithWatermanAligner.
  *
- * @param <A> the generic type
+ * @param <A>
+ *            the generic type
  */
-public class SmithWatermanAligner<A extends GappableByteAlphabet<A>> extends AbstractByteSeqAligner<A> {
-    
+public class SmithWatermanAligner<A extends GappableByteAlphabet> extends AbstractByteSeqAligner<A> {
+
     /** The max score. */
     private int maxScore;
 
     /**
      * Instantiates a new smith waterman aligner.
      *
-     * @param matrix the matrix
-     * @param gapPenalty the gap penalty
+     * @param matrix
+     *            the matrix
+     * @param gapPenalty
+     *            the gap penalty
      */
     public SmithWatermanAligner(final ByteSubstitutionMatrix matrix, final int gapPenalty) {
         super(matrix, gapPenalty);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.alignment.AbstractByteSeqAligner#initScoreMatrix()
      */
     @Override
@@ -57,8 +62,10 @@ public class SmithWatermanAligner<A extends GappableByteAlphabet<A>> extends Abs
     /**
      * Calc cell score2.
      *
-     * @param seq1Pos the seq1 pos
-     * @param seq2Pos the seq2 pos
+     * @param seq1Pos
+     *            the seq1 pos
+     * @param seq2Pos
+     *            the seq2 pos
      * @return the int
      */
     protected int calcCellScore2(final int seq1Pos, final int seq2Pos) {

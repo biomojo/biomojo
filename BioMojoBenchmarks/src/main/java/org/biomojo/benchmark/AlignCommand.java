@@ -31,7 +31,7 @@ import org.biomojo.alignment.NeedlemanWunschAligner;
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.ByteAlphabet;
-import org.biomojo.alphabet.IUPACAlphabet;
+import org.biomojo.alphabet.NucleotideAlphabet;
 import org.biomojo.io.fastx.FastaInputStream;
 import org.biomojo.sequence.ByteSeq;
 import org.java0.core.exception.UncheckedException;
@@ -57,13 +57,13 @@ public class AlignCommand extends BaseCommand {
             logger.info("BioMojo alignment benchmark");
 
             final FastaInputStream inputStream = new FastaInputStream(new FileInputStream(inputFile));
-            final List<ByteSeq<IUPACAlphabet>> sequences = new ArrayList<>();
+            final List<ByteSeq<NucleotideAlphabet>> sequences = new ArrayList<>();
 
-            Supplier<ByteSeq<IUPACAlphabet>> provider = new ByteSeqProvider();
+            Supplier<ByteSeq<NucleotideAlphabet>> provider = new ByteSeqProvider();
             if (encode) {
                 provider = new EncodedByteSeqProvider();
             }
-            ByteSeq<IUPACAlphabet> sequence = provider.get();
+            ByteSeq<NucleotideAlphabet> sequence = provider.get();
             while (inputStream.read(sequence)) {
                 logger.info("Read sequence" + sequence.getDescription());
                 sequences.add(sequence);
@@ -80,15 +80,16 @@ public class AlignCommand extends BaseCommand {
             final ByteSubstitutionMatrix matrix = new MatchMismatchByteSubstitutionMatrix(
                     Alphabets.getAlphabet(AlphabetId.NUCLEOTIDE, ByteAlphabet.class), 1, -1);
 
-            final Aligner<ByteSeq<IUPACAlphabet>> aligner = new NeedlemanWunschAligner<IUPACAlphabet>(matrix, -2);
-            final List<ByteSeq<IUPACAlphabet>> seqList = new ArrayList<ByteSeq<IUPACAlphabet>>();
+            final Aligner<ByteSeq<NucleotideAlphabet>> aligner = new NeedlemanWunschAligner<NucleotideAlphabet>(matrix,
+                    -2);
+            final List<ByteSeq<NucleotideAlphabet>> seqList = new ArrayList<ByteSeq<NucleotideAlphabet>>();
             for (int i = 0; i < numSeqs; ++i) {
                 for (int j = 0; j < i; ++j) {
                     seqList.clear();
                     seqList.add(sequences.get(i));
                     seqList.add(sequences.get(j));
                     logger.debug("Aligning {} and {}", i, j);
-                    final Alignment<ByteSeq<IUPACAlphabet>> alignment = aligner.align(seqList);
+                    final Alignment<ByteSeq<NucleotideAlphabet>> alignment = aligner.align(seqList);
                     System.out.print(alignment.getScore() + "\t");
                 }
                 System.out.println();

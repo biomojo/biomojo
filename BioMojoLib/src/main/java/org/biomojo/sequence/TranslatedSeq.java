@@ -31,7 +31,7 @@ import org.biomojo.codon.CodonTables;
  * @author Hugh Eaves
  */
 public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
-    
+
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
@@ -52,9 +52,10 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
     /**
      * Create a new TranslatedSeq.
      *
-     * @param sequence the sequence
+     * @param sequence
+     *            the sequence
      */
-    public TranslatedSeq(final ByteSeqImpl<NucleotideAlphabet> sequence) {
+    public TranslatedSeq(final ByteSeq<NucleotideAlphabet> sequence) {
         this();
         this.seq = sequence;
     }
@@ -62,16 +63,20 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
     /**
      * Create a new TranslatedSeq.
      *
-     * @param sequence the sequence
-     * @param alphabet the alphabet
+     * @param sequence
+     *            the sequence
+     * @param alphabet
+     *            the alphabet
      */
-    public TranslatedSeq(final ByteSeqImpl<NucleotideAlphabet> sequence, final AminoAcidAlphabet alphabet) {
+    public TranslatedSeq(final ByteSeq<NucleotideAlphabet> sequence, final AminoAcidAlphabet alphabet) {
         super(alphabet);
         codonTable = CodonTables.getCodonTable(CodonTableId.STANDARD);
         this.seq = sequence;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.sequence.ByteSeq#setAll(byte[])
      */
     @Override
@@ -79,7 +84,9 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
         setAll(sequence, true);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.sequence.ByteSeq#getAllBytes()
      */
     @Override
@@ -93,7 +100,9 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
         return aminoAcids;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.sequence.ByteSeq#getValue(int)
      */
     @Override
@@ -102,7 +111,9 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
                 seq.getValue(index * 3 + 2));
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.sequence.ByteSeq#setAll(byte[], boolean)
      */
     @Override
@@ -110,7 +121,9 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.sequence.ByteSeq#setValue(byte, int)
      */
     @Override
@@ -118,7 +131,9 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.sequence.Seq#size()
      */
     @Override
@@ -126,7 +141,9 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
         return seq.size() / 3;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.core.Described#getDescription()
      */
     @Override
@@ -134,7 +151,9 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
         return seq.getDescription();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.core.Described#setDescription(java.lang.CharSequence)
      */
     @Override
@@ -142,7 +161,9 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
         seq.setDescription(description);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.sequence.Seq#canonicalize()
      */
     @Override
@@ -150,7 +171,9 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
         seq.canonicalize();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.sequence.ByteSeq#replace(byte[], int, int, int)
      */
     @Override
@@ -158,7 +181,9 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.sequence.Seq#setAlphabet(org.biomojo.alphabet.Alphabet)
      */
     @Override
@@ -166,7 +191,9 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
         throw new UnsupportedOperationException();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.sequence.ByteSeq#append(byte)
      */
     @Override

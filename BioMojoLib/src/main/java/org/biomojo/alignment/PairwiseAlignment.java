@@ -17,8 +17,8 @@
 package org.biomojo.alignment;
 
 import org.biomojo.alphabet.GappableAlphabet;
-import org.biomojo.sequence.SeqArrayList;
 import org.biomojo.sequence.Seq;
+import org.biomojo.sequence.SeqArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,11 +27,12 @@ import org.slf4j.LoggerFactory;
  * The Class PairwiseAlignment.
  *
  * @author Hugh Eaves
- * @param <T> the generic type
+ * @param <T>
+ *            the generic type
  */
-public class PairwiseAlignment<T extends Seq<?, ? extends GappableAlphabet<?, ?>>> extends SeqArrayList<T>
+public class PairwiseAlignment<T extends Seq<?, ? extends GappableAlphabet<?>>> extends SeqArrayList<T>
         implements Alignment<T> {
-    
+
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
@@ -42,7 +43,9 @@ public class PairwiseAlignment<T extends Seq<?, ? extends GappableAlphabet<?, ?>
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(PairwiseAlignment.class.getName());
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.alignment.Alignment#getScore()
      */
     @Override
@@ -53,7 +56,8 @@ public class PairwiseAlignment<T extends Seq<?, ? extends GappableAlphabet<?, ?>
     /**
      * Sets the score.
      *
-     * @param score the new score
+     * @param score
+     *            the new score
      */
     public void setScore(final int score) {
         setProp(SCORE, score);

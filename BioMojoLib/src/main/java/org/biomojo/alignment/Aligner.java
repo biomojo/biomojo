@@ -26,14 +26,16 @@ import org.biomojo.sequence.Seq;
  * The Interface Aligner.
  *
  * @author Hugh Eaves
- * @param <T> the generic type
+ * @param <T>
+ *            the generic type
  */
-public interface Aligner<T extends Seq<?, ? extends GappableAlphabet<?, ?>>> {
-    
+public interface Aligner<T extends Seq<?, ? extends GappableAlphabet<?>>> {
+
     /**
      * Align.
      *
-     * @param sequences the sequences
+     * @param sequences
+     *            the sequences
      * @return the alignment
      */
     public Alignment<T> align(List<T> sequences);

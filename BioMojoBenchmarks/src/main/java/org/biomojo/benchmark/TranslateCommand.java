@@ -21,6 +21,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.Alphabets;
@@ -29,7 +30,7 @@ import org.biomojo.alphabet.IUPACAlphabetVariant;
 import org.biomojo.alphabet.NucleotideAlphabet;
 import org.biomojo.io.fastx.FastaInputStream;
 import org.biomojo.io.fastx.FastaOutputStream;
-import org.biomojo.sequence.ByteSeqImpl;
+import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.TranslatedSeq;
 import org.java0.core.exception.UncheckedException;
 import org.slf4j.Logger;
@@ -61,7 +62,12 @@ public class TranslateCommand extends BaseCommand {
             int recordCount = 0;
             long totalLength = 0;
 
-            final ByteSeqImpl<NucleotideAlphabet> sequence = new ByteSeqImpl<NucleotideAlphabet>();
+            Supplier<ByteSeq<NucleotideAlphabet>> provider = new ByteSeqProvider();
+            if (encode) {
+                provider = new EncodedByteSeqProvider();
+            }
+            final ByteSeq<NucleotideAlphabet> sequence = provider.get();
+
             final TranslatedSeq translatedSeq = new TranslatedSeq(sequence, Alphabets.getAlphabet(
                     AlphabetId.AMINO_ACID + IUPACAlphabetVariant.WITH_AMBIGIGUITY, AminoAcidAlphabet.class));
 

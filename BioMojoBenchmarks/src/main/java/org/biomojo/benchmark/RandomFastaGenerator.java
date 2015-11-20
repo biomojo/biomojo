@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import org.biomojo.alphabet.IUPACAlphabet;
+import org.biomojo.alphabet.NucleotideAlphabet;
 import org.biomojo.io.FixedWidthSequenceIdHeaderBuilder;
 import org.biomojo.io.fastx.FastaOutputStream;
 import org.biomojo.sequence.ByteSeq;
@@ -53,8 +53,8 @@ public class RandomFastaGenerator extends RandomSeqGenerator {
         }
     }
 
-    protected ByteSeq<IUPACAlphabet> genFastaSeq(final int seqNum, final int length) {
-        final ByteSeq<IUPACAlphabet> record = provider.get();
+    protected ByteSeq<NucleotideAlphabet> genFastaSeq(final int seqNum, final int length) {
+        final ByteSeq<NucleotideAlphabet> record = provider.get();
         record.setId(seqNum);
         createRandomSeqData(record, length);
         return record;

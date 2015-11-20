@@ -20,5 +20,8 @@ package org.biomojo.alphabet;
  * The Interface NucleotideAlphabet.
  */
 public interface NucleotideAlphabet extends IUPACAlphabet {
-
+    @Override
+    public default NucleotideAlphabet getGapped() {
+        return Alphabets.getAlphabet(getId() | IUPACAlphabetVariant.WITH_GAP, NucleotideAlphabet.class);
+    }
 }

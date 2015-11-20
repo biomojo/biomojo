@@ -23,6 +23,9 @@ package org.biomojo.alphabet;
  * @author Hugh Eaves
  *
  */
-public interface IUPACAlphabet extends AmbiguitySupport, GappableByteAlphabet<IUPACAlphabet> {
-
+public interface IUPACAlphabet extends AmbiguitySupport, GappableByteAlphabet {
+    @Override
+    public default IUPACAlphabet getGapped() {
+        return Alphabets.getAlphabet(getId() | IUPACAlphabetVariant.WITH_GAP, IUPACAlphabet.class);
+    }
 }

@@ -23,20 +23,19 @@ import org.biomojo.symbols.CommonSymbols;
  * Interface for alphabets supporting gap symbols.
  *
  * @author Hugh Eaves
- * @param <A> the generic type
+ * @param <A>
+ *            the generic type
  */
-public interface GappableByteAlphabet<A extends GappableByteAlphabet<A>>
-        extends ByteAlphabet, GappableAlphabet<Byte, A> {
+public interface GappableByteAlphabet extends ByteAlphabet, GappableAlphabet<Byte> {
 
-    /* (non-Javadoc)
-     * @see org.biomojo.alphabet.GappableAlphabet#getGapped()
-     */
     @Override
-    public default A getGapped() {
-        return (A) Alphabets.getAlphabet(getId() | IUPACAlphabetVariant.WITH_GAP, IUPACAlphabet.class);
+    public default GappableByteAlphabet getGapped() {
+        return Alphabets.getAlphabet(getId() | IUPACAlphabetVariant.WITH_GAP, GappableByteAlphabet.class);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.alphabet.GappableAlphabet#supportsGaps()
      */
     @Override
@@ -44,7 +43,9 @@ public interface GappableByteAlphabet<A extends GappableByteAlphabet<A>>
         return ((getId() & IUPACAlphabetVariant.WITH_GAP) != 0);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.alphabet.GappableAlphabet#gapSymbol()
      */
     @Override

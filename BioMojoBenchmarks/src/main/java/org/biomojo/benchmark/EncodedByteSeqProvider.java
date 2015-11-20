@@ -20,7 +20,6 @@ import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.Alphabets;
-import org.biomojo.alphabet.IUPACAlphabet;
 import org.biomojo.alphabet.NucleotideAlphabet;
 import org.biomojo.codec.ByteByteCodec;
 import org.biomojo.codec.CodecId;
@@ -32,14 +31,14 @@ import org.biomojo.sequence.EncodedByteSeq;
  * @author Hugh Eaves
  *
  */
-public class EncodedByteSeqProvider implements Supplier<ByteSeq<IUPACAlphabet>> {
+public class EncodedByteSeqProvider implements Supplier<ByteSeq<NucleotideAlphabet>> {
 
     /**
      * @see java.util.function.Supplier#get()
      */
     @Override
-    public ByteSeq<IUPACAlphabet> get() {
-        final EncodedByteSeq<IUPACAlphabet> seq = new EncodedByteSeq<>(
+    public ByteSeq<NucleotideAlphabet> get() {
+        final EncodedByteSeq<NucleotideAlphabet> seq = new EncodedByteSeq<>(
                 Alphabets.getAlphabet(AlphabetId.DNA, NucleotideAlphabet.class),
                 Codecs.getCodec(CodecId.TWO_BIT_BYTE_CODEC, ByteByteCodec.class));
         return seq;

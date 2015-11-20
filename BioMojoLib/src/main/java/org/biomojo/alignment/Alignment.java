@@ -25,10 +25,11 @@ import org.biomojo.sequence.SeqList;
  * The Interface Alignment.
  *
  * @author Hugh Eaves
- * @param <T> the generic type
+ * @param <T>
+ *            the generic type
  */
-public interface Alignment<T extends Seq<?, ? extends GappableAlphabet<?, ?>>> extends SeqList<T> {
-    
+public interface Alignment<T extends Seq<?, ? extends GappableAlphabet<?>>> extends SeqList<T> {
+
     /**
      * Gets the score.
      *

@@ -21,7 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.function.Supplier;
 
-import org.biomojo.alphabet.IUPACAlphabet;
+import org.biomojo.alphabet.NucleotideAlphabet;
 import org.biomojo.io.fastx.FastaInputStream;
 import org.biomojo.sequence.ByteSeq;
 import org.java0.core.exception.UncheckedException;
@@ -52,11 +52,11 @@ public class ReadFastaCommand extends BaseCommand {
             int recordCount = 0;
             long totalLength = 0;
 
-            Supplier<ByteSeq<IUPACAlphabet>> provider = new ByteSeqProvider();
+            Supplier<ByteSeq<NucleotideAlphabet>> provider = new ByteSeqProvider();
             if (encode) {
                 provider = new EncodedByteSeqProvider();
             }
-            final ByteSeq<IUPACAlphabet> sequence = provider.get();
+            final ByteSeq<NucleotideAlphabet> sequence = provider.get();
 
             while (inputStream.read(sequence)) {
                 totalLength += sequence.size();

@@ -23,7 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-import org.biomojo.alphabet.IUPACAlphabet;
+import org.biomojo.alphabet.NucleotideAlphabet;
 import org.biomojo.benchmark.util.GCUtil;
 import org.biomojo.io.SequenceIdHeaderParser;
 import org.biomojo.io.fastx.FastaInputStream;
@@ -52,17 +52,17 @@ public class LoadFastaCommand extends BaseCommand {
 
             final FastaInputStream inputStream = new FastaInputStream(new FileInputStream(inputFile),
                     new SequenceIdHeaderParser());
-            final List<ByteSeq<IUPACAlphabet>> sequences = new ArrayList<ByteSeq<IUPACAlphabet>>();
+            final List<ByteSeq<NucleotideAlphabet>> sequences = new ArrayList<ByteSeq<NucleotideAlphabet>>();
 
             int recordCount = 0;
             long totalLength = 0;
             GCUtil gcUtil = new GCUtil();
 
-            Supplier<ByteSeq<IUPACAlphabet>> suppier = new ByteSeqProvider();
+            Supplier<ByteSeq<NucleotideAlphabet>> suppier = new ByteSeqProvider();
             if (encode) {
                 suppier = new EncodedByteSeqProvider();
             }
-            ByteSeq<IUPACAlphabet> sequence = suppier.get();
+            ByteSeq<NucleotideAlphabet> sequence = suppier.get();
 
             while (inputStream.read(sequence)) {
                 sequences.add(sequence);

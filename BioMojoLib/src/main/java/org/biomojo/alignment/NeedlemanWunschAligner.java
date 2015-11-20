@@ -22,21 +22,26 @@ import org.biomojo.alphabet.GappableByteAlphabet;
 /**
  * The Class NeedlemanWunschAligner.
  *
- * @param <A> the generic type
+ * @param <A>
+ *            the generic type
  */
-public class NeedlemanWunschAligner<A extends GappableByteAlphabet<A>> extends AbstractByteSeqAligner<A> {
+public class NeedlemanWunschAligner<A extends GappableByteAlphabet> extends AbstractByteSeqAligner<A> {
 
     /**
      * Instantiates a new needleman wunsch aligner.
      *
-     * @param matrix the matrix
-     * @param gapPenalty the gap penalty
+     * @param matrix
+     *            the matrix
+     * @param gapPenalty
+     *            the gap penalty
      */
     public NeedlemanWunschAligner(final ByteSubstitutionMatrix matrix, final int gapPenalty) {
         super(matrix, gapPenalty);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.alignment.AbstractByteSeqAligner#initScoreMatrix()
      */
     @Override
