@@ -27,6 +27,7 @@ import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.AminoAcidAlphabet;
 import org.biomojo.alphabet.IUPACAlphabetVariant;
+import org.biomojo.alphabet.InvalidSymbolException;
 import org.biomojo.alphabet.NucleotideAlphabet;
 import org.biomojo.io.fastx.FastaInputStream;
 import org.biomojo.io.fastx.FastaOutputStream;
@@ -71,10 +72,21 @@ public class TranslateCommand extends BaseCommand {
             final TranslatedSeq translatedSeq = new TranslatedSeq(sequence, Alphabets.getAlphabet(
                     AlphabetId.AMINO_ACID + IUPACAlphabetVariant.WITH_AMBIGIGUITY, AminoAcidAlphabet.class));
 
-            while (inputStream.read(sequence)) {
-                totalLength += sequence.size();
-                outputStream.write(translatedSeq);
-                ++recordCount;
+            while (true) {
+                boolean status = false;
+                try {
+                    status = inputStream.read(sequence);
+                    totalLength += sequence.size();
+                    outputStream.write(translatedSeq);
+                    ++recordCount;
+                } catch (InvalidSymbolException e) {
+                    logger.info("Invalid symbol", e);
+                    status = true;
+                }
+                if (!status) {
+                    break;
+                }
+
             }
             outputStream.close();
             inputStream.close();
