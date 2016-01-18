@@ -70,7 +70,7 @@ public class FourBitByteCodec extends AbstractByteByteCodec {
      * @see org.biomojo.codec.ByteCodec#decode(byte[])
      */
     @Override
-    public byte[] decode(final ByteAlphabet alphabet, final byte[] encodedData, final int length) {
+    public byte[] decodeAll(final ByteAlphabet alphabet, final byte[] encodedData, final int length) {
         final byte[] decodedData = new byte[length];
         final int endPos = length - length % SYMBOLS_PER_BYTE;
         int decodedPos = 0;
@@ -96,15 +96,13 @@ public class FourBitByteCodec extends AbstractByteByteCodec {
      *            the alphabet
      * @param encodedData
      *            the encoded data
-     * @param length
-     *            the length
      * @param pos
      *            the pos
      * @return the byte
      * @see org.biomojo.codec.ByteCodec#decode(byte[], int)
      */
     @Override
-    public byte decode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final int pos) {
+    public byte decode(final ByteAlphabet alphabet, final byte[] encodedData, final int decodedLength, final int pos) {
         final int bytePos = pos / SYMBOLS_PER_BYTE;
         if (pos % SYMBOLS_PER_BYTE == 0) {
             return alphabet.getByteSymbolForOrdinal(encodedData[bytePos] >> BITS_PER_SYMBOL & MASK);
@@ -187,5 +185,17 @@ public class FourBitByteCodec extends AbstractByteByteCodec {
     @Override
     public boolean supportsAlphabet(final Alphabet<Byte> alphabet) {
         return (alphabet.numSymbols() <= NUM_SYMBOLS);
+    }
+
+    @Override
+    public byte[] decodeBlock(final ByteAlphabet alphabet, final byte[] encodedData, final byte[] decodedBlock,
+            final int blockNum) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public int blockSize(final int blockNum) {
+        return SYMBOLS_PER_BYTE;
     }
 }

@@ -4,33 +4,39 @@ import org.biomojo.alphabet.ByteAlphabet;
 
 public class TwoBitByteLongCodec extends AbstractByteLongCodec {
 
-    public TwoBitByteLongCodec(int codecId) {
+    public TwoBitByteLongCodec(final int codecId) {
         super(codecId);
     }
 
     @Override
-    public byte[] decode(ByteAlphabet alphabet, long[] encodedData, int length) {
+    public byte[] decode(final ByteAlphabet alphabet, final long[] encodedData, final int length) {
         final byte[] decodedData = new byte[length];
 
         return decodedData;
     }
 
     @Override
-    public byte decode(ByteAlphabet alphabet, long[] encodedData, int length, int index) {
+    public byte decode(final ByteAlphabet alphabet, final long[] encodedData, final int length, final int index) {
         // TODO Auto-generated method stub
         return 0;
     }
 
     @Override
-    public long[] encode(ByteAlphabet alphabet, long[] encodedData, int length, byte[] decodedData) {
+    public long[] encode(final ByteAlphabet alphabet, final long[] encodedData, final int length,
+            final byte[] decodedData) {
         // TODO Auto-generated method stub
         return null;
     }
 
     @Override
-    public void encode(ByteAlphabet alphabet, long[] encodedData, int length, byte symbol, int index) {
+    public void encode(final ByteAlphabet alphabet, final long[] encodedData, final int length, final byte symbol,
+            final int index) {
         // TODO Auto-generated method stub
+    }
 
+    @Override
+    public int blockSize(final int blockNum) {
+        return 1;
     }
 
 }

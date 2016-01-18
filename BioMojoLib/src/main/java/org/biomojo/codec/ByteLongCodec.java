@@ -18,9 +18,9 @@ package org.biomojo.codec;
 
 import org.biomojo.alphabet.ByteAlphabet;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Interface ByteCodec.
+ * The Interface ByteCodec. Decodes / Encodes byte values into an array of long
+ * values.
  */
 public interface ByteLongCodec extends ObjectLongCodec<Byte> {
 

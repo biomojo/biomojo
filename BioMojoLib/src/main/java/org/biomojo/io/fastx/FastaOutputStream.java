@@ -89,6 +89,6 @@ public class FastaOutputStream extends FilterOutputStream
         out.write(FastaConst.RECORD_DELIMITER);
         out.write(headerBuilder.buildHeader(sequence));
         out.write('\n');
-        OutputUtil.writeSplitLines(out, maxLineLength, sequence.getAllBytes());
+        OutputUtil.writeSplitLines(out, maxLineLength, sequence.toByteArray());
     }
 }

@@ -14,31 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.biomojo.io;
+package org.biomojo.alphabet;
 
-import java.io.Closeable;
-import java.io.IOException;
-
-import org.biomojo.sequence.Seq;
+import org.biomojo.symbols.Nucleotides;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Interface SequenceOutputStream.
+ * The Class DNAAlphabetImpl.
  *
  * @author Hugh Eaves
- * @param <T>
- *            the generic type
  */
-public interface SequenceOutputStream<S extends Seq<?, ?>> extends Closeable {
-
+public class SimpleDNAAlphabet extends AbstractNucleotideAlphabet implements DNAAlphabet {
+    
     /**
-     * Writes data from the given {@link org.biomojo.sequence.Seq} object to the
-     * output stream.
+     * Create a new DNAAlphabetImpl.
      *
-     * @param sequence
-     *            the sequence
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
+     * @param id the id
      */
-    void write(S sequence) throws IOException;
+    protected SimpleDNAAlphabet(int id) {
+        super(id, Nucleotides.DNA_SYMBOLS);
+    }
 }

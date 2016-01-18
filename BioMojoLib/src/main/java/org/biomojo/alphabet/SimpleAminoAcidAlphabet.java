@@ -16,22 +16,43 @@
  */
 package org.biomojo.alphabet;
 
-import org.biomojo.symbols.Nucleotides;
+import org.biomojo.symbols.AminoAcids;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class NucleotideAlphabetImpl.
+ * The Class AminoAcidAlphabetImpl.
  *
  * @author Hugh Eaves
  */
-public class NucleotideAlphabetImpl extends AbstractNucleotideAlphabet implements NucleotideAlphabet {
+public class SimpleAminoAcidAlphabet extends AbstractIUPACAlphabet implements AminoAcidAlphabet {
     
     /**
-     * Create a new DNAAlphabetImpl.
+     * Instantiates a new amino acid alphabet impl.
      *
      * @param id the id
      */
-    protected NucleotideAlphabetImpl(int id) {
-        super(id, Nucleotides.CORE_SYMBOLS);
+    protected SimpleAminoAcidAlphabet(final int id) {
+        super(id, AminoAcids.CORE_SYMBOLS);
     }
+
+    /**
+     * Adds the any symbols.
+     *
+     * @see org.biomojo.alphabet.AbstractBioPolymerAlphabet#addAnySymbols()
+     */
+    @Override
+    protected void addAnySymbols() {
+        addSymbol(AminoAcids.ANY);
+    }
+
+    /**
+     * Adds the ambiguity symbols.
+     *
+     * @see org.biomojo.alphabet.AbstractBioPolymerAlphabet#addAmbiguitySymbols()
+     */
+    @Override
+    protected void addAmbiguitySymbols() {
+        addSymbols(AminoAcids.AMBIGUITY_SYMBOLS);
+    }
+
 }

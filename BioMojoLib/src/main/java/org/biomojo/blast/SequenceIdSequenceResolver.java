@@ -24,7 +24,7 @@ import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.blast.blastoutput.BlastHit;
 import org.biomojo.blast.blastoutput.BlastIteration;
 import org.biomojo.blast.blastoutput.BlastOutput;
-import org.biomojo.sequence.ByteSeqImpl;
+import org.biomojo.sequence.BasicByteSeq;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -44,11 +44,11 @@ public class SequenceIdSequenceResolver implements BlastSequenceResolver {
     public void resolveSequences(final BlastOutput blastOutput) {
         for (final BlastIteration iteration : blastOutput.getIterations()) {
             final long queryId = Long.parseLong(iteration.getQueryDef());
-            final ByteSeqImpl<ByteAlphabet> querySequence = entityManager.find(ByteSeqImpl.class, queryId);
+            final BasicByteSeq<ByteAlphabet> querySequence = entityManager.find(BasicByteSeq.class, queryId);
             iteration.setQuerySequence(querySequence);
             for (final BlastHit hit : iteration.getHits()) {
                 final long hitId = Long.parseLong(hit.getHitDef());
-                final ByteSeqImpl<ByteAlphabet> hitSequence = entityManager.find(ByteSeqImpl.class, hitId);
+                final BasicByteSeq<ByteAlphabet> hitSequence = entityManager.find(BasicByteSeq.class, hitId);
                 hit.setHitSequence(hitSequence);
             }
         }

@@ -18,7 +18,6 @@ package org.biomojo.alphabet;
 
 import org.java0.core.exception.UncheckedException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class InvalidSymbolException.
  */
@@ -33,8 +32,10 @@ public class InvalidSymbolException extends UncheckedException {
     /**
      * Instantiates a new invalid symbol exception.
      *
-     * @param symbol the symbol
-     * @param position the position
+     * @param symbol
+     *            the symbol
+     * @param position
+     *            the position
      */
     public InvalidSymbolException(final Object symbol, final int position) {
         this.info = new InvalidSymbolInfo(symbol, position);
@@ -43,7 +44,8 @@ public class InvalidSymbolException extends UncheckedException {
     /**
      * Instantiates a new invalid symbol exception.
      *
-     * @param symbol the symbol
+     * @param symbol
+     *            the symbol
      */
     public InvalidSymbolException(final Object symbol) {
         this.info = new InvalidSymbolInfo(symbol, null);
@@ -53,7 +55,8 @@ public class InvalidSymbolException extends UncheckedException {
     /**
      * Instantiates a new invalid symbol exception.
      *
-     * @param info the info
+     * @param info
+     *            the info
      */
     public InvalidSymbolException(final InvalidSymbolInfo info) {
         this.info = info;
@@ -77,7 +80,9 @@ public class InvalidSymbolException extends UncheckedException {
         return info.getPosition();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Throwable#getMessage()
      */
     @Override

@@ -14,24 +14,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.biomojo.alphabet;
+package org.biomojo.sequence.factory;
 
-import org.biomojo.symbols.Nucleotides;
+import java.util.function.Supplier;
 
-// TODO: Auto-generated Javadoc
+import org.biomojo.alphabet.Alphabets;
+import org.biomojo.alphabet.NucleotideAlphabet;
+import org.biomojo.sequence.BasicFastqSeq;
+import org.biomojo.sequence.FastqSeq;
+
 /**
- * The Class DNAAlphabetImpl.
- *
  * @author Hugh Eaves
+ *
  */
-public class DNAAlphabetImpl extends AbstractNucleotideAlphabet implements DNAAlphabet {
-    
-    /**
-     * Create a new DNAAlphabetImpl.
-     *
-     * @param id the id
-     */
-    protected DNAAlphabetImpl(int id) {
-        super(id, Nucleotides.DNA_SYMBOLS);
+public class FastqSeqSupplier<A extends NucleotideAlphabet> implements Supplier<FastqSeq<A>> {
+
+    protected final A alphabet;
+
+    @SuppressWarnings("unchecked")
+    public FastqSeqSupplier(final int alphabetId) {
+        alphabet = (A) Alphabets.getAlphabet(alphabetId);
     }
+
+    /**
+     * @see java.util.function.Supplier#get()
+     */
+    @Override
+    public FastqSeq<A> get() {
+        return new BasicFastqSeq<>(alphabet);
+    }
+
 }

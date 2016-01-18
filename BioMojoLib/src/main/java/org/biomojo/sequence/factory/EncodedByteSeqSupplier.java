@@ -14,31 +14,35 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.biomojo.io;
+package org.biomojo.sequence.factory;
 
-import java.io.Closeable;
-import java.io.IOException;
+import java.util.function.Supplier;
 
-import org.biomojo.sequence.Seq;
+import org.biomojo.alphabet.ByteAlphabet;
+import org.biomojo.codec.ByteByteCodec;
+import org.biomojo.codec.Codecs;
+import org.biomojo.sequence.ByteSeq;
+import org.biomojo.sequence.EncodedByteSeq;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Interface SequenceOutputStream.
- *
  * @author Hugh Eaves
- * @param <T>
- *            the generic type
+ *
  */
-public interface SequenceOutputStream<S extends Seq<?, ?>> extends Closeable {
+public class EncodedByteSeqSupplier<A extends ByteAlphabet> extends ByteSeqSupplier<A> implements Supplier<ByteSeq<A>> {
+
+    private final ByteByteCodec codec;
+
+    public EncodedByteSeqSupplier(final int alphabetId, final int codecId) {
+        super(alphabetId);
+        codec = Codecs.getCodec(codecId);
+    }
 
     /**
-     * Writes data from the given {@link org.biomojo.sequence.Seq} object to the
-     * output stream.
-     *
-     * @param sequence
-     *            the sequence
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
+     * @see java.util.function.Supplier#get()
      */
-    void write(S sequence) throws IOException;
+    @Override
+    public ByteSeq<A> get() {
+        return new EncodedByteSeq<>(alphabet, codec);
+    }
+
 }

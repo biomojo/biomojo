@@ -19,85 +19,101 @@ package org.biomojo.sequence;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.InvalidSymbolException;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface ByteSeq.
  *
- * @param <A> the generic type
+ * @param <A>
+ *            the generic type
  */
-public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A> {
+public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A>, CharSequence {
 
     /**
      * Gets the all bytes.
      *
      * @return the all bytes
      */
-    public byte[] getAllBytes();
+    public byte[] toByteArray();
 
     /**
      * Sets the all.
      *
-     * @param sequence the new all
-     * @throws InvalidSymbolException the invalid symbol exception
+     * @param sequence
+     *            the new all
+     * @throws InvalidSymbolException
+     *             the invalid symbol exception
      */
     public void setAll(byte[] sequence) throws InvalidSymbolException;
 
     /**
      * Sets the all.
      *
-     * @param sequence the sequence
-     * @param validate the validate
-     * @throws InvalidSymbolException the invalid symbol exception
+     * @param sequence
+     *            the sequence
+     * @param validate
+     *            the validate
+     * @throws InvalidSymbolException
+     *             the invalid symbol exception
      */
     public void setAll(byte[] sequence, boolean validate) throws InvalidSymbolException;
 
     /**
      * Gets the value.
      *
-     * @param index the index
+     * @param index
+     *            the index
      * @return the value
      */
-    public byte getValue(int index);
+    public byte getByte(int index);
 
     /**
-     * Sets the value.
+     * Sets the value at the given position
+     * 
+     * @param index
+     *            the index
+     * @param symbol
+     *            the symbol
      *
-     * @param symbol the symbol
-     * @param index the index
-     * @throws InvalidSymbolException the invalid symbol exception
+     * @throws InvalidSymbolException
+     *             the invalid symbol exception
      */
-    public void setValue(byte symbol, int index) throws InvalidSymbolException;
+    public void set(int index, byte symbol) throws InvalidSymbolException;
 
-    /* (non-Javadoc)
-     * @see org.biomojo.sequence.Seq#get(int)
-     */
+    @Override
     public default Byte get(final int index) {
-        return getValue(index);
+        return getByte(index);
     }
 
-    /* (non-Javadoc)
-     * @see org.biomojo.sequence.Seq#set(int, java.lang.Object)
-     */
+    @Override
     public default Byte set(final int index, final Byte symbol) throws InvalidSymbolException {
-        final byte oldVal = getValue(index);
+        final byte oldVal = getByte(index);
         set(index, symbol);
         return oldVal;
     }
 
     /**
-     * Replace.
-     *
-     * @param srcSeq the src seq
-     * @param srcPos the src pos
-     * @param destPos the dest pos
-     * @param length the length
-     */
-    public void replace(final byte[] srcSeq, final int srcPos, final int destPos, final int length);
-
-    /**
      * Append.
      *
-     * @param symbol the symbol
+     * @param symbol
+     *            the symbol
      */
     public void append(final byte symbol);
+
+    // Methods from CharSequence
+
+    @Override
+    public default char charAt(final int index) {
+        return (char) getByte(index);
+    }
+
+    @Override
+    public default CharSequence subSequence(final int start, final int end) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public default int length() {
+        return size();
+    }
+
+    // public ByteListIterator byteListIterator();
 }

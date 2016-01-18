@@ -17,6 +17,8 @@
 
 package org.biomojo.codec;
 
+import java.util.List;
+
 import org.biomojo.alphabet.Alphabet;
 
 // TODO: Auto-generated Javadoc
@@ -27,8 +29,10 @@ import org.biomojo.alphabet.Alphabet;
  * efficient and/or more manageable storage of a collection of an Alphabets
  * entities.
  *
- * @param <D> the generic type
- * @param <E> the element type
+ * @param <D>
+ *            the generic type
+ * @param <E>
+ *            the element type
  */
 public abstract class AbstractCodec<D, E> implements Codec<D, E> {
 
@@ -38,9 +42,10 @@ public abstract class AbstractCodec<D, E> implements Codec<D, E> {
     /**
      * Instantiates a new abstract codec.
      *
-     * @param id the id
+     * @param id
+     *            the id
      */
-    protected AbstractCodec(int id) {
+    protected AbstractCodec(final int id) {
         this.id = id;
     }
 
@@ -54,12 +59,42 @@ public abstract class AbstractCodec<D, E> implements Codec<D, E> {
         return id;
     }
 
-    /* (non-Javadoc)
-     * @see org.biomojo.codec.Codec#supportsAlphabet(org.biomojo.alphabet.Alphabet)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.biomojo.codec.Codec#supportsAlphabet(org.biomojo.alphabet.Alphabet)
      */
     @Override
-    public boolean supportsAlphabet(Alphabet<D> alphabet) {
+    public boolean supportsAlphabet(final Alphabet<D> alphabet) {
         return true;
     }
 
+    @Override
+    public List<D> decodeAll(final Alphabet<D> alphabet, final List<E> encodedData, final int decodedLength) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public D decode(final Alphabet<D> alphabet, final List<E> encodedData, final int decodedLength, final int pos) {
+        throw new UnsupportedOperationException();
+
+    }
+
+    @Override
+    public List<D> decodeBlock(final Alphabet<D> alphabet, final List<E> encodedData, final List<D> decodedBlock,
+            final int blockNum) {
+        throw new UnsupportedOperationException();
+
+    }
+
+    @Override
+    public void encode(final Alphabet<D> alphabet, final List<E> encodedData, final D symbol, final int pos) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public List<E> encodeAll(final Alphabet<D> alphabet, final List<D> decodedData) {
+        throw new UnsupportedOperationException();
+    }
 }

@@ -18,6 +18,7 @@
 package org.biomojo.io.fastx;
 
 import java.io.InputStream;
+import java.util.function.Supplier;
 
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.io.DefaultHeaderParser;
@@ -27,7 +28,6 @@ import org.biomojo.io.ParseException;
 import org.biomojo.io.SequenceInputStream;
 import org.biomojo.sequence.ByteSeq;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FastaInputStream.
  */
@@ -36,58 +36,80 @@ public class FastaInputStream extends MarkAndCopyInputStream
 
     /** The header parser. */
     private final HeaderParser headerParser;
-    
+
     /** The validate sequence data. */
     private final boolean validateSequenceData;
+
+    private final Supplier<? extends ByteSeq<?>> factory;
 
     /**
      * Instantiates a new fasta input stream.
      *
-     * @param inputStream the input stream
+     * @param inputStream
+     *            the input stream
      */
     public FastaInputStream(final InputStream inputStream) {
         super(inputStream);
         headerParser = new DefaultHeaderParser();
         validateSequenceData = true;
+        factory = null;
+    }
+
+    public FastaInputStream(final InputStream inputStream, final Supplier<? extends ByteSeq<?>> factory) {
+        super(inputStream);
+        headerParser = new DefaultHeaderParser();
+        validateSequenceData = true;
+        this.factory = factory;
     }
 
     /**
      * Instantiates a new fasta input stream.
      *
-     * @param inputStream the input stream
-     * @param sequenceHeaderParser the sequence header parser
+     * @param inputStream
+     *            the input stream
+     * @param sequenceHeaderParser
+     *            the sequence header parser
      */
     public FastaInputStream(final InputStream inputStream, final HeaderParser sequenceHeaderParser) {
         super(inputStream);
-        this.headerParser = sequenceHeaderParser;
+        headerParser = sequenceHeaderParser;
         validateSequenceData = true;
+        factory = null;
     }
 
     /**
      * Instantiates a new fasta input stream.
      *
-     * @param inputStream the input stream
-     * @param readBufferSize the read buffer size
+     * @param inputStream
+     *            the input stream
+     * @param readBufferSize
+     *            the read buffer size
      */
     public FastaInputStream(final InputStream inputStream, final int readBufferSize) {
         super(inputStream, readBufferSize);
         headerParser = new DefaultHeaderParser();
         validateSequenceData = true;
+        factory = null;
     }
 
     /**
      * Instantiates a new fasta input stream.
      *
-     * @param inputStream the input stream
-     * @param validateSequenceData the validate sequence data
+     * @param inputStream
+     *            the input stream
+     * @param validateSequenceData
+     *            the validate sequence data
      */
     public FastaInputStream(final InputStream inputStream, final boolean validateSequenceData) {
         super(inputStream);
         headerParser = new DefaultHeaderParser();
         this.validateSequenceData = validateSequenceData;
+        factory = null;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.io.SequenceInputStream#read(org.biomojo.sequence.Seq)
      */
     @Override
@@ -112,5 +134,14 @@ public class FastaInputStream extends MarkAndCopyInputStream
         seq.setAll(assembleSegments(), validateSequenceData);
 
         return true;
+    }
+
+    @Override
+    public ByteSeq<?> readSeq() throws ParseException {
+        final ByteSeq<?> seq = factory.get();
+        if (read(seq)) {
+            return seq;
+        }
+        return null;
     }
 }

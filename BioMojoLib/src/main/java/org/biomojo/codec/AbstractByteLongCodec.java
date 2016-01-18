@@ -20,9 +20,8 @@ import org.biomojo.alphabet.Alphabet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class AbstractByteCodec.
+ * The Class AbstractByteLongCodec.
  *
  * @author Hugh Eaves
  */
@@ -38,7 +37,7 @@ public abstract class AbstractByteLongCodec extends AbstractCodec<Byte, Long> im
      * @param codecId
      *            the codec id
      */
-    public AbstractByteLongCodec(int codecId) {
+    public AbstractByteLongCodec(final int codecId) {
         super(codecId);
     }
 
@@ -54,7 +53,7 @@ public abstract class AbstractByteLongCodec extends AbstractCodec<Byte, Long> im
      * @return the d[]
      */
     @Override
-    public Byte[] decode(Alphabet<Byte> alphabet, long[] encodedData, int length) {
+    public Byte[] decode(final Alphabet<Byte> alphabet, final long[] encodedData, final int length) {
         throw new UnsupportedOperationException();
     }
 
@@ -72,7 +71,7 @@ public abstract class AbstractByteLongCodec extends AbstractCodec<Byte, Long> im
      * @return the byte
      */
     @Override
-    public Byte decode(Alphabet<Byte> alphabet, long[] encodedData, int length, int pos) {
+    public Byte decode(final Alphabet<Byte> alphabet, final long[] encodedData, final int length, final int pos) {
         throw new UnsupportedOperationException();
     }
 
@@ -89,7 +88,7 @@ public abstract class AbstractByteLongCodec extends AbstractCodec<Byte, Long> im
      *            the pos
      */
     @Override
-    public void encode(Alphabet<Byte> alphabet, long[] encodedData, Byte symbol, int pos) {
+    public void encode(final Alphabet<Byte> alphabet, final long[] encodedData, final Byte symbol, final int pos) {
         throw new UnsupportedOperationException();
     }
 
@@ -103,7 +102,7 @@ public abstract class AbstractByteLongCodec extends AbstractCodec<Byte, Long> im
      * @return the byte[]
      */
     @Override
-    public long[] encode(Alphabet<Byte> alphabet, Byte[] decodedData) {
+    public long[] encode(final Alphabet<Byte> alphabet, final Byte[] decodedData) {
         throw new UnsupportedOperationException();
     }
 }

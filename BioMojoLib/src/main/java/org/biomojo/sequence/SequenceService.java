@@ -92,7 +92,7 @@ public class SequenceService {
             description = name;
         }
 
-        final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> sequenceList = new SeqArrayList<ByteSeqImpl<ByteAlphabet>>(
+        final AbstractSeqList<BasicByteSeq<ByteAlphabet>> sequenceList = new SeqArrayList<BasicByteSeq<ByteAlphabet>>(
                 name);
 
         int recordCount = 1;
@@ -148,9 +148,9 @@ public class SequenceService {
         int startPos = 0;
         long endPos = 0;
         if (sequenceList instanceof SeqSubList) {
-            startPos = ((SeqSubList<ByteSeqImpl<ByteAlphabet>>) sequenceList).getFromIndex();
-            endPos = ((SeqSubList<ByteSeqImpl<ByteAlphabet>>) sequenceList).getToIndex();
-            sequenceList = ((SeqSubList<ByteSeqImpl<ByteAlphabet>>) sequenceList).getTargetList();
+            startPos = ((SeqSubList<BasicByteSeq<ByteAlphabet>>) sequenceList).getFromIndex();
+            endPos = ((SeqSubList<BasicByteSeq<ByteAlphabet>>) sequenceList).getToIndex();
+            sequenceList = ((SeqSubList<BasicByteSeq<ByteAlphabet>>) sequenceList).getTargetList();
         } else {
             endPos = sequenceList.size();
         }
@@ -163,9 +163,9 @@ public class SequenceService {
             }
 
             logger.info("Retrieving sequences, start = " + i + ", end = " + lastPos);
-            final List<ByteSeqImpl<ByteAlphabet>> sequences = getSequences(id, i, lastPos);
+            final List<BasicByteSeq<ByteAlphabet>> sequences = getSequences(id, i, lastPos);
 
-            for (final ByteSeqImpl<ByteAlphabet> sequence : sequences) {
+            for (final BasicByteSeq<ByteAlphabet> sequence : sequences) {
                 ++recordCount;
                 if (recordCount % 10000 == 1) {
                     logger.info("Writing record #" + recordCount + " to " + fastxFile.getCanonicalPath());
@@ -188,11 +188,11 @@ public class SequenceService {
      */
     @SuppressWarnings("unchecked")
     @Transactional
-    public List<ByteSeqImpl<ByteAlphabet>> getSequences(final long sequenceListId, final long first, final long last) {
+    public List<BasicByteSeq<ByteAlphabet>> getSequences(final long sequenceListId, final long first, final long last) {
         final Query query = entityManager.createQuery(
                 "select sequences from " + "AbstractMultiSequence MultiSeq " + "join MultiSeq.sequences sequences "
                         + "where MultiSeq.id = :MultiSeqId " + "order by index(sequences)",
-                ByteSeqImpl.class);
+                BasicByteSeq.class);
         query.setParameter("MultiSeqId", sequenceListId);
         query.setFirstResult((int) first);
         query.setMaxResults((int) (last - first));

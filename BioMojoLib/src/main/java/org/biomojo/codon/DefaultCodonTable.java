@@ -27,7 +27,7 @@ import org.biomojo.symbols.Nucleotides;
  *
  * @author Hugh Eaves
  */
-public class CodonTableImpl implements CodonTable {
+public class DefaultCodonTable implements CodonTable {
     
     /** The id. */
     int id;
@@ -48,7 +48,7 @@ public class CodonTableImpl implements CodonTable {
      * @param aminoAcids the amino acids
      * @param startCodons the start codons
      */
-    CodonTableImpl(int id, String aminoAcids, String startCodons) {
+    DefaultCodonTable(int id, String aminoAcids, String startCodons) {
         this.id = id;
         char BASES[] = { Nucleotides.URACIL, Nucleotides.CYTOSINE, Nucleotides.ADENINE, Nucleotides.GUANINE };
         aminoAcidLookupTable = new byte[TABLE_SIZE];

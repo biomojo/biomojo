@@ -18,35 +18,37 @@ package org.biomojo.codec;
 
 import java.nio.ByteBuffer;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class DefaultFloatCodec.
  *
  * @author Hugh Eaves
  */
-public class DefaultFloatCodec extends AbstractCodec<Float, Byte> implements FloatCodec {
+public class DefaultFloatByteCodec extends AbstractCodec<Float, Byte> implements FloatByteCodec {
 
     /**
      * Instantiates a new default float codec.
      *
-     * @param id the id
+     * @param id
+     *            the id
      */
-    DefaultFloatCodec(int id) {
+    DefaultFloatByteCodec(final int id) {
         super(id);
     }
 
     /**
      * Decode.
      *
-     * @param encodedData the encoded data
-     * @param length the length
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
      * @return the float[]
      * @see org.biomojo.codec.FloatCodec#decode(byte[], int)
      */
     @Override
-    public float[] decode(byte[] encodedData, int length) {
-        ByteBuffer buffer = ByteBuffer.wrap(encodedData);
-        float[] decodedData = new float[length];
+    public float[] decode(final byte[] encodedData, final int length) {
+        final ByteBuffer buffer = ByteBuffer.wrap(encodedData);
+        final float[] decodedData = new float[length];
         int pos = 0;
         while (buffer.position() < buffer.limit()) {
             decodedData[pos++] = buffer.getFloat();
@@ -57,29 +59,33 @@ public class DefaultFloatCodec extends AbstractCodec<Float, Byte> implements Flo
     /**
      * Decode.
      *
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param index the index
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
+     * @param index
+     *            the index
      * @return the float
      * @see org.biomojo.codec.FloatCodec#decode(byte[], int, int)
      */
     @Override
-    public float decode(byte[] encodedData, int length, int index) {
+    public float decode(final byte[] encodedData, final int length, final int index) {
         throw new UnsupportedOperationException();
     }
 
     /**
      * Encode.
      *
-     * @param decodedData the decoded data
+     * @param decodedData
+     *            the decoded data
      * @return the byte[]
      * @see org.biomojo.codec.FloatCodec#encode(float[])
      */
     @Override
-    public byte[] encode(float[] decodedData) {
-        byte[] byteBuf = new byte[decodedData.length * 4];
-        ByteBuffer buffer = ByteBuffer.wrap(byteBuf);
-        for (float f : decodedData) {
+    public byte[] encode(final float[] decodedData) {
+        final byte[] byteBuf = new byte[decodedData.length * 4];
+        final ByteBuffer buffer = ByteBuffer.wrap(byteBuf);
+        for (final float f : decodedData) {
             buffer.putFloat(f);
         }
         return byteBuf;
@@ -88,14 +94,23 @@ public class DefaultFloatCodec extends AbstractCodec<Float, Byte> implements Flo
     /**
      * Encode.
      *
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param value the value
-     * @param index the index
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
+     * @param value
+     *            the value
+     * @param index
+     *            the index
      * @see org.biomojo.codec.FloatCodec#encode(byte[], int, float, int)
      */
     @Override
-    public void encode(byte[] encodedData, int length, float value, int index) {
+    public void encode(final byte[] encodedData, final int length, final float value, final int index) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public int blockSize(final int blockNum) {
+        return 1;
     }
 }

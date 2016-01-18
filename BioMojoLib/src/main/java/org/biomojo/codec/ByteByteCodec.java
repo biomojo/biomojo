@@ -18,53 +18,69 @@ package org.biomojo.codec;
 
 import org.biomojo.alphabet.ByteAlphabet;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Interface ByteCodec.
+ * The Interface ByteByteCodec. Decodes / Encodes byte values into an array of
+ * byte values.
  */
 public interface ByteByteCodec extends ObjectByteCodec<Byte> {
 
     /**
      * Decode all the data in the sequence.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param encodeAll
+     *            the length
      * @return the d[]
      */
-    public byte[] decode(ByteAlphabet alphabet, byte[] encodedData, int length);
+    public byte[] decodeAll(ByteAlphabet alphabet, byte[] encodedData, int decodedLength);
 
     /**
      * Decode a single position in the sequence.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param index the index
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param index
+     *            the index
      * @return the byte
      */
-    public byte decode(ByteAlphabet alphabet, byte[] encodedData, int length, int index);
+    public byte decode(ByteAlphabet alphabet, byte[] encodedData, int decodedLength, int index);
+
+    public byte[] decodeBlock(ByteAlphabet alphabet, byte[] encodedData, byte[] decodedBlock, int blockNum);
 
     /**
      * Encode all the data into the sequence, replacing any existing data.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param decodedData the decoded data
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param decodedLength
+     *            the length
+     * @param decodedData
+     *            the decoded data
      * @return the byte[]
      */
-    public byte[] encode(ByteAlphabet alphabet, byte[] encodedData, int length, byte[] decodedData);
+    public byte[] encode(ByteAlphabet alphabet, byte[] encodedData, int decodedLength, byte[] decodedData);
 
     /**
      * Encode a single value, replacing the value at the given position.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param symbol the symbol
-     * @param index the index
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
+     * @param symbol
+     *            the symbol
+     * @param index
+     *            the index
      */
-    public void encode(ByteAlphabet alphabet, byte[] encodedData, int length, byte symbol, int index);
+    public void encode(ByteAlphabet alphabet, byte[] encodedData, int decodedLength, byte symbol, int index);
 
 }

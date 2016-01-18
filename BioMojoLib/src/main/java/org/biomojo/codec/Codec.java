@@ -16,10 +16,11 @@
  */
 package org.biomojo.codec;
 
+import java.util.List;
+
 import org.biomojo.alphabet.Alphabet;
 import org.biomojo.core.IntegerIdentified;
 
-// TODO: Auto-generated Javadoc
 /**
  * A Codec provides a method to encode / decode data from one format to another.
  * For example, a codec could convert sequence data between a single byte
@@ -42,5 +43,17 @@ public interface Codec<D, E> extends IntegerIdentified {
      * @return true, if the given alphabet is supported by this codec
      */
     boolean supportsAlphabet(Alphabet<D> alphabet);
+
+    public List<D> decodeAll(Alphabet<D> alphabet, List<E> encodedData, int decodedLength);
+
+    public D decode(Alphabet<D> alphabet, List<E> encodedData, int decodedLength, int pos);
+
+    public List<D> decodeBlock(Alphabet<D> alphabet, List<E> encodedData, List<D> decodedBlock, int blockNum);
+
+    public int blockSize(int blockNum);
+
+    public void encode(Alphabet<D> alphabet, List<E> encodedData, D symbol, int pos);
+
+    public List<E> encodeAll(Alphabet<D> alphabet, List<D> decodedData);
 
 }

@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.biomojo.alphabet.GappableByteAlphabet;
 import org.biomojo.sequence.ByteSeq;
-import org.biomojo.sequence.ByteSeqImpl;
+import org.biomojo.sequence.BasicByteSeq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,8 +91,8 @@ public abstract class AbstractByteSeqAligner<A extends GappableByteAlphabet> imp
     protected void initialize(final List<ByteSeq<A>> sequences) {
         seq1 = sequences.get(0);
         seq2 = sequences.get(1);
-        seq1Bytes = seq1.getAllBytes();
-        seq2Bytes = seq2.getAllBytes();
+        seq1Bytes = seq1.toByteArray();
+        seq2Bytes = seq2.toByteArray();
 
         logger.debug("Sequence lengths: seq1 = {}, seq2 = {}", seq1.size(), seq2.size());
 
@@ -184,8 +184,8 @@ public abstract class AbstractByteSeqAligner<A extends GappableByteAlphabet> imp
         final A alphabet1 = (A) seq1.getAlphabet().getGapped();
         final A alphabet2 = (A) seq2.getAlphabet().getGapped();
 
-        final ByteSeqImpl<A> align1 = new ByteSeqImpl<A>(seq1Dim + seq2Dim, alphabet1);
-        final ByteSeqImpl<A> align2 = new ByteSeqImpl<A>(seq1Dim + seq2Dim, alphabet2);
+        final BasicByteSeq<A> align1 = new BasicByteSeq<A>(seq1Dim + seq2Dim, alphabet1);
+        final BasicByteSeq<A> align2 = new BasicByteSeq<A>(seq1Dim + seq2Dim, alphabet2);
 
         final byte gap1 = alphabet1.gapSymbol();
         final byte gap2 = alphabet2.gapSymbol();

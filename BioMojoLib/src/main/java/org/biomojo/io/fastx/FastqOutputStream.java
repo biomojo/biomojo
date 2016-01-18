@@ -101,9 +101,9 @@ public class FastqOutputStream extends FilterOutputStream
         out.write(FastqConst.RECORD_DELIMITER);
         out.write(headerBuilder.buildHeader(sequence));
         out.write('\n');
-        OutputUtil.writeSplitLines(out, maxLineLength, sequence.getAllBytes());
+        OutputUtil.writeSplitLines(out, maxLineLength, sequence.toByteArray());
         out.write(FastqConst.QUALITY_DELIMITER);
         out.write('\n');
-        OutputUtil.writeSplitLines(out, maxLineLength, sequence.getQualityScores().getAllBytes());
+        OutputUtil.writeSplitLines(out, maxLineLength, sequence.getQualityScores().toByteArray());
     }
 }

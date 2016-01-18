@@ -19,7 +19,7 @@ package org.biomojo.property;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.biomojo.sequence.ByteSeqImpl;
+import org.biomojo.sequence.BasicByteSeq;
 import org.biomojo.sequence.EncodedByteSeq;
 import org.java0.core.exception.UncheckedException;
 
@@ -40,7 +40,7 @@ public class DbPropertyMapManager implements PropertyMapManager {
         typeMap.put(Integer.class, IntegerProperty.class);
         typeMap.put(Double.class, DoubleProperty.class);
         typeMap.put(String.class, StringProperty.class);
-        typeMap.put(ByteSeqImpl.class, SeqProperty.class);
+        typeMap.put(BasicByteSeq.class, SeqProperty.class);
         typeMap.put(EncodedByteSeq.class, SeqProperty.class);
     }
 

@@ -34,7 +34,7 @@ import org.java0.core.type.Constants;
  */
 @Entity
 @DiscriminatorValue("B")
-public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
+public class BasicByteSeq<A extends ByteAlphabet> extends AbstractByteSeq<A> {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
@@ -51,7 +51,7 @@ public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
     /**
      * Instantiates a new byte seq impl.
      */
-    public ByteSeqImpl() {
+    public BasicByteSeq() {
 
     }
 
@@ -61,7 +61,7 @@ public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
      * @param alphabet
      *            the alphabet
      */
-    public ByteSeqImpl(final A alphabet) {
+    public BasicByteSeq(final A alphabet) {
         super(alphabet);
     }
 
@@ -71,7 +71,7 @@ public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
      * @param data
      *            the data
      */
-    public ByteSeqImpl(final byte[] data) {
+    public BasicByteSeq(final byte[] data) {
         super();
         setAll(data);
     }
@@ -84,7 +84,7 @@ public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
      * @param alphabet
      *            the alphabet
      */
-    public ByteSeqImpl(final byte[] data, final A alphabet) {
+    public BasicByteSeq(final byte[] data, final A alphabet) {
         super(alphabet);
         setAll(data);
     }
@@ -97,7 +97,7 @@ public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
      * @param alphabet
      *            the alphabet
      */
-    public ByteSeqImpl(final int initialCapacity, final A alphabet) {
+    public BasicByteSeq(final int initialCapacity, final A alphabet) {
         super(alphabet);
         data = new byte[initialCapacity];
     }
@@ -118,7 +118,7 @@ public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
      * @see org.biomojo.sequence.ByteSeq#getAllBytes()
      */
     @Override
-    public byte[] getAllBytes() {
+    public byte[] toByteArray() {
         if (data.length > length) {
             data = Arrays.copyOf(data, length);
         }
@@ -145,7 +145,7 @@ public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
      * @see org.biomojo.sequence.ByteSeq#getValue(int)
      */
     @Override
-    public byte getValue(final int index) {
+    public byte getByte(final int index) {
         return data[index];
     }
 
@@ -155,7 +155,7 @@ public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
      * @see org.biomojo.sequence.ByteSeq#setValue(byte, int)
      */
     @Override
-    public void setValue(final byte symbol, final int index) throws InvalidSymbolException {
+    public void set(final int index, final byte symbol) throws InvalidSymbolException {
         alphabet.validate(symbol);
         data[index] = symbol;
     }
@@ -219,16 +219,6 @@ public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
     /*
      * (non-Javadoc)
      * 
-     * @see org.biomojo.sequence.ByteSeq#replace(byte[], int, int, int)
-     */
-    @Override
-    public void replace(final byte[] srcSeq, final int srcPos, final int destPos, final int length) {
-        System.arraycopy(srcSeq, srcPos, data, destPos, length);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.biomojo.sequence.ByteSeq#append(byte)
      */
     @Override
@@ -247,5 +237,10 @@ public class ByteSeqImpl<A extends ByteAlphabet> extends AbstractByteSeq<A> {
         if (data.length < length + numElements) {
             data = Arrays.copyOf(data, (data.length + 1) * 2);
         }
+    }
+
+    @Override
+    public void clear() {
+        this.setAll(Constants.EMPTY_BYTE_ARRAY);
     }
 }

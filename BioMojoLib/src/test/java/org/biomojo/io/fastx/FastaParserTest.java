@@ -27,7 +27,7 @@ import org.biomojo.alphabet.IUPACAlphabetVariant;
 import org.biomojo.io.SequenceInputStream;
 import org.biomojo.io.SequenceOutputStream;
 import org.biomojo.sequence.ByteSeq;
-import org.biomojo.sequence.ByteSeqImpl;
+import org.biomojo.sequence.BasicByteSeq;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -97,7 +97,7 @@ public class FastaParserTest extends FastxParserTest<ByteSeq<? extends ByteAlpha
      */
     @Override
     protected ByteSeq<? extends ByteAlphabet> getSequence() {
-        return new ByteSeqImpl<ByteAlphabet>(Alphabets.getAlphabet(
+        return new BasicByteSeq<ByteAlphabet>(Alphabets.getAlphabet(
                 AlphabetId.DNA | IUPACAlphabetVariant.WITH_ANY | IUPACAlphabetVariant.WITH_NON_CANONICAL,
                 ByteAlphabet.class));
     }

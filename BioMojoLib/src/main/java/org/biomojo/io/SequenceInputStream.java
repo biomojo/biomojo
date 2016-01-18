@@ -25,18 +25,34 @@ import org.biomojo.sequence.Seq;
  * The Interface SequenceInputStream.
  *
  * @author Hugh Eaves
- * @param <T> the generic type
+ * @param <T>
+ *            the generic type
  */
 public interface SequenceInputStream<T extends Seq<?, ?>> extends Closeable {
-    
+
     /**
      * Reads data from the InputStream into a {@link org.biomojo.sequence.Seq}
      * object. Returns true if the data was read successfully, false on end of
      * data.
      *
-     * @param sequence the sequence
+     * @param sequence
+     *            the sequence
      * @return true, if successful
-     * @throws ParseException the parse exception
+     * @throws ParseException
+     *             the parse exception
      */
     public boolean read(T sequence) throws ParseException;
+
+    /**
+     * Reads data from the InputStream into a new
+     * {@link org.biomojo.sequence.Seq} object, and returns that object. Returns
+     * null on end of data.
+     *
+     * @param sequence
+     *            the sequence
+     * @return the Sequence object, null on end of data
+     * @throws ParseException
+     *             the parse exception
+     */
+    public T readSeq() throws ParseException;
 }

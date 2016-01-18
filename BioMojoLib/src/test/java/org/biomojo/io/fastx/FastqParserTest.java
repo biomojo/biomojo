@@ -29,7 +29,7 @@ import org.biomojo.io.SequenceOutputStream;
 import org.biomojo.io.fastx.FastqInputStream;
 import org.biomojo.io.fastx.FastqOutputStream;
 import org.biomojo.sequence.FastqSeq;
-import org.biomojo.sequence.FastqSeqImpl;
+import org.biomojo.sequence.BasicFastqSeq;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,7 +96,7 @@ public class FastqParserTest extends FastxParserTest<FastqSeq<? extends Nucleoti
      */
     @Override
     protected FastqSeq<NucleotideAlphabet> getSequence() {
-        final FastqSeq<NucleotideAlphabet> sequence = new FastqSeqImpl<NucleotideAlphabet>(
+        final FastqSeq<NucleotideAlphabet> sequence = new BasicFastqSeq<NucleotideAlphabet>(
                 Alphabets.getAlphabet(AlphabetId.NUCLEOTIDE | IUPACAlphabetVariant.WITH_ANY, NucleotideAlphabet.class));
         return sequence;
     }

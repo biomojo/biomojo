@@ -36,25 +36,25 @@ import org.slf4j.LoggerFactory;
  */
 @Entity
 @DiscriminatorValue("F")
-public class FastqSeqImpl<A extends NucleotideAlphabet> extends ByteSeqImpl<A> implements FastqSeq<A> {
+public class BasicFastqSeq<A extends NucleotideAlphabet> extends BasicByteSeq<A> implements FastqSeq<A> {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
     /** The Constant logger. */
     @SuppressWarnings("unused")
-    private static final Logger logger = LoggerFactory.getLogger(FastqSeqImpl.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(BasicFastqSeq.class.getName());
 
     /** The seq. */
-    @OneToOne(targetEntity = ByteSeqImpl.class)
+    @OneToOne(targetEntity = BasicByteSeq.class)
     protected ByteSeq<QualityScoreAlphabet> seq;
 
     /**
      * Instantiates a new fastq seq impl.
      */
-    public FastqSeqImpl() {
+    public BasicFastqSeq() {
         super();
-        seq = new ByteSeqImpl<QualityScoreAlphabet>(
+        seq = new BasicByteSeq<QualityScoreAlphabet>(
                 Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScoreAlphabet.class));
 
     }
@@ -65,9 +65,9 @@ public class FastqSeqImpl<A extends NucleotideAlphabet> extends ByteSeqImpl<A> i
      * @param data the data
      * @param alphabet the alphabet
      */
-    public FastqSeqImpl(final byte[] data, final A alphabet) {
+    public BasicFastqSeq(final byte[] data, final A alphabet) {
         super(data, alphabet);
-        seq = new ByteSeqImpl<QualityScoreAlphabet>(
+        seq = new BasicByteSeq<QualityScoreAlphabet>(
                 Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScoreAlphabet.class));
 
     }
@@ -77,9 +77,9 @@ public class FastqSeqImpl<A extends NucleotideAlphabet> extends ByteSeqImpl<A> i
      *
      * @param data the data
      */
-    public FastqSeqImpl(final byte[] data) {
+    public BasicFastqSeq(final byte[] data) {
         super(data);
-        seq = new ByteSeqImpl<QualityScoreAlphabet>(
+        seq = new BasicByteSeq<QualityScoreAlphabet>(
                 Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScoreAlphabet.class));
 
     }
@@ -89,9 +89,9 @@ public class FastqSeqImpl<A extends NucleotideAlphabet> extends ByteSeqImpl<A> i
      *
      * @param alphabet the alphabet
      */
-    public FastqSeqImpl(final A alphabet) {
+    public BasicFastqSeq(final A alphabet) {
         super(alphabet);
-        seq = new ByteSeqImpl<QualityScoreAlphabet>(
+        seq = new BasicByteSeq<QualityScoreAlphabet>(
                 Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScoreAlphabet.class));
 
     }

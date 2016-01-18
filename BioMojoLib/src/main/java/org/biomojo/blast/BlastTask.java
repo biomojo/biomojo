@@ -32,7 +32,7 @@ import javax.persistence.Version;
 
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.blast.blastoutput.BlastOutput;
-import org.biomojo.sequence.ByteSeqImpl;
+import org.biomojo.sequence.BasicByteSeq;
 import org.biomojo.sequence.AbstractSeqList;
 
 // TODO: Auto-generated Javadoc
@@ -54,11 +54,11 @@ public class BlastTask {
 
     /** The query sequences. */
     @ManyToOne(cascade = CascadeType.ALL)
-    private AbstractSeqList<ByteSeqImpl<ByteAlphabet>> querySequences;
+    private AbstractSeqList<BasicByteSeq<ByteAlphabet>> querySequences;
 
     /** The database sequences. */
     @ManyToOne(cascade = CascadeType.ALL)
-    private AbstractSeqList<ByteSeqImpl<ByteAlphabet>> databaseSequences;
+    private AbstractSeqList<BasicByteSeq<ByteAlphabet>> databaseSequences;
 
     /** The blast output. */
     @OneToOne(cascade = CascadeType.ALL)
@@ -137,7 +137,7 @@ public class BlastTask {
      *
      * @return the query sequences
      */
-    public AbstractSeqList<ByteSeqImpl<ByteAlphabet>> getQuerySequences() {
+    public AbstractSeqList<BasicByteSeq<ByteAlphabet>> getQuerySequences() {
         return querySequences;
     }
 
@@ -146,7 +146,7 @@ public class BlastTask {
      *
      * @param querySequences the new query sequences
      */
-    public void setQuerySequences(final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> querySequences) {
+    public void setQuerySequences(final AbstractSeqList<BasicByteSeq<ByteAlphabet>> querySequences) {
         this.querySequences = querySequences;
     }
 
@@ -155,7 +155,7 @@ public class BlastTask {
      *
      * @return the database sequences
      */
-    public AbstractSeqList<ByteSeqImpl<ByteAlphabet>> getDatabaseSequences() {
+    public AbstractSeqList<BasicByteSeq<ByteAlphabet>> getDatabaseSequences() {
         return databaseSequences;
     }
 
@@ -164,7 +164,7 @@ public class BlastTask {
      *
      * @param databaseSequences the new database sequences
      */
-    public void setDatabaseSequences(final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> databaseSequences) {
+    public void setDatabaseSequences(final AbstractSeqList<BasicByteSeq<ByteAlphabet>> databaseSequences) {
         this.databaseSequences = databaseSequences;
     }
 

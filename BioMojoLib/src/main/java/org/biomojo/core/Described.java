@@ -16,12 +16,11 @@
  */
 package org.biomojo.core;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface Described.
  */
 public interface Described {
-    
+
     /**
      * Gets the description.
      *
@@ -32,7 +31,8 @@ public interface Described {
     /**
      * Sets the description.
      *
-     * @param description the new description
+     * @param description
+     *            the new description
      */
     public void setDescription(CharSequence description);
 }

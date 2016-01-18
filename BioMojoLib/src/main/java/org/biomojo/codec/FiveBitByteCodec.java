@@ -94,7 +94,7 @@ public class FiveBitByteCodec extends AbstractByteByteCodec {
      * @see org.biomojo.codec.ByteCodec#decode(byte[])
      */
     @Override
-    public byte[] decode(final ByteAlphabet alphabet, final byte[] encodedData, final int length) {
+    public byte[] decodeAll(final ByteAlphabet alphabet, final byte[] encodedData, final int length) {
         final byte[] decodedData = new byte[length];
         final int finalNumSymbols = length % SYMBOLS_PER_CHUNK;
         final int endPos = length - finalNumSymbols;
@@ -129,15 +129,13 @@ public class FiveBitByteCodec extends AbstractByteByteCodec {
      *            the alphabet
      * @param encodedData
      *            the encoded data
-     * @param length
-     *            the length
      * @param pos
      *            the pos
      * @return the byte
      * @see org.biomojo.codec.ByteCodec#decode(byte[], int)
      */
     @Override
-    public byte decode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final int pos) {
+    public byte decode(final ByteAlphabet alphabet, final byte[] encodedData, final int decodedLength, final int pos) {
         int ordinal = 0;
 
         final int start = pos / SYMBOLS_PER_CHUNK * BITS_PER_SYMBOL;
@@ -249,8 +247,8 @@ public class FiveBitByteCodec extends AbstractByteByteCodec {
     @Override
     public void encode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final byte symbol,
             final int pos) {
-        int ordinal = alphabet.getOrdinalForSymbol(symbol);
-        int start = pos / SYMBOLS_PER_CHUNK * BITS_PER_SYMBOL;
+        final int ordinal = alphabet.getOrdinalForSymbol(symbol);
+        final int start = pos / SYMBOLS_PER_CHUNK * BITS_PER_SYMBOL;
         switch (pos % SYMBOLS_PER_CHUNK) {
         case 0:
             encodedData[start] = (byte) (encodedData[start] & CLEAR_MASK_0 | ordinal);
@@ -296,6 +294,18 @@ public class FiveBitByteCodec extends AbstractByteByteCodec {
      */
     @Override
     public boolean supportsAlphabet(final Alphabet<Byte> alphabet) {
-        return (alphabet.numCanonicalSymbols() <= NUM_SYMBOLS);
+        return (alphabet.numSymbols() <= NUM_SYMBOLS);
+    }
+
+    @Override
+    public byte[] decodeBlock(final ByteAlphabet alphabet, final byte[] encodedData, final byte[] decodedBlock,
+            final int blockNum) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public int blockSize(final int blockNum) {
+        return SYMBOLS_PER_CHUNK;
     }
 }

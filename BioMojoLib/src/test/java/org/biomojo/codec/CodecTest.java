@@ -65,8 +65,8 @@ public class CodecTest {
     public void testTwoBitPerf() {
         final ByteAlphabet alphabet = Alphabets.getAlphabet(AlphabetId.DNA, ByteAlphabet.class);
         final ByteByteCodec codec = Codecs.getCodec(CodecId.TWO_BIT_BYTE_CODEC, ByteByteCodec.class);
-        int NUM_SEQS = 1000;
-        int SEQ_LEN = 1000;
+        final int NUM_SEQS = 1000;
+        final int SEQ_LEN = 1000;
         final byte[][] seq = new byte[NUM_SEQS][];
         for (int i = 0; i < NUM_SEQS; ++i) {
             final int length = random.nextInt(SEQ_LEN);
@@ -76,12 +76,12 @@ public class CodecTest {
             }
         }
         byte[] encoded = null;
-        Stopwatch sw = new Stopwatch();
+        final Stopwatch sw = new Stopwatch();
         sw.start();
         for (int h = 0; h < 10; ++h) {
             for (int i = 0; i < NUM_SEQS; ++i) {
                 encoded = codec.encode(alphabet, encoded, seq[i].length, seq[i]);
-                final byte[] decoded = codec.decode(alphabet, encoded, seq[i].length);
+                final byte[] decoded = codec.decodeAll(alphabet, encoded, seq[i].length);
             }
         }
         sw.stop();
@@ -92,8 +92,8 @@ public class CodecTest {
         final ByteAlphabet alphabet = Alphabets.getAlphabet(AlphabetId.DNA | IUPACAlphabetVariant.WITH_NON_CANONICAL,
                 ByteAlphabet.class);
         final ByteByteCodec codec = Codecs.getCodec(CodecId.THREE_BIT_BYTE_CODEC, ByteByteCodec.class);
-        int NUM_SEQS = 1000;
-        int SEQ_LEN = 1000;
+        final int NUM_SEQS = 1000;
+        final int SEQ_LEN = 1000;
         final byte[][] seq = new byte[NUM_SEQS][];
         for (int i = 0; i < NUM_SEQS; ++i) {
             final int length = random.nextInt(SEQ_LEN);
@@ -102,12 +102,12 @@ public class CodecTest {
                 seq[i][j] = alphabet.getByteSymbolForOrdinal(random.nextInt(alphabet.numSymbols()));
             }
         }
-        Stopwatch sw = new Stopwatch();
+        final Stopwatch sw = new Stopwatch();
         sw.start();
         for (int h = 0; h < 10; ++h) {
             for (int i = 0; i < NUM_SEQS; ++i) {
                 final byte[] encoded = codec.encode(alphabet, null, seq[i].length, seq[i]);
-                final byte[] decoded = codec.decode(alphabet, encoded, seq[i].length);
+                final byte[] decoded = codec.decodeAll(alphabet, encoded, seq[i].length);
             }
         }
         sw.stop();
@@ -196,11 +196,11 @@ public class CodecTest {
         // logger.debug("encoded = {}", split(BitStringUtil.toString(encoded),
         // 8));
 
-        byte[] decoded = codec.decode(alphabet, encoded, seq.length);
+        byte[] decoded = codec.decodeAll(alphabet, encoded, seq.length);
         assertArrayEquals(seq, decoded);
         for (int i = 0; i < seq.length; ++i) {
             // logger.debug("decoding position {}:", i);
-            byte decodedByte = codec.decode(alphabet, encoded, seq.length, i);
+            final byte decodedByte = codec.decode(alphabet, encoded, seq.length, i);
             // logger.debug("ord = {}, seq[i] = {}, decoded = {}",
             // alphabet.getOrdinalForSymbol(seq[i]), seq[i],
             // decodedByte);
@@ -213,13 +213,13 @@ public class CodecTest {
             codec.encode(alphabet, encoded, length, seq[i], i);
         }
 
-        decoded = codec.decode(alphabet, encoded, seq.length);
+        decoded = codec.decodeAll(alphabet, encoded, seq.length);
         assertArrayEquals(seq, decoded);
         // logger.debug("encoded = {} (B)", BitStringUtil.toString(encoded));
 
         if (length != 0) {
             for (int i = 0; i < 1000; ++i) {
-                int pos = random.nextInt(length);
+                final int pos = random.nextInt(length);
                 codec.encode(alphabet, encoded, length, seq[pos], pos);
                 // logger.debug("encoded = {} {}",
                 // split(BitStringUtil.toString(encoded), 8), pos);
@@ -228,7 +228,7 @@ public class CodecTest {
             }
         }
         // logger.debug("encoded = {}", BitStringUtil.toString(encoded));
-        decoded = codec.decode(alphabet, encoded, seq.length);
+        decoded = codec.decodeAll(alphabet, encoded, seq.length);
         assertArrayEquals(seq, decoded);
         for (int i = 0; i < seq.length; ++i) {
             assertEquals(seq[i], codec.decode(alphabet, encoded, seq.length, i));
@@ -238,8 +238,8 @@ public class CodecTest {
         assertArrayEquals(seq, decoded);
     }
 
-    String split(String str, int interval) {
-        StringBuffer result = new StringBuffer();
+    String split(final String str, final int interval) {
+        final StringBuffer result = new StringBuffer();
         for (int i = 0; i < str.length(); ++i) {
             result.append(str.charAt(i));
             if (i % interval == interval - 1) {

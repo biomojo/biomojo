@@ -25,11 +25,12 @@ import org.biomojo.alphabet.ByteAlphabet;
  * The Class NullByteCodec.
  */
 public class NullByteCodec extends AbstractByteByteCodec implements ByteByteCodec {
-    
+
     /**
      * Instantiates a new null byte codec.
      *
-     * @param id the id
+     * @param id
+     *            the id
      */
     NullByteCodec(final int id) {
         super(id);
@@ -38,41 +39,50 @@ public class NullByteCodec extends AbstractByteByteCodec implements ByteByteCode
     /**
      * Decode.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
      * @return the byte[]
      * @see org.biomojo.codec.ByteCodec#decode(byte[])
      */
     @Override
-    public byte[] decode(final ByteAlphabet alphabet, final byte[] encodedData, final int length) {
+    public byte[] decodeAll(final ByteAlphabet alphabet, final byte[] encodedData, final int length) {
         return encodedData;
     }
 
     /**
      * Decode.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param pos the pos
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param pos
+     *            the pos
      * @return the byte
      * @see org.biomojo.codec.ByteCodec#decode(byte[], long)
      */
     @Override
-    public byte decode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final int pos) {
+    public byte decode(final ByteAlphabet alphabet, final byte[] encodedData, final int decodedLength, final int pos) {
         return encodedData[pos];
     }
 
     /**
      * Encode.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param decodedData the decoded data
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
+     * @param decodedData
+     *            the decoded data
      * @return the byte[]
-     * @see org.biomojo.codec.ByteCodec#encode(byte[], byte[])
+     * @see org.biomojo.codec.ByteCodec#encodeAll(byte[], byte[])
      */
     @Override
     public byte[] encode(final ByteAlphabet alphabet, final byte[] encodedData, final int length,
@@ -83,11 +93,16 @@ public class NullByteCodec extends AbstractByteByteCodec implements ByteByteCode
     /**
      * Encode.
      *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param symbol the symbol
-     * @param index the index
+     * @param alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
+     * @param symbol
+     *            the symbol
+     * @param index
+     *            the index
      * @see org.biomojo.codec.ByteCodec#encode(byte[], byte, long)
      */
     @Override
@@ -99,7 +114,8 @@ public class NullByteCodec extends AbstractByteByteCodec implements ByteByteCode
     /**
      * Supports alphabet.
      *
-     * @param alphabet the alphabet
+     * @param alphabet
+     *            the alphabet
      * @return true, if successful
      * @see org.biomojo.codec.Codec#supportsAlphabet(org.biomojo.alphabet.Alphabet)
      */
@@ -108,35 +124,15 @@ public class NullByteCodec extends AbstractByteByteCodec implements ByteByteCode
         return true;
     }
 
-    /**
-     * Decode.
-     *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param index the index
-     * @return the byte
-     * @see org.biomojo.codec.AnyToByteCodec#decode(org.biomojo.alphabet.Alphabet,
-     *      byte[], int, int)
-     */
     @Override
-    public Byte decode(final Alphabet<Byte> alphabet, final byte[] encodedData, final int length, final int index) {
-        return encodedData[index];
+    public byte[] decodeBlock(final ByteAlphabet alphabet, final byte[] encodedData, final byte[] decodedBlock,
+            final int blockNum) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
-    /**
-     * Encode.
-     *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param symbol the symbol
-     * @param index the index
-     * @see org.biomojo.codec.AnyToByteCodec#encode(org.biomojo.alphabet.Alphabet,
-     *      byte[], java.lang.Object, int)
-     */
     @Override
-    public void encode(final Alphabet<Byte> alphabet, final byte[] encodedData, final Byte symbol, final int index) {
-        encodedData[index] = symbol;
+    public int blockSize(final int blockNum) {
+        return 1;
     }
-
 }

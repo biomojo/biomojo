@@ -36,7 +36,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.XmlType;
 
 import org.biomojo.alphabet.ByteAlphabet;
-import org.biomojo.sequence.ByteSeqImpl;
+import org.biomojo.sequence.BasicByteSeq;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -85,7 +85,7 @@ public class BlastHit {
     /** The hit sequence. */
     @XmlTransient
     @OneToOne
-    protected ByteSeqImpl<ByteAlphabet> hitSequence;
+    protected BasicByteSeq<ByteAlphabet> hitSequence;
 
     /** The blast iteration. */
     @XmlTransient
@@ -241,7 +241,7 @@ public class BlastHit {
      *
      * @return the hit sequence
      */
-    public ByteSeqImpl<ByteAlphabet> getHitSequence() {
+    public BasicByteSeq<ByteAlphabet> getHitSequence() {
         return hitSequence;
     }
 
@@ -250,7 +250,7 @@ public class BlastHit {
      *
      * @param hitSequence the new hit sequence
      */
-    public void setHitSequence(final ByteSeqImpl<ByteAlphabet> hitSequence) {
+    public void setHitSequence(final BasicByteSeq<ByteAlphabet> hitSequence) {
         this.hitSequence = hitSequence;
     }
 

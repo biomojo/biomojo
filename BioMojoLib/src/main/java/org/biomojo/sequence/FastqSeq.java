@@ -19,15 +19,15 @@ package org.biomojo.sequence;
 import org.biomojo.alphabet.NucleotideAlphabet;
 import org.biomojo.alphabet.QualityScoreAlphabet;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface FastqSeq.
  *
  * @author Hugh Eaves
- * @param <A> the generic type
+ * @param <A>
+ *            the generic type
  */
 public interface FastqSeq<A extends NucleotideAlphabet> extends ByteSeq<A> {
-    
+
     /**
      * Gets the quality scores.
      *

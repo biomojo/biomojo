@@ -19,7 +19,6 @@ package org.biomojo.sequence;
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class CharSequenceConverter.
  *
@@ -27,20 +26,28 @@ import javax.persistence.Converter;
  */
 @Converter(autoApply = true)
 public class CharSequenceConverter implements AttributeConverter<CharSequence, String> {
-    
-    /* (non-Javadoc)
-     * @see javax.persistence.AttributeConverter#convertToDatabaseColumn(java.lang.Object)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * javax.persistence.AttributeConverter#convertToDatabaseColumn(java.lang.
+     * Object)
      */
     @Override
-    public String convertToDatabaseColumn(CharSequence charSequence) {
+    public String convertToDatabaseColumn(final CharSequence charSequence) {
         return charSequence.toString();
     }
 
-    /* (non-Javadoc)
-     * @see javax.persistence.AttributeConverter#convertToEntityAttribute(java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * javax.persistence.AttributeConverter#convertToEntityAttribute(java.lang.
+     * Object)
      */
     @Override
-    public CharSequence convertToEntityAttribute(String string) {
+    public CharSequence convertToEntityAttribute(final String string) {
         return string;
     }
 }

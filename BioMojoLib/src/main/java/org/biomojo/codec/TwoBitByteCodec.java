@@ -21,7 +21,6 @@ import org.biomojo.alphabet.ByteAlphabet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TwoBitByteCodec.
  */
@@ -39,7 +38,16 @@ public class TwoBitByteCodec extends AbstractByteByteCodec {
      */
     TwoBitByteCodec(final int id) {
         super(id);
+        // for (int table = 0; table < 4; ++table) {
+        // decodeTable[table] = new byte[256];
+        // final byte data[] = new byte[1];
+        // for (int i = 0; i < 256; ++i) {
+        // decodeTable[table][i] = (byte) (i % 4);
+        // }
+        // }
     }
+
+    // private static final byte[][] decodeTable = new byte[4][];
 
     /** The Constant BITS_PER_SYMBOL. */
     private static final int BITS_PER_SYMBOL = 2;
@@ -89,7 +97,7 @@ public class TwoBitByteCodec extends AbstractByteByteCodec {
      * @see org.biomojo.codec.ByteCodec#decode(byte[])
      */
     @Override
-    public byte[] decode(final ByteAlphabet alphabet, final byte[] encodedData, final int length) {
+    public byte[] decodeAll(final ByteAlphabet alphabet, final byte[] encodedData, final int length) {
         final byte[] decodedData = new byte[length];
         final int endPos = length - (length & 0x03);
         int decodedPos = 0;
@@ -117,24 +125,23 @@ public class TwoBitByteCodec extends AbstractByteByteCodec {
      *            the alphabet
      * @param encodedData
      *            the encoded data
-     * @param length
-     *            the length
      * @param pos
      *            the pos
      * @return the byte
      * @see org.biomojo.codec.ByteCodec#decode(byte[], int)
      */
     @Override
-    public byte decode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final int pos) {
+    public byte decode(final ByteAlphabet alphabet, final byte[] encodedData, final int decodedLength, final int pos) {
         final int bytePos = pos >>> 2;
         final int symbolPos = pos & 0x03;
+
         switch (symbolPos) {
         case 0:
-            return alphabet.getByteSymbolForOrdinal(encodedData[bytePos] >> SHIFT_0 & SYMBOL_MASK);
+            return alphabet.getByteSymbolForOrdinal(encodedData[bytePos] >>> SHIFT_0 & SYMBOL_MASK);
         case 1:
-            return alphabet.getByteSymbolForOrdinal(encodedData[bytePos] >> SHIFT_1 & SYMBOL_MASK);
+            return alphabet.getByteSymbolForOrdinal(encodedData[bytePos] >>> SHIFT_1 & SYMBOL_MASK);
         case 2:
-            return alphabet.getByteSymbolForOrdinal(encodedData[bytePos] >> SHIFT_2 & SYMBOL_MASK);
+            return alphabet.getByteSymbolForOrdinal(encodedData[bytePos] >>> SHIFT_2 & SYMBOL_MASK);
         case 3:
             return alphabet.getByteSymbolForOrdinal(encodedData[bytePos] & SYMBOL_MASK);
         }
@@ -245,5 +252,17 @@ public class TwoBitByteCodec extends AbstractByteByteCodec {
     @Override
     public boolean supportsAlphabet(final Alphabet<Byte> alphabet) {
         return (alphabet.numSymbols() <= NUM_SYMBOLS);
+    }
+
+    @Override
+    public byte[] decodeBlock(final ByteAlphabet alphabet, final byte[] encodedData, final byte[] decodedBlock,
+            final int blockNum) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public int blockSize(final int blockNum) {
+        return SYMBOLS_PER_BYTE;
     }
 }

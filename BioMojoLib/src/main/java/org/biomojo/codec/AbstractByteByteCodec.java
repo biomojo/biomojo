@@ -16,7 +16,6 @@
  */
 package org.biomojo.codec;
 
-import org.biomojo.alphabet.Alphabet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,69 +26,13 @@ import org.slf4j.LoggerFactory;
  * @author Hugh Eaves
  */
 public abstract class AbstractByteByteCodec extends AbstractCodec<Byte, Byte> implements ByteByteCodec {
-    
+
     /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(AbstractByteByteCodec.class.getName());
 
-    /**
-     * Create a new AbstractByteCodec.
-     *
-     * @param codecId the codec id
-     */
-    public AbstractByteByteCodec(int codecId) {
+    public AbstractByteByteCodec(final int codecId) {
         super(codecId);
     }
 
-    /**
-     * Decode all the data in the sequence.
-     *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @return the d[]
-     */
-    @Override
-    public Byte[] decode(Alphabet<Byte> alphabet, byte[] encodedData, int length) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Decode a single position in the sequence.
-     *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param pos the pos
-     * @return the byte
-     */
-    @Override
-    public Byte decode(Alphabet<Byte> alphabet, byte[] encodedData, int length, int pos) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Encode a single value, replacing the value at the given position.
-     *
-     * @param alphabet the alphabet
-     * @param encodedData the encoded data
-     * @param symbol the symbol
-     * @param pos the pos
-     */
-    @Override
-    public void encode(Alphabet<Byte> alphabet, byte[] encodedData, Byte symbol, int pos) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Encode all the data into the sequence, replacing any existing data.
-     *
-     * @param alphabet the alphabet
-     * @param decodedData the decoded data
-     * @return the byte[]
-     */
-    @Override
-    public byte[] encode(Alphabet<Byte> alphabet, Byte[] decodedData) {
-        throw new UnsupportedOperationException();
-    }
 }

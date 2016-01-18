@@ -14,24 +14,34 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.biomojo.alphabet;
+package org.biomojo.sequence.factory;
 
-import org.biomojo.symbols.Nucleotides;
+import java.util.function.Supplier;
 
-// TODO: Auto-generated Javadoc
+import org.biomojo.alphabet.Alphabets;
+import org.biomojo.alphabet.ByteAlphabet;
+import org.biomojo.sequence.BasicByteSeq;
+import org.biomojo.sequence.ByteSeq;
+
 /**
- * The Class RNAAlphabetImpl.
- *
  * @author Hugh Eaves
+ *
  */
-public class RNAAlphabetImpl extends AbstractNucleotideAlphabet implements DNAAlphabet {
-    
-    /**
-     * Create a new DNAAlphabetImpl.
-     *
-     * @param id the id
-     */
-    protected RNAAlphabetImpl(int id) {
-        super(id, Nucleotides.RNA_SYMBOLS);
+public class ByteSeqSupplier<A extends ByteAlphabet> implements Supplier<ByteSeq<A>> {
+
+    protected final A alphabet;
+
+    @SuppressWarnings("unchecked")
+    public ByteSeqSupplier(final int alphabetId) {
+        alphabet = (A) Alphabets.getAlphabet(alphabetId);
     }
+
+    /**
+     * @see java.util.function.Supplier#get()
+     */
+    @Override
+    public ByteSeq<A> get() {
+        return new BasicByteSeq<>(alphabet);
+    }
+
 }

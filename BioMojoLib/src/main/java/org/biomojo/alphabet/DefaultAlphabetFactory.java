@@ -40,26 +40,26 @@ public class DefaultAlphabetFactory extends AbstractIdBasedFactory<Alphabet<?>> 
             registerProvider(AlphabetId.DNA + i, new ConfiguredObjectProvider<Alphabet<?>>() {
                 @Override
                 public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
-                    return new DNAAlphabetImpl((int) config.values()[0]);
+                    return new SimpleDNAAlphabet((int) config.values()[0]);
                 }
             }, true);
             registerProvider(AlphabetId.RNA + i, new ConfiguredObjectProvider<Alphabet<?>>() {
                 @Override
                 public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
-                    return new RNAAlphabetImpl((int) config.values()[0]);
+                    return new SimpleRNAAlphabet((int) config.values()[0]);
                 }
             }, true);
             registerProvider(AlphabetId.NUCLEOTIDE + i, new ConfiguredObjectProvider<Alphabet<?>>() {
                 @Override
                 public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
-                    return new NucleotideAlphabetImpl((int) config.values()[0]);
+                    return new SimpleNucleotideAlphabet((int) config.values()[0]);
                 }
             }, true);
 
             registerProvider(AlphabetId.AMINO_ACID + i, new ConfiguredObjectProvider<Alphabet<?>>() {
                 @Override
                 public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
-                    return new AminoAcidAlphabetImpl((int) config.values()[0]);
+                    return new SimpleAminoAcidAlphabet((int) config.values()[0]);
                 }
             }, true);
         }

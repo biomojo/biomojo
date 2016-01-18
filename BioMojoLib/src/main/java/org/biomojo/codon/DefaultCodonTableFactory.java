@@ -41,7 +41,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.STANDARD, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
                         "---M---------------M---------------M----------------------------");
             }
@@ -50,7 +50,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.VERTEBRATE_MITOCHONDRIAL, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIMMTTTTNNKKSS**VVVVAAAADDEEGGGG",
                         "--------------------------------MMMM---------------M------------");
             }
@@ -58,7 +58,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.YEAST_MITOCHONDRIAL, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYY**CCWWTTTTPPPPHHQQRRRRIIMMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
                         "----------------------------------MM----------------------------");
             }
@@ -66,7 +66,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.MOLD_MITOCHONDRIAL, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
                         "--MM---------------M------------MMMM---------------M------------");
             }
@@ -74,7 +74,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.INVERTEBRATE_MITOCHONDRIAL, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIMMTTTTNNKKSSSSVVVVAAAADDEEGGGG",
                         "---M----------------------------MMMM---------------M------------");
             }
@@ -82,7 +82,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.CILIATE_NUCLEAR, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYYQQCC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
                         "-----------------------------------M----------------------------");
             }
@@ -90,7 +90,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.ECHINODERM_MITOCHONDRIAL, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIIMTTTTNNNKSSSSVVVVAAAADDEEGGGG",
                         "-----------------------------------M---------------M------------");
             }
@@ -98,7 +98,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.EUPLOTID_NUCLEAR, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYY**CCCWLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
                         "-----------------------------------M----------------------------");
             }
@@ -106,7 +106,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.BACTERIAL_PLASTID, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
                         "---M---------------M------------MMMM---------------M------------");
             }
@@ -114,7 +114,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.ALTERNATIVE_YEAST_NUCLEAR, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYY**CC*WLLLSPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
                         "-------------------M---------------M----------------------------");
             }
@@ -122,7 +122,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.ASCIDIAN_MITOCHONDRIAL, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIMMTTTTNNKKSSGGVVVVAAAADDEEGGGG",
                         "---M------------------------------MM---------------M------------");
             }
@@ -130,7 +130,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.ALTERNATIVE_FLATWORM_MITOCHONDRIAL, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYYY*CCWWLLLLPPPPHHQQRRRRIIIMTTTTNNNKSSSSVVVVAAAADDEEGGGG",
                         "-----------------------------------M----------------------------");
             }
@@ -138,7 +138,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.BLEPHARISMA_MACRONUCLEAR, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYY*QCC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
                         "-----------------------------------M----------------------------");
             }
@@ -146,7 +146,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.CHLOROPHYCEAN_MITOCHONDRIAL, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYY*LCC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
                         "-----------------------------------M----------------------------");
             }
@@ -154,7 +154,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.TREMATODE_MITOCHONDRIAL, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIMMTTTTNNNKSSSSVVVVAAAADDEEGGGG",
                         "-----------------------------------M---------------M------------");
             }
@@ -162,7 +162,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.SCENEDESMUS_OBLIQUUS_MITOCHONDRIAL, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSS*SYY*LCC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
                         "-----------------------------------M----------------------------");
             }
@@ -170,7 +170,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.THRAUSTOCHYTRIUM_MITOCHONDRIAL, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FF*LSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
                         "--------------------------------M--M---------------M------------");
             }
@@ -178,7 +178,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.PTEROBRANCHIA_MITOCHONDRIAL, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSSKVVVVAAAADDEEGGGG",
                         "---M---------------M---------------M---------------M------------");
             }
@@ -186,7 +186,7 @@ public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable>
         registerProvider(CodonTableId.CGRACILIBACTERIA, new ConfiguredObjectProvider<CodonTable>() {
             @Override
             public CodonTable getObject(Config<CodonTable> config) throws FactoryException {
-                return new CodonTableImpl((int) config.values()[0],
+                return new DefaultCodonTable((int) config.values()[0],
                         "FFLLSSSSYY**CCGWLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
                         "---M-------------------------------M---------------M------------");
             }

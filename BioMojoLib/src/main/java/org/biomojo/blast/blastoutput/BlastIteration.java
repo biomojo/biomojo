@@ -37,7 +37,7 @@ import javax.xml.bind.annotation.XmlType;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.biomojo.alphabet.ByteAlphabet;
-import org.biomojo.sequence.ByteSeqImpl;
+import org.biomojo.sequence.BasicByteSeq;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -92,7 +92,7 @@ public class BlastIteration {
     /** The query sequence. */
     @XmlTransient
     @ManyToOne(cascade = CascadeType.ALL)
-    protected ByteSeqImpl<ByteAlphabet> querySequence;
+    protected BasicByteSeq<ByteAlphabet> querySequence;
 
     /** The blast output. */
     @XmlTransient
@@ -266,7 +266,7 @@ public class BlastIteration {
      *
      * @return the query sequence
      */
-    public ByteSeqImpl<ByteAlphabet> getQuerySequence() {
+    public BasicByteSeq<ByteAlphabet> getQuerySequence() {
         return querySequence;
     }
 
@@ -275,7 +275,7 @@ public class BlastIteration {
      *
      * @param querySequence the new query sequence
      */
-    public void setQuerySequence(final ByteSeqImpl<ByteAlphabet> querySequence) {
+    public void setQuerySequence(final BasicByteSeq<ByteAlphabet> querySequence) {
         this.querySequence = querySequence;
     }
 

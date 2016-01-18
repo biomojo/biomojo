@@ -39,7 +39,7 @@ import org.biomojo.core.CommonProperties;
 import org.biomojo.project.Project;
 import org.biomojo.property.LongProperty;
 import org.biomojo.property.StringProperty;
-import org.biomojo.sequence.ByteSeqImpl;
+import org.biomojo.sequence.BasicByteSeq;
 import org.biomojo.sequence.AbstractSeqList;
 import org.biomojo.sequence.SeqSubList;
 import org.biomojo.util.DbUtil;
@@ -166,7 +166,7 @@ public class BlastService {
         blastDataset.setProgram(program);
 
         for (final String querySet : querySets) {
-            final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> sequenceList = dbUtil
+            final AbstractSeqList<BasicByteSeq<ByteAlphabet>> sequenceList = dbUtil
                     .findByAttribute(AbstractSeqList.class, CommonProperties.NAME, querySet);
             if (sequenceList == null) {
                 throw new UncheckedException("AbstractMultiSequence " + querySet + " not found");
@@ -175,7 +175,7 @@ public class BlastService {
         }
 
         for (final String databaseSet : databaseSets) {
-            final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> sequenceList = dbUtil
+            final AbstractSeqList<BasicByteSeq<ByteAlphabet>> sequenceList = dbUtil
                     .findByAttribute(AbstractSeqList.class, CommonProperties.NAME, databaseSet);
             if (sequenceList == null) {
                 throw new UncheckedException("AbstractMultiSequence " + databaseSet + " not found");
@@ -221,10 +221,10 @@ public class BlastService {
 
         logger.info("Creating blast tasks for blast dataset " + blastDataset.getId());
 
-        for (final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> databaseSequenceList : blastDataset
+        for (final AbstractSeqList<BasicByteSeq<ByteAlphabet>> databaseSequenceList : blastDataset
                 .getDatabaseSequenceLists()) {
 
-            for (final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> querySequenceList : blastDataset
+            for (final AbstractSeqList<BasicByteSeq<ByteAlphabet>> querySequenceList : blastDataset
                     .getQuerySequenceLists()) {
 
                 logger.info("Database BasicSequence Set: " + databaseSequenceList.getProp(CommonProperties.NAME));
@@ -345,8 +345,8 @@ public class BlastService {
         final BlastTask blastTask = entityManager.find(BlastTask.class, blastTaskId);
 
         // Get the sequences that we're going to use for the blast
-        final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> querySequenceList = blastTask.getQuerySequences();
-        final AbstractSeqList<ByteSeqImpl<ByteAlphabet>> dbSequenceList = blastTask.getDatabaseSequences();
+        final AbstractSeqList<BasicByteSeq<ByteAlphabet>> querySequenceList = blastTask.getQuerySequences();
+        final AbstractSeqList<BasicByteSeq<ByteAlphabet>> dbSequenceList = blastTask.getDatabaseSequences();
 
         // Write query sequences out to File
         final File queryFile = blastFileService.getFastaFile(querySequenceList);

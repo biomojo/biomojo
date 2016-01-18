@@ -16,19 +16,20 @@
  */
 package org.biomojo.codec;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Interface FloatCodec.
+ * The Interface FloatByteCodec.
  *
  * @author Hugh Eaves
  */
-public interface FloatCodec extends Codec<Float, Byte> {
-    
+public interface FloatByteCodec extends Codec<Float, Byte> {
+
     /**
      * Decode.
      *
-     * @param encodedData the encoded data
-     * @param length the length
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
      * @return the float[]
      */
     public float[] decode(byte[] encodedData, int length);
@@ -36,9 +37,12 @@ public interface FloatCodec extends Codec<Float, Byte> {
     /**
      * Decode.
      *
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param index the index
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
+     * @param index
+     *            the index
      * @return the float
      */
     public float decode(byte[] encodedData, int length, int index);
@@ -46,7 +50,8 @@ public interface FloatCodec extends Codec<Float, Byte> {
     /**
      * Encode.
      *
-     * @param decodedData the decoded data
+     * @param decodedData
+     *            the decoded data
      * @return the byte[]
      */
     public byte[] encode(float[] decodedData);
@@ -54,10 +59,14 @@ public interface FloatCodec extends Codec<Float, Byte> {
     /**
      * Encode.
      *
-     * @param encodedData the encoded data
-     * @param length the length
-     * @param value the value
-     * @param index the index
+     * @param encodedData
+     *            the encoded data
+     * @param length
+     *            the length
+     * @param value
+     *            the value
+     * @param index
+     *            the index
      */
     public void encode(byte[] encodedData, int length, float value, int index);
 }

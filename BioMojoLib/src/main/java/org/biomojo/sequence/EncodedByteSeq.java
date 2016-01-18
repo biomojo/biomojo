@@ -29,12 +29,13 @@ import org.biomojo.codec.Codecs;
  * The Class EncodedByteSeq.
  *
  * @author Hugh Eaves
- * @param <A> the generic type
+ * @param <A>
+ *            the generic type
  */
 @Entity
 @DiscriminatorValue("E")
-public class EncodedByteSeq<A extends ByteAlphabet> extends ByteSeqImpl<A> {
-    
+public class EncodedByteSeq<A extends ByteAlphabet> extends BasicByteSeq<A> {
+
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
@@ -52,8 +53,10 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends ByteSeqImpl<A> {
     /**
      * Instantiates a new encoded byte seq.
      *
-     * @param data the data
-     * @param alphabet the alphabet
+     * @param data
+     *            the data
+     * @param alphabet
+     *            the alphabet
      */
     public EncodedByteSeq(final byte[] data, final A alphabet) {
         super(data, alphabet);
@@ -63,9 +66,12 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends ByteSeqImpl<A> {
     /**
      * Instantiates a new encoded byte seq.
      *
-     * @param data the data
-     * @param alphabet the alphabet
-     * @param codec the codec
+     * @param data
+     *            the data
+     * @param alphabet
+     *            the alphabet
+     * @param codec
+     *            the codec
      */
     public EncodedByteSeq(final byte[] data, final A alphabet, final ByteByteCodec codec) {
         super(data, alphabet);
@@ -75,7 +81,8 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends ByteSeqImpl<A> {
     /**
      * Instantiates a new encoded byte seq.
      *
-     * @param data the data
+     * @param data
+     *            the data
      */
     public EncodedByteSeq(final byte[] data) {
         super(data);
@@ -85,7 +92,8 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends ByteSeqImpl<A> {
     /**
      * Instantiates a new encoded byte seq.
      *
-     * @param alphabet the alphabet
+     * @param alphabet
+     *            the alphabet
      */
     public EncodedByteSeq(final A alphabet) {
         super(alphabet);
@@ -95,23 +103,29 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends ByteSeqImpl<A> {
     /**
      * Instantiates a new encoded byte seq.
      *
-     * @param alphabet the alphabet
-     * @param codec the codec
+     * @param alphabet
+     *            the alphabet
+     * @param codec
+     *            the codec
      */
     public EncodedByteSeq(final A alphabet, final ByteByteCodec codec) {
         super(alphabet);
         setCodec(codec);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.sequence.ByteSeqImpl#getAllBytes()
      */
     @Override
-    public byte[] getAllBytes() {
-        return codec.decode(getAlphabet(), data, length);
+    public byte[] toByteArray() {
+        return codec.decodeAll(getAlphabet(), data, length);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.sequence.ByteSeqImpl#setAll(byte[], boolean)
      */
     @Override
@@ -123,21 +137,25 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends ByteSeqImpl<A> {
         data = codec.encode(getAlphabet(), data, sequence.length, sequence);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.sequence.ByteSeqImpl#getValue(int)
      */
     @Override
-    public byte getValue(final int index) {
+    public byte getByte(final int index) {
         return codec.decode(getAlphabet(), data, length, index);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.sequence.ByteSeqImpl#setValue(byte, int)
      */
     @Override
-    public void setValue(final byte value, final int index) {
+    public void set(final int index, final byte value) {
         alphabet.validate(value);
-        codec.encode(getAlphabet(), data, value, index);
+        codec.encode(getAlphabet(), data, length, value, index);
     }
 
     /**
@@ -152,7 +170,8 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends ByteSeqImpl<A> {
     /**
      * Sets the codec.
      *
-     * @param codec            the codec to set
+     * @param codec
+     *            the codec to set
      */
     public void setCodec(final ByteByteCodec codec) {
         if (codec.supportsAlphabet(getAlphabet())) {
@@ -162,11 +181,4 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends ByteSeqImpl<A> {
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.biomojo.sequence.ByteSeqImpl#replace(byte[], int, int, int)
-     */
-    @Override
-    public void replace(final byte[] srcSeq, final int srcPos, final int destPos, final int length) {
-        throw new UnsupportedOperationException();
-    }
 }

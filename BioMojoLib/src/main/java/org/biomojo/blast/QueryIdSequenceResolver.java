@@ -23,7 +23,7 @@ import javax.persistence.PersistenceContext;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.blast.blastoutput.BlastIteration;
 import org.biomojo.blast.blastoutput.BlastOutput;
-import org.biomojo.sequence.ByteSeqImpl;
+import org.biomojo.sequence.BasicByteSeq;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -43,7 +43,7 @@ public class QueryIdSequenceResolver implements BlastSequenceResolver {
     public void resolveSequences(final BlastOutput blastOutput) {
         for (final BlastIteration iteration : blastOutput.getIterations()) {
             final long queryId = Long.parseLong(iteration.getQueryDef());
-            final ByteSeqImpl<ByteAlphabet> querySequence = entityManager.find(ByteSeqImpl.class, queryId);
+            final BasicByteSeq<ByteAlphabet> querySequence = entityManager.find(BasicByteSeq.class, queryId);
             iteration.setQuerySequence(querySequence);
         }
     }

@@ -90,8 +90,8 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
      * @see org.biomojo.sequence.ByteSeq#getAllBytes()
      */
     @Override
-    public byte[] getAllBytes() {
-        final byte[] nucleotides = seq.getAllBytes();
+    public byte[] toByteArray() {
+        final byte[] nucleotides = seq.toByteArray();
         final byte[] aminoAcids = new byte[size()];
         int j = 0;
         for (int i = 0; i < nucleotides.length - 2; i += 3) {
@@ -106,9 +106,8 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
      * @see org.biomojo.sequence.ByteSeq#getValue(int)
      */
     @Override
-    public byte getValue(final int index) {
-        return codonTable.getAminoAcid(seq.getValue(index * 3), seq.getValue(index * 3 + 1),
-                seq.getValue(index * 3 + 2));
+    public byte getByte(final int index) {
+        return codonTable.getAminoAcid(seq.getByte(index * 3), seq.getByte(index * 3 + 1), seq.getByte(index * 3 + 2));
     }
 
     /*
@@ -127,7 +126,7 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
      * @see org.biomojo.sequence.ByteSeq#setValue(byte, int)
      */
     @Override
-    public void setValue(final byte value, final int pos) {
+    public void set(final int pos, final byte value) {
         throw new UnsupportedOperationException();
     }
 
@@ -169,16 +168,6 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
     @Override
     public void canonicalize() {
         seq.canonicalize();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.sequence.ByteSeq#replace(byte[], int, int, int)
-     */
-    @Override
-    public void replace(final byte[] srcSeq, final int srcPos, final int destPos, final int length) {
-        throw new UnsupportedOperationException();
     }
 
     /*

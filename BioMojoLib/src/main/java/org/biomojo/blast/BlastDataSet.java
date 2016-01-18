@@ -32,7 +32,7 @@ import javax.persistence.OneToMany;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.core.AbstractPropertiedEntity;
 import org.biomojo.core.CommonProperties;
-import org.biomojo.sequence.ByteSeqImpl;
+import org.biomojo.sequence.BasicByteSeq;
 import org.biomojo.sequence.AbstractSeqList;
 
 // TODO: Auto-generated Javadoc
@@ -56,12 +56,12 @@ public class BlastDataSet extends AbstractPropertiedEntity {
     /** The query sequence lists. */
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "BlastDataSet_QuerySequenceLists")
-    private List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> querySequenceLists = new ArrayList<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>();
+    private List<AbstractSeqList<BasicByteSeq<ByteAlphabet>>> querySequenceLists = new ArrayList<AbstractSeqList<BasicByteSeq<ByteAlphabet>>>();
 
     /** The database sequence lists. */
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(name = "BlastDataSet_DatabaseSequenceLists")
-    private List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> databaseSequenceLists = new ArrayList<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>();
+    private List<AbstractSeqList<BasicByteSeq<ByteAlphabet>>> databaseSequenceLists = new ArrayList<AbstractSeqList<BasicByteSeq<ByteAlphabet>>>();
 
     /** The date created. */
     private Date dateCreated;
@@ -104,8 +104,8 @@ public class BlastDataSet extends AbstractPropertiedEntity {
      *
      * @return the query sequence lists
      */
-    public List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> getQuerySequenceLists() {
-        return (List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>) querySequenceLists;
+    public List<AbstractSeqList<BasicByteSeq<ByteAlphabet>>> getQuerySequenceLists() {
+        return (List<AbstractSeqList<BasicByteSeq<ByteAlphabet>>>) querySequenceLists;
     }
 
     /**
@@ -113,8 +113,8 @@ public class BlastDataSet extends AbstractPropertiedEntity {
      *
      * @param querySequenceLists the new query sequence lists
      */
-    public void setQuerySequenceLists(final List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> querySequenceLists) {
-        this.querySequenceLists = (List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>) querySequenceLists;
+    public void setQuerySequenceLists(final List<AbstractSeqList<BasicByteSeq<ByteAlphabet>>> querySequenceLists) {
+        this.querySequenceLists = (List<AbstractSeqList<BasicByteSeq<ByteAlphabet>>>) querySequenceLists;
     }
 
     /**
@@ -122,8 +122,8 @@ public class BlastDataSet extends AbstractPropertiedEntity {
      *
      * @return the database sequence lists
      */
-    public List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> getDatabaseSequenceLists() {
-        return (List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>>) databaseSequenceLists;
+    public List<AbstractSeqList<BasicByteSeq<ByteAlphabet>>> getDatabaseSequenceLists() {
+        return (List<AbstractSeqList<BasicByteSeq<ByteAlphabet>>>) databaseSequenceLists;
     }
 
     /**
@@ -131,7 +131,7 @@ public class BlastDataSet extends AbstractPropertiedEntity {
      *
      * @param databaseSequenceLists the new database sequence lists
      */
-    public void setDatabaseSequenceLists(final List<AbstractSeqList<ByteSeqImpl<ByteAlphabet>>> databaseSequenceLists) {
+    public void setDatabaseSequenceLists(final List<AbstractSeqList<BasicByteSeq<ByteAlphabet>>> databaseSequenceLists) {
         this.databaseSequenceLists = databaseSequenceLists;
     }
 
