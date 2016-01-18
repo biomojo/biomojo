@@ -15,7 +15,7 @@
 
 	<!-- Load some configuration values -->
 	<context:property-placeholder  order="0" ignore-unresolvable="true"
-		location="classpath:benchmark.properties" />
+		location="file:benchmark.properties" />
 	
 	<import resource="classpath:biomojo-default-context.xml" />
 	
