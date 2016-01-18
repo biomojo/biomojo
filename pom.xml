@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.java0</groupId>
 		<artifactId>java0-parent</artifactId>
-		<version>0.0.3</version>
+		<version>0.0.5-SNAPSHOT</version>
 	</parent>
 
 	<groupId>org.biomojo</groupId>
@@ -20,7 +20,7 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<spring.version>4.2.2.RELEASE</spring.version>
 		<hibernate.version>4.3.8.Final</hibernate.version>
-		<java0.version>0.0.3</java0.version>
+		<java0.version>0.0.5-SNAPSHOT</java0.version>
 		<mysql.version>5.1.35</mysql.version>
 		<hsqldb.version>2.3.2</hsqldb.version>
 		<postgresql.version>9.1-901.jdbc4</postgresql.version>
@@ -36,15 +36,17 @@
 		</repository>
 	</distributionManagement>
 
+	<scm>
+		<connection>scm:git:https://www.hugheaves.com/git/BioMojo.git</connection>
+		<developerConnection>scm:git:https://www.hugheaves.com/git/BioMojo.git</developerConnection>
+		<url>https://www.hugheaves.com/gitweb/BioMojo.git</url>
+		<tag>HEAD</tag>
+	</scm>
+
 	<repositories>
-		<repository>
-			<id>spring-snapshots</id>
-			<name>Spring Snapshots</name>
-			<url>http://repo.spring.io/snapshot</url>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
+		<!-- <repository> <id>spring-snapshots</id> <name>Spring Snapshots</name> 
+			<url>http://repo.spring.io/snapshot</url> <snapshots> <enabled>true</enabled> 
+			</snapshots> </repository> -->
 		<repository>
 			<id>biomojo-repo</id>
 			<url>http://www.biomojo.org/maven2</url>
