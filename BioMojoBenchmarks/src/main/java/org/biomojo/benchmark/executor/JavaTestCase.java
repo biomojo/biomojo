@@ -67,7 +67,13 @@ public class JavaTestCase extends TestCase {
     protected List<String> startCommandLine() {
         final List<String> commandLine = new ArrayList<String>();
         commandLine.add("java");
-        commandLine.add("-Xmx" + config.get(ConfigParams.JAVA_MEM) + "m");
+        if (config.get(ConfigParams.JVM_OPTS) != null) {
+            final String jvmOpts = config.get(ConfigParams.JVM_OPTS);
+            final String[] opts = jvmOpts.split("\\s+");
+            for (final String opt : opts) {
+                commandLine.add(opt);
+            }
+        }
         // if (config.get(ConfigParams.GC_LOG_FILE) != null) {
         // commandLine.add("-Xloggc:" + config.get(ConfigParams.GC_LOG_FILE));
         // commandLine.add("-XX:+PrintGCDetails");

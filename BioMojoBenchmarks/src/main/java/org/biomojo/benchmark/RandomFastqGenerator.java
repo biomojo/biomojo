@@ -20,11 +20,14 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.function.Supplier;
 
+import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.NucleotideAlphabet;
 import org.biomojo.io.FixedWidthSequenceIdHeaderBuilder;
 import org.biomojo.io.fastx.FastqOutputStream;
 import org.biomojo.sequence.FastqSeq;
+import org.biomojo.sequence.factory.FastqSeqSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,7 +38,7 @@ import org.slf4j.LoggerFactory;
 public class RandomFastqGenerator extends RandomSeqGenerator {
     private static final Logger logger = LoggerFactory.getLogger(RandomFastqGenerator.class.getName());
 
-    private final FastqSeqProvider provider = new FastqSeqProvider();
+    private final Supplier<FastqSeq<NucleotideAlphabet>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA);
 
     @Override
     public void createFile(final File file, final int numSeqs, final int seqLength) {
@@ -55,7 +58,7 @@ public class RandomFastqGenerator extends RandomSeqGenerator {
     }
 
     protected FastqSeq<NucleotideAlphabet> genByteSeq(final int seqNum, final int length) {
-        final FastqSeq<NucleotideAlphabet> record = provider.get();
+        final FastqSeq<NucleotideAlphabet> record = supplier.get();
         record.setId(seqNum);
         createRandomSeqData(record, length);
         createRandomSeqData(record.getQualityScores(), length);

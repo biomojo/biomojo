@@ -21,7 +21,7 @@ package org.biomojo.benchmark.executor;
  *
  */
 public interface ConfigParams {
-    public static final String JAVA_MEM = "JAVA_MEM";
+    public static final String JVM_OPTS = "JVM_OPTS";
     public static final String GC_LOG_FILE = "GC_LOG_FILE";
     public static final String PROGRAM_NAME = "PROGRAM_NAME";
     public static final String PROGRAM_BASE_DIR = "PROGRAM_BASE_DIR";

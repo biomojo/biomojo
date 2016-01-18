@@ -51,6 +51,8 @@ import com.beust.jcommander.Parameters;
 @Named
 public class ExecuteCommand extends AbstractSpringCommand {
 
+    private static final String OUTPUT_FILE_PREFIX = "output_";
+
     private static final Logger logger = LoggerFactory.getLogger(ExecuteCommand.class.getName());
 
     @Parameter(names = { "-b", "--benchmark" }, required = true, description = "Benchmark to execute")
@@ -68,8 +70,8 @@ public class ExecuteCommand extends AbstractSpringCommand {
     @Parameter(names = { "-i", "--in" }, description = "Input file name")
     protected File inputFile;
 
-    @Parameter(names = { "-j", "--javabigmem" }, description = "Java heap size for big memory benchmarks")
-    protected int javaBigMem = 12000;
+    @Parameter(names = { "-j", "--jvmopts" }, description = "JVM command line options")
+    protected String jvmOpts;
 
     @Parameter(names = { "-l", "--seqlength" }, description = "Length of sequences")
     protected Integer seqLength;
@@ -89,8 +91,6 @@ public class ExecuteCommand extends AbstractSpringCommand {
     protected File outputFile;
 
     protected boolean deleteInput;
-
-    private static final int JAVA_NORM_MEM = 1000;
 
     SetMap<Benchmark, TestCase> testCasesMap = new HashSetMap<>();
 
@@ -142,7 +142,7 @@ public class ExecuteCommand extends AbstractSpringCommand {
                     if (libraries.contains(testCase.getLibrary())) {
                         logger.info("Running testCase " + testCase);
                         gcLogFile = File.createTempFile("gclog", ".log", new File(dataDir));
-                        outputFile = File.createTempFile("output_", ".log", new File(dataDir));
+                        prepareOutputFile();
                         updateTestCase(testCase);
                         runBenchmark(runNumber, testCase);
                         gcLogFile.delete();
@@ -206,6 +206,32 @@ public class ExecuteCommand extends AbstractSpringCommand {
         }
     }
 
+    private void prepareOutputFile() {
+        logger.info("Preparing output file");
+
+        try {
+            switch (benchmark) {
+            case READ_FASTQ:
+            case LOAD_FASTQ:
+            case TRIM:
+                outputFile = File.createTempFile(OUTPUT_FILE_PREFIX, ".fastq", new File(dataDir));
+                break;
+            case READ_FASTA:
+            case LOAD_FASTA:
+            case TRANSLATE:
+                outputFile = File.createTempFile(OUTPUT_FILE_PREFIX, ".fasta", new File(dataDir));
+                break;
+            default:
+                outputFile = File.createTempFile(OUTPUT_FILE_PREFIX, ".txt", new File(dataDir));
+                break;
+
+            }
+        } catch (final IOException e) {
+            logger.error("Caught exception in auto-generated catch block", e);
+        }
+
+    }
+
     /**
      * @param config
      * @param inputFileName
@@ -250,8 +276,7 @@ public class ExecuteCommand extends AbstractSpringCommand {
         addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.HTSJDK));
         addTestCase(new JavaTestCase(Benchmark.READ_FASTA, Library.JEBL));
         addTestCase(new CppTestCase(Benchmark.READ_FASTA, Library.SEQAN));
-        // addTestCase(new CppTestCase(Benchmark.READ_FASTA,
-        // Library.SEQAN).add(ConfigParams.ENCODED, true));
+        addTestCase(new CppTestCase(Benchmark.READ_FASTA, Library.SEQAN).add(ConfigParams.ENCODED, true));
 
         addTestCase(new JavaTestCase(Benchmark.READ_FASTQ, Library.BIOJAVA));
         addTestCase(new JavaTestCase(Benchmark.READ_FASTQ, Library.BIOMOJO));
@@ -261,8 +286,7 @@ public class ExecuteCommand extends AbstractSpringCommand {
         addTestCase(new GenericTestCase(Benchmark.READ_FASTQ, Library.HTSEQ));
         addTestCase(new JavaTestCase(Benchmark.READ_FASTQ, Library.HTSJDK));
         addTestCase(new CppTestCase(Benchmark.READ_FASTQ, Library.SEQAN));
-        // addTestCase(new CppTestCase(Benchmark.READ_FASTQ,
-        // Library.SEQAN).add(ConfigParams.ENCODED, true));
+        addTestCase(new CppTestCase(Benchmark.READ_FASTQ, Library.SEQAN).add(ConfigParams.ENCODED, true));
 
         addTestCase(new JavaTestCase(Benchmark.TRIM, Library.BIOJAVA));
         addTestCase(new JavaTestCase(Benchmark.TRIM, Library.BIOMOJO));
@@ -272,8 +296,7 @@ public class ExecuteCommand extends AbstractSpringCommand {
         addTestCase(new GenericTestCase(Benchmark.TRIM, Library.HTSEQ));
         addTestCase(new JavaTestCase(Benchmark.TRIM, Library.HTSJDK));
         addTestCase(new CppTestCase(Benchmark.TRIM, Library.SEQAN));
-        // addTestCase(new CppTestCase(Benchmark.TRIM,
-        // Library.SEQAN).add(ConfigParams.ENCODED, true));
+        addTestCase(new CppTestCase(Benchmark.TRIM, Library.SEQAN).add(ConfigParams.ENCODED, true));
         addTestCase(new TrimmomaticTestCase(Benchmark.TRIM, Library.TRIMMOMATIC));
 
         addTestCase(new JavaTestCase(Benchmark.TRANSLATE, Library.BIOJAVA));
@@ -281,6 +304,8 @@ public class ExecuteCommand extends AbstractSpringCommand {
         addTestCase(new JavaTestCase(Benchmark.TRANSLATE, Library.BIOMOJO).add(ConfigParams.ENCODED, true));
         addTestCase(new PerlTestCase(Benchmark.TRANSLATE, Library.BIOPERL));
         addTestCase(new GenericTestCase(Benchmark.TRANSLATE, Library.BIOPYTHON));
+        addTestCase(new CppTestCase(Benchmark.TRANSLATE, Library.SEQAN));
+        addTestCase(new CppTestCase(Benchmark.TRANSLATE, Library.SEQAN).add(ConfigParams.ENCODED, true));
         addTestCase(new JavaTestCase(Benchmark.TRANSLATE, Library.JEBL));
 
         addTestCase(new JavaTestCase(Benchmark.ALIGN, Library.BIOJAVA));
@@ -289,8 +314,7 @@ public class ExecuteCommand extends AbstractSpringCommand {
         addTestCase(new GenericTestCase(Benchmark.ALIGN, Library.BIOPYTHON));
         addTestCase(new JavaTestCase(Benchmark.ALIGN, Library.JEBL));
         addTestCase(new CppTestCase(Benchmark.ALIGN, Library.SEQAN));
-        // addTestCase(new CppTestCase(Benchmark.ALIGN,
-        // Library.SEQAN).add(ConfigParams.ENCODED, true));
+        addTestCase(new CppTestCase(Benchmark.ALIGN, Library.SEQAN).add(ConfigParams.ENCODED, true));
     }
 
     private void addTestCase(final TestCase testCase) {
@@ -317,8 +341,8 @@ public class ExecuteCommand extends AbstractSpringCommand {
         if (gcLogFile != null) {
             testCase.add(ConfigParams.GC_LOG_FILE, gcLogFile.getAbsolutePath());
         }
-        if (outputFile != null) {
-            testCase.add(ConfigParams.OUTPUT_FILE, outputFile.getAbsolutePath());
+        if (jvmOpts != null) {
+            testCase.add(ConfigParams.JVM_OPTS, jvmOpts);
         }
 
         switch (testCase.getLibrary()) {
@@ -366,15 +390,14 @@ public class ExecuteCommand extends AbstractSpringCommand {
             throw new IllegalArgumentException();
         }
 
-        testCase.add(ConfigParams.JAVA_MEM, JAVA_NORM_MEM);
-
         switch (testCase.getBenchmark()) {
-        case LOAD_FASTA:
-        case LOAD_FASTQ:
-            testCase.add(ConfigParams.JAVA_MEM, javaBigMem);
-            break;
         case TRIM:
             testCase.add(ConfigParams.CUTOFF, cutoff);
+        case TRANSLATE:
+        case ALIGN:
+            if (outputFile != null) {
+                testCase.add(ConfigParams.OUTPUT_FILE, outputFile.getAbsolutePath());
+            }
             break;
         default:
 
