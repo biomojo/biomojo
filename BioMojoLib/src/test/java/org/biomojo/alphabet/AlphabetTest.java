@@ -49,7 +49,7 @@ public class AlphabetTest {
      * Test it.
      */
     public void testIt() {
-        final Alphabet<Byte> alphabet = AllByteAlphabet.INSTANCE;
+        final Alphabet<Byte> alphabet = AllByte.INSTANCE;
         alphabet.getSymbolForOrdinal(0);
 
     }

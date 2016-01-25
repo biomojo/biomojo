@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import org.biomojo.alphabet.Alphabets;
-import org.biomojo.alphabet.IUPACAlphabetVariant;
+import org.biomojo.alphabet.IUPACVariant;
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.io.ParseException;
@@ -69,7 +69,7 @@ public class PrecomputedAminoAcidSubstitutionMatrix extends AbstractByteSubstitu
      */
     public PrecomputedAminoAcidSubstitutionMatrix(String prefix, int instance) {
         super(Alphabets.getAlphabet(
-                AlphabetId.AMINO_ACID | IUPACAlphabetVariant.WITH_ANY | IUPACAlphabetVariant.WITH_AMBIGIGUITY,
+                AlphabetId.AMINO_ACID | IUPACVariant.WITH_ANY | IUPACVariant.WITH_AMBIGIGUITY,
                 ByteAlphabet.class));
 
         String fileName = PATH_PREFIX + prefix + instance;

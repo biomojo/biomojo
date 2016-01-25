@@ -62,4 +62,26 @@ public interface Seq<T, A extends Alphabet<T>> extends DefaultList<T>, Propertie
      */
     public void canonicalize();
 
+    void add(long index, T element);
+
+    T set(long index, T element);
+
+    T get(long index);
+
+    long lsize();
+
+    /**
+     * Reverse the order of elements in the s
+     */
+    default void reverse() {
+        final long lastPos = lsize() - 1;
+        final long midPos = lastPos / 2;
+        for (long i = 0; i < midPos; ++i) {
+            final T val = get(i);
+            // swap values
+            set(i, get(lastPos - i));
+            set(lastPos - i, val);
+        }
+    }
+
 }

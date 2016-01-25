@@ -16,12 +16,37 @@
  */
 package org.biomojo.alphabet;
 
+// TODO: Auto-generated Javadoc
 /**
- * The Interface NucleotideAlphabet.
+ * Interface for alphabets supporting gap symbols. *
+ *
+ * @author Hugh Eaves
+ * @param <T>
+ *            the type of values in the alphabet
+ * @param <A>
+ *            the type of alphabet returned when a gapped alphabet is requested
  */
-public interface NucleotideAlphabet extends IUPACAlphabet {
-    @Override
-    public default NucleotideAlphabet getGapped() {
-        return Alphabets.getAlphabet(getId() | IUPACAlphabetVariant.WITH_GAP, NucleotideAlphabet.class);
-    }
+public interface Gappable<T, Z extends Gappable<T, Z>> extends Alphabet<T> {
+
+    /**
+     * Supports gaps.
+     *
+     * @return true, if successful
+     */
+    public boolean supportsGaps();
+
+    /**
+     * Gets the gapped.
+     *
+     * @return the gapped
+     */
+    // public <Z extends A> Z getGapped();
+    public Z getGapped();
+
+    /**
+     * Gap symbol.
+     *
+     * @return the t
+     */
+    public T gapSymbol();
 }

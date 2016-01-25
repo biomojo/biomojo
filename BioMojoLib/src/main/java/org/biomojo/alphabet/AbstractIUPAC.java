@@ -26,45 +26,48 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class AbstractIUPACAlphabet.
  */
-public abstract class AbstractIUPACAlphabet extends AbstractByteAlphabet implements IUPACAlphabet {
-    
+public abstract class AbstractIUPAC<A extends IUPAC<A>> extends AbstractByteAlphabet
+        implements IUPAC<A> {
+
     /** The Constant logger. */
     @SuppressWarnings("unused")
-    private static final Logger logger = LoggerFactory.getLogger(AbstractIUPACAlphabet.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(AbstractIUPAC.class.getName());
 
     /** The gap. */
     protected boolean gap;
-    
+
     /** The any. */
     protected boolean any;
-    
+
     /** The ambiguity. */
     protected boolean ambiguity;
 
     /**
      * Instantiates a new abstract iupac alphabet.
      *
-     * @param id the id
-     * @param coreSymbols the core symbols
+     * @param id
+     *            the id
+     * @param coreSymbols
+     *            the core symbols
      */
-    protected AbstractIUPACAlphabet(final int id, final byte[] coreSymbols) {
+    protected AbstractIUPAC(final int id, final byte[] coreSymbols) {
         super(id);
-        final int flags = id % IUPACAlphabetVariant.NUM_VARIANTS;
-        if ((flags & IUPACAlphabetVariant.WITH_NON_CANONICAL) != 0) {
+        final int flags = id % IUPACVariant.NUM_VARIANTS;
+        if ((flags & IUPACVariant.WITH_NON_CANONICAL) != 0) {
             canonical = false;
         } else {
             canonical = true;
         }
         addSymbols(coreSymbols);
-        if ((flags & IUPACAlphabetVariant.WITH_GAP) != 0) {
+        if ((flags & IUPACVariant.WITH_GAP) != 0) {
             addGapSymbols();
             gap = true;
         }
-        if ((flags & IUPACAlphabetVariant.WITH_ANY) != 0) {
+        if ((flags & IUPACVariant.WITH_ANY) != 0) {
             addAnySymbols();
             any = true;
         }
-        if ((flags & IUPACAlphabetVariant.WITH_AMBIGIGUITY) != 0) {
+        if ((flags & IUPACVariant.WITH_AMBIGIGUITY) != 0) {
             addAmbiguitySymbols();
             ambiguity = true;
         }
@@ -91,7 +94,9 @@ public abstract class AbstractIUPACAlphabet extends AbstractByteAlphabet impleme
      */
     protected abstract void addAmbiguitySymbols();
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.alphabet.ByteAlphabet#getCanonical(byte)
      */
     @Override
@@ -99,7 +104,9 @@ public abstract class AbstractIUPACAlphabet extends AbstractByteAlphabet impleme
         return canonicalSymbols[symbol];
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.alphabet.ByteAlphabet#makeCanonical(byte[])
      */
     @Override
@@ -140,7 +147,9 @@ public abstract class AbstractIUPACAlphabet extends AbstractByteAlphabet impleme
         return ambiguity;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.alphabet.AbstractByteAlphabet#getCanonical()
      */
     @Override
@@ -148,7 +157,9 @@ public abstract class AbstractIUPACAlphabet extends AbstractByteAlphabet impleme
         return this;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.alphabet.AbstractAlphabet#toString()
      */
     @Override

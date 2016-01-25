@@ -16,37 +16,9 @@
  */
 package org.biomojo.alphabet;
 
-// TODO: Auto-generated Javadoc
 /**
- * Interface for alphabets supporting gap symbols. *
- *
- * @author Hugh Eaves
- * @param <T>
- *            the type of values in the alphabet
- * @param <A>
- *            the type of alphabet returned when a gapped alphabet is requested
+ * The Interface DNAAlphabet.
  */
-public interface GappableAlphabet<T> extends Alphabet<T> {
+public interface DNA extends Nucleotide<DNA> {
 
-    /**
-     * Supports gaps.
-     *
-     * @return true, if successful
-     */
-    public boolean supportsGaps();
-
-    /**
-     * Gets the gapped.
-     *
-     * @return the gapped
-     */
-    // public <Z extends A> Z getGapped();
-    public GappableAlphabet<T> getGapped();
-
-    /**
-     * Gap symbol.
-     *
-     * @return the t
-     */
-    public T gapSymbol();
 }

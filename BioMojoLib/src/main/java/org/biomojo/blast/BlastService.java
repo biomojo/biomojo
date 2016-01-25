@@ -39,8 +39,8 @@ import org.biomojo.core.CommonProperties;
 import org.biomojo.project.Project;
 import org.biomojo.property.LongProperty;
 import org.biomojo.property.StringProperty;
-import org.biomojo.sequence.BasicByteSeq;
 import org.biomojo.sequence.AbstractSeqList;
+import org.biomojo.sequence.BasicByteSeq;
 import org.biomojo.sequence.SeqSubList;
 import org.biomojo.util.DbUtil;
 import org.biomojo.util.ProcessUtil;
@@ -54,7 +54,7 @@ import org.slf4j.LoggerFactory;
  */
 @Named
 public class BlastService {
-    
+
     /** The Constant logger. */
     private final static Logger logger = LoggerFactory.getLogger(BlastService.class.getName());
 
@@ -88,18 +88,20 @@ public class BlastService {
      * The Class BlastExecution.
      */
     private class BlastExecution {
-        
+
         /** The params. */
         private final String[] params;
-        
+
         /** The result file. */
         private final File resultFile;
 
         /**
          * Instantiates a new blast execution.
          *
-         * @param params the params
-         * @param resultFile the result file
+         * @param params
+         *            the params
+         * @param resultFile
+         *            the result file
          */
         public BlastExecution(final String[] params, final File resultFile) {
             this.params = params;
@@ -129,13 +131,20 @@ public class BlastService {
     /**
      * Creates the dataset.
      *
-     * @param projectName the project name
-     * @param datasetName the dataset name
-     * @param programName the program name
-     * @param querySets the query sets
-     * @param databaseSets the database sets
-     * @param maxTargetSeqs the max target seqs
-     * @param taskSize the task size
+     * @param projectName
+     *            the project name
+     * @param datasetName
+     *            the dataset name
+     * @param programName
+     *            the program name
+     * @param querySets
+     *            the query sets
+     * @param databaseSets
+     *            the database sets
+     * @param maxTargetSeqs
+     *            the max target seqs
+     * @param taskSize
+     *            the task size
      * @return the blast data set
      */
     @Transactional
@@ -195,7 +204,8 @@ public class BlastService {
     /**
      * Delete dataset.
      *
-     * @param datasetName the dataset name
+     * @param datasetName
+     *            the dataset name
      */
     @Transactional
     public void deleteDataset(final String datasetName) {
@@ -212,8 +222,10 @@ public class BlastService {
     /**
      * Creates the blast tasks.
      *
-     * @param blastDataset the blast dataset
-     * @param taskSize the task size
+     * @param blastDataset
+     *            the blast dataset
+     * @param taskSize
+     *            the task size
      * @return the blast data set
      */
     @Transactional
@@ -232,7 +244,7 @@ public class BlastService {
 
                 BlastTask blastTask = null;
 
-                final int sequenceListSize = (int) querySequenceList.size();
+                final int sequenceListSize = querySequenceList.size();
                 for (int i = 0; i < sequenceListSize; i += taskSize) {
 
                     blastTask = new BlastTask();
@@ -244,7 +256,8 @@ public class BlastService {
                         endPos = i + taskSize;
                     }
 
-                    final AbstractSeqList querySublist = new SeqSubList(querySequenceList, i, endPos);
+                    final AbstractSeqList<BasicByteSeq<ByteAlphabet>> querySublist = new SeqSubList<>(querySequenceList,
+                            i, endPos);
 
                     blastTask.setQuerySequences(querySublist);
 
@@ -291,8 +304,10 @@ public class BlastService {
     /**
      * Update blast task status.
      *
-     * @param blastTaskId the blast task id
-     * @param newStatus the new status
+     * @param blastTaskId
+     *            the blast task id
+     * @param newStatus
+     *            the new status
      */
     @Transactional
     public void updateBlastTaskStatus(final long blastTaskId, final BlastTaskStatus newStatus) {
@@ -303,7 +318,8 @@ public class BlastService {
     /**
      * Run blast.
      *
-     * @param blastTaskId the blast task id
+     * @param blastTaskId
+     *            the blast task id
      */
     public void runBlast(final long blastTaskId) {
 
@@ -334,9 +350,11 @@ public class BlastService {
     /**
      * Prepare blast execution.
      *
-     * @param blastTaskId the blast task id
+     * @param blastTaskId
+     *            the blast task id
      * @return the blast execution
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
      */
     @Transactional
     public BlastExecution prepareBlastExecution(final long blastTaskId) throws IOException {
@@ -373,7 +391,8 @@ public class BlastService {
     /**
      * Execute blast.
      *
-     * @param blastExecution the blast execution
+     * @param blastExecution
+     *            the blast execution
      */
     public void executeBlast(final BlastExecution blastExecution) {
         logger.info("Entering executeBlast()");
@@ -388,8 +407,10 @@ public class BlastService {
     /**
      * Parses the results.
      *
-     * @param blastTaskId the blast task id
-     * @param blastOutputStream the blast output stream
+     * @param blastTaskId
+     *            the blast task id
+     * @param blastOutputStream
+     *            the blast output stream
      */
     @Transactional
     public void parseResults(final long blastTaskId, final InputStream blastOutputStream) {

@@ -16,16 +16,15 @@
  */
 package org.biomojo.alignment;
 
-import org.biomojo.alphabet.GappableByteAlphabet;
+import org.biomojo.alphabet.GappableByte;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class NeedlemanWunschAligner.
  *
  * @param <A>
  *            the generic type
  */
-public class NeedlemanWunschAligner<A extends GappableByteAlphabet> extends AbstractByteSeqAligner<A> {
+public class NeedlemanWunschLinearGapByteSeqAligner<A extends GappableByte<A>> extends AbstractLinearGapByteSeqAligner<A> {
 
     /**
      * Instantiates a new needleman wunsch aligner.
@@ -35,23 +34,24 @@ public class NeedlemanWunschAligner<A extends GappableByteAlphabet> extends Abst
      * @param gapPenalty
      *            the gap penalty
      */
-    public NeedlemanWunschAligner(final ByteSubstitutionMatrix matrix, final int gapPenalty) {
+    public NeedlemanWunschLinearGapByteSeqAligner(final ByteSubstitutionMatrix matrix, final int gapPenalty) {
         super(matrix, gapPenalty);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.alignment.AbstractByteSeqAligner#initScoreMatrix()
-     */
     @Override
-    protected void initScoreMatrix() {
-        for (int i = 1; i < getSeq1Dim(); ++i) {
-            scores[i][0] = i * getGapPenalty();
+    protected void clearScores() {
+        for (int i = 1; i < seq1Dim; ++i) {
+            scores[i][0] = i * gapExtendPenalty;
         }
 
-        for (int i = 1; i < getSeq2Dim(); ++i) {
-            scores[0][i] = i * getGapPenalty();
+        for (int i = 1; i < seq2Dim; ++i) {
+            scores[0][i] = i * gapExtendPenalty;
         }
+    }
+
+    @Override
+    protected void initTraceback() {
+        seq1TracebackStart = seq1Dim - 1;
+        seq2TracebackStart = seq2Dim - 1;
     }
 }

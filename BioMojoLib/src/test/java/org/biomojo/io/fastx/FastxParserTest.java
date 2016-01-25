@@ -23,6 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.io.ParseException;
 import org.biomojo.io.SequenceInputStream;
 import org.biomojo.io.SequenceOutputStream;
@@ -36,10 +37,11 @@ import org.slf4j.LoggerFactory;
  * The Class FastxParserTest.
  *
  * @author Hugh Eaves
- * @param <T> the generic type
+ * @param <T>
+ *            the generic type
  */
-public abstract class FastxParserTest<T extends ByteSeq<?>> {
-    
+public abstract class FastxParserTest<A extends ByteAlphabet, T extends ByteSeq<A>> {
+
     /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(FastxParserTest.class.getName());
@@ -53,7 +55,8 @@ public abstract class FastxParserTest<T extends ByteSeq<?>> {
     /**
      * Test empty file.
      *
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
      */
     @Test
     public void testEmptyFile() throws IOException {
@@ -63,7 +66,8 @@ public abstract class FastxParserTest<T extends ByteSeq<?>> {
     /**
      * Test invalid files.
      *
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
      */
     @Test
     public void testInvalidFiles() throws IOException {
@@ -80,10 +84,14 @@ public abstract class FastxParserTest<T extends ByteSeq<?>> {
     /**
      * Test copy.
      *
-     * @param testData the test data
-     * @param expectedNumRecords the expected num records
-     * @param matchExpected the match expected
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @param testData
+     *            the test data
+     * @param expectedNumRecords
+     *            the expected num records
+     * @param matchExpected
+     *            the match expected
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
      */
     public void testCopy(final byte[] testData, final int expectedNumRecords, final boolean matchExpected)
             throws IOException {
@@ -98,11 +106,15 @@ public abstract class FastxParserTest<T extends ByteSeq<?>> {
     /**
      * Copy records.
      *
-     * @param testData the test data
-     * @param bufSize the buf size
-     * @param expectedReadCount the expected read count
+     * @param testData
+     *            the test data
+     * @param bufSize
+     *            the buf size
+     * @param expectedReadCount
+     *            the expected read count
      * @return the byte[]
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
      */
     protected byte[] copyRecords(final byte[] testData, final int bufSize, final int expectedReadCount)
             throws IOException {
@@ -132,9 +144,11 @@ public abstract class FastxParserTest<T extends ByteSeq<?>> {
     /**
      * Gets the test data from classpath.
      *
-     * @param path the path
+     * @param path
+     *            the path
      * @return the test data from classpath
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
      */
     protected byte[] getTestDataFromClasspath(final String path) throws IOException {
         final InputStream testDataStream = this.getClass().getClassLoader().getResourceAsStream(path);
@@ -154,8 +168,10 @@ public abstract class FastxParserTest<T extends ByteSeq<?>> {
     /**
      * Gets the input stream.
      *
-     * @param testData the test data
-     * @param bufSize the buf size
+     * @param testData
+     *            the test data
+     * @param bufSize
+     *            the buf size
      * @return the input stream
      */
     protected abstract SequenceInputStream<T> getInputStream(byte[] testData, int bufSize);
@@ -163,7 +179,8 @@ public abstract class FastxParserTest<T extends ByteSeq<?>> {
     /**
      * Gets the output stream.
      *
-     * @param outputStream the output stream
+     * @param outputStream
+     *            the output stream
      * @return the output stream
      */
     protected abstract SequenceOutputStream<T> getOutputStream(ByteArrayOutputStream outputStream);

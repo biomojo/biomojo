@@ -18,8 +18,8 @@ package org.biomojo.sequence;
 
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.Alphabets;
-import org.biomojo.alphabet.AminoAcidAlphabet;
-import org.biomojo.alphabet.NucleotideAlphabet;
+import org.biomojo.alphabet.AminoAcid;
+import org.biomojo.alphabet.DNA;
 import org.biomojo.codon.CodonTable;
 import org.biomojo.codon.CodonTableId;
 import org.biomojo.codon.CodonTables;
@@ -30,7 +30,7 @@ import org.biomojo.codon.CodonTables;
  *
  * @author Hugh Eaves
  */
-public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
+public class TranslatedSeq extends AbstractByteSeq<AminoAcid> {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
@@ -39,13 +39,13 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
     protected CodonTable codonTable;
 
     /** The seq. */
-    protected ByteSeq<NucleotideAlphabet> seq;
+    protected ByteSeq<DNA> seq;
 
     /**
      * Create a new TranslatedSeq.
      */
     public TranslatedSeq() {
-        super(Alphabets.getAlphabet(AlphabetId.AMINO_ACID, AminoAcidAlphabet.class));
+        super(Alphabets.getAlphabet(AlphabetId.AMINO_ACID, AminoAcid.class));
         codonTable = CodonTables.getCodonTable(CodonTableId.STANDARD);
     }
 
@@ -55,7 +55,7 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
      * @param sequence
      *            the sequence
      */
-    public TranslatedSeq(final ByteSeq<NucleotideAlphabet> sequence) {
+    public TranslatedSeq(final ByteSeq<DNA> sequence) {
         this();
         this.seq = sequence;
     }
@@ -68,7 +68,7 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
      * @param alphabet
      *            the alphabet
      */
-    public TranslatedSeq(final ByteSeq<NucleotideAlphabet> sequence, final AminoAcidAlphabet alphabet) {
+    public TranslatedSeq(final ByteSeq<DNA> sequence, final AminoAcid alphabet) {
         super(alphabet);
         codonTable = CodonTables.getCodonTable(CodonTableId.STANDARD);
         this.seq = sequence;
@@ -176,7 +176,7 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
      * @see org.biomojo.sequence.Seq#setAlphabet(org.biomojo.alphabet.Alphabet)
      */
     @Override
-    public void setAlphabet(final AminoAcidAlphabet alphabet) {
+    public void setAlphabet(final AminoAcid alphabet) {
         throw new UnsupportedOperationException();
     }
 
@@ -186,7 +186,7 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcidAlphabet> {
      * @see org.biomojo.sequence.ByteSeq#append(byte)
      */
     @Override
-    public void append(final byte symbol) {
+    public void add(final byte symbol) {
         throw new UnsupportedOperationException();
     }
 

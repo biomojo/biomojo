@@ -16,8 +16,11 @@
  */
 package org.biomojo.alphabet;
 
-/**
- * The Interface RNAAlphabet.
- */
-public interface RNAAlphabet extends NucleotideAlphabet {
+import org.biomojo.symbols.Nucleotides;
+
+public class BasicNucleotide<T extends Nucleotide<T>> extends AbstractNucleotide<T> implements Nucleotide<T> {
+
+    protected BasicNucleotide(final int id) {
+        super(id, Nucleotides.CORE_SYMBOLS);
+    }
 }

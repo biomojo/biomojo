@@ -35,26 +35,28 @@ public class AbstractByteSubstitutionMatrix implements ByteSubstitutionMatrix {
 
     /** The alphabet. */
     ByteAlphabet alphabet;
-    
+
     /** The scores. */
     protected int scores[][] = new int[Byte.MAX_VALUE + 1][Byte.MAX_VALUE + 1];
 
     /**
      * Instantiates a new abstract byte substitution matrix.
      *
-     * @param alphabet the alphabet
+     * @param alphabet
+     *            the alphabet
      */
-    protected AbstractByteSubstitutionMatrix(ByteAlphabet alphabet) {
+    protected AbstractByteSubstitutionMatrix(final ByteAlphabet alphabet) {
         this.alphabet = alphabet;
     }
 
     /**
      * Inits the matrix.
      *
-     * @param score the score
+     * @param score
+     *            the score
      */
-    protected void initMatrix(int score) {
-        for (int[] scoresRow : scores) {
+    protected void initMatrix(final int score) {
+        for (final int[] scoresRow : scores) {
             Arrays.fill(scoresRow, score);
         }
     }
@@ -63,11 +65,14 @@ public class AbstractByteSubstitutionMatrix implements ByteSubstitutionMatrix {
      * Sets a score in the matrix for both upper and lowercase versions of the
      * character.
      *
-     * @param fromChar the from char
-     * @param toChar the to char
-     * @param score the score
+     * @param fromChar
+     *            the from char
+     * @param toChar
+     *            the to char
+     * @param score
+     *            the score
      */
-    protected void setScore(char fromChar, char toChar, int score) {
+    protected void setScore(final char fromChar, final char toChar, final int score) {
         logger.debug("setScore: fromChar = {}, toChar = {}, score = {}", fromChar, toChar, score);
         scores[Character.toLowerCase(fromChar)][Character.toLowerCase(toChar)] = score;
         scores[Character.toLowerCase(fromChar)][Character.toUpperCase(toChar)] = score;
@@ -86,25 +91,24 @@ public class AbstractByteSubstitutionMatrix implements ByteSubstitutionMatrix {
         return alphabet;
     }
 
-    /* (non-Javadoc)
-     * @see org.biomojo.alignment.ByteSubstitutionMatrix#getScore(byte, byte)
-     */
     @Override
-    public int getScore(byte from, byte to) {
+    public int getScore(final byte from, final byte to) {
         return scores[from][to];
     }
 
     /**
      * Gets the score.
      *
-     * @param from the from
-     * @param to the to
+     * @param from
+     *            the from
+     * @param to
+     *            the to
      * @return the score
      * @see org.biomojo.alignment.SubstitutionMatrix#getScore(java.lang.Object,
      *      java.lang.Object)
      */
     @Override
-    public int getScore(Byte from, Byte to) {
+    public int getScore(final Byte from, final Byte to) {
         return scores[from][to];
     }
 }

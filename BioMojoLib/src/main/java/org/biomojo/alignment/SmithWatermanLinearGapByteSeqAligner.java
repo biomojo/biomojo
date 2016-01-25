@@ -16,16 +16,15 @@
  */
 package org.biomojo.alignment;
 
-import org.biomojo.alphabet.GappableByteAlphabet;
+import org.biomojo.alphabet.GappableByte;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SmithWatermanAligner.
  *
  * @param <A>
  *            the generic type
  */
-public class SmithWatermanAligner<A extends GappableByteAlphabet> extends AbstractByteSeqAligner<A> {
+public class SmithWatermanLinearGapByteSeqAligner<A extends GappableByte<A>> extends AbstractLinearGapByteSeqAligner<A> {
 
     /** The max score. */
     private int maxScore;
@@ -38,7 +37,7 @@ public class SmithWatermanAligner<A extends GappableByteAlphabet> extends Abstra
      * @param gapPenalty
      *            the gap penalty
      */
-    public SmithWatermanAligner(final ByteSubstitutionMatrix matrix, final int gapPenalty) {
+    public SmithWatermanLinearGapByteSeqAligner(final ByteSubstitutionMatrix matrix, final int gapPenalty) {
         super(matrix, gapPenalty);
     }
 
@@ -48,13 +47,13 @@ public class SmithWatermanAligner<A extends GappableByteAlphabet> extends Abstra
      * @see org.biomojo.alignment.AbstractByteSeqAligner#initScoreMatrix()
      */
     @Override
-    protected void initScoreMatrix() {
+    protected void clearScores() {
         maxScore = 0;
-        for (int i = 1; i < getSeq1Dim(); ++i) {
+        for (int i = 1; i < seq1Dim; ++i) {
             scores[i][0] = 0;
         }
 
-        for (int i = 1; i < getSeq2Dim(); ++i) {
+        for (int i = 1; i < seq2Dim; ++i) {
             scores[0][i] = 0;
         }
     }
@@ -68,17 +67,26 @@ public class SmithWatermanAligner<A extends GappableByteAlphabet> extends Abstra
      *            the seq2 pos
      * @return the int
      */
-    protected int calcCellScore2(final int seq1Pos, final int seq2Pos) {
-        int score = 0;
+    @Override
+    protected final int calcCellScore(final byte[] seq1Bytes, final byte[] seq2Bytes, final int seq1Pos,
+            final int seq2Pos) {
+        int score = super.calcCellScore(seq1Bytes, seq2Bytes, seq1Pos, seq2Pos);
         if (score < 0) {
             score = 0;
+            scores[seq1Pos][seq2Pos] = 0;
         }
         if (score > maxScore) {
             seq1TracebackStart = seq1Pos;
             seq2TracebackStart = seq2Pos;
         }
-        scores[seq1Pos][seq2Pos] = score;
 
         return score;
+    }
+
+    @Override
+    protected void initTraceback() {
+        maxScore = -1;
+        seq1TracebackStart = -1;
+        seq2TracebackStart = -1;
     }
 }

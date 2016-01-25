@@ -22,14 +22,12 @@ import java.io.IOException;
 
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.Alphabets;
-import org.biomojo.alphabet.IUPACAlphabetVariant;
-import org.biomojo.alphabet.NucleotideAlphabet;
+import org.biomojo.alphabet.DNA;
+import org.biomojo.alphabet.IUPACVariant;
 import org.biomojo.io.SequenceInputStream;
 import org.biomojo.io.SequenceOutputStream;
-import org.biomojo.io.fastx.FastqInputStream;
-import org.biomojo.io.fastx.FastqOutputStream;
-import org.biomojo.sequence.FastqSeq;
 import org.biomojo.sequence.BasicFastqSeq;
+import org.biomojo.sequence.FastqSeq;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,8 +36,8 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class FastqParserTest.
  */
-public class FastqParserTest extends FastxParserTest<FastqSeq<? extends NucleotideAlphabet>> {
-    
+public class FastqParserTest extends FastxParserTest<DNA, FastqSeq<DNA>> {
+
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(FastqParserTest.class.getName());
 
@@ -53,7 +51,8 @@ public class FastqParserTest extends FastxParserTest<FastqSeq<? extends Nucleoti
     /**
      * Test good data.
      *
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
      */
     @Test
     public void testGoodData() throws IOException {
@@ -63,29 +62,30 @@ public class FastqParserTest extends FastxParserTest<FastqSeq<? extends Nucleoti
     /**
      * Gets the input stream.
      *
-     * @param testData the test data
-     * @param bufSize the buf size
+     * @param testData
+     *            the test data
+     * @param bufSize
+     *            the buf size
      * @return the input stream
      * @see org.biomojo.io.fastx.FastxParserTest#getInputStream(byte[], int)
      */
     @Override
-    protected SequenceInputStream<FastqSeq<? extends NucleotideAlphabet>> getInputStream(final byte[] testData,
-            final int bufSize) {
+    protected SequenceInputStream<FastqSeq<DNA>> getInputStream(final byte[] testData, final int bufSize) {
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(testData);
-        return new FastqInputStream(inputStream, bufSize);
+        return new FastqInputStream<DNA>(inputStream, bufSize);
     }
 
     /**
      * Gets the output stream.
      *
-     * @param outputStream the output stream
+     * @param outputStream
+     *            the output stream
      * @return the output stream
      * @see org.biomojo.io.fastx.FastxParserTest#getOutputStream(java.io.ByteArrayOutputStream)
      */
     @Override
-    protected SequenceOutputStream<FastqSeq<? extends NucleotideAlphabet>> getOutputStream(
-            final ByteArrayOutputStream outputStream) {
-        return new FastqOutputStream(outputStream);
+    protected SequenceOutputStream<FastqSeq<DNA>> getOutputStream(final ByteArrayOutputStream outputStream) {
+        return new FastqOutputStream<DNA>(outputStream);
     }
 
     /**
@@ -95,9 +95,9 @@ public class FastqParserTest extends FastxParserTest<FastqSeq<? extends Nucleoti
      * @see org.biomojo.io.fastx.FastxParserTest#getSequence()
      */
     @Override
-    protected FastqSeq<NucleotideAlphabet> getSequence() {
-        final FastqSeq<NucleotideAlphabet> sequence = new BasicFastqSeq<NucleotideAlphabet>(
-                Alphabets.getAlphabet(AlphabetId.NUCLEOTIDE | IUPACAlphabetVariant.WITH_ANY, NucleotideAlphabet.class));
+    protected FastqSeq<DNA> getSequence() {
+        final FastqSeq<DNA> sequence = new BasicFastqSeq<DNA>(
+                Alphabets.getAlphabet(AlphabetId.DNA | IUPACVariant.WITH_ANY, DNA.class));
         return sequence;
     }
 }

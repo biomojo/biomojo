@@ -34,32 +34,32 @@ public class DefaultAlphabetFactory extends AbstractIdBasedFactory<Alphabet<?>> 
     public DefaultAlphabetFactory() {
         super(new Alphabet<?>[0]);
 
-        register(AllByteAlphabet.INSTANCE);
+        register(AllByte.INSTANCE);
 
-        for (int i = 0; i < IUPACAlphabetVariant.NUM_VARIANTS; ++i) {
+        for (int i = 0; i < IUPACVariant.NUM_VARIANTS; ++i) {
             registerProvider(AlphabetId.DNA + i, new ConfiguredObjectProvider<Alphabet<?>>() {
                 @Override
                 public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
-                    return new SimpleDNAAlphabet((int) config.values()[0]);
+                    return new SimpleDNA((int) config.values()[0]);
                 }
             }, true);
             registerProvider(AlphabetId.RNA + i, new ConfiguredObjectProvider<Alphabet<?>>() {
                 @Override
                 public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
-                    return new SimpleRNAAlphabet((int) config.values()[0]);
+                    return new SimpleRNA((int) config.values()[0]);
                 }
             }, true);
             registerProvider(AlphabetId.NUCLEOTIDE + i, new ConfiguredObjectProvider<Alphabet<?>>() {
                 @Override
                 public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
-                    return new SimpleNucleotideAlphabet((int) config.values()[0]);
+                    return new BasicNucleotide<>((int) config.values()[0]);
                 }
             }, true);
 
             registerProvider(AlphabetId.AMINO_ACID + i, new ConfiguredObjectProvider<Alphabet<?>>() {
                 @Override
                 public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
-                    return new SimpleAminoAcidAlphabet((int) config.values()[0]);
+                    return new BasicAminoAcid((int) config.values()[0]);
                 }
             }, true);
         }
@@ -71,8 +71,8 @@ public class DefaultAlphabetFactory extends AbstractIdBasedFactory<Alphabet<?>> 
             }
         }, true);
 
-        register(new SangerQualityScoreAlphabet());
-        register(new Illumina10QualityScoreAlphabet());
-        register(new Illumina13QualityScoreAlphabet());
+        register(new SangerQualityScore());
+        register(new Illumina10QualityScore());
+        register(new Illumina13QualityScore());
     }
 }

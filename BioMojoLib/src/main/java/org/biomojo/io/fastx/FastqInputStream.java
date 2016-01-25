@@ -20,8 +20,8 @@ package org.biomojo.io.fastx;
 import java.io.InputStream;
 import java.util.function.Supplier;
 
-import org.biomojo.alphabet.NucleotideAlphabet;
-import org.biomojo.alphabet.QualityScoreAlphabet;
+import org.biomojo.alphabet.Nucleotide;
+import org.biomojo.alphabet.QualityScore;
 import org.biomojo.io.DefaultHeaderParser;
 import org.biomojo.io.HeaderParser;
 import org.biomojo.io.MarkAndCopyInputStream;
@@ -35,8 +35,8 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class FastqInputStream.
  */
-public class FastqInputStream extends MarkAndCopyInputStream
-        implements SequenceInputStream<FastqSeq<? extends NucleotideAlphabet>> {
+public class FastqInputStream<T extends Nucleotide<T>> extends MarkAndCopyInputStream
+        implements SequenceInputStream<FastqSeq<T>> {
 
     /** The Constant logger. */
     @SuppressWarnings("unused")
@@ -48,7 +48,7 @@ public class FastqInputStream extends MarkAndCopyInputStream
     /** The validate sequence data. */
     private final boolean validateSequenceData;
 
-    private final Supplier<? extends FastqSeq<?>> factory;
+    private final Supplier<? extends FastqSeq<T>> factory;
 
     /**
      * Instantiates a new fastq input stream.
@@ -58,15 +58,14 @@ public class FastqInputStream extends MarkAndCopyInputStream
      */
     public FastqInputStream(final InputStream inputStream) {
         super(inputStream);
-        validateSequenceData = false;
+        validateSequenceData = true;
         sequenceHeaderParser = new DefaultHeaderParser();
         factory = null;
     }
 
-    public FastqInputStream(final InputStream inputStream,
-            final Supplier<? extends FastqSeq<? extends NucleotideAlphabet>> factory) {
+    public FastqInputStream(final InputStream inputStream, final Supplier<? extends FastqSeq<T>> factory) {
         super(inputStream);
-        validateSequenceData = false;
+        validateSequenceData = true;
         sequenceHeaderParser = new DefaultHeaderParser();
         this.factory = factory;
     }
@@ -81,9 +80,25 @@ public class FastqInputStream extends MarkAndCopyInputStream
      */
     public FastqInputStream(final InputStream inputStream, final HeaderParser sequenceHeaderParser) {
         super(inputStream);
-        validateSequenceData = false;
+        validateSequenceData = true;
         this.sequenceHeaderParser = sequenceHeaderParser;
         factory = null;
+    }
+
+    public FastqInputStream(final InputStream inputStream, final HeaderParser sequenceHeaderParser,
+            final Supplier<? extends FastqSeq<T>> factory) {
+        super(inputStream);
+        validateSequenceData = true;
+        this.sequenceHeaderParser = sequenceHeaderParser;
+        this.factory = factory;
+    }
+
+    public FastqInputStream(final InputStream inputStream, final HeaderParser sequenceHeaderParser,
+            final Supplier<? extends FastqSeq<T>> factory, final boolean validateSequenceData) {
+        super(inputStream);
+        this.validateSequenceData = validateSequenceData;
+        this.sequenceHeaderParser = sequenceHeaderParser;
+        this.factory = factory;
     }
 
     /**
@@ -96,7 +111,7 @@ public class FastqInputStream extends MarkAndCopyInputStream
      */
     public FastqInputStream(final InputStream inputStream, final int bufferSize) {
         super(inputStream, bufferSize);
-        validateSequenceData = false;
+        validateSequenceData = true;
         sequenceHeaderParser = new DefaultHeaderParser();
         factory = null;
     }
@@ -122,7 +137,7 @@ public class FastqInputStream extends MarkAndCopyInputStream
      * @see org.biomojo.io.SequenceInputStream#read(org.biomojo.sequence.Seq)
      */
     @Override
-    public boolean read(final FastqSeq<? extends NucleotideAlphabet> fastQSeq) throws ParseException {
+    public boolean read(final FastqSeq<T> fastQSeq) throws ParseException {
         if (isEof()) {
             return false;
         }
@@ -152,7 +167,7 @@ public class FastqInputStream extends MarkAndCopyInputStream
         // read and discard the second Header line
         skipNextLine();
 
-        final ByteSeq<QualityScoreAlphabet> qualityScores = fastQSeq.getQualityScores();
+        final ByteSeq<QualityScore> qualityScores = fastQSeq.getQualityScores();
 
         while (getTotalLength() < sequenceLength && !readToEndOfLineOrEOF())
             ;
@@ -167,8 +182,8 @@ public class FastqInputStream extends MarkAndCopyInputStream
     }
 
     @Override
-    public FastqSeq<? extends NucleotideAlphabet> readSeq() throws ParseException {
-        final FastqSeq<? extends NucleotideAlphabet> seq = factory.get();
+    public FastqSeq<T> readSeq() throws ParseException {
+        final FastqSeq<T> seq = factory.get();
         if (read(seq)) {
             return seq;
         }

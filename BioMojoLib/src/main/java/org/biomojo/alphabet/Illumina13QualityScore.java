@@ -16,22 +16,18 @@
  */
 package org.biomojo.alphabet;
 
-import org.biomojo.symbols.Nucleotides;
-
 // TODO: Auto-generated Javadoc
 /**
- * The Class NucleotideAlphabetImpl.
- *
- * @author Hugh Eaves
+ * The Class Illumina13QualityScoreAlphabet.
  */
-public class SimpleNucleotideAlphabet extends AbstractNucleotideAlphabet implements NucleotideAlphabet {
-    
+//Valid range: 64 to 126 (Phred score + 64)
+public class Illumina13QualityScore extends AbstractQualityScore {
+
     /**
-     * Create a new DNAAlphabetImpl.
-     *
-     * @param id the id
+     * Instantiates a new illumina13 quality score alphabet.
      */
-    protected SimpleNucleotideAlphabet(int id) {
-        super(id, Nucleotides.CORE_SYMBOLS);
+    protected Illumina13QualityScore() {
+        super(AlphabetId.QUALITY_ILLUMINA_13, 64, 126);
     }
+
 }

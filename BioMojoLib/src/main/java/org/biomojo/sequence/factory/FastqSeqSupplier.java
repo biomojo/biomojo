@@ -19,7 +19,7 @@ package org.biomojo.sequence.factory;
 import java.util.function.Supplier;
 
 import org.biomojo.alphabet.Alphabets;
-import org.biomojo.alphabet.NucleotideAlphabet;
+import org.biomojo.alphabet.Nucleotide;
 import org.biomojo.sequence.BasicFastqSeq;
 import org.biomojo.sequence.FastqSeq;
 
@@ -27,7 +27,7 @@ import org.biomojo.sequence.FastqSeq;
  * @author Hugh Eaves
  *
  */
-public class FastqSeqSupplier<A extends NucleotideAlphabet> implements Supplier<FastqSeq<A>> {
+public class FastqSeqSupplier<A extends Nucleotide<A>> implements Supplier<FastqSeq<A>> {
 
     protected final A alphabet;
 

@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.NucleotideAlphabet;
+import org.biomojo.alphabet.DNA;
 import org.biomojo.codec.CodecId;
 import org.biomojo.io.fastx.FastaInputStream;
 import org.biomojo.sequence.ByteSeq;
@@ -50,17 +50,17 @@ public class ReadFastaCommand extends BaseInputCommand {
         try {
             logger.info("BioMojo Fasta Read Benchmark");
 
-            // System.in.read();
-            final FastaInputStream inputStream = new FastaInputStream(new FileInputStream(inputFile), false);
+            final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile),
+                    false);
 
             int recordCount = 0;
             long totalLength = 0;
 
-            Supplier<ByteSeq<NucleotideAlphabet>> supplier = new ByteSeqSupplier<>(AlphabetId.DNA);
+            Supplier<ByteSeq<DNA>> supplier = new ByteSeqSupplier<>(AlphabetId.DNA);
             if (encode) {
                 supplier = new EncodedByteSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC);
             }
-            final ByteSeq<NucleotideAlphabet> sequence = supplier.get();
+            final ByteSeq<DNA> sequence = supplier.get();
 
             while (inputStream.read(sequence)) {
                 totalLength += sequence.size();

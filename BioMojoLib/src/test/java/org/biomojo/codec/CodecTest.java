@@ -25,7 +25,7 @@ import java.util.Random;
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.ByteAlphabet;
-import org.biomojo.alphabet.IUPACAlphabetVariant;
+import org.biomojo.alphabet.IUPACVariant;
 import org.java0.util.timing.Stopwatch;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -89,7 +89,7 @@ public class CodecTest {
 
     @Test
     public void testThreeBitPerf() {
-        final ByteAlphabet alphabet = Alphabets.getAlphabet(AlphabetId.DNA | IUPACAlphabetVariant.WITH_NON_CANONICAL,
+        final ByteAlphabet alphabet = Alphabets.getAlphabet(AlphabetId.DNA | IUPACVariant.WITH_NON_CANONICAL,
                 ByteAlphabet.class);
         final ByteByteCodec codec = Codecs.getCodec(CodecId.THREE_BIT_BYTE_CODEC, ByteByteCodec.class);
         final int NUM_SEQS = 1000;
@@ -127,7 +127,7 @@ public class CodecTest {
      */
     @Test
     public void testThreeBit() {
-        testCodec(CodecId.THREE_BIT_BYTE_CODEC, AlphabetId.DNA | IUPACAlphabetVariant.WITH_NON_CANONICAL);
+        testCodec(CodecId.THREE_BIT_BYTE_CODEC, AlphabetId.DNA | IUPACVariant.WITH_NON_CANONICAL);
     }
 
     /**
@@ -135,14 +135,14 @@ public class CodecTest {
      */
     @Test
     public void testFourBit() {
-        testCodec(CodecId.FOUR_BIT_BYTE_CODEC, AlphabetId.DNA | IUPACAlphabetVariant.WITH_NON_CANONICAL
-                | IUPACAlphabetVariant.WITH_GAP | IUPACAlphabetVariant.WITH_ANY);
+        testCodec(CodecId.FOUR_BIT_BYTE_CODEC, AlphabetId.DNA | IUPACVariant.WITH_NON_CANONICAL
+                | IUPACVariant.WITH_GAP | IUPACVariant.WITH_ANY);
     }
 
     @Test
     public void testFiveBit() {
         testCodec(CodecId.FIVE_BIT_BYTE_CODEC,
-                AlphabetId.AMINO_ACID | IUPACAlphabetVariant.WITH_GAP | IUPACAlphabetVariant.WITH_ANY);
+                AlphabetId.AMINO_ACID | IUPACVariant.WITH_GAP | IUPACVariant.WITH_ANY);
     }
 
     /**

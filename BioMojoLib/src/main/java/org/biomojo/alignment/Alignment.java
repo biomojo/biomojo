@@ -16,11 +16,10 @@
  */
 package org.biomojo.alignment;
 
-import org.biomojo.alphabet.GappableAlphabet;
+import org.biomojo.alphabet.Gappable;
 import org.biomojo.sequence.Seq;
 import org.biomojo.sequence.SeqList;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface Alignment.
  *
@@ -28,7 +27,7 @@ import org.biomojo.sequence.SeqList;
  * @param <T>
  *            the generic type
  */
-public interface Alignment<T extends Seq<?, ? extends GappableAlphabet<?>>> extends SeqList<T> {
+public interface Alignment<T extends Seq<?, ? extends Gappable<?, ?>>> extends SeqList<T> {
 
     /**
      * Gets the score.

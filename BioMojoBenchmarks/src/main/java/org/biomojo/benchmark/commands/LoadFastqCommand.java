@@ -24,9 +24,11 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.NucleotideAlphabet;
+import org.biomojo.alphabet.DNA;
+import org.biomojo.benchmark.util.GCUtil;
 import org.biomojo.codec.CodecId;
 import org.biomojo.io.SequenceIdHeaderParser;
+import org.biomojo.io.SequenceInputStream;
 import org.biomojo.io.fastx.FastqInputStream;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.FastqSeq;
@@ -46,6 +48,8 @@ import com.beust.jcommander.Parameters;
 public class LoadFastqCommand extends BaseInputCommand {
     private static final Logger logger = LoggerFactory.getLogger(LoadFastqCommand.class.getName());
 
+    protected final GCUtil gcUtil = new GCUtil();
+
     /**
      * @see org.java0.cli.Command#run()
      */
@@ -54,25 +58,26 @@ public class LoadFastqCommand extends BaseInputCommand {
         try {
             logger.info("BioMojo Fastq Load Benchmark");
 
-            final FastqInputStream inputStream = new FastqInputStream(new FileInputStream(inputFile),
-                    new SequenceIdHeaderParser());
-            final List<ByteSeq<NucleotideAlphabet>> sequences = new ArrayList<ByteSeq<NucleotideAlphabet>>();
+            final List<ByteSeq<DNA>> sequences = new ArrayList<>();
 
             long totalLength = 0;
             long qualityLength = 0;
 
-            Supplier<FastqSeq<NucleotideAlphabet>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA);
+            Supplier<FastqSeq<DNA>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA);
             if (encode) {
                 supplier = new EncodedFastqSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC);
             }
-            FastqSeq<NucleotideAlphabet> sequence = supplier.get();
 
-            while (inputStream.read(sequence)) {
+            final SequenceInputStream<FastqSeq<DNA>> inputStream = new FastqInputStream<DNA>(
+                    new FileInputStream(inputFile), new SequenceIdHeaderParser(), supplier);
+
+            for (FastqSeq<DNA> sequence = inputStream.readSeq(); sequence != null; sequence = inputStream.readSeq()) {
                 sequences.add(sequence);
                 totalLength += sequence.size();
                 qualityLength += sequence.getQualityScores().size();
-                sequence = supplier.get();
+                // gcUtil.recordAdded();
             }
+
             inputStream.close();
 
             logger.info("Done loading " + sequences.size() + " sequences");

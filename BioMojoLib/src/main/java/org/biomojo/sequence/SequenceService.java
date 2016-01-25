@@ -50,7 +50,7 @@ import org.slf4j.LoggerFactory;
  */
 @Named
 public class SequenceService {
-    
+
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(SequenceService.class.getName());
 
@@ -68,21 +68,25 @@ public class SequenceService {
     /**
      * Load fastx file.
      *
-     * @param fastxFile the fastx file
-     * @param name the name
-     * @param description the description
-     * @param alphabetId the alphabet id
+     * @param fastxFile
+     *            the fastx file
+     * @param name
+     *            the name
+     * @param description
+     *            the description
+     * @param alphabetId
+     *            the alphabet id
      * @return the seq list
      */
     @Transactional
     public SeqList<ByteSeq<ByteAlphabet>> loadFastxFile(final File fastxFile, final String name, String description,
             final int alphabetId) {
 
-        FastaInputStream fastxInputStream = null;
+        FastaInputStream<ByteAlphabet> fastxInputStream = null;
         final ByteSeq<ByteAlphabet> sequence = null;
 
         try {
-            fastxInputStream = new FastaInputStream(new BufferedInputStream(new FileInputStream(fastxFile)));
+            fastxInputStream = new FastaInputStream<>(new BufferedInputStream(new FileInputStream(fastxFile)));
             fastxInputStream.read(sequence);
         } catch (final FileNotFoundException e) {
             throw new UncheckedException(e);
@@ -130,15 +134,18 @@ public class SequenceService {
     /**
      * Save fastx file.
      *
-     * @param fastxFile the fastx file
-     * @param sequenceList the sequence list
-     * @throws IOException Signals that an I/O exception has occurred.
+     * @param fastxFile
+     *            the fastx file
+     * @param sequenceList
+     *            the sequence list
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
      */
     @SuppressWarnings("unchecked")
     @Transactional
     public void saveFastxFile(final File fastxFile, SeqList<? extends ByteSeq<ByteAlphabet>> sequenceList)
             throws IOException {
-        final FastaOutputStream output = new FastaOutputStream(
+        final FastaOutputStream<ByteAlphabet> output = new FastaOutputStream<>(
                 new BufferedOutputStream(new FileOutputStream(fastxFile)), new SequenceIdHeaderBuilder());
 
         // Write Fasta-formatted queryFile using the database ID as the
@@ -181,9 +188,12 @@ public class SequenceService {
     /**
      * Gets the sequences.
      *
-     * @param sequenceListId the sequence list id
-     * @param first the first
-     * @param last the last
+     * @param sequenceListId
+     *            the sequence list id
+     * @param first
+     *            the first
+     * @param last
+     *            the last
      * @return the sequences
      */
     @SuppressWarnings("unchecked")

@@ -36,8 +36,12 @@ public class QueryIdSequenceResolver implements BlastSequenceResolver {
     @PersistenceContext
     private EntityManager entityManager;
 
-    /* (non-Javadoc)
-     * @see org.biomojo.blast.BlastSequenceResolver#resolveSequences(org.biomojo.blast.blastoutput.BlastOutput)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * org.biomojo.blast.BlastSequenceResolver#resolveSequences(org.biomojo.
+     * blast.blastoutput.BlastOutput)
      */
     @Override
     public void resolveSequences(final BlastOutput blastOutput) {

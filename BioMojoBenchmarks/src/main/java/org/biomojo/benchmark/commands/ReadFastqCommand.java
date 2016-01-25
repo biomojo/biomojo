@@ -20,7 +20,7 @@ import java.io.FileInputStream;
 import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.NucleotideAlphabet;
+import org.biomojo.alphabet.DNA;
 import org.biomojo.codec.CodecId;
 import org.biomojo.io.fastx.FastqInputStream;
 import org.biomojo.sequence.FastqSeq;
@@ -46,17 +46,20 @@ public class ReadFastqCommand extends BaseInputCommand {
     public void run() {
         try {
             logger.info("BioMojo Fastq Read Benchmark");
-            final FastqInputStream inputStream = new FastqInputStream(new FileInputStream(inputFile), false);
+
+            final FastqInputStream<DNA> inputStream = new FastqInputStream<>(new FileInputStream(inputFile),
+                    false);
 
             int recordCount = 0;
             long totalLength = 0;
             long qualityLength = 0;
 
-            Supplier<FastqSeq<NucleotideAlphabet>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA);
+            Supplier<FastqSeq<DNA>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA);
             if (encode) {
                 supplier = new EncodedFastqSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC);
             }
-            final FastqSeq<NucleotideAlphabet> sequence = supplier.get();
+
+            final FastqSeq<DNA> sequence = supplier.get();
 
             while (inputStream.read(sequence)) {
                 ++recordCount;
@@ -69,7 +72,6 @@ public class ReadFastqCommand extends BaseInputCommand {
             logger.info("Total sequence length is " + totalLength + " bases");
             logger.info("Total quality length is " + qualityLength + " values");
 
-            Thread.sleep(0);
         } catch (final Exception e) {
             logger.error("Caught exception in auto-generated catch block", e);
         }

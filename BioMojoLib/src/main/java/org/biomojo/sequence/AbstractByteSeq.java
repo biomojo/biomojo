@@ -19,15 +19,16 @@ package org.biomojo.sequence;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import org.biomojo.alphabet.Alphabet;
 import org.biomojo.alphabet.ByteAlphabet;
+import org.biomojo.alphabet.InvalidSymbolException;
 
 // TODO: Auto-generated Javadoc
 /**
  * The Class AbstractByteSeq.
  *
  * @author Hugh Eaves
- * @param <A> the generic type
+ * @param <A>
+ *            the generic type
  */
 @Entity
 @DiscriminatorValue("Y")
@@ -48,7 +49,8 @@ public abstract class AbstractByteSeq<A extends ByteAlphabet> extends AbstractSe
     /**
      * Instantiates a new abstract byte seq.
      *
-     * @param alphabet the alphabet
+     * @param alphabet
+     *            the alphabet
      */
     public AbstractByteSeq(final A alphabet) {
         initAlphabet(alphabet);
@@ -57,18 +59,53 @@ public abstract class AbstractByteSeq<A extends ByteAlphabet> extends AbstractSe
     /**
      * Inits the alphabet.
      *
-     * @param alphabet the alphabet
+     * @param alphabet
+     *            the alphabet
      */
     protected void initAlphabet(final A alphabet) {
         this.alphabet = alphabet;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.sequence.Seq#getAlphabet()
      */
     @Override
     public A getAlphabet() {
         return (A) alphabet;
+    }
+
+    @Override
+    public void set(final long index, final byte symbol) throws InvalidSymbolException {
+        if (index > Integer.MAX_VALUE) {
+            throw new ArrayIndexOutOfBoundsException(
+                    "AbstractByteSeq only supports index values <= " + Integer.MAX_VALUE);
+        }
+        set((int) index, symbol);
+    }
+
+    @Override
+    public byte getByte(final long index) {
+        if (index > Integer.MAX_VALUE) {
+            throw new ArrayIndexOutOfBoundsException(
+                    "AbstractByteSeq only supports index values <= " + Integer.MAX_VALUE);
+        }
+        return getByte((int) index);
+    }
+
+    @Override
+    public long lsize() {
+        return size();
+    }
+
+    @Override
+    public String toString() {
+        final StringBuffer buf = new StringBuffer(size());
+        for (int i = 0; i < size(); ++i) {
+            buf.append(charAt(i));
+        }
+        return buf.toString();
     }
 
 }

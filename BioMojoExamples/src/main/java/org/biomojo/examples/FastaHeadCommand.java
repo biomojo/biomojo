@@ -27,8 +27,8 @@ import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.InvalidSymbolException;
 import org.biomojo.io.fastx.FastaInputStream;
 import org.biomojo.io.fastx.FastaOutputStream;
+import org.biomojo.sequence.BasicByteSeq;
 import org.biomojo.sequence.ByteSeq;
-import org.biomojo.sequence.ByteSeqImpl;
 import org.java0.cli.InputOutputCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,9 +57,10 @@ public class FastaHeadCommand extends InputOutputCommand {
     public void run() {
 
         try {
-            final FastaInputStream input = new FastaInputStream(new FileInputStream(inputFile));
-            final FastaOutputStream output = new FastaOutputStream(new FileOutputStream(outputFile));
-            ByteSeq<ByteAlphabet> record = new ByteSeqImpl<ByteAlphabet>(
+            final FastaInputStream<ByteAlphabet> input = new FastaInputStream<ByteAlphabet>(
+                    new FileInputStream(inputFile));
+            final FastaOutputStream<ByteAlphabet> output = new FastaOutputStream<>(new FileOutputStream(outputFile));
+            ByteSeq<ByteAlphabet> record = new BasicByteSeq<ByteAlphabet>(
                     Alphabets.getAlphabet(AlphabetId.DNA, ByteAlphabet.class));
             int i = 0;
             while (i < numRecords) {

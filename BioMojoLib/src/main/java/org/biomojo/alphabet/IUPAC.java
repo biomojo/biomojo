@@ -16,22 +16,13 @@
  */
 package org.biomojo.alphabet;
 
-import org.biomojo.symbols.Nucleotides;
-
-// TODO: Auto-generated Javadoc
 /**
- * The Class DNAAlphabetImpl.
+ * Represents alphabets containing standard IUPAC symbols for amino acids and
+ * nucleotides.
  *
  * @author Hugh Eaves
+ *
  */
-public class SimpleDNAAlphabet extends AbstractNucleotideAlphabet implements DNAAlphabet {
-    
-    /**
-     * Create a new DNAAlphabetImpl.
-     *
-     * @param id the id
-     */
-    protected SimpleDNAAlphabet(int id) {
-        super(id, Nucleotides.DNA_SYMBOLS);
-    }
+public interface IUPAC<A extends IUPAC<A>> extends AmbiguitySupport, GappableByte<A> {
+
 }

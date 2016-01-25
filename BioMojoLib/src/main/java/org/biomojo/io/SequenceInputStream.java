@@ -20,7 +20,6 @@ import java.io.Closeable;
 
 import org.biomojo.sequence.Seq;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface SequenceInputStream.
  *

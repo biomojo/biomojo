@@ -14,11 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.biomojo.alphabet;
 
 /**
- * The Interface DNAAlphabet.
+ * The Interface AminoAcidAlphabet.
  */
-public interface DNAAlphabet extends NucleotideAlphabet {
-
+public interface AminoAcid extends IUPAC<AminoAcid> {
+    @Override
+    public default AminoAcid getGapped() {
+        return Alphabets.getAlphabet(getId() | IUPACVariant.WITH_GAP, AminoAcid.class);
+    }
 }

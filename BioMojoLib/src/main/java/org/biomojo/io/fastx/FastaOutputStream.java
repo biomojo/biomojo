@@ -32,22 +32,23 @@ import org.biomojo.util.OutputUtil;
 /**
  * The Class FastaOutputStream.
  */
-public class FastaOutputStream extends FilterOutputStream
-        implements SequenceOutputStream<ByteSeq<? extends ByteAlphabet>> {
-    
+public class FastaOutputStream<T extends ByteAlphabet> extends FilterOutputStream
+        implements SequenceOutputStream<ByteSeq<T>> {
+
     /** The Constant DEFAULT_LINE_LENGTH. */
     private static final int DEFAULT_LINE_LENGTH = 60;
 
     /** The header builder. */
     private final HeaderBuilder headerBuilder;
-    
+
     /** The max line length. */
     private final int maxLineLength;
 
     /**
      * Instantiates a new fasta output stream.
      *
-     * @param outputStream the output stream
+     * @param outputStream
+     *            the output stream
      */
     public FastaOutputStream(final OutputStream outputStream) {
         super(outputStream);
@@ -58,8 +59,10 @@ public class FastaOutputStream extends FilterOutputStream
     /**
      * Instantiates a new fasta output stream.
      *
-     * @param outputStream the output stream
-     * @param sequenceHeaderBuilder the sequence header builder
+     * @param outputStream
+     *            the output stream
+     * @param sequenceHeaderBuilder
+     *            the sequence header builder
      */
     public FastaOutputStream(final OutputStream outputStream, final HeaderBuilder sequenceHeaderBuilder) {
         super(outputStream);
@@ -70,9 +73,12 @@ public class FastaOutputStream extends FilterOutputStream
     /**
      * Instantiates a new fasta output stream.
      *
-     * @param outputStream the output stream
-     * @param sequenceHeaderBuilder the sequence header builder
-     * @param maxLineLength the max line length
+     * @param outputStream
+     *            the output stream
+     * @param sequenceHeaderBuilder
+     *            the sequence header builder
+     * @param maxLineLength
+     *            the max line length
      */
     public FastaOutputStream(final OutputStream outputStream, final HeaderBuilder sequenceHeaderBuilder,
             final int maxLineLength) {
@@ -81,11 +87,13 @@ public class FastaOutputStream extends FilterOutputStream
         this.headerBuilder = sequenceHeaderBuilder;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.io.SequenceOutputStream#write(org.biomojo.sequence.Seq)
      */
     @Override
-    public void write(final ByteSeq<? extends ByteAlphabet> sequence) throws IOException {
+    public void write(final ByteSeq<T> sequence) throws IOException {
         out.write(FastaConst.RECORD_DELIMITER);
         out.write(headerBuilder.buildHeader(sequence));
         out.write('\n');

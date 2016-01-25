@@ -17,7 +17,7 @@
 package org.biomojo.alignment;
 
 import org.biomojo.alphabet.Alphabets;
-import org.biomojo.alphabet.IUPACAlphabetVariant;
+import org.biomojo.alphabet.IUPACVariant;
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.slf4j.Logger;
@@ -63,7 +63,7 @@ public class AmbiguousNucleotideSubstitutionMatrix extends AbstractByteSubstitut
      * Instantiates a new ambiguous nucleotide substitution matrix.
      */
     public AmbiguousNucleotideSubstitutionMatrix() {
-        super(Alphabets.getAlphabet(AlphabetId.DNA | IUPACAlphabetVariant.WITH_AMBIGIGUITY, ByteAlphabet.class));
+        super(Alphabets.getAlphabet(AlphabetId.DNA | IUPACVariant.WITH_AMBIGIGUITY, ByteAlphabet.class));
 
         this.initMatrix(Integer.MIN_VALUE);
         for (int i = 0; i < matrixOrder.length; ++i) {

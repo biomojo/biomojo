@@ -19,27 +19,21 @@ package org.biomojo.alphabet;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class AbstractQualityScoreAlphabet.
+ * The Class AllByteAlphabet.
  */
-public class AbstractQualityScoreAlphabet extends AbstractAlphabet<Byte> implements QualityScoreAlphabet {
-
-    /** The start. */
-    private final int start;
+public class AllByte extends AbstractAlphabet<Byte> implements ByteAlphabet {
     
-    /** The end. */
-    private final int end;
+    /** The Constant INSTANCE. */
+    public static final AllByte INSTANCE = new AllByte();
+
+    /** The Constant NUM_SYMBOLS. */
+    private static final int NUM_SYMBOLS = 256;
 
     /**
-     * Instantiates a new abstract quality score alphabet.
-     *
-     * @param id the id
-     * @param start the start
-     * @param end the end
+     * Instantiates a new all byte alphabet.
      */
-    protected AbstractQualityScoreAlphabet(final int id, final int start, final int end) {
-        super(id);
-        this.start = start;
-        this.end = end;
+    private AllByte() {
+        super(AlphabetId.ALL_BYTE);
     }
 
     /**
@@ -50,7 +44,7 @@ public class AbstractQualityScoreAlphabet extends AbstractAlphabet<Byte> impleme
      */
     @Override
     public int numSymbols() {
-        return end - start;
+        return NUM_SYMBOLS;
     }
 
     /**
@@ -61,7 +55,7 @@ public class AbstractQualityScoreAlphabet extends AbstractAlphabet<Byte> impleme
      */
     @Override
     public int numCanonicalSymbols() {
-        return numSymbols();
+        return NUM_SYMBOLS;
     }
 
     /**
@@ -73,7 +67,7 @@ public class AbstractQualityScoreAlphabet extends AbstractAlphabet<Byte> impleme
      */
     @Override
     public int getOrdinalForSymbol(final byte value) {
-        return value - start;
+        return value & 0xff;
     }
 
     /**
@@ -85,7 +79,7 @@ public class AbstractQualityScoreAlphabet extends AbstractAlphabet<Byte> impleme
      */
     @Override
     public byte getByteSymbolForOrdinal(final int ordinal) {
-        return (byte) ((start + ordinal) & 0xff);
+        return (byte) (ordinal & 0xff);
     }
 
     /**
@@ -97,7 +91,7 @@ public class AbstractQualityScoreAlphabet extends AbstractAlphabet<Byte> impleme
      */
     @Override
     public boolean isValid(final byte symbol) {
-        return (symbol >= start && symbol < end);
+        return true;
     }
 
     /**
@@ -111,11 +105,6 @@ public class AbstractQualityScoreAlphabet extends AbstractAlphabet<Byte> impleme
      */
     @Override
     public boolean isValid(final byte[] symbols, final int start, final int end) {
-        for (final byte symbol : symbols) {
-            if (symbol < start && symbol >= end) {
-                return false;
-            }
-        }
         return true;
     }
 
@@ -166,22 +155,11 @@ public class AbstractQualityScoreAlphabet extends AbstractAlphabet<Byte> impleme
     }
 
     /* (non-Javadoc)
-     * @see org.biomojo.alphabet.ByteAlphabet#validate(byte[], int, int)
-     */
-    @Override
-    public void validate(final byte[] symbols, final int start, final int end) throws InvalidSymbolException {
-        for (int i = start; i < end; ++i) {
-            if (symbols[i] < start && symbols[i] >= end)
-                throw new InvalidSymbolException(symbols[i], i);
-        }
-        return;
-    }
-
-    /* (non-Javadoc)
      * @see org.biomojo.alphabet.Alphabet#getCanonical()
      */
     @Override
     public ByteAlphabet getCanonical() {
         return this;
     }
+
 }

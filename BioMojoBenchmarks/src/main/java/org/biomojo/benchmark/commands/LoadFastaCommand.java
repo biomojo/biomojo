@@ -24,7 +24,8 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.NucleotideAlphabet;
+import org.biomojo.alphabet.DNA;
+import org.biomojo.benchmark.util.GCUtil;
 import org.biomojo.codec.CodecId;
 import org.biomojo.io.SequenceIdHeaderParser;
 import org.biomojo.io.fastx.FastaInputStream;
@@ -45,6 +46,8 @@ import com.beust.jcommander.Parameters;
 public class LoadFastaCommand extends BaseInputCommand {
     private static final Logger logger = LoggerFactory.getLogger(LoadFastaCommand.class.getName());
 
+    protected final GCUtil gcUtil = new GCUtil();
+
     /**
      * @see org.java0.cli.Command#run()
      */
@@ -53,28 +56,29 @@ public class LoadFastaCommand extends BaseInputCommand {
         try {
             logger.info("BioMojo Fasta Load Benchmark");
 
-            final FastaInputStream inputStream = new FastaInputStream(new FileInputStream(inputFile),
-                    new SequenceIdHeaderParser());
-            final List<ByteSeq<NucleotideAlphabet>> sequences = new ArrayList<ByteSeq<NucleotideAlphabet>>();
+            final List<ByteSeq<DNA>> sequences = new ArrayList<ByteSeq<DNA>>();
 
-            int recordCount = 0;
             long totalLength = 0;
 
-            Supplier<ByteSeq<NucleotideAlphabet>> supplier = new ByteSeqSupplier<>(AlphabetId.DNA);
+            Supplier<ByteSeq<DNA>> supplier = new ByteSeqSupplier<>(AlphabetId.DNA);
             if (encode) {
                 supplier = new EncodedByteSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC);
             }
-            ByteSeq<NucleotideAlphabet> sequence = supplier.get();
 
-            while (inputStream.read(sequence)) {
+            final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile),
+                    new SequenceIdHeaderParser(), supplier);
+
+            gcUtil.reset();
+
+            for (ByteSeq<DNA> sequence = inputStream.readSeq(); sequence != null; sequence = inputStream.readSeq()) {
                 sequences.add(sequence);
                 totalLength += sequence.size();
-                ++recordCount;
-                sequence = supplier.get();
                 // gcUtil.recordAdded();
             }
 
             inputStream.close();
+
+            gcUtil.logMemory();
 
             logger.info("Done loading " + sequences.size() + " sequences");
             logger.info("Total length is " + totalLength + " bases");

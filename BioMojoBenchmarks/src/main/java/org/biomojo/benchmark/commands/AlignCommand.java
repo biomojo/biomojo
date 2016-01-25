@@ -27,11 +27,11 @@ import org.biomojo.alignment.Aligner;
 import org.biomojo.alignment.Alignment;
 import org.biomojo.alignment.ByteSubstitutionMatrix;
 import org.biomojo.alignment.MatchMismatchByteSubstitutionMatrix;
-import org.biomojo.alignment.NeedlemanWunschAligner;
+import org.biomojo.alignment.SmithWatermanLinearGapByteSeqAligner;
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.ByteAlphabet;
-import org.biomojo.alphabet.NucleotideAlphabet;
+import org.biomojo.alphabet.DNA;
 import org.biomojo.codec.CodecId;
 import org.biomojo.io.fastx.FastaInputStream;
 import org.biomojo.sequence.ByteSeq;
@@ -59,14 +59,15 @@ public class AlignCommand extends BaseInputCommand {
         try {
             logger.info("BioMojo alignment benchmark");
 
-            final FastaInputStream inputStream = new FastaInputStream(new FileInputStream(inputFile));
-            final List<ByteSeq<NucleotideAlphabet>> sequences = new ArrayList<>();
+            final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile));
 
-            Supplier<ByteSeq<NucleotideAlphabet>> supplier = new ByteSeqSupplier<>(AlphabetId.DNA);
+            final List<ByteSeq<DNA>> sequences = new ArrayList<>();
+
+            Supplier<ByteSeq<DNA>> supplier = new ByteSeqSupplier<>(AlphabetId.DNA);
             if (encode) {
                 supplier = new EncodedByteSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC);
             }
-            ByteSeq<NucleotideAlphabet> sequence = supplier.get();
+            ByteSeq<DNA> sequence = supplier.get();
 
             while (inputStream.read(sequence)) {
                 logger.info("Read sequence" + sequence.getDescription());
@@ -84,32 +85,25 @@ public class AlignCommand extends BaseInputCommand {
             final ByteSubstitutionMatrix matrix = new MatchMismatchByteSubstitutionMatrix(
                     Alphabets.getAlphabet(AlphabetId.NUCLEOTIDE, ByteAlphabet.class), 1, -1);
 
-            final Aligner<ByteSeq<NucleotideAlphabet>> aligner = new NeedlemanWunschAligner<NucleotideAlphabet>(matrix,
-                    -2);
-            final List<ByteSeq<NucleotideAlphabet>> seqList = new ArrayList<ByteSeq<NucleotideAlphabet>>();
+            final Aligner<DNA, ByteSeq<DNA>> aligner = new SmithWatermanLinearGapByteSeqAligner<>(matrix, -2);
+            final List<ByteSeq<DNA>> seqList = new ArrayList<ByteSeq<DNA>>();
             for (int i = 0; i < numSeqs; ++i) {
                 for (int j = 0; j < i; ++j) {
                     seqList.clear();
                     seqList.add(sequences.get(i));
                     seqList.add(sequences.get(j));
                     logger.debug("Aligning {} and {}", i, j);
-                    final Alignment<ByteSeq<NucleotideAlphabet>> alignment = aligner.align(seqList);
+                    final Alignment<ByteSeq<DNA>> alignment = aligner.align(seqList);
                     System.out.print(alignment.getScore() + "\t");
                 }
                 System.out.println();
             }
 
-            // seqList.add(new DNASeq("AGTC".getBytes()));
-            // seqList.add(new DNASeq("AGTC".getBytes()));
-            // Alignment alignment = aligner.align(seqList);
             logger.info("Done");
 
-            Thread.sleep(10);
         } catch (final FileNotFoundException e) {
             throw new UncheckedException(e);
         } catch (final IOException e) {
-            throw new UncheckedException(e);
-        } catch (final InterruptedException e) {
             throw new UncheckedException(e);
         }
     }

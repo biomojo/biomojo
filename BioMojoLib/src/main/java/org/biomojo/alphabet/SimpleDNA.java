@@ -16,11 +16,23 @@
  */
 package org.biomojo.alphabet;
 
+import org.biomojo.symbols.Nucleotides;
+
+// TODO: Auto-generated Javadoc
 /**
- * The Interface QualityScoreAlphabet.
+ * The Class DNAAlphabetImpl.
  *
  * @author Hugh Eaves
  */
-public interface QualityScoreAlphabet extends ByteAlphabet {
+public class SimpleDNA extends AbstractNucleotide<DNA> implements DNA {
 
+    /**
+     * Create a new DNAAlphabetImpl.
+     *
+     * @param id
+     *            the id
+     */
+    protected SimpleDNA(final int id) {
+        super(id, Nucleotides.DNA_SYMBOLS);
+    }
 }

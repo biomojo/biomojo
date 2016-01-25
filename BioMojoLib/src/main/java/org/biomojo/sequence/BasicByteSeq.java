@@ -149,10 +149,18 @@ public class BasicByteSeq<A extends ByteAlphabet> extends AbstractByteSeq<A> {
         return data[index];
     }
 
+    @Override
+    public byte getByte(final long index) {
+        if (index > Integer.MAX_VALUE) {
+            throw new ArrayIndexOutOfBoundsException("BasicByteSeq only supports index values <= " + Integer.MAX_VALUE);
+        }
+        return data[(int) index];
+    }
+
     /*
      * (non-Javadoc)
      * 
-     * @see org.biomojo.sequence.ByteSeq#setValue(byte, int)
+     * @see org.biomojo.sequence.ByteSeq#set(byte, int)
      */
     @Override
     public void set(final int index, final byte symbol) throws InvalidSymbolException {
@@ -222,7 +230,7 @@ public class BasicByteSeq<A extends ByteAlphabet> extends AbstractByteSeq<A> {
      * @see org.biomojo.sequence.ByteSeq#append(byte)
      */
     @Override
-    public void append(final byte symbol) {
+    public void add(final byte symbol) {
         checkStorage(1);
         data[length++] = symbol;
     }
@@ -243,4 +251,5 @@ public class BasicByteSeq<A extends ByteAlphabet> extends AbstractByteSeq<A> {
     public void clear() {
         this.setAll(Constants.EMPTY_BYTE_ARRAY);
     }
+
 }

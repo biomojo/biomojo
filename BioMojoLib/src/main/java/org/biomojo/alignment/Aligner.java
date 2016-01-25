@@ -18,10 +18,9 @@ package org.biomojo.alignment;
 
 import java.util.List;
 
-import org.biomojo.alphabet.GappableAlphabet;
+import org.biomojo.alphabet.Gappable;
 import org.biomojo.sequence.Seq;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface Aligner.
  *
@@ -29,7 +28,7 @@ import org.biomojo.sequence.Seq;
  * @param <T>
  *            the generic type
  */
-public interface Aligner<T extends Seq<?, ? extends GappableAlphabet<?>>> {
+public interface Aligner<A extends Gappable<?, A>, T extends Seq<?, A>> {
 
     /**
      * Align.

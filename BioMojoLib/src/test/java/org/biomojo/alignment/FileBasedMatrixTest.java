@@ -14,12 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.biomojo.alignment.matrix;
+
+package org.biomojo.alignment;
 
 import static org.junit.Assert.assertEquals;
 
-import org.biomojo.alignment.ByteSubstitutionMatrix;
-import org.biomojo.alignment.PrecomputedAminoAcidSubstitutionMatrix;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.symbols.AminoAcids;
 import org.java0.test.BaseTest;
@@ -27,14 +26,13 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FileBasedMatrixTest.
  *
  * @author Hugh Eaves
  */
 public class FileBasedMatrixTest extends BaseTest {
-    
+
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(FileBasedMatrixTest.class.getName());
 
@@ -47,11 +45,12 @@ public class FileBasedMatrixTest extends BaseTest {
     /**
      * Test blosu m62.
      *
-     * @throws Exception the exception
+     * @throws Exception
+     *             the exception
      */
     @Test
     public void testBLOSUM62() throws Exception {
-        ByteSubstitutionMatrix matrix = new PrecomputedAminoAcidSubstitutionMatrix("BLOSUM", 62);
+        final ByteSubstitutionMatrix matrix = new PrecomputedAminoAcidSubstitutionMatrix("BLOSUM", 62);
 
         assertEquals(11, matrix.getScore(AminoAcids.TRYPTOPHAN, AminoAcids.TRYPTOPHAN), 0);
         assertEquals(-3, matrix.getScore(AminoAcids.ASPARTIC_ACID_OR_ASPARAGINE, AminoAcids.CYSTEINE), 0);
@@ -62,11 +61,12 @@ public class FileBasedMatrixTest extends BaseTest {
     /**
      * Test pa m250.
      *
-     * @throws Exception the exception
+     * @throws Exception
+     *             the exception
      */
     @Test
     public void testPAM250() throws Exception {
-        ByteSubstitutionMatrix matrix = new PrecomputedAminoAcidSubstitutionMatrix("PAM", 250);
+        final ByteSubstitutionMatrix matrix = new PrecomputedAminoAcidSubstitutionMatrix("PAM", 250);
 
         assertEquals(17, matrix.getScore(AminoAcids.TRYPTOPHAN, AminoAcids.TRYPTOPHAN), 0);
         assertEquals(2, matrix.getScore(AminoAcids.ALANINE, AminoAcids.ALANINE), 0);
@@ -78,21 +78,23 @@ public class FileBasedMatrixTest extends BaseTest {
     /**
      * Check sum matrix.
      *
-     * @param matrix the matrix
-     * @param expectedCheckSum the expected check sum
+     * @param matrix
+     *            the matrix
+     * @param expectedCheckSum
+     *            the expected check sum
      */
-    private void checkSumMatrix(ByteSubstitutionMatrix matrix, float expectedCheckSum) {
-        ByteAlphabet alphabet = matrix.getAlphabet();
+    private void checkSumMatrix(final ByteSubstitutionMatrix matrix, final float expectedCheckSum) {
+        final ByteAlphabet alphabet = matrix.getAlphabet();
 
         float checkSum = 0;
         int cells = 0;
         for (int i = 0; i < alphabet.numCanonicalSymbols(); ++i) {
             for (int j = 0; j < alphabet.numCanonicalSymbols(); ++j) {
 
-                byte from = alphabet.getByteSymbolForOrdinal(i);
-                byte to = alphabet.getByteSymbolForOrdinal(j);
+                final byte from = alphabet.getByteSymbolForOrdinal(i);
+                final byte to = alphabet.getByteSymbolForOrdinal(j);
 
-                float score = matrix.getScore(from, to);
+                final float score = matrix.getScore(from, to);
                 checkSum += score;
                 cells++;
                 logger.debug("from: {} to: {} score: {} cells: {}", (char) from, (char) to, score, cells);

@@ -97,7 +97,7 @@ public class BioJavaSequenceAdapter<T extends Compound> implements ProxySequence
             if (!hasNext()) {
                 throw new NoSuchElementException();
             }
-            return compoundFactory.getCompoundFor(sequence.getValue(pos));
+            return compoundFactory.getCompoundFor(sequence.getByte(pos));
         }
 
         /**
@@ -142,7 +142,7 @@ public class BioJavaSequenceAdapter<T extends Compound> implements ProxySequence
      */
     @Override
     public T getCompoundAt(final int position) {
-        return compoundFactory.getCompoundFor(sequence.getValue(position));
+        return compoundFactory.getCompoundFor(sequence.getByte(position));
     }
 
     /**

@@ -24,14 +24,15 @@ import org.biomojo.symbols.AminoAcids;
  *
  * @author Hugh Eaves
  */
-public class SimpleAminoAcidAlphabet extends AbstractIUPACAlphabet implements AminoAcidAlphabet {
-    
+public class BasicAminoAcid extends AbstractIUPAC<AminoAcid> implements AminoAcid {
+
     /**
      * Instantiates a new amino acid alphabet impl.
      *
-     * @param id the id
+     * @param id
+     *            the id
      */
-    protected SimpleAminoAcidAlphabet(final int id) {
+    protected BasicAminoAcid(final int id) {
         super(id, AminoAcids.CORE_SYMBOLS);
     }
 

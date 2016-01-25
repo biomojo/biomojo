@@ -23,8 +23,8 @@ import java.io.OutputStream;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.io.fastx.FastaInputStream;
 import org.biomojo.io.fastx.FastaOutputStream;
+import org.biomojo.sequence.BasicByteSeq;
 import org.biomojo.sequence.ByteSeq;
-import org.biomojo.sequence.ByteSeqImpl;
 import org.java0.cli.AbstractCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,14 +81,14 @@ public class FastxFormatCommand extends AbstractCommand {
      */
     @Override
     public void run() {
-        try (FastaInputStream fastaInput = new FastaInputStream(inputStream);
-                FastaOutputStream fastaOutput = new FastaOutputStream(outputStream)) {
+        try (FastaInputStream<ByteAlphabet> fastaInput = new FastaInputStream<ByteAlphabet>(inputStream);
+                FastaOutputStream<ByteAlphabet> fastaOutput = new FastaOutputStream<ByteAlphabet>(outputStream)) {
 
             boolean readRecord = false;
             ByteSeq<ByteAlphabet> record;
 
             do {
-                record = new ByteSeqImpl<ByteAlphabet>();
+                record = new BasicByteSeq<ByteAlphabet>();
                 readRecord = fastaInput.read(record);
                 if (readRecord) {
                     fastaOutput.write(record);

@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * The Class MarkAndCopyInputStream.
  */
 public class MarkAndCopyInputStream extends FilterInputStream {
-    
+
     /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(MarkAndCopyInputStream.class.getName());
@@ -37,10 +37,10 @@ public class MarkAndCopyInputStream extends FilterInputStream {
     /** The buffer. */
     // Various pointers / counters
     private byte[] buffer;
-    
+
     /** The buffer length. */
     private int bufferLength = 0;
-    
+
     /** The buffer pos. */
     private int bufferPos = 0;
 
@@ -49,22 +49,22 @@ public class MarkAndCopyInputStream extends FilterInputStream {
 
     /** The segment start. */
     private int segmentStart = Integer.MAX_VALUE;
-    
+
     /** The total length. */
     private int totalLength = 0;
 
     /** The Constant INITIAL_MAX_SEGMENTS. */
     private static final int INITIAL_MAX_SEGMENTS = 1000;
-    
+
     /** The segment buffers. */
     private byte[][] segmentBuffers = new byte[INITIAL_MAX_SEGMENTS][];
-    
+
     /** The segment starts. */
     private int[] segmentStarts = new int[INITIAL_MAX_SEGMENTS];
-    
+
     /** The segment lengths. */
     private int[] segmentLengths = new int[INITIAL_MAX_SEGMENTS];
-    
+
     /** The max segments. */
     private int maxSegments = INITIAL_MAX_SEGMENTS;
 
@@ -73,14 +73,15 @@ public class MarkAndCopyInputStream extends FilterInputStream {
 
     /** The Constant DEFAULT_BUFFER_SIZE. */
     private static final int DEFAULT_BUFFER_SIZE = 0xFFFF;
-    
+
     /** The buffer size. */
     private final int bufferSize;
 
     /**
      * Instantiates a new mark and copy input stream.
      *
-     * @param inputStream the input stream
+     * @param inputStream
+     *            the input stream
      */
     protected MarkAndCopyInputStream(final InputStream inputStream) {
         this(inputStream, DEFAULT_BUFFER_SIZE);
@@ -89,8 +90,10 @@ public class MarkAndCopyInputStream extends FilterInputStream {
     /**
      * Instantiates a new mark and copy input stream.
      *
-     * @param inputStream the input stream
-     * @param bufferSize the buffer size
+     * @param inputStream
+     *            the input stream
+     * @param bufferSize
+     *            the buffer size
      */
     protected MarkAndCopyInputStream(final InputStream inputStream, final int bufferSize) {
         super(inputStream);
@@ -262,8 +265,7 @@ public class MarkAndCopyInputStream extends FilterInputStream {
                 if ((ch != 10) && (ch != 13)) {
                     return;
                 }
-                bufferPos += 1;
-            } while (bufferPos < bufferLength);
+            } while (++bufferPos < bufferLength);
             loadBuffer();
         } while (!eof);
     }
@@ -271,7 +273,8 @@ public class MarkAndCopyInputStream extends FilterInputStream {
     /**
      * Skip byte.
      *
-     * @param value the value
+     * @param value
+     *            the value
      */
     protected final void skipByte(final byte value) {
         if (buffer[bufferPos] != value) {

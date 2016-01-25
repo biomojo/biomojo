@@ -27,4 +27,5 @@ import com.beust.jcommander.Parameter;
 public abstract class BaseInputCommand extends InputCommand {
     @Parameter(names = { "-e", "--encode" }, description = "Use two bit encoding for sequences")
     protected boolean encode = false;
+
 }

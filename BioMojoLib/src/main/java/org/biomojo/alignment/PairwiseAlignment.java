@@ -16,11 +16,9 @@
  */
 package org.biomojo.alignment;
 
-import org.biomojo.alphabet.GappableAlphabet;
+import org.biomojo.alphabet.Gappable;
 import org.biomojo.sequence.Seq;
 import org.biomojo.sequence.SeqArrayList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -30,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * @param <T>
  *            the generic type
  */
-public class PairwiseAlignment<T extends Seq<?, ? extends GappableAlphabet<?>>> extends SeqArrayList<T>
+public class PairwiseAlignment<T extends Seq<?, ? extends Gappable<?, ?>>> extends SeqArrayList<T>
         implements Alignment<T> {
 
     /** The Constant serialVersionUID. */
@@ -38,10 +36,6 @@ public class PairwiseAlignment<T extends Seq<?, ? extends GappableAlphabet<?>>> 
 
     /** The Constant SCORE. */
     private static final String SCORE = "score";
-
-    /** The Constant logger. */
-    @SuppressWarnings("unused")
-    private static final Logger logger = LoggerFactory.getLogger(PairwiseAlignment.class.getName());
 
     /*
      * (non-Javadoc)

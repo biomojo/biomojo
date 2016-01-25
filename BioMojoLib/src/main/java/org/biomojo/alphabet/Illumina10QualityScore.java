@@ -18,18 +18,16 @@ package org.biomojo.alphabet;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class SangerQualityScoreAlphabet.
- *
- * @author hugh
- * 
- *         Valid range: 33 - 126 (i.e. Phred score + 33)
+ * The Class Illumina10QualityScoreAlphabet.
  */
-public class SangerQualityScoreAlphabet extends AbstractQualityScoreAlphabet {
-    
+//Valid range: 59 to 126 (Phred score + 64)
+public class Illumina10QualityScore extends AbstractQualityScore {
+
     /**
-     * Instantiates a new sanger quality score alphabet.
+     * Instantiates a new illumina10 quality score alphabet.
      */
-    public SangerQualityScoreAlphabet() {
-        super(AlphabetId.QUALITY_SANGER, 33, 126);
+    protected Illumina10QualityScore() {
+        super(AlphabetId.QUALITY_ILLUMINA_10, 59, 126);
     }
+
 }

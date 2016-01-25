@@ -26,11 +26,12 @@ import org.biomojo.symbols.CommonSymbols;
  * @param <A>
  *            the generic type
  */
-public interface GappableByteAlphabet extends ByteAlphabet, GappableAlphabet<Byte> {
+public interface GappableByte<A extends GappableByte<A>>
+        extends ByteAlphabet, Gappable<Byte, A> {
 
     @Override
-    public default GappableByteAlphabet getGapped() {
-        return Alphabets.getAlphabet(getId() | IUPACAlphabetVariant.WITH_GAP, GappableByteAlphabet.class);
+    public default A getGapped() {
+        return (A) Alphabets.getAlphabet(getId() | IUPACVariant.WITH_GAP, GappableByte.class);
     }
 
     /*
@@ -40,7 +41,7 @@ public interface GappableByteAlphabet extends ByteAlphabet, GappableAlphabet<Byt
      */
     @Override
     public default boolean supportsGaps() {
-        return ((getId() & IUPACAlphabetVariant.WITH_GAP) != 0);
+        return ((getId() & IUPACVariant.WITH_GAP) != 0);
     }
 
     /*

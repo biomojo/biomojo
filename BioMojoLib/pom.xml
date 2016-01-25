@@ -30,6 +30,17 @@
 	</build>
 
 	<dependencies>
+            <dependency>
+            <groupId>edu.ucar</groupId>
+            <artifactId>netcdf4</artifactId>
+            <version>4.5.5</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>commons-logging</artifactId>
+                    <groupId>commons-logging</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
 		<dependency>
 			<groupId>org.java0</groupId>
 			<artifactId>java0-collection</artifactId>

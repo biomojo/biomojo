@@ -23,26 +23,31 @@ import org.biomojo.symbols.Nucleotides;
 /**
  * The Class AbstractNucleotideAlphabet.
  */
-public abstract class AbstractNucleotideAlphabet extends AbstractIUPACAlphabet implements NucleotideAlphabet {
-    
+public abstract class AbstractNucleotide<A extends Nucleotide<A>> extends AbstractIUPAC<A>
+        implements Nucleotide<A> {
+
     /** The complement. */
     protected byte[] complement = new byte[Byte.MAX_VALUE + 1];
-    
+
     /** The base matches. */
     private static boolean[] baseMatches = new boolean[(Byte.MAX_VALUE + 1) * (Byte.MAX_VALUE + 1)];
 
     /**
      * Instantiates a new abstract nucleotide alphabet.
      *
-     * @param id the id
-     * @param coreSymbols the core symbols
+     * @param id
+     *            the id
+     * @param coreSymbols
+     *            the core symbols
      */
-    protected AbstractNucleotideAlphabet(final int id, final byte[] coreSymbols) {
+    protected AbstractNucleotide(final int id, final byte[] coreSymbols) {
         super(id, coreSymbols);
         initComplements();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.alphabet.AbstractIUPACAlphabet#addAnySymbols()
      */
     @Override
@@ -50,7 +55,9 @@ public abstract class AbstractNucleotideAlphabet extends AbstractIUPACAlphabet i
         addSymbol(Nucleotides.ANY);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.alphabet.AbstractIUPACAlphabet#addAmbiguitySymbols()
      */
     @Override
@@ -87,8 +94,10 @@ public abstract class AbstractNucleotideAlphabet extends AbstractIUPACAlphabet i
     /**
      * Adds the complement.
      *
-     * @param a the a
-     * @param b the b
+     * @param a
+     *            the a
+     * @param b
+     *            the b
      */
     protected void addComplement(final byte a, final byte b) {
         complement[a] = b;
@@ -98,8 +107,10 @@ public abstract class AbstractNucleotideAlphabet extends AbstractIUPACAlphabet i
     /**
      * Adds the match.
      *
-     * @param c the c
-     * @param d the d
+     * @param c
+     *            the c
+     * @param d
+     *            the d
      */
     private static void addMatch(final byte c, final byte d) {
         baseMatches[(c << 7) + d] = true;

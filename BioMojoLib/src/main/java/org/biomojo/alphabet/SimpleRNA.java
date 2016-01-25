@@ -14,15 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.biomojo.alphabet;
 
+import org.biomojo.symbols.Nucleotides;
+
+// TODO: Auto-generated Javadoc
 /**
- * The Interface AminoAcidAlphabet.
+ * The Class RNAAlphabetImpl.
+ *
+ * @author Hugh Eaves
  */
-public interface AminoAcidAlphabet extends IUPACAlphabet {
-    @Override
-    public default AminoAcidAlphabet getGapped() {
-        return Alphabets.getAlphabet(getId() | IUPACAlphabetVariant.WITH_GAP, AminoAcidAlphabet.class);
+public class SimpleRNA extends AbstractNucleotide<RNA> implements RNA {
+
+    /**
+     * Create a new DNAAlphabetImpl.
+     *
+     * @param id
+     *            the id
+     */
+    protected SimpleRNA(final int id) {
+        super(id, Nucleotides.RNA_SYMBOLS);
     }
 }

@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.NucleotideAlphabet;
+import org.biomojo.alphabet.DNA;
 import org.biomojo.io.FixedWidthSequenceIdHeaderBuilder;
 import org.biomojo.io.fastx.FastaOutputStream;
 import org.biomojo.sequence.ByteSeq;
@@ -37,13 +37,13 @@ import org.slf4j.LoggerFactory;
  */
 public class RandomFastaGenerator extends RandomSeqGenerator {
     private static final Logger logger = LoggerFactory.getLogger(RandomFastaGenerator.class.getName());
-    Supplier<ByteSeq<NucleotideAlphabet>> supplier = new ByteSeqSupplier<>(AlphabetId.DNA);
+    Supplier<ByteSeq<DNA>> supplier = new ByteSeqSupplier<>(AlphabetId.DNA);
 
     @Override
     public void createFile(final File file, final int numSeqs, final int seqLength) {
         try {
-            final FastaOutputStream output = new FastaOutputStream(new BufferedOutputStream(new FileOutputStream(file)),
-                    new FixedWidthSequenceIdHeaderBuilder(8));
+            final FastaOutputStream<DNA> output = new FastaOutputStream<>(
+                    new BufferedOutputStream(new FileOutputStream(file)), new FixedWidthSequenceIdHeaderBuilder(8));
             // Start seqNum at 1 because BioPerl blows up with a sequence id of
             // zero!
             for (int seqNum = 1; seqNum <= numSeqs; ++seqNum) {
@@ -56,8 +56,8 @@ public class RandomFastaGenerator extends RandomSeqGenerator {
         }
     }
 
-    protected ByteSeq<NucleotideAlphabet> genFastaSeq(final int seqNum, final int length) {
-        final ByteSeq<NucleotideAlphabet> record = supplier.get();
+    protected ByteSeq<DNA> genFastaSeq(final int seqNum, final int length) {
+        final ByteSeq<DNA> record = supplier.get();
         record.setId(seqNum);
         createRandomSeqData(record, length);
         return record;

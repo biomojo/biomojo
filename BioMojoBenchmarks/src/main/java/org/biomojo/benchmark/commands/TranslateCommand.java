@@ -25,9 +25,9 @@ import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.Alphabets;
-import org.biomojo.alphabet.AminoAcidAlphabet;
-import org.biomojo.alphabet.IUPACAlphabetVariant;
-import org.biomojo.alphabet.NucleotideAlphabet;
+import org.biomojo.alphabet.AminoAcid;
+import org.biomojo.alphabet.DNA;
+import org.biomojo.alphabet.IUPACVariant;
 import org.biomojo.codec.CodecId;
 import org.biomojo.io.fastx.FastaInputStream;
 import org.biomojo.io.fastx.FastaOutputStream;
@@ -58,21 +58,21 @@ public class TranslateCommand extends BaseInputOutputCommand {
             logger.info("BioMojo sequence translation benchmark");
 
             // System.in.read();
-            final FastaInputStream inputStream = new FastaInputStream(new FileInputStream(inputFile));
-            final FastaOutputStream outputStream = new FastaOutputStream(
+            final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile));
+            final FastaOutputStream<AminoAcid> outputStream = new FastaOutputStream<>(
                     new BufferedOutputStream(new FileOutputStream(outputFile)));
 
             int recordCount = 0;
             long totalLength = 0;
 
-            Supplier<ByteSeq<NucleotideAlphabet>> supplier = new ByteSeqSupplier<>(AlphabetId.DNA);
+            Supplier<ByteSeq<DNA>> supplier = new ByteSeqSupplier<>(AlphabetId.DNA);
             if (encode) {
                 supplier = new EncodedByteSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC);
             }
-            final ByteSeq<NucleotideAlphabet> sequence = supplier.get();
+            final ByteSeq<DNA> sequence = supplier.get();
 
             final TranslatedSeq translatedSeq = new TranslatedSeq(sequence, Alphabets.getAlphabet(
-                    AlphabetId.AMINO_ACID + IUPACAlphabetVariant.WITH_AMBIGIGUITY, AminoAcidAlphabet.class));
+                    AlphabetId.AMINO_ACID + IUPACVariant.WITH_AMBIGIGUITY, AminoAcid.class));
 
             while (inputStream.read(sequence)) {
                 totalLength += sequence.size();

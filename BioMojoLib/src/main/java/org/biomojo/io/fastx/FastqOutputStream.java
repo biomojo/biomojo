@@ -21,7 +21,7 @@ import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.biomojo.alphabet.NucleotideAlphabet;
+import org.biomojo.alphabet.Nucleotide;
 import org.biomojo.io.DefaultHeaderBuilder;
 import org.biomojo.io.HeaderBuilder;
 import org.biomojo.io.SequenceOutputStream;
@@ -32,22 +32,23 @@ import org.biomojo.util.OutputUtil;
 /**
  * The Class FastqOutputStream.
  */
-public class FastqOutputStream extends FilterOutputStream
-        implements SequenceOutputStream<FastqSeq<? extends NucleotideAlphabet>> {
-    
+public class FastqOutputStream<T extends Nucleotide<T>> extends FilterOutputStream
+        implements SequenceOutputStream<FastqSeq<T>> {
+
     /** The Constant DEFAULT_LINE_LENGTH. */
     private static final int DEFAULT_LINE_LENGTH = Integer.MAX_VALUE;
 
     /** The header builder. */
     private final HeaderBuilder headerBuilder;
-    
+
     /** The max line length. */
     private final int maxLineLength;
 
     /**
      * Instantiates a new fastq output stream.
      *
-     * @param outputStream the output stream
+     * @param outputStream
+     *            the output stream
      */
     public FastqOutputStream(final OutputStream outputStream) {
         super(outputStream);
@@ -58,8 +59,10 @@ public class FastqOutputStream extends FilterOutputStream
     /**
      * Instantiates a new fastq output stream.
      *
-     * @param outputStream the output stream
-     * @param sequenceHeaderBuilder the sequence header builder
+     * @param outputStream
+     *            the output stream
+     * @param sequenceHeaderBuilder
+     *            the sequence header builder
      */
     public FastqOutputStream(final OutputStream outputStream, final HeaderBuilder sequenceHeaderBuilder) {
         super(outputStream);
@@ -70,9 +73,12 @@ public class FastqOutputStream extends FilterOutputStream
     /**
      * Instantiates a new fastq output stream.
      *
-     * @param outputStream the output stream
-     * @param sequenceHeaderBuilder the sequence header builder
-     * @param maxLineLength the max line length
+     * @param outputStream
+     *            the output stream
+     * @param sequenceHeaderBuilder
+     *            the sequence header builder
+     * @param maxLineLength
+     *            the max line length
      */
     public FastqOutputStream(final OutputStream outputStream, final HeaderBuilder sequenceHeaderBuilder,
             final int maxLineLength) {
@@ -84,8 +90,10 @@ public class FastqOutputStream extends FilterOutputStream
     /**
      * Instantiates a new fastq output stream.
      *
-     * @param outputStream the output stream
-     * @param maxLineLength the max line length
+     * @param outputStream
+     *            the output stream
+     * @param maxLineLength
+     *            the max line length
      */
     public FastqOutputStream(final OutputStream outputStream, final int maxLineLength) {
         super(outputStream);
@@ -93,11 +101,13 @@ public class FastqOutputStream extends FilterOutputStream
         headerBuilder = new DefaultHeaderBuilder();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.io.SequenceOutputStream#write(org.biomojo.sequence.Seq)
      */
     @Override
-    public void write(final FastqSeq<? extends NucleotideAlphabet> sequence) throws IOException {
+    public void write(final FastqSeq<T> sequence) throws IOException {
         out.write(FastqConst.RECORD_DELIMITER);
         out.write(headerBuilder.buildHeader(sequence));
         out.write('\n');

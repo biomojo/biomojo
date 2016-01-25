@@ -25,7 +25,7 @@ import org.biomojo.BioMojo;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.cli.AbstractSpringCommand;
 import org.biomojo.sequence.ByteSeq;
-import org.biomojo.sequence.ByteSeqImpl;
+import org.biomojo.sequence.BasicByteSeq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,7 +65,7 @@ public class SimpleDBExample extends AbstractSpringCommand {
     public void run() {
         logger.info("Started");
 
-        final ByteSeq<ByteAlphabet> sequence = new ByteSeqImpl<ByteAlphabet>("AGTGCCGGTC".getBytes());
+        final ByteSeq<ByteAlphabet> sequence = new BasicByteSeq<ByteAlphabet>("AGTGCCGGTC".getBytes());
         sequence.setProp("name", "name of the sequence");
         sequence.setProp("another", "test value");
         entityManager.persist(sequence);

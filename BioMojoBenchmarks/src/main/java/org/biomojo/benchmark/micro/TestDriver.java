@@ -26,7 +26,7 @@ import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.Alphabets;
-import org.biomojo.alphabet.NucleotideAlphabet;
+import org.biomojo.alphabet.DNA;
 import org.biomojo.sequence.ByteSeq;
 import org.java0.util.timing.Stopwatch;
 import org.slf4j.Logger;
@@ -57,7 +57,7 @@ public class TestDriver {
     static final int DATA_LENGTH = 1000 * 1000 * 10;
 
     public void test() {
-        final List<Supplier<ByteSeq<NucleotideAlphabet>>> providers = new ArrayList<>();
+        final List<Supplier<ByteSeq<DNA>>> providers = new ArrayList<>();
         // providers.add(new ByteSeqProvider());
         // providers.add(new EncodedByteSeqProvider());
         // providers.add(new NullEncodedByteSeqProvider());
@@ -65,13 +65,13 @@ public class TestDriver {
 
         // final AccessTest[] tests = { new IntArrayAccessTest(), new
         // NullAccessTest() };
-        final Map<Supplier<ByteSeq<NucleotideAlphabet>>, Stopwatch> stopwatches = new HashMap<>();
-        for (final Supplier<ByteSeq<NucleotideAlphabet>> provider : providers) {
+        final Map<Supplier<ByteSeq<DNA>>, Stopwatch> stopwatches = new HashMap<>();
+        for (final Supplier<ByteSeq<DNA>> provider : providers) {
             stopwatches.put(provider, new Stopwatch(provider.getClass().getName()));
         }
         logger.info("Creating test data");
         final Random random = new Random(5);
-        final NucleotideAlphabet alphabet = Alphabets.getAlphabet(AlphabetId.DNA, NucleotideAlphabet.class);
+        final DNA alphabet = Alphabets.getAlphabet(AlphabetId.DNA, DNA.class);
         final byte[] testData = new byte[DATA_LENGTH];
         for (int i = 0; i < testData.length; ++i) {
             testData[i] = alphabet.getSymbolForOrdinal(random.nextInt(alphabet.numSymbols()));
@@ -84,9 +84,9 @@ public class TestDriver {
         }
         for (int rep = 0; rep < NUM_REPS; ++rep) {
             Collections.shuffle(providers);
-            for (final Supplier<ByteSeq<NucleotideAlphabet>> provider : providers) {
+            for (final Supplier<ByteSeq<DNA>> provider : providers) {
                 logger.info("Setting up data for {}", provider.getClass().getName());
-                final ByteSeq<NucleotideAlphabet> seq = provider.get();
+                final ByteSeq<DNA> seq = provider.get();
                 seq.setAlphabet(alphabet);
                 seq.setAll(testData);
                 runGC();

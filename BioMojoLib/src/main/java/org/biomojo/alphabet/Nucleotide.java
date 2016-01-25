@@ -17,15 +17,8 @@
 package org.biomojo.alphabet;
 
 /**
- * Represents alphabets containing standard IUPAC symbols for amino acids and
- * nucleotides.
- *
- * @author Hugh Eaves
- *
+ * The Interface NucleotideAlphabet.
  */
-public interface IUPACAlphabet extends AmbiguitySupport, GappableByteAlphabet {
-    @Override
-    public default IUPACAlphabet getGapped() {
-        return Alphabets.getAlphabet(getId() | IUPACAlphabetVariant.WITH_GAP, IUPACAlphabet.class);
-    }
+public interface Nucleotide<A extends Nucleotide<A>> extends IUPAC<A> {
+
 }

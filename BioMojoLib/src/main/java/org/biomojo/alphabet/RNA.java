@@ -16,18 +16,8 @@
  */
 package org.biomojo.alphabet;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class Illumina10QualityScoreAlphabet.
+ * The Interface RNAAlphabet.
  */
-//Valid range: 59 to 126 (Phred score + 64)
-public class Illumina10QualityScoreAlphabet extends AbstractQualityScoreAlphabet {
-
-    /**
-     * Instantiates a new illumina10 quality score alphabet.
-     */
-    protected Illumina10QualityScoreAlphabet() {
-        super(AlphabetId.QUALITY_ILLUMINA_10, 59, 126);
-    }
-
+public interface RNA extends Nucleotide<RNA> {
 }

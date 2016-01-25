@@ -31,8 +31,8 @@ import org.biomojo.sequence.ByteSeq;
 /**
  * The Class FastaInputStream.
  */
-public class FastaInputStream extends MarkAndCopyInputStream
-        implements SequenceInputStream<ByteSeq<? extends ByteAlphabet>> {
+public class FastaInputStream<T extends ByteAlphabet> extends MarkAndCopyInputStream
+        implements SequenceInputStream<ByteSeq<T>> {
 
     /** The header parser. */
     private final HeaderParser headerParser;
@@ -40,7 +40,7 @@ public class FastaInputStream extends MarkAndCopyInputStream
     /** The validate sequence data. */
     private final boolean validateSequenceData;
 
-    private final Supplier<? extends ByteSeq<?>> factory;
+    private final Supplier<? extends ByteSeq<T>> factory;
 
     /**
      * Instantiates a new fasta input stream.
@@ -55,7 +55,7 @@ public class FastaInputStream extends MarkAndCopyInputStream
         factory = null;
     }
 
-    public FastaInputStream(final InputStream inputStream, final Supplier<? extends ByteSeq<?>> factory) {
+    public FastaInputStream(final InputStream inputStream, final Supplier<? extends ByteSeq<T>> factory) {
         super(inputStream);
         headerParser = new DefaultHeaderParser();
         validateSequenceData = true;
@@ -70,11 +70,12 @@ public class FastaInputStream extends MarkAndCopyInputStream
      * @param sequenceHeaderParser
      *            the sequence header parser
      */
-    public FastaInputStream(final InputStream inputStream, final HeaderParser sequenceHeaderParser) {
+    public FastaInputStream(final InputStream inputStream, final HeaderParser sequenceHeaderParser,
+            final Supplier<? extends ByteSeq<T>> factory) {
         super(inputStream);
         headerParser = sequenceHeaderParser;
         validateSequenceData = true;
-        factory = null;
+        this.factory = factory;
     }
 
     /**
@@ -113,7 +114,7 @@ public class FastaInputStream extends MarkAndCopyInputStream
      * @see org.biomojo.io.SequenceInputStream#read(org.biomojo.sequence.Seq)
      */
     @Override
-    public boolean read(final ByteSeq<? extends ByteAlphabet> seq) throws ParseException {
+    public boolean read(final ByteSeq<T> seq) throws ParseException {
         if (isEof()) {
             return false;
         }
@@ -137,8 +138,8 @@ public class FastaInputStream extends MarkAndCopyInputStream
     }
 
     @Override
-    public ByteSeq<?> readSeq() throws ParseException {
-        final ByteSeq<?> seq = factory.get();
+    public ByteSeq<T> readSeq() throws ParseException {
+        final ByteSeq<T> seq = factory.get();
         if (read(seq)) {
             return seq;
         }

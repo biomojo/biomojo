@@ -27,7 +27,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import org.biomojo.alphabet.AminoAcidAlphabet;
+import org.biomojo.alphabet.AminoAcid;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.SeqList;
@@ -187,7 +187,7 @@ public class BlastFileService {
 
                 // TO DO - Need a better way to represent / determine rawData
                 // type for rawData lists
-                final boolean protein = sequenceList.get(0).getAlphabet() instanceof AminoAcidAlphabet;
+                final boolean protein = sequenceList.get(0).getAlphabet() instanceof AminoAcid;
 
                 String dbtype = "nucl";
                 if (protein) {

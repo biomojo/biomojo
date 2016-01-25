@@ -16,7 +16,7 @@
  */
 package org.biomojo.sequence.factory;
 
-import org.biomojo.alphabet.NucleotideAlphabet;
+import org.biomojo.alphabet.Nucleotide;
 import org.biomojo.codec.ByteByteCodec;
 import org.biomojo.codec.Codecs;
 import org.biomojo.sequence.EncodedFastqSeq;
@@ -25,7 +25,7 @@ import org.biomojo.sequence.EncodedFastqSeq;
  * @author Hugh Eaves
  *
  */
-public class EncodedFastqSeqSupplier<A extends NucleotideAlphabet> extends FastqSeqSupplier<A> {
+public class EncodedFastqSeqSupplier<A extends Nucleotide<A>> extends FastqSeqSupplier<A> {
 
     private final ByteByteCodec codec;
 

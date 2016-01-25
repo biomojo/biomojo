@@ -22,7 +22,7 @@ package org.biomojo.alphabet;
  *
  * @author Hugh Eaves
  */
-public class IUPACAlphabetVariant {
+public class IUPACVariant {
     
     /** The Constant WITH_NON_CANONICAL. */
     public static final int WITH_NON_CANONICAL = 1;
