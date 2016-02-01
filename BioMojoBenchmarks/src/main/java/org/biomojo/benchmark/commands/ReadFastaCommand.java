@@ -50,8 +50,7 @@ public class ReadFastaCommand extends BaseInputCommand {
         try {
             logger.info("BioMojo Fasta Read Benchmark");
 
-            final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile),
-                    false);
+            final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile), false);
 
             int recordCount = 0;
             long totalLength = 0;
@@ -71,14 +70,10 @@ public class ReadFastaCommand extends BaseInputCommand {
             logger.info("Done loading " + recordCount + " sequences");
             logger.info("Total length is " + totalLength + " bases");
 
-            Thread.sleep(0);
-
         } catch (final FileNotFoundException e) {
             throw new UncheckedException(e);
         } catch (final IOException e) {
             throw new UncheckedException(e);
-        } catch (final InterruptedException e) {
-            logger.error("Caught exception in auto-generated catch block", e);
         }
 
     }

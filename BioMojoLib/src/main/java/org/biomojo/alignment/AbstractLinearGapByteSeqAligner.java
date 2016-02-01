@@ -28,8 +28,7 @@ import org.slf4j.LoggerFactory;
  * @param <A>
  *            the generic type
  */
-public abstract class AbstractLinearGapByteSeqAligner<A extends GappableByte<A>>
-        extends AbstractByteSeqAligner<A> {
+public abstract class AbstractLinearGapByteSeqAligner<A extends GappableByte<A>> extends AbstractByteSeqAligner<A> {
 
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AbstractLinearGapByteSeqAligner.class.getName());
@@ -57,7 +56,7 @@ public abstract class AbstractLinearGapByteSeqAligner<A extends GappableByte<A>>
 
     @Override
     protected void reallocateMatrices() {
-        scores = new int[seq1Dim][seq2Dim];
+        scores = new int[arrayDim1][arrayDim2];
     }
 
     /**
@@ -76,20 +75,20 @@ public abstract class AbstractLinearGapByteSeqAligner<A extends GappableByte<A>>
      */
     @Override
     protected int calcCellScore(final byte[] seq1Bytes, final byte[] seq2Bytes, final int seq1Pos, final int seq2Pos) {
-        int cellScore = scores[seq1Pos - 1][seq2Pos - 1]
+        int substitutionScore = scores[seq1Pos - 1][seq2Pos - 1]
                 + matrix.getScore(seq1Bytes[seq1Pos - 1], seq2Bytes[seq2Pos - 1]);
         final int seq1GapScore = scores[seq1Pos - 1][seq2Pos] + gapExtendPenalty;
         final int seq2GapScore = scores[seq1Pos][seq2Pos - 1] + gapExtendPenalty;
 
-        if (seq1GapScore > cellScore) {
-            cellScore = seq1GapScore;
+        if (seq1GapScore > substitutionScore) {
+            substitutionScore = seq1GapScore;
         }
-        if (seq2GapScore > cellScore) {
-            cellScore = seq2GapScore;
+        if (seq2GapScore > substitutionScore) {
+            substitutionScore = seq2GapScore;
         }
 
-        scores[seq1Pos][seq2Pos] = cellScore;
-        return (cellScore);
+        scores[seq1Pos][seq2Pos] = substitutionScore;
+        return (substitutionScore);
     }
 
     @Override
@@ -140,10 +139,25 @@ public abstract class AbstractLinearGapByteSeqAligner<A extends GappableByte<A>>
      * Prints the score table.
      */
     protected void printScoreTable() {
-        for (int i = 0; i < seq1Dim; i++) {
-            final StringBuffer buf = new StringBuffer();
-            for (int j = 0; j < seq2Dim; j++) {
-                buf.append(Integer.toString(scores[i][j]));
+        StringBuffer buf = new StringBuffer();
+        buf.append(" \t \t");
+        for (int i = 0; i < seq1.length(); i++) {
+            buf.append(seq1.charAt(i));
+            buf.append("\t");
+        }
+        buf.append("\n");
+        logger.info(buf.toString());
+
+        for (int i = 0; i < seq2Dim; i++) {
+            buf = new StringBuffer();
+            if (i > 0) {
+                buf.append(seq2.charAt(i - 1));
+            } else {
+                buf.append(" ");
+            }
+            buf.append("\t");
+            for (int j = 0; j < seq1Dim; j++) {
+                buf.append(Integer.toString(scores[j][i]));
                 buf.append("\t");
             }
             logger.info(buf.toString());

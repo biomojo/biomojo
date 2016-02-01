@@ -26,7 +26,6 @@ import org.biomojo.io.DefaultHeaderParser;
 import org.biomojo.io.HeaderParser;
 import org.biomojo.io.MarkAndCopyInputStream;
 import org.biomojo.io.ParseException;
-import org.biomojo.io.SequenceInputStream;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.FastqSeq;
 import org.slf4j.Logger;
@@ -35,8 +34,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class FastqInputStream.
  */
-public class FastqInputStream<T extends Nucleotide<T>> extends MarkAndCopyInputStream
-        implements SequenceInputStream<FastqSeq<T>> {
+public class FastqInputStream<T extends Nucleotide<?>> extends MarkAndCopyInputStream<FastqSeq<T>> {
 
     /** The Constant logger. */
     @SuppressWarnings("unused")
@@ -182,7 +180,7 @@ public class FastqInputStream<T extends Nucleotide<T>> extends MarkAndCopyInputS
     }
 
     @Override
-    public FastqSeq<T> readSeq() throws ParseException {
+    public FastqSeq<T> read() throws ParseException {
         final FastqSeq<T> seq = factory.get();
         if (read(seq)) {
             return seq;

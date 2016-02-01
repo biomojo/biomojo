@@ -100,8 +100,7 @@ public class FastaParserTest extends FastxParserTest<ByteAlphabet, ByteSeq<ByteA
      */
     @Override
     protected ByteSeq<ByteAlphabet> getSequence() {
-        return new BasicByteSeq<ByteAlphabet>(Alphabets.getAlphabet(
-                AlphabetId.DNA | IUPACVariant.WITH_ANY | IUPACVariant.WITH_NON_CANONICAL,
-                ByteAlphabet.class));
+        return new BasicByteSeq<ByteAlphabet>(
+                Alphabets.getAlphabet(AlphabetId.DNA | IUPACVariant.WITH_ANY | IUPACVariant.WITH_NON_CANONICAL));
     }
 }

@@ -16,23 +16,24 @@
  */
 package org.biomojo.io;
 
-import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
+import org.biomojo.sequence.Seq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class MarkAndCopyInputStream.
  */
-public class MarkAndCopyInputStream extends FilterInputStream {
+public abstract class MarkAndCopyInputStream<T extends Seq<?, ?>> implements SequenceInputStream<T> {
 
     /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(MarkAndCopyInputStream.class.getName());
+
+    protected volatile InputStream inputStream;
 
     /** The buffer. */
     // Various pointers / counters
@@ -96,7 +97,7 @@ public class MarkAndCopyInputStream extends FilterInputStream {
      *            the buffer size
      */
     protected MarkAndCopyInputStream(final InputStream inputStream, final int bufferSize) {
-        super(inputStream);
+        this.inputStream = inputStream;
         this.bufferSize = bufferSize;
         loadBuffer();
     }
@@ -109,7 +110,7 @@ public class MarkAndCopyInputStream extends FilterInputStream {
             final boolean inSegment = segmentStart != Integer.MAX_VALUE;
             markSegmentEnd();
             buffer = new byte[bufferSize];
-            bufferLength = read(buffer);
+            bufferLength = inputStream.read(buffer);
             if (bufferLength != -1) {
                 bufferPos = 0;
                 if (inSegment) {
@@ -278,8 +279,8 @@ public class MarkAndCopyInputStream extends FilterInputStream {
      */
     protected final void skipByte(final byte value) {
         if (buffer[bufferPos] != value) {
-            throw new ParseException(
-                    "Expected value not found. Expected = " + value + ", Received = " + buffer[bufferPos]);
+            throw new ParseException("Expected value not found. Expected = [" + ((char) value) + "], Received = ["
+                    + ((char) buffer[bufferPos]) + "]");
         }
         nextByte();
     }
@@ -310,4 +311,11 @@ public class MarkAndCopyInputStream extends FilterInputStream {
     public final int getTotalLength() {
         return totalLength;
     }
+
+    @Override
+    public void close() throws IOException {
+        // TODO Cleanup internal buffers
+        inputStream.close();
+    }
+
 }

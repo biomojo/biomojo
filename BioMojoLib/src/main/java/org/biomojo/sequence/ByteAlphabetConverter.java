@@ -30,20 +30,28 @@ import org.biomojo.alphabet.ByteAlphabet;
  */
 @Converter(autoApply = true)
 public class ByteAlphabetConverter implements AttributeConverter<ByteAlphabet, Integer> {
-    
-    /* (non-Javadoc)
-     * @see javax.persistence.AttributeConverter#convertToDatabaseColumn(java.lang.Object)
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * javax.persistence.AttributeConverter#convertToDatabaseColumn(java.lang.
+     * Object)
      */
     @Override
-    public Integer convertToDatabaseColumn(ByteAlphabet alphabet) {
+    public Integer convertToDatabaseColumn(final ByteAlphabet alphabet) {
         return (int) alphabet.getId();
     }
 
-    /* (non-Javadoc)
-     * @see javax.persistence.AttributeConverter#convertToEntityAttribute(java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * javax.persistence.AttributeConverter#convertToEntityAttribute(java.lang.
+     * Object)
      */
     @Override
-    public ByteAlphabet convertToEntityAttribute(Integer alphabetId) {
-        return Alphabets.getAlphabet(alphabetId, ByteAlphabet.class);
+    public ByteAlphabet convertToEntityAttribute(final Integer alphabetId) {
+        return Alphabets.getAlphabet(alphabetId);
     }
 }

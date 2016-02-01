@@ -25,14 +25,12 @@ import org.biomojo.io.DefaultHeaderParser;
 import org.biomojo.io.HeaderParser;
 import org.biomojo.io.MarkAndCopyInputStream;
 import org.biomojo.io.ParseException;
-import org.biomojo.io.SequenceInputStream;
 import org.biomojo.sequence.ByteSeq;
 
 /**
  * The Class FastaInputStream.
  */
-public class FastaInputStream<T extends ByteAlphabet> extends MarkAndCopyInputStream
-        implements SequenceInputStream<ByteSeq<T>> {
+public class FastaInputStream<T extends ByteAlphabet> extends MarkAndCopyInputStream<ByteSeq<T>> {
 
     /** The header parser. */
     private final HeaderParser headerParser;
@@ -138,11 +136,12 @@ public class FastaInputStream<T extends ByteAlphabet> extends MarkAndCopyInputSt
     }
 
     @Override
-    public ByteSeq<T> readSeq() throws ParseException {
+    public ByteSeq<T> read() throws ParseException {
         final ByteSeq<T> seq = factory.get();
         if (read(seq)) {
             return seq;
         }
         return null;
     }
+
 }

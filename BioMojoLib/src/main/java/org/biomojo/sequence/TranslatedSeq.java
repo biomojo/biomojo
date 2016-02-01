@@ -45,7 +45,7 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcid> {
      * Create a new TranslatedSeq.
      */
     public TranslatedSeq() {
-        super(Alphabets.getAlphabet(AlphabetId.AMINO_ACID, AminoAcid.class));
+        super(Alphabets.getAlphabet(AlphabetId.AMINO_ACID));
         codonTable = CodonTables.getCodonTable(CodonTableId.STANDARD);
     }
 

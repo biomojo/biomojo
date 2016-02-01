@@ -22,7 +22,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Iterator;
 
-import org.biomojo.alphabet.ByteAlphabet;
+import org.biomojo.alphabet.Nucleotide;
 import org.biomojo.io.ParseException;
 import org.biomojo.io.SequenceInputStream;
 import org.biomojo.sequence.ByteSeq;
@@ -36,7 +36,7 @@ import ucar.nc2.Group;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 
-public class Fast5InputStream implements SequenceInputStream<ByteSeq<? extends ByteAlphabet>> {
+public class Fast5InputStream<T extends Nucleotide<?>> implements SequenceInputStream<ByteSeq<T>> {
     private static final String TWOD_GROUP = "BaseCalled_2D";
 
     private static final String COMPLEMENT_GROUP = "BaseCalled_complement";
@@ -58,7 +58,7 @@ public class Fast5InputStream implements SequenceInputStream<ByteSeq<? extends B
     }
 
     @Override
-    public boolean read(final ByteSeq<? extends ByteAlphabet> sequence) throws ParseException {
+    public boolean read(final ByteSeq<T> sequence) throws ParseException {
         if (fileList.hasNext()) {
             final Path path = fileList.next();
             try {
@@ -88,11 +88,6 @@ public class Fast5InputStream implements SequenceInputStream<ByteSeq<? extends B
             }
         }
         return false;
-    }
-
-    @Override
-    public ByteSeq<? extends ByteAlphabet> readSeq() throws ParseException {
-        return null;
     }
 
     @Override
@@ -140,6 +135,12 @@ public class Fast5InputStream implements SequenceInputStream<ByteSeq<? extends B
         }
         buffer.append(value);
         logger.info(buffer.toString());
+    }
+
+    @Override
+    public ByteSeq<T> read() throws ParseException {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

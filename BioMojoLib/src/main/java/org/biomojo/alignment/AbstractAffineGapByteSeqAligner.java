@@ -22,15 +22,14 @@ import org.biomojo.sequence.ByteSeq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AbstractByteSeqAligner.
  *
  * @param <A>
  *            the generic type
  */
-public abstract class AbstractAffineGapByteSeqAligner<A extends GappableByte<A>>
-        extends AbstractByteSeqAligner<A> implements Aligner<A, ByteSeq<A>> {
+public abstract class AbstractAffineGapByteSeqAligner<A extends GappableByte<A>> extends AbstractByteSeqAligner<A>
+        implements Aligner<A, ByteSeq<A>> {
 
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AbstractAffineGapByteSeqAligner.class.getName());
@@ -67,9 +66,9 @@ public abstract class AbstractAffineGapByteSeqAligner<A extends GappableByte<A>>
 
     @Override
     protected void reallocateMatrices() {
-        scores = new int[seq1Dim][seq2Dim];
-        scores1 = new int[seq1Dim][seq2Dim];
-        scores2 = new int[seq1Dim][seq2Dim];
+        scores = new int[arrayDim1][arrayDim2];
+        scores1 = new int[arrayDim1][arrayDim2];
+        scores2 = new int[arrayDim1][arrayDim2];
     }
 
     /**

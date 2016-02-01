@@ -27,6 +27,9 @@ public abstract class AbstractByteSeqAligner<A extends GappableByte<A>> implemen
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AbstractByteSeqAligner.class);
 
+    protected int arrayDim1 = 0;
+    protected int arrayDim2 = 0;
+
     /** The seq1 dim. */
     protected int seq1Dim = 0;
 
@@ -70,16 +73,13 @@ public abstract class AbstractByteSeqAligner<A extends GappableByte<A>> implemen
 
     protected void checkDimensions() {
 
-        final int newSeq1Dim = seq1.size() + 1;
-        final int newSeq2Dim = seq2.size() + 1;
+        seq1Dim = seq1.size() + 1;
+        seq2Dim = seq2.size() + 1;
 
-        final int maxSeq1Dim = Math.max(seq1Dim, newSeq1Dim);
-        final int maxSeq2Dim = Math.max(seq2Dim, newSeq2Dim);
-
-        if (maxSeq1Dim > seq1Dim || maxSeq2Dim > seq2Dim) {
-            seq1Dim = maxSeq1Dim;
-            seq2Dim = maxSeq2Dim;
-            logger.debug("Re-Dimming matrices: seq1Dim = {}, seq2Dim = {}", maxSeq1Dim, maxSeq2Dim);
+        if (seq1Dim > arrayDim1 || seq2Dim > arrayDim2) {
+            arrayDim1 = Math.max(seq1Dim, arrayDim1);
+            arrayDim2 = Math.max(seq2Dim, arrayDim2);
+            logger.debug("Re-Dimming matrices: arrayDim1 = {}, arrayDim2 = {}", arrayDim1, arrayDim2);
             reallocateMatrices();
         }
     }

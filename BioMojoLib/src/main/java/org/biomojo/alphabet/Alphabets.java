@@ -28,26 +28,30 @@ import org.biomojo.core.IdBasedFactory;
  *
  */
 public class Alphabets {
-    
+
     /** The factory. */
     private static IdBasedFactory<Alphabet<?>> factory = new DefaultAlphabetFactory();
 
     /**
      * Gets the alphabet.
      *
-     * @param alphabetId the alphabet id
+     * @param alphabetId
+     *            the alphabet id
      * @return the alphabet
      */
-    public static Alphabet<?> getAlphabet(final int alphabetId) {
-        return factory.getInstance(alphabetId, Alphabet.class);
+    public static <T extends Alphabet<?>> T getAlphabet(final int alphabetId) {
+        return (T) factory.getInstance(alphabetId, Alphabet.class);
     }
 
     /**
      * Gets the alphabet.
      *
-     * @param <T> the generic type
-     * @param alphabetId the alphabet id
-     * @param requiredType the required type
+     * @param <T>
+     *            the generic type
+     * @param alphabetId
+     *            the alphabet id
+     * @param requiredType
+     *            the required type
      * @return the alphabet
      */
     public static <T extends Alphabet<?>> T getAlphabet(final int alphabetId, final Class<T> requiredType) {

@@ -17,6 +17,7 @@
 package org.biomojo.io;
 
 import java.io.Closeable;
+import java.util.Iterator;
 
 import org.biomojo.sequence.Seq;
 
@@ -25,9 +26,9 @@ import org.biomojo.sequence.Seq;
  *
  * @author Hugh Eaves
  * @param <T>
- *            the generic type
+ *            the type of sequence that this input stream reads
  */
-public interface SequenceInputStream<T extends Seq<?, ?>> extends Closeable {
+public interface SequenceInputStream<T extends Seq<?, ?>> extends Closeable, Iterable<T> {
 
     /**
      * Reads data from the InputStream into a {@link org.biomojo.sequence.Seq}
@@ -53,5 +54,10 @@ public interface SequenceInputStream<T extends Seq<?, ?>> extends Closeable {
      * @throws ParseException
      *             the parse exception
      */
-    public T readSeq() throws ParseException;
+    public T read() throws ParseException;
+
+    @Override
+    public default Iterator<T> iterator() {
+        return new SequenceInputStreamIterator<T>(this);
+    }
 }

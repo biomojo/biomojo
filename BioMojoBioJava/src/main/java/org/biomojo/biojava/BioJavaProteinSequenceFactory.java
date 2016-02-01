@@ -18,16 +18,16 @@ package org.biomojo.biojava;
 
 import org.biojava.nbio.core.sequence.ProteinSequence;
 import org.biojava.nbio.core.sequence.compound.AminoAcidCompound;
-import org.biomojo.alphabet.AminoAcidAlphabet;
+import org.biomojo.alphabet.AminoAcid;
 
 /**
  * @author Hugh Eaves
  *
  */
-public class BioJavaProteinSequenceFactory implements BioJavaSequenceFactory<ProteinSequence, AminoAcidAlphabet> {
+public class BioJavaProteinSequenceFactory implements BioJavaSequenceFactory<ProteinSequence, AminoAcid> {
 
     @Override
-    public ProteinSequence createSequence(final org.biomojo.sequence.ByteSeq<AminoAcidAlphabet> sequence) {
+    public ProteinSequence createSequence(final org.biomojo.sequence.ByteSeq<AminoAcid> sequence) {
         return new ProteinSequence(new BioJavaSequenceAdapter<AminoAcidCompound>(sequence));
     }
 }

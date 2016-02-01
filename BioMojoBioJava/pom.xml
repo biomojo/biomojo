@@ -12,7 +12,7 @@
 	<packaging>jar</packaging>
 
 	<properties>
-		<biojava.version>4.0.0</biojava.version>
+		<biojava.version>4.1.0</biojava.version>
 	</properties>
 	
 	<repositories>

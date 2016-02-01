@@ -27,23 +27,38 @@ import org.slf4j.LoggerFactory;
  * @author Hugh Eaves
  */
 public class MatchMismatchByteSubstitutionMatrix extends AbstractByteSubstitutionMatrix {
-    
+
     /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(MatchMismatchByteSubstitutionMatrix.class.getName());
 
+    final private int matchScore;
+    final private int mismatchScore;
+
     /**
      * Instantiates a new match mismatch byte substitution matrix.
      *
-     * @param alphabet the alphabet
-     * @param matchScore the match score
-     * @param mismatchScore the mismatch score
+     * @param alphabet
+     *            the alphabet
+     * @param matchScore
+     *            the match score
+     * @param mismatchScore
+     *            the mismatch score
      */
-    public MatchMismatchByteSubstitutionMatrix(ByteAlphabet alphabet, int matchScore, int mismatchScore) {
+    public MatchMismatchByteSubstitutionMatrix(final ByteAlphabet alphabet, final int matchScore,
+            final int mismatchScore) {
         super(alphabet);
-        initMatrix(mismatchScore);
-        for (int i = 0; i < scores.length; ++i) {
-            scores[i][i] = matchScore;
+        this.matchScore = matchScore;
+        this.mismatchScore = mismatchScore;
+    }
+
+    @Override
+    public int getScore(final byte from, final byte to) {
+        if (from == to) {
+            return matchScore;
+        } else {
+            return mismatchScore;
         }
     }
+
 }

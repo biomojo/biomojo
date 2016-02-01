@@ -16,9 +16,12 @@
  */
 package org.biomojo.benchmark.commands;
 
+import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
@@ -30,7 +33,6 @@ import org.biomojo.alignment.MatchMismatchByteSubstitutionMatrix;
 import org.biomojo.alignment.SmithWatermanLinearGapByteSeqAligner;
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.Alphabets;
-import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.codec.CodecId;
 import org.biomojo.io.fastx.FastaInputStream;
@@ -38,6 +40,7 @@ import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.factory.ByteSeqSupplier;
 import org.biomojo.sequence.factory.EncodedByteSeqSupplier;
 import org.java0.core.exception.UncheckedException;
+import org.java0.util.timing.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,7 +51,7 @@ import com.beust.jcommander.Parameters;
  *
  */
 @Parameters(commandNames = "align")
-public class AlignCommand extends BaseInputCommand {
+public class AlignCommand extends BaseInputOutputCommand {
     private static final Logger logger = LoggerFactory.getLogger(AlignCommand.class.getName());
 
     /**
@@ -60,6 +63,8 @@ public class AlignCommand extends BaseInputCommand {
             logger.info("BioMojo alignment benchmark");
 
             final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile));
+            final PrintStream outputStream = new PrintStream(
+                    new BufferedOutputStream(new FileOutputStream(outputFile)));
 
             final List<ByteSeq<DNA>> sequences = new ArrayList<>();
 
@@ -70,7 +75,7 @@ public class AlignCommand extends BaseInputCommand {
             ByteSeq<DNA> sequence = supplier.get();
 
             while (inputStream.read(sequence)) {
-                logger.info("Read sequence" + sequence.getDescription());
+                logger.debug("Read sequence: {}", sequence.getDescription());
                 sequences.add(sequence);
                 sequence = supplier.get();
             }
@@ -83,22 +88,27 @@ public class AlignCommand extends BaseInputCommand {
             final int numSeqs = sequences.size();
 
             final ByteSubstitutionMatrix matrix = new MatchMismatchByteSubstitutionMatrix(
-                    Alphabets.getAlphabet(AlphabetId.NUCLEOTIDE, ByteAlphabet.class), 1, -1);
+                    Alphabets.getAlphabet(AlphabetId.DNA), 1, -1);
 
             final Aligner<DNA, ByteSeq<DNA>> aligner = new SmithWatermanLinearGapByteSeqAligner<>(matrix, -2);
+            final Stopwatch sw = new Stopwatch();
+            sw.start();
             final List<ByteSeq<DNA>> seqList = new ArrayList<ByteSeq<DNA>>();
-            for (int i = 0; i < numSeqs; ++i) {
-                for (int j = 0; j < i; ++j) {
+            for (int i = 0; i < 1; ++i) {
+                for (int j = 1; j < numSeqs; ++j) {
                     seqList.clear();
                     seqList.add(sequences.get(i));
                     seqList.add(sequences.get(j));
                     logger.debug("Aligning {} and {}", i, j);
                     final Alignment<ByteSeq<DNA>> alignment = aligner.align(seqList);
-                    System.out.print(alignment.getScore() + "\t");
+                    // logger.info("{}", alignment.get(0).toString());
+                    // logger.info("{}", alignment.get(1).toString());
+                    outputStream.println(alignment.getScore());
                 }
-                System.out.println();
             }
 
+            outputStream.close();
+            sw.stop();
             logger.info("Done");
 
         } catch (final FileNotFoundException e) {

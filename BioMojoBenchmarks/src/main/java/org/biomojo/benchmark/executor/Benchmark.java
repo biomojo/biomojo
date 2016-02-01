@@ -21,7 +21,7 @@ package org.biomojo.benchmark.executor;
  *
  */
 public enum Benchmark {
-    LOAD_FASTA, LOAD_FASTQ, READ_FASTA, READ_FASTQ, ALIGN, TRANSLATE, TRIM;
+    LOAD_FASTA, LOAD_FASTQ, READ_FASTA, READ_FASTQ, ALIGN, TRANSLATE, TRIM, COUNT_KMERS;
 
     @Override
     public String toString() {

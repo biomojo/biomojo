@@ -20,11 +20,11 @@ import org.biomojo.symbols.Nucleotides;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class RNAAlphabetImpl.
+ * The Class DNAAlphabetImpl.
  *
  * @author Hugh Eaves
  */
-public class SimpleRNA extends AbstractNucleotide<RNA> implements RNA {
+public class BasicDNA extends AbstractNucleotide<DNA> implements DNA {
 
     /**
      * Create a new DNAAlphabetImpl.
@@ -32,7 +32,7 @@ public class SimpleRNA extends AbstractNucleotide<RNA> implements RNA {
      * @param id
      *            the id
      */
-    protected SimpleRNA(final int id) {
-        super(id, Nucleotides.RNA_SYMBOLS);
+    protected BasicDNA(final int id) {
+        super(id, Nucleotides.DNA_SYMBOLS);
     }
 }

@@ -23,6 +23,6 @@ package org.biomojo.alphabet;
 public interface AminoAcid extends IUPAC<AminoAcid> {
     @Override
     public default AminoAcid getGapped() {
-        return Alphabets.getAlphabet(getId() | IUPACVariant.WITH_GAP, AminoAcid.class);
+        return Alphabets.getAlphabet(getId() | IUPACVariant.WITH_GAP);
     }
 }

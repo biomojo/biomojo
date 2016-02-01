@@ -71,11 +71,11 @@ public class LoadFastqCommand extends BaseInputCommand {
             final SequenceInputStream<FastqSeq<DNA>> inputStream = new FastqInputStream<DNA>(
                     new FileInputStream(inputFile), new SequenceIdHeaderParser(), supplier);
 
-            for (FastqSeq<DNA> sequence = inputStream.readSeq(); sequence != null; sequence = inputStream.readSeq()) {
+            for (final FastqSeq<DNA> sequence : inputStream) {
                 sequences.add(sequence);
                 totalLength += sequence.size();
                 qualityLength += sequence.getQualityScores().size();
-                // gcUtil.recordAdded();
+                gcUtil.recordAdded();
             }
 
             inputStream.close();

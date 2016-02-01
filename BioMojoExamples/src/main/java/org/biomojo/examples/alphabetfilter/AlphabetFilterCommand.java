@@ -68,7 +68,7 @@ public class AlphabetFilterCommand extends InputOutputCommand {
         try {
 
             int recordCount = 0;
-            for (T sequence = inputStream.readSeq(); sequence != null; sequence = inputStream.readSeq()) {
+            for (T sequence = inputStream.read(); sequence != null; sequence = inputStream.read()) {
                 ++recordCount;
                 if (recordCount % 10000 == 0) {
                     logger.info("Record #{}", recordCount);

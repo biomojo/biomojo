@@ -57,7 +57,6 @@ public class TranslateCommand extends BaseInputOutputCommand {
         try {
             logger.info("BioMojo sequence translation benchmark");
 
-            // System.in.read();
             final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile));
             final FastaOutputStream<AminoAcid> outputStream = new FastaOutputStream<>(
                     new BufferedOutputStream(new FileOutputStream(outputFile)));
@@ -71,8 +70,8 @@ public class TranslateCommand extends BaseInputOutputCommand {
             }
             final ByteSeq<DNA> sequence = supplier.get();
 
-            final TranslatedSeq translatedSeq = new TranslatedSeq(sequence, Alphabets.getAlphabet(
-                    AlphabetId.AMINO_ACID + IUPACVariant.WITH_AMBIGIGUITY, AminoAcid.class));
+            final TranslatedSeq translatedSeq = new TranslatedSeq(sequence,
+                    Alphabets.getAlphabet(AlphabetId.AMINO_ACID + IUPACVariant.WITH_AMBIGIGUITY, AminoAcid.class));
 
             while (inputStream.read(sequence)) {
                 totalLength += sequence.size();
@@ -85,13 +84,10 @@ public class TranslateCommand extends BaseInputOutputCommand {
             logger.info("Done loading " + recordCount + " sequences");
             logger.info("Total length is " + totalLength + " bases");
 
-            Thread.sleep(0);
-
         } catch (final FileNotFoundException e) {
             throw new UncheckedException(e);
         } catch (final IOException e) {
             throw new UncheckedException(e);
-        } catch (final InterruptedException e) {
         }
     }
 }

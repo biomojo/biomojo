@@ -16,7 +16,10 @@
  */
 package org.biomojo.alignment;
 
+import java.util.List;
+
 import org.biomojo.alphabet.GappableByte;
+import org.biomojo.sequence.ByteSeq;
 
 /**
  * The Class SmithWatermanAligner.
@@ -24,10 +27,11 @@ import org.biomojo.alphabet.GappableByte;
  * @param <A>
  *            the generic type
  */
-public class SmithWatermanLinearGapByteSeqAligner<A extends GappableByte<A>> extends AbstractLinearGapByteSeqAligner<A> {
+public class SmithWatermanLinearGapByteSeqAligner<A extends GappableByte<A>>
+        extends AbstractLinearGapByteSeqAligner<A> {
 
     /** The max score. */
-    private int maxScore;
+    private int maxScore = Integer.MIN_VALUE;
 
     /**
      * Instantiates a new smith waterman aligner.
@@ -48,7 +52,6 @@ public class SmithWatermanLinearGapByteSeqAligner<A extends GappableByte<A>> ext
      */
     @Override
     protected void clearScores() {
-        maxScore = 0;
         for (int i = 1; i < seq1Dim; ++i) {
             scores[i][0] = 0;
         }
@@ -75,18 +78,93 @@ public class SmithWatermanLinearGapByteSeqAligner<A extends GappableByte<A>> ext
             score = 0;
             scores[seq1Pos][seq2Pos] = 0;
         }
+        // int score = 0;
+        // final int substitutionScore = scores[seq1Pos - 1][seq2Pos - 1]
+        // + matrix.getScore(seq1Bytes[seq1Pos - 1], seq2Bytes[seq2Pos - 1]);
+        // final int seq1GapScore = scores[seq1Pos - 1][seq2Pos] +
+        // gapExtendPenalty;
+        // final int seq2GapScore = scores[seq1Pos][seq2Pos - 1] +
+        // gapExtendPenalty;
+        //
+        // if (substitutionScore > score) {
+        // score = substitutionScore;
+        // }
+        // if (seq1GapScore > score) {
+        // score = seq1GapScore;
+        // }
+        // if (seq2GapScore > score) {
+        // score = seq2GapScore;
+        // }
         if (score > maxScore) {
+            maxScore = score;
             seq1TracebackStart = seq1Pos;
             seq2TracebackStart = seq2Pos;
         }
+        // scores[seq1Pos][seq2Pos] = score;
 
         return score;
     }
 
     @Override
     protected void initTraceback() {
-        maxScore = -1;
-        seq1TracebackStart = -1;
-        seq2TracebackStart = -1;
+        maxScore = Integer.MIN_VALUE;
+        seq1TracebackStart = Integer.MIN_VALUE;
+        seq2TracebackStart = Integer.MIN_VALUE;
     }
+
+    @Override
+    public Alignment<ByteSeq<A>> align(final List<ByteSeq<A>> sequences) {
+        final Alignment<ByteSeq<A>> alignment = super.align(sequences);
+        // this.printScoreTable();
+        return alignment;
+    }
+    //
+    // @Override
+    // protected void calcCellScores() {
+    // final byte[] seq1Bytes = seq1.toByteArray();
+    // final byte[] seq2Bytes = seq2.toByteArray();
+    // for (int seq1Pos = 1; seq1Pos < seq1Dim; seq1Pos++) {
+    // // int prevScore = scores[seq1Pos][0];
+    // // final int up = seq1Pos - 1;
+    // // final int[] prevRow = scores[up];
+    // for (int seq2Pos = 1; seq2Pos < seq2Dim; seq2Pos++) {
+    // // final int subScore = scores[seq1Pos - 1][seq2Pos - 1]
+    // // + matrix.getScore(seq1Bytes[seq1Pos - 1], seq2Bytes[seq2Pos -
+    // // 1]);
+    // // final int seq1GapScore = scores[seq1Pos - 1][seq2Pos] +
+    // // gapExtendPenalty;
+    // // final int seq2GapScore = scores[seq1Pos][seq2Pos - 1] +
+    // // gapExtendPenalty;
+    // // final int left = seq2Pos - 1;
+    //
+    // // final int subScore = prevRow[left] +
+    // // matrix.getScore(seq1Bytes[up], seq2Bytes[left]);
+    // // final int seq1GapScore = prevRow[seq2Pos] + gapExtendPenalty;
+    // // final int seq2GapScore = prevScore + gapExtendPenalty;
+    // // final int left = seq2Pos - 1;
+    // final int subScore = scores[seq1Pos - 1][seq2Pos - 1]
+    // + matrix.getScore(seq1Bytes[seq1Pos - 1], seq2Bytes[seq2Pos - 1]);
+    // final int seq1GapScore = scores[seq1Pos - 1][seq2Pos] + gapExtendPenalty;
+    // final int seq2GapScore = scores[seq1Pos][seq2Pos - 1] + gapExtendPenalty;
+    // int score = 0;
+    // if (subScore > score) {
+    // score = subScore;
+    // }
+    // if (seq1GapScore > score) {
+    // score = seq1GapScore;
+    // }
+    // if (seq2GapScore > score) {
+    // score = seq2GapScore;
+    // }
+    //
+    // if (score > maxScore) {
+    // maxScore = score;
+    // seq1TracebackStart = seq1Pos;
+    // seq2TracebackStart = seq2Pos;
+    // }
+    // scores[seq1Pos][seq2Pos] = score;
+    // }
+    // }
+    // }
+
 }

@@ -18,6 +18,7 @@ package org.biomojo.benchmark;
 
 import org.biomojo.BioMojo;
 import org.biomojo.benchmark.commands.AlignCommand;
+import org.biomojo.benchmark.commands.CountKmersCommand;
 import org.biomojo.benchmark.commands.GenFastaCommand;
 import org.biomojo.benchmark.commands.GenFastqCommand;
 import org.biomojo.benchmark.commands.LoadFastaCommand;
@@ -38,9 +39,9 @@ public class Main {
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(Main.class.getName());
 
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         BioMojo.init(args, new LoadFastaCommand(), new LoadFastqCommand(), new ReadFastaCommand(),
                 new ReadFastqCommand(), new TrimCommand(), new AlignCommand(), new GenFastaCommand(),
-                new GenFastqCommand(), new ExecuteCommand(), new TranslateCommand());
+                new GenFastqCommand(), new ExecuteCommand(), new TranslateCommand(), new CountKmersCommand());
     }
 }

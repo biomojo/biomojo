@@ -50,9 +50,7 @@ public class EncodedFastqSeq<A extends Nucleotide<A>> extends EncodedByteSeq<A> 
      */
     public EncodedFastqSeq() {
         super();
-        seq = new BasicByteSeq<QualityScore>(
-                Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScore.class));
-
+        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
     }
 
     /**
@@ -67,8 +65,7 @@ public class EncodedFastqSeq<A extends Nucleotide<A>> extends EncodedByteSeq<A> 
      */
     public EncodedFastqSeq(final byte[] data, final A alphabet, final ByteByteCodec codec) {
         super(data, alphabet, codec);
-        seq = new BasicByteSeq<QualityScore>(
-                Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScore.class));
+        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
 
     }
 
@@ -82,8 +79,7 @@ public class EncodedFastqSeq<A extends Nucleotide<A>> extends EncodedByteSeq<A> 
      */
     public EncodedFastqSeq(final byte[] data, final A alphabet) {
         super(data, alphabet);
-        seq = new BasicByteSeq<QualityScore>(
-                Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScore.class));
+        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
 
     }
 
@@ -95,8 +91,7 @@ public class EncodedFastqSeq<A extends Nucleotide<A>> extends EncodedByteSeq<A> 
      */
     public EncodedFastqSeq(final byte[] data) {
         super(data);
-        seq = new BasicByteSeq<QualityScore>(
-                Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScore.class));
+        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
 
     }
 
@@ -110,8 +105,7 @@ public class EncodedFastqSeq<A extends Nucleotide<A>> extends EncodedByteSeq<A> 
      */
     public EncodedFastqSeq(final A alphabet, final ByteByteCodec codec) {
         super(alphabet, codec);
-        seq = new BasicByteSeq<QualityScore>(
-                Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScore.class));
+        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
 
     }
 
@@ -123,8 +117,7 @@ public class EncodedFastqSeq<A extends Nucleotide<A>> extends EncodedByteSeq<A> 
      */
     public EncodedFastqSeq(final A alphabet) {
         super(alphabet);
-        seq = new BasicByteSeq<QualityScore>(
-                Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScore.class));
+        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
     }
 
     /*

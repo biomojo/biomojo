@@ -18,16 +18,16 @@ package org.biomojo.biojava;
 
 import org.biojava.nbio.core.sequence.DNASequence;
 import org.biojava.nbio.core.sequence.compound.NucleotideCompound;
-import org.biomojo.alphabet.DNAAlphabet;
+import org.biomojo.alphabet.DNA;
 
 /**
  * @author Hugh Eaves
  *
  */
-public class BioJavaDNASequenceFactory implements BioJavaSequenceFactory<DNASequence, DNAAlphabet> {
+public class BioJavaDNASequenceFactory implements BioJavaSequenceFactory<DNASequence, DNA> {
 
     @Override
-    public DNASequence createSequence(final org.biomojo.sequence.ByteSeq<DNAAlphabet> sequence) {
+    public DNASequence createSequence(final org.biomojo.sequence.ByteSeq<DNA> sequence) {
         return new DNASequence(new BioJavaSequenceAdapter<NucleotideCompound>(sequence));
     }
 }

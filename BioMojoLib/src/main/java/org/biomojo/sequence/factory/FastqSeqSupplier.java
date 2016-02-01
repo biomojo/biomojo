@@ -27,7 +27,7 @@ import org.biomojo.sequence.FastqSeq;
  * @author Hugh Eaves
  *
  */
-public class FastqSeqSupplier<A extends Nucleotide<A>> implements Supplier<FastqSeq<A>> {
+public class FastqSeqSupplier<A extends Nucleotide<?>> implements Supplier<FastqSeq<A>> {
 
     protected final A alphabet;
 

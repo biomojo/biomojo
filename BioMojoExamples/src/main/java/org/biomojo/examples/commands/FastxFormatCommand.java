@@ -20,11 +20,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.biomojo.alphabet.ByteAlphabet;
+import org.biomojo.alphabet.ASCIIAlphabet;
+import org.biomojo.alphabet.AlphabetId;
+import org.biomojo.alphabet.IUPACVariant;
+import org.biomojo.alphabet.Nucleotide;
+import org.biomojo.io.SequenceInputStream;
+import org.biomojo.io.SequenceOutputStream;
 import org.biomojo.io.fastx.FastaInputStream;
 import org.biomojo.io.fastx.FastaOutputStream;
-import org.biomojo.sequence.BasicByteSeq;
+import org.biomojo.io.fastx.FastqInputStream;
+import org.biomojo.io.fastx.FastqOutputStream;
 import org.biomojo.sequence.ByteSeq;
+import org.biomojo.sequence.FastqSeq;
+import org.biomojo.sequence.Seq;
+import org.biomojo.sequence.factory.ByteSeqSupplier;
+import org.biomojo.sequence.factory.FastqSeqSupplier;
 import org.java0.cli.AbstractCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +55,12 @@ public class FastxFormatCommand extends AbstractCommand {
 
     @Parameter(names = { "-o", "--output" }, required = true, description = "Output File Name")
     private OutputStream outputStream;
+
+    @Parameter(names = { "-n", "--num" }, required = false, description = "Number of records")
+    private Integer numRecs;
+
+    @Parameter(names = { "-q", "--fastq" }, required = false, description = "FASTQ file?")
+    private final boolean fastq = false;
 
     /**
      * @return the inputStream
@@ -81,22 +97,43 @@ public class FastxFormatCommand extends AbstractCommand {
      */
     @Override
     public void run() {
-        try (FastaInputStream<ByteAlphabet> fastaInput = new FastaInputStream<ByteAlphabet>(inputStream);
-                FastaOutputStream<ByteAlphabet> fastaOutput = new FastaOutputStream<ByteAlphabet>(outputStream)) {
+        logger.info("Formatting fastx file");
+        if (fastq) {
+            final FastqSeqSupplier<Nucleotide<?>> supplier = new FastqSeqSupplier<>(
+                    AlphabetId.NUCLEOTIDE | IUPACVariant.WITH_ANY);
+            try (SequenceInputStream<FastqSeq<Nucleotide<?>>> input = new FastqInputStream<>(inputStream, supplier);
+                    SequenceOutputStream<FastqSeq<Nucleotide<?>>> output = new FastqOutputStream<>(outputStream)) {
+                process(input, output);
+            } catch (final IOException e) {
+                logger.error("Caught exception in auto-generated catch block", e);
+            }
+        } else {
+            final ByteSeqSupplier<ASCIIAlphabet> supplier = new ByteSeqSupplier<>(AlphabetId.ASCII);
+            try (SequenceInputStream<ByteSeq<ASCIIAlphabet>> input = new FastaInputStream<>(inputStream, supplier);
+                    SequenceOutputStream<ByteSeq<ASCIIAlphabet>> output = new FastaOutputStream<>(outputStream)) {
+                process(input, output);
+            } catch (final IOException e) {
+                logger.error("Caught exception in auto-generated catch block", e);
+            }
+        }
 
-            boolean readRecord = false;
-            ByteSeq<ByteAlphabet> record;
+    }
 
-            do {
-                record = new BasicByteSeq<ByteAlphabet>();
-                readRecord = fastaInput.read(record);
-                if (readRecord) {
-                    fastaOutput.write(record);
+    public <T extends Seq<?, ?>> void process(final SequenceInputStream<T> input, final SequenceOutputStream<T> output)
+            throws IOException {
+        T record = null;
+        int recCount = 0;
+        while ((record = input.read()) != null) {
+            ++recCount;
+            if (numRecs == null || (numRecs != null && recCount <= numRecs)) {
+                output.write(record);
+                if (recCount % 10000 == 0) {
+                    logger.info("Records written: {}", recCount);
                 }
-            } while (readRecord);
-
-        } catch (final IOException e) {
-            logger.error("Caught exception in auto-generated catch block", e);
+            } else {
+                logger.info("Record limit of {} records reached", numRecs);
+                break;
+            }
         }
     }
 }

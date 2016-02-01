@@ -70,15 +70,13 @@ public class LoadFastaCommand extends BaseInputCommand {
 
             gcUtil.reset();
 
-            for (ByteSeq<DNA> sequence = inputStream.readSeq(); sequence != null; sequence = inputStream.readSeq()) {
+            for (final ByteSeq<DNA> sequence : inputStream) {
                 sequences.add(sequence);
                 totalLength += sequence.size();
-                // gcUtil.recordAdded();
+                gcUtil.recordAdded();
             }
 
             inputStream.close();
-
-            gcUtil.logMemory();
 
             logger.info("Done loading " + sequences.size() + " sequences");
             logger.info("Total length is " + totalLength + " bases");

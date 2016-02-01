@@ -40,13 +40,13 @@ public class DefaultAlphabetFactory extends AbstractIdBasedFactory<Alphabet<?>> 
             registerProvider(AlphabetId.DNA + i, new ConfiguredObjectProvider<Alphabet<?>>() {
                 @Override
                 public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
-                    return new SimpleDNA((int) config.values()[0]);
+                    return new BasicDNA((int) config.values()[0]);
                 }
             }, true);
             registerProvider(AlphabetId.RNA + i, new ConfiguredObjectProvider<Alphabet<?>>() {
                 @Override
                 public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
-                    return new SimpleRNA((int) config.values()[0]);
+                    return new BasicRNA((int) config.values()[0]);
                 }
             }, true);
             registerProvider(AlphabetId.NUCLEOTIDE + i, new ConfiguredObjectProvider<Alphabet<?>>() {

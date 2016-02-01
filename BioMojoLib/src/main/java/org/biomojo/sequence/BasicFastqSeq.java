@@ -37,7 +37,7 @@ import org.slf4j.LoggerFactory;
  */
 @Entity
 @DiscriminatorValue("F")
-public class BasicFastqSeq<A extends Nucleotide<A>> extends BasicByteSeq<A> implements FastqSeq<A> {
+public class BasicFastqSeq<A extends Nucleotide<?>> extends BasicByteSeq<A> implements FastqSeq<A> {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
@@ -55,8 +55,7 @@ public class BasicFastqSeq<A extends Nucleotide<A>> extends BasicByteSeq<A> impl
      */
     public BasicFastqSeq() {
         super();
-        seq = new BasicByteSeq<QualityScore>(
-                Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScore.class));
+        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
 
     }
 
@@ -70,8 +69,7 @@ public class BasicFastqSeq<A extends Nucleotide<A>> extends BasicByteSeq<A> impl
      */
     public BasicFastqSeq(final byte[] data, final A alphabet) {
         super(data, alphabet);
-        seq = new BasicByteSeq<QualityScore>(
-                Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScore.class));
+        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
 
     }
 
@@ -83,8 +81,7 @@ public class BasicFastqSeq<A extends Nucleotide<A>> extends BasicByteSeq<A> impl
      */
     public BasicFastqSeq(final byte[] data) {
         super(data);
-        seq = new BasicByteSeq<QualityScore>(
-                Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScore.class));
+        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
 
     }
 
@@ -96,8 +93,7 @@ public class BasicFastqSeq<A extends Nucleotide<A>> extends BasicByteSeq<A> impl
      */
     public BasicFastqSeq(final A alphabet) {
         super(alphabet);
-        seq = new BasicByteSeq<QualityScore>(
-                Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER, QualityScore.class));
+        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
 
     }
 

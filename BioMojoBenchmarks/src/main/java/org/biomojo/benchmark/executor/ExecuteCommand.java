@@ -315,6 +315,10 @@ public class ExecuteCommand extends AbstractSpringCommand {
         addTestCase(new JavaTestCase(Benchmark.ALIGN, Library.JEBL));
         addTestCase(new CppTestCase(Benchmark.ALIGN, Library.SEQAN));
         addTestCase(new CppTestCase(Benchmark.ALIGN, Library.SEQAN).add(ConfigParams.ENCODED, true));
+
+        addTestCase(new CppTestCase(Benchmark.COUNT_KMERS, Library.SEQAN));
+        addTestCase(new JavaTestCase(Benchmark.COUNT_KMERS, Library.BIOMOJO));
+
     }
 
     private void addTestCase(final TestCase testCase) {

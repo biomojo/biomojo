@@ -32,7 +32,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FastqParserTest.
  */
@@ -97,7 +96,7 @@ public class FastqParserTest extends FastxParserTest<DNA, FastqSeq<DNA>> {
     @Override
     protected FastqSeq<DNA> getSequence() {
         final FastqSeq<DNA> sequence = new BasicFastqSeq<DNA>(
-                Alphabets.getAlphabet(AlphabetId.DNA | IUPACVariant.WITH_ANY, DNA.class));
+                Alphabets.getAlphabet(AlphabetId.DNA | IUPACVariant.WITH_ANY));
         return sequence;
     }
 }
