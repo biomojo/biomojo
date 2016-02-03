@@ -49,11 +49,11 @@ public class BioJavaFactoryFactory {
 
     public static <T extends ByteAlphabet> T getByteAlphabet(final CompoundSet<?> compoundSet) {
         if (compoundSet instanceof DNACompoundSet) {
-            return (T) Alphabets.getAlphabet(AlphabetId.DNA);
+            return Alphabets.getAlphabet(AlphabetId.DNA);
         } else if (compoundSet instanceof RNACompoundSet) {
-            return (T) Alphabets.getAlphabet(AlphabetId.RNA);
+            return Alphabets.getAlphabet(AlphabetId.RNA);
         } else if (compoundSet instanceof AminoAcidCompoundSet) {
-            return (T) Alphabets.getAlphabet(AlphabetId.AMINO_ACID);
+            return Alphabets.getAlphabet(AlphabetId.AMINO_ACID);
         } else {
             throw new UncheckedException("Unsupported BioJava compound set: " + compoundSet.toString());
         }

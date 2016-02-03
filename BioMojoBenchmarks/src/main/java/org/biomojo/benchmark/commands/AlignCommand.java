@@ -26,8 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
-import org.biomojo.alignment.Aligner;
-import org.biomojo.alignment.Alignment;
+import org.biomojo.alignment.ByteSeqAligner;
+import org.biomojo.alignment.ByteSeqAlignment;
 import org.biomojo.alignment.ByteSubstitutionMatrix;
 import org.biomojo.alignment.MatchMismatchByteSubstitutionMatrix;
 import org.biomojo.alignment.SmithWatermanLinearGapByteSeqAligner;
@@ -90,7 +90,7 @@ public class AlignCommand extends BaseInputOutputCommand {
             final ByteSubstitutionMatrix matrix = new MatchMismatchByteSubstitutionMatrix(
                     Alphabets.getAlphabet(AlphabetId.DNA), 1, -1);
 
-            final Aligner<DNA, ByteSeq<DNA>> aligner = new SmithWatermanLinearGapByteSeqAligner<>(matrix, -2);
+            final ByteSeqAligner<DNA> aligner = new SmithWatermanLinearGapByteSeqAligner<>(matrix, -2);
             final Stopwatch sw = new Stopwatch();
             sw.start();
             final List<ByteSeq<DNA>> seqList = new ArrayList<ByteSeq<DNA>>();
@@ -100,7 +100,7 @@ public class AlignCommand extends BaseInputOutputCommand {
                     seqList.add(sequences.get(i));
                     seqList.add(sequences.get(j));
                     logger.debug("Aligning {} and {}", i, j);
-                    final Alignment<ByteSeq<DNA>> alignment = aligner.align(seqList);
+                    final ByteSeqAlignment<DNA> alignment = aligner.align(seqList);
                     // logger.info("{}", alignment.get(0).toString());
                     // logger.info("{}", alignment.get(1).toString());
                     outputStream.println(alignment.getScore());

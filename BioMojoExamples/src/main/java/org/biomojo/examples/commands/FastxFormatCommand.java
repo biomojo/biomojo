@@ -20,8 +20,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.biomojo.alphabet.ASCIIAlphabet;
+import org.biomojo.alphabet.ASCII;
 import org.biomojo.alphabet.AlphabetId;
+import org.biomojo.alphabet.ByteQualityScore;
 import org.biomojo.alphabet.IUPACVariant;
 import org.biomojo.alphabet.Nucleotide;
 import org.biomojo.io.SequenceInputStream;
@@ -99,18 +100,20 @@ public class FastxFormatCommand extends AbstractCommand {
     public void run() {
         logger.info("Formatting fastx file");
         if (fastq) {
-            final FastqSeqSupplier<Nucleotide<?>> supplier = new FastqSeqSupplier<>(
-                    AlphabetId.NUCLEOTIDE | IUPACVariant.WITH_ANY);
-            try (SequenceInputStream<FastqSeq<Nucleotide<?>>> input = new FastqInputStream<>(inputStream, supplier);
-                    SequenceOutputStream<FastqSeq<Nucleotide<?>>> output = new FastqOutputStream<>(outputStream)) {
+            final FastqSeqSupplier<Nucleotide<?>, ByteQualityScore<?>> supplier = new FastqSeqSupplier<>(
+                    AlphabetId.NUCLEOTIDE | IUPACVariant.WITH_ANY, AlphabetId.QUALITY_SANGER);
+            try (SequenceInputStream<FastqSeq<Nucleotide<?>, ByteQualityScore<?>>> input = new FastqInputStream<>(
+                    inputStream, supplier);
+                    SequenceOutputStream<FastqSeq<Nucleotide<?>, ByteQualityScore<?>>> output = new FastqOutputStream<>(
+                            outputStream)) {
                 process(input, output);
             } catch (final IOException e) {
                 logger.error("Caught exception in auto-generated catch block", e);
             }
         } else {
-            final ByteSeqSupplier<ASCIIAlphabet> supplier = new ByteSeqSupplier<>(AlphabetId.ASCII);
-            try (SequenceInputStream<ByteSeq<ASCIIAlphabet>> input = new FastaInputStream<>(inputStream, supplier);
-                    SequenceOutputStream<ByteSeq<ASCIIAlphabet>> output = new FastaOutputStream<>(outputStream)) {
+            final ByteSeqSupplier<ASCII> supplier = new ByteSeqSupplier<>(AlphabetId.ASCII);
+            try (SequenceInputStream<ByteSeq<ASCII>> input = new FastaInputStream<>(inputStream, supplier);
+                    SequenceOutputStream<ByteSeq<ASCII>> output = new FastaOutputStream<>(outputStream)) {
                 process(input, output);
             } catch (final IOException e) {
                 logger.error("Caught exception in auto-generated catch block", e);

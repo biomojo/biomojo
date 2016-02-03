@@ -17,6 +17,7 @@
 package org.biomojo.alignment;
 
 import org.biomojo.alphabet.Gappable;
+import org.biomojo.alphabet.Gapped;
 import org.biomojo.sequence.Seq;
 import org.biomojo.sequence.SeqArrayList;
 
@@ -28,8 +29,8 @@ import org.biomojo.sequence.SeqArrayList;
  * @param <T>
  *            the generic type
  */
-public class PairwiseAlignment<T extends Seq<?, ? extends Gappable<?, ?>>> extends SeqArrayList<T>
-        implements Alignment<T> {
+public class PairwiseAlignment<T, A extends Gappable<T, A, G>, G extends Gapped<T, A>, S extends Seq<T, G>>
+        extends SeqArrayList<S> implements Alignment<T, A, G, S> {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;

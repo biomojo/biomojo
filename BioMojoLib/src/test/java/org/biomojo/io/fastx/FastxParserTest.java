@@ -32,7 +32,6 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class FastxParserTest.
  *
@@ -42,8 +41,6 @@ import org.slf4j.LoggerFactory;
  */
 public abstract class FastxParserTest<A extends ByteAlphabet, T extends ByteSeq<A>> {
 
-    /** The Constant logger. */
-    @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(FastxParserTest.class.getName());
 
     /** The Constant bufferTestSizes. */
@@ -123,12 +120,10 @@ public abstract class FastxParserTest<A extends ByteAlphabet, T extends ByteSeq<
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         final SequenceOutputStream<T> sequenceOutputStream = getOutputStream(outputStream);
 
-        final T sequence = getSequence();
-
         int numReads = 0;
-        while (sequenceInputStream.read(sequence)) {
+        for (final T seq : sequenceInputStream) {
             logger.debug("record # " + numReads);
-            sequenceOutputStream.write(sequence);
+            sequenceOutputStream.write(seq);
             ++numReads;
         }
 
@@ -184,11 +179,4 @@ public abstract class FastxParserTest<A extends ByteAlphabet, T extends ByteSeq<
      * @return the output stream
      */
     protected abstract SequenceOutputStream<T> getOutputStream(ByteArrayOutputStream outputStream);
-
-    /**
-     * Gets the sequence.
-     *
-     * @return the sequence
-     */
-    protected abstract T getSequence();
 }

@@ -17,15 +17,20 @@
 
 package org.biomojo.io.fastx;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.function.Supplier;
 
+import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.io.DefaultHeaderParser;
 import org.biomojo.io.HeaderParser;
 import org.biomojo.io.MarkAndCopyInputStream;
 import org.biomojo.io.ParseException;
 import org.biomojo.sequence.ByteSeq;
+import org.biomojo.sequence.factory.ByteSeqSupplier;
 
 /**
  * The Class FastaInputStream.
@@ -38,79 +43,58 @@ public class FastaInputStream<T extends ByteAlphabet> extends MarkAndCopyInputSt
     /** The validate sequence data. */
     private final boolean validateSequenceData;
 
-    private final Supplier<? extends ByteSeq<T>> factory;
+    private final Supplier<? extends ByteSeq<T>> seqSupplier;
 
-    /**
-     * Instantiates a new fasta input stream.
-     *
-     * @param inputStream
-     *            the input stream
-     */
+    public FastaInputStream(final String inputFileName) throws FileNotFoundException {
+        this(new FileInputStream(inputFileName));
+    }
+
+    public FastaInputStream(final InputStream inputStream, final int bufSize) {
+        this(inputStream, bufSize, new DefaultHeaderParser(), new ByteSeqSupplier<T>(AlphabetId.LETTERS), true);
+    }
+
+    public FastaInputStream(final ByteArrayInputStream inputStream, final int bufSize,
+            final ByteSeqSupplier<T> supplier) {
+        this(inputStream, bufSize, new DefaultHeaderParser(), supplier, true);
+    }
+
     public FastaInputStream(final InputStream inputStream) {
-        super(inputStream);
-        headerParser = new DefaultHeaderParser();
-        validateSequenceData = true;
-        factory = null;
+        this(inputStream, new DefaultHeaderParser(), new ByteSeqSupplier<T>(AlphabetId.LETTERS), true);
     }
 
-    public FastaInputStream(final InputStream inputStream, final Supplier<? extends ByteSeq<T>> factory) {
-        super(inputStream);
-        headerParser = new DefaultHeaderParser();
-        validateSequenceData = true;
-        this.factory = factory;
+    public FastaInputStream(final InputStream inputStream, final ByteAlphabet alphabet) {
+        this(inputStream, new DefaultHeaderParser(), new ByteSeqSupplier<T>(alphabet.getId()), true);
     }
 
-    /**
-     * Instantiates a new fasta input stream.
-     *
-     * @param inputStream
-     *            the input stream
-     * @param sequenceHeaderParser
-     *            the sequence header parser
-     */
-    public FastaInputStream(final InputStream inputStream, final HeaderParser sequenceHeaderParser,
-            final Supplier<? extends ByteSeq<T>> factory) {
-        super(inputStream);
-        headerParser = sequenceHeaderParser;
-        validateSequenceData = true;
-        this.factory = factory;
+    public FastaInputStream(final InputStream inputStream, final Supplier<? extends ByteSeq<T>> seqSupplier) {
+        this(inputStream, new DefaultHeaderParser(), seqSupplier, true);
     }
 
-    /**
-     * Instantiates a new fasta input stream.
-     *
-     * @param inputStream
-     *            the input stream
-     * @param readBufferSize
-     *            the read buffer size
-     */
-    public FastaInputStream(final InputStream inputStream, final int readBufferSize) {
-        super(inputStream, readBufferSize);
-        headerParser = new DefaultHeaderParser();
-        validateSequenceData = true;
-        factory = null;
+    public FastaInputStream(final InputStream inputStream, final HeaderParser headerParser,
+            final Supplier<? extends ByteSeq<T>> seqSupplier) {
+        this(inputStream, headerParser, seqSupplier, true);
     }
 
-    /**
-     * Instantiates a new fasta input stream.
-     *
-     * @param inputStream
-     *            the input stream
-     * @param validateSequenceData
-     *            the validate sequence data
-     */
     public FastaInputStream(final InputStream inputStream, final boolean validateSequenceData) {
-        super(inputStream);
-        headerParser = new DefaultHeaderParser();
-        this.validateSequenceData = validateSequenceData;
-        factory = null;
+        this(inputStream, new DefaultHeaderParser(), new ByteSeqSupplier<T>(AlphabetId.LETTERS), validateSequenceData);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.io.SequenceInputStream#read(org.biomojo.sequence.Seq)
-     */
+    public FastaInputStream(final InputStream inputStream, final HeaderParser headerParser,
+            final Supplier<? extends ByteSeq<T>> seqSupplier, final boolean validateSequenceData) {
+        super(inputStream);
+        this.headerParser = headerParser;
+        this.validateSequenceData = validateSequenceData;
+        this.seqSupplier = seqSupplier;
+    }
+
+    public FastaInputStream(final InputStream inputStream, final int bufSize, final HeaderParser headerParser,
+            final Supplier<? extends ByteSeq<T>> seqSupplier, final boolean validateSequenceData) {
+        super(inputStream, bufSize);
+        this.headerParser = headerParser;
+        this.validateSequenceData = validateSequenceData;
+        this.seqSupplier = seqSupplier;
+    }
+
     @Override
     public boolean read(final ByteSeq<T> seq) throws ParseException {
         if (isEof()) {
@@ -137,7 +121,7 @@ public class FastaInputStream<T extends ByteAlphabet> extends MarkAndCopyInputSt
 
     @Override
     public ByteSeq<T> read() throws ParseException {
-        final ByteSeq<T> seq = factory.get();
+        final ByteSeq<T> seq = seqSupplier.get();
         if (read(seq)) {
             return seq;
         }

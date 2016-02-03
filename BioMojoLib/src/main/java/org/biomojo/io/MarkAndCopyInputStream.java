@@ -16,6 +16,8 @@
  */
 package org.biomojo.io;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
@@ -77,6 +79,10 @@ public abstract class MarkAndCopyInputStream<T extends Seq<?, ?>> implements Seq
 
     /** The buffer size. */
     private final int bufferSize;
+
+    public MarkAndCopyInputStream(final String inputFileName) throws FileNotFoundException {
+        this(new FileInputStream(inputFileName));
+    }
 
     /**
      * Instantiates a new mark and copy input stream.

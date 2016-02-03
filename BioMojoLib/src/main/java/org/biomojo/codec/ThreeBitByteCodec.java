@@ -291,7 +291,7 @@ public class ThreeBitByteCodec extends AbstractByteByteCodec {
      */
     @Override
     public boolean supportsAlphabet(final Alphabet<Byte> alphabet) {
-        return (alphabet.numCanonicalSymbols() <= NUM_SYMBOLS);
+        return (alphabet.numSymbols() <= NUM_SYMBOLS);
     }
 
     @Override

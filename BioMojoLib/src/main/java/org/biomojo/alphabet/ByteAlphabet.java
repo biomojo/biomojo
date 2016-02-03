@@ -23,14 +23,6 @@ package org.biomojo.alphabet;
  */
 public interface ByteAlphabet extends Alphabet<Byte> {
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.alphabet.Alphabet#getCanonical()
-     */
-    @Override
-    public ByteAlphabet getCanonical();
-
     /**
      * Gets the ordinal for symbol.
      *
@@ -87,19 +79,6 @@ public interface ByteAlphabet extends Alphabet<Byte> {
      * @return the symbol for ordinal
      */
     byte getByteSymbolForOrdinal(int ordinal);
-
-    /**
-     * Returns true if getCanonical(a) == getCanonical(b).
-     *
-     * @param a
-     *            the a
-     * @param b
-     *            the b
-     * @return true, if is equivalent
-     */
-    default boolean isEquivalent(final byte a, final byte b) {
-        return (getCanonical(a) == getCanonical(b));
-    }
 
     /**
      * Determine if a symbol is a member of this alphabet.
@@ -240,108 +219,11 @@ public interface ByteAlphabet extends Alphabet<Byte> {
     /*
      * (non-Javadoc)
      * 
-     * @see org.biomojo.alphabet.Alphabet#getCanonical(java.lang.Object)
-     */
-    @Override
-    default Byte getCanonical(final Byte symbol) {
-        return getCanonical(symbol.byteValue());
-    }
-
-    /**
-     * Gets the canonical.
-     *
-     * @param symbol
-     *            the symbol
-     * @return the canonical
-     */
-    byte getCanonical(byte symbol);
-
-    /**
-     * Returns a new array containing the canonical representation of all the
-     * symbols in the given array.
-     *
-     * @param symbols
-     *            the symbols
-     * @return the canonical
-     */
-    default byte[] getCanonical(final byte[] symbols) {
-        return getCanonical(symbols, 0, symbols.length);
-    }
-
-    /**
-     * Returns a new array containing the canonical representation of all the
-     * symbols in specified portion of the given array.
-     *
-     * @param values
-     *            the values
-     * @param start
-     *            the start
-     * @param end
-     *            the end
-     * @return the canonical
-     */
-    default byte[] getCanonical(final byte[] values, final int start, final int end) {
-        final byte newValues[] = new byte[end - start];
-        int pos = 0;
-        for (int i = start; i < end; ++i) {
-            newValues[pos++] = getCanonical(values[i]);
-        }
-        return newValues;
-    }
-
-    /**
-     * Make canonical.
-     *
-     * @param symbols
-     *            the symbols
-     */
-    default void makeCanonical(final byte[] symbols) {
-        makeCanonical(symbols, 0, symbols.length);
-    }
-
-    /**
-     * Make canonical.
-     *
-     * @param symbols
-     *            the symbols
-     * @param start
-     *            the start
-     * @param end
-     *            the end
-     */
-    default void makeCanonical(final byte[] symbols, final int start, final int end) {
-        for (int i = start; i < end; ++i) {
-            symbols[i] = getCanonical(symbols[i]);
-        }
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
      * @see org.biomojo.alphabet.Alphabet#getSymbolType()
      */
     @Override
     default Class<Byte> getSymbolType() {
         return Byte.class;
-    }
-
-    /**
-     * Checks if is canonical.
-     *
-     * @param symbol
-     *            the symbol
-     * @return true, if is canonical
-     */
-    boolean isCanonical(byte symbol);
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.alphabet.Alphabet#isCanonical(java.lang.Object)
-     */
-    @Override
-    default boolean isCanonical(final Byte symbol) {
-        return isCanonical(symbol.byteValue());
     }
 
 }

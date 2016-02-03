@@ -21,6 +21,7 @@ import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.biomojo.alphabet.ByteQualityScore;
 import org.biomojo.alphabet.Nucleotide;
 import org.biomojo.io.DefaultHeaderBuilder;
 import org.biomojo.io.HeaderBuilder;
@@ -32,8 +33,8 @@ import org.biomojo.util.OutputUtil;
 /**
  * The Class FastqOutputStream.
  */
-public class FastqOutputStream<T extends Nucleotide<?>> extends FilterOutputStream
-        implements SequenceOutputStream<FastqSeq<T>> {
+public class FastqOutputStream<T extends Nucleotide<?>, Q extends ByteQualityScore<?>> extends FilterOutputStream
+        implements SequenceOutputStream<FastqSeq<T, Q>> {
 
     /** The Constant DEFAULT_LINE_LENGTH. */
     private static final int DEFAULT_LINE_LENGTH = Integer.MAX_VALUE;
@@ -107,7 +108,7 @@ public class FastqOutputStream<T extends Nucleotide<?>> extends FilterOutputStre
      * @see org.biomojo.io.SequenceOutputStream#write(org.biomojo.sequence.Seq)
      */
     @Override
-    public void write(final FastqSeq<T> sequence) throws IOException {
+    public void write(final FastqSeq<T, Q> sequence) throws IOException {
         out.write(FastqConst.RECORD_DELIMITER);
         out.write(headerBuilder.buildHeader(sequence));
         out.write('\n');

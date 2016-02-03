@@ -21,13 +21,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.alphabet.IUPACVariant;
+import org.biomojo.alphabet.SangerQualityScore;
 import org.biomojo.io.SequenceInputStream;
 import org.biomojo.io.SequenceOutputStream;
-import org.biomojo.sequence.BasicFastqSeq;
 import org.biomojo.sequence.FastqSeq;
+import org.biomojo.sequence.factory.FastqSeqSupplier;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,15 +35,20 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class FastqParserTest.
  */
-public class FastqParserTest extends FastxParserTest<DNA, FastqSeq<DNA>> {
+public class FastqParserTest extends FastxParserTest<DNA, FastqSeq<DNA, SangerQualityScore>> {
 
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(FastqParserTest.class.getName());
 
+    private final FastqSeqSupplier<DNA, SangerQualityScore> supplier = new FastqSeqSupplier<>(
+            AlphabetId.DNA | IUPACVariant.WITH_ANY, AlphabetId.QUALITY_SANGER);
+
     /**
      * Instantiates a new fastq parser test.
      */
-    public FastqParserTest() {
+    public FastqParserTest()
+
+    {
         super();
     }
 
@@ -69,9 +74,10 @@ public class FastqParserTest extends FastxParserTest<DNA, FastqSeq<DNA>> {
      * @see org.biomojo.io.fastx.FastxParserTest#getInputStream(byte[], int)
      */
     @Override
-    protected SequenceInputStream<FastqSeq<DNA>> getInputStream(final byte[] testData, final int bufSize) {
+    protected SequenceInputStream<FastqSeq<DNA, SangerQualityScore>> getInputStream(final byte[] testData,
+            final int bufSize) {
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(testData);
-        return new FastqInputStream<DNA>(inputStream, bufSize);
+        return new FastqInputStream<DNA, SangerQualityScore>(inputStream, bufSize, supplier);
     }
 
     /**
@@ -83,20 +89,8 @@ public class FastqParserTest extends FastxParserTest<DNA, FastqSeq<DNA>> {
      * @see org.biomojo.io.fastx.FastxParserTest#getOutputStream(java.io.ByteArrayOutputStream)
      */
     @Override
-    protected SequenceOutputStream<FastqSeq<DNA>> getOutputStream(final ByteArrayOutputStream outputStream) {
-        return new FastqOutputStream<DNA>(outputStream);
-    }
-
-    /**
-     * Gets the sequence.
-     *
-     * @return the sequence
-     * @see org.biomojo.io.fastx.FastxParserTest#getSequence()
-     */
-    @Override
-    protected FastqSeq<DNA> getSequence() {
-        final FastqSeq<DNA> sequence = new BasicFastqSeq<DNA>(
-                Alphabets.getAlphabet(AlphabetId.DNA | IUPACVariant.WITH_ANY));
-        return sequence;
+    protected SequenceOutputStream<FastqSeq<DNA, SangerQualityScore>> getOutputStream(
+            final ByteArrayOutputStream outputStream) {
+        return new FastqOutputStream<DNA, SangerQualityScore>(outputStream);
     }
 }

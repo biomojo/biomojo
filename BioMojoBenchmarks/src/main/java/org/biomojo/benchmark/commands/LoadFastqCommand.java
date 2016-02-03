@@ -25,6 +25,7 @@ import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.DNA;
+import org.biomojo.alphabet.SangerQualityScore;
 import org.biomojo.benchmark.util.GCUtil;
 import org.biomojo.codec.CodecId;
 import org.biomojo.io.SequenceIdHeaderParser;
@@ -63,15 +64,17 @@ public class LoadFastqCommand extends BaseInputCommand {
             long totalLength = 0;
             long qualityLength = 0;
 
-            Supplier<FastqSeq<DNA>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA);
+            Supplier<FastqSeq<DNA, SangerQualityScore>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA,
+                    AlphabetId.QUALITY_SANGER);
             if (encode) {
-                supplier = new EncodedFastqSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC);
+                supplier = new EncodedFastqSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC,
+                        AlphabetId.QUALITY_SANGER);
             }
 
-            final SequenceInputStream<FastqSeq<DNA>> inputStream = new FastqInputStream<DNA>(
+            final SequenceInputStream<FastqSeq<DNA, SangerQualityScore>> inputStream = new FastqInputStream<DNA, SangerQualityScore>(
                     new FileInputStream(inputFile), new SequenceIdHeaderParser(), supplier);
 
-            for (final FastqSeq<DNA> sequence : inputStream) {
+            for (final FastqSeq<DNA, SangerQualityScore> sequence : inputStream) {
                 sequences.add(sequence);
                 totalLength += sequence.size();
                 qualityLength += sequence.getQualityScores().size();

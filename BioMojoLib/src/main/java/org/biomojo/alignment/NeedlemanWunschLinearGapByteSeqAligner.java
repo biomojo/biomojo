@@ -17,6 +17,7 @@
 package org.biomojo.alignment;
 
 import org.biomojo.alphabet.GappableByte;
+import org.biomojo.alphabet.GappedByte;
 
 /**
  * The Class NeedlemanWunschAligner.
@@ -24,7 +25,8 @@ import org.biomojo.alphabet.GappableByte;
  * @param <A>
  *            the generic type
  */
-public class NeedlemanWunschLinearGapByteSeqAligner<A extends GappableByte<A>> extends AbstractLinearGapByteSeqAligner<A> {
+public class NeedlemanWunschLinearGapByteSeqAligner<A extends GappableByte<A, GappedByte<A>>>
+        extends AbstractLinearGapByteSeqAligner<A> {
 
     /**
      * Instantiates a new needleman wunsch aligner.

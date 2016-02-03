@@ -19,6 +19,7 @@ package org.biomojo.alignment;
 import java.util.List;
 
 import org.biomojo.alphabet.GappableByte;
+import org.biomojo.alphabet.GappedByte;
 import org.biomojo.sequence.ByteSeq;
 
 /**
@@ -27,7 +28,7 @@ import org.biomojo.sequence.ByteSeq;
  * @param <A>
  *            the generic type
  */
-public class SmithWatermanLinearGapByteSeqAligner<A extends GappableByte<A>>
+public class SmithWatermanLinearGapByteSeqAligner<A extends GappableByte<A, GappedByte<A>>>
         extends AbstractLinearGapByteSeqAligner<A> {
 
     /** The max score. */
@@ -113,8 +114,8 @@ public class SmithWatermanLinearGapByteSeqAligner<A extends GappableByte<A>>
     }
 
     @Override
-    public Alignment<ByteSeq<A>> align(final List<ByteSeq<A>> sequences) {
-        final Alignment<ByteSeq<A>> alignment = super.align(sequences);
+    public ByteSeqAlignment<A> align(final List<ByteSeq<A>> sequences) {
+        final ByteSeqAlignment<A> alignment = super.align(sequences);
         // this.printScoreTable();
         return alignment;
     }

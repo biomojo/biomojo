@@ -16,8 +16,8 @@
  */
 package org.biomojo.sequence;
 
+import org.biomojo.alphabet.ByteQualityScore;
 import org.biomojo.alphabet.Nucleotide;
-import org.biomojo.alphabet.QualityScore;
 
 /**
  * The Interface FastqSeq.
@@ -26,12 +26,12 @@ import org.biomojo.alphabet.QualityScore;
  * @param <A>
  *            the generic type
  */
-public interface FastqSeq<A extends Nucleotide<?>> extends ByteSeq<A> {
+public interface FastqSeq<A extends Nucleotide<?>, Q extends ByteQualityScore<?>> extends ByteSeq<A> {
 
     /**
      * Gets the quality scores.
      *
      * @return the quality scores
      */
-    public ByteSeq<QualityScore> getQualityScores();
+    public ByteSeq<Q> getQualityScores();
 }

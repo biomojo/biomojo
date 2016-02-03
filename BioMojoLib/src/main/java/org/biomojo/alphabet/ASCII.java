@@ -14,23 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 package org.biomojo.alphabet;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class AllByteAlphabet.
- */
-public class AllByte extends AbstractByteAlphabet {
-
-    /** The Constant NUM_SYMBOLS. */
-    private static final int NUM_SYMBOLS = 256;
+public class ASCII extends AbstractByteAlphabet {
 
     /**
-     * Instantiates a new all byte alphabet.
+     * Create a new org.java0.string.ASCIIAlphabet.
+     *
+     * @param id
+     *            the id
      */
-    AllByte() {
-        super(AlphabetId.ALL_BYTE);
+    protected ASCII() {
+        super(AlphabetId.ASCII);
+
     }
 
     /**
@@ -41,7 +37,7 @@ public class AllByte extends AbstractByteAlphabet {
      */
     @Override
     public int numSymbols() {
-        return NUM_SYMBOLS;
+        return org.java0.string.ASCII.NUM_CHARACTERS;
     }
 
     /**
@@ -80,24 +76,6 @@ public class AllByte extends AbstractByteAlphabet {
      */
     @Override
     public boolean isValid(final byte symbol) {
-        return true;
+        return (symbol >= 0);
     }
-
-    /**
-     * Checks if is valid.
-     *
-     * @param symbols
-     *            the symbols
-     * @param start
-     *            the start
-     * @param end
-     *            the end
-     * @return true, if is valid
-     * @see org.biomojo.alphabet.ByteAlphabet#isValid(byte[], int, int)
-     */
-    @Override
-    public boolean isValid(final byte[] symbols, final int start, final int end) {
-        return true;
-    }
-
 }

@@ -31,7 +31,7 @@ import org.slf4j.LoggerFactory;
  * @author Hugh Eaves
  */
 public class AlphabetTest {
-    
+
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AlphabetTest.class.getName());
 
@@ -46,19 +46,12 @@ public class AlphabetTest {
     }
 
     /**
-     * Test it.
-     */
-    public void testIt() {
-        final Alphabet<Byte> alphabet = AllByte.INSTANCE;
-        alphabet.getSymbolForOrdinal(0);
-
-    }
-
-    /**
      * Test alphabet.
      *
-     * @param <T> the generic type
-     * @param type the type
+     * @param <T>
+     *            the generic type
+     * @param type
+     *            the type
      */
     public <T> void testAlphabet(final Class<T> type) {
         for (int i = 0; i < AlphabetId.LAST_ALPHABET_ID; ++i) {
@@ -70,8 +63,11 @@ public class AlphabetTest {
                     final T symbol = alphabet.getSymbolForOrdinal(j);
                     assertTrue(alphabet.isValid(symbol));
                     assertTrue(alphabet.getOrdinalForSymbol(symbol) == j);
-                    assertTrue(alphabet.getOrdinalForSymbol(alphabet.getCanonical(symbol)) <= j);
-                    assertTrue(alphabet.isEquivalent(symbol, alphabet.getCanonical(symbol)));
+                    if (alphabet instanceof Canonicalizable) {
+                        final Canonicalizable<T, ?> cba = (Canonicalizable<T, ?>) alphabet;
+                        assertTrue(cba.getOrdinalForSymbol(cba.getCanonical(symbol)) <= j);
+                        assertTrue(cba.isEquivalent(symbol, cba.getCanonical(symbol)));
+                    }
                     @SuppressWarnings("unchecked")
                     final T[] symbols = (T[]) Array.newInstance(type, 1000);
                     for (int k = 0; k < symbols.length; ++k) {

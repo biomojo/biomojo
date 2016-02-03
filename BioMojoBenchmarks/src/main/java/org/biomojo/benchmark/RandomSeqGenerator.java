@@ -40,7 +40,7 @@ public abstract class RandomSeqGenerator {
         final byte[] seqData = new byte[length];
         final ByteAlphabet alphabet = seq.getAlphabet();
         for (int i = 0; i < length; ++i) {
-            seqData[i] = alphabet.getByteSymbolForOrdinal(random.nextInt(alphabet.numCanonicalSymbols()));
+            seqData[i] = alphabet.getByteSymbolForOrdinal(random.nextInt(alphabet.numSymbols()));
         }
         seq.setAll(seqData);
     }

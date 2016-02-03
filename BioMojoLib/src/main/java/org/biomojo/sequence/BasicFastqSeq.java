@@ -20,10 +20,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
-import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.Alphabets;
+import org.biomojo.alphabet.ByteQualityScore;
 import org.biomojo.alphabet.Nucleotide;
-import org.biomojo.alphabet.QualityScore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +35,8 @@ import org.slf4j.LoggerFactory;
  */
 @Entity
 @DiscriminatorValue("F")
-public class BasicFastqSeq<A extends Nucleotide<?>> extends BasicByteSeq<A> implements FastqSeq<A> {
+public class BasicFastqSeq<A extends Nucleotide<?>, Q extends ByteQualityScore<?>> extends BasicByteSeq<A>
+        implements FastqSeq<A, Q> {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
@@ -47,16 +46,14 @@ public class BasicFastqSeq<A extends Nucleotide<?>> extends BasicByteSeq<A> impl
     private static final Logger logger = LoggerFactory.getLogger(BasicFastqSeq.class.getName());
 
     /** The seq. */
-    @OneToOne(targetEntity = BasicByteSeq.class)
-    protected ByteSeq<QualityScore> seq;
+    @OneToOne(targetEntity = AbstractByteSeq.class)
+    protected ByteSeq<Q> seq;
 
     /**
      * Instantiates a new fastq seq impl.
      */
     public BasicFastqSeq() {
         super();
-        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
-
     }
 
     /**
@@ -67,10 +64,9 @@ public class BasicFastqSeq<A extends Nucleotide<?>> extends BasicByteSeq<A> impl
      * @param alphabet
      *            the alphabet
      */
-    public BasicFastqSeq(final byte[] data, final A alphabet) {
+    public BasicFastqSeq(final byte[] data, final A alphabet, final ByteSeq<Q> qualityScores) {
         super(data, alphabet);
-        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
-
+        this.seq = qualityScores;
     }
 
     /**
@@ -79,10 +75,9 @@ public class BasicFastqSeq<A extends Nucleotide<?>> extends BasicByteSeq<A> impl
      * @param data
      *            the data
      */
-    public BasicFastqSeq(final byte[] data) {
+    public BasicFastqSeq(final byte[] data, final ByteSeq<Q> qualityScores) {
         super(data);
-        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
-
+        this.seq = qualityScores;
     }
 
     /**
@@ -91,10 +86,9 @@ public class BasicFastqSeq<A extends Nucleotide<?>> extends BasicByteSeq<A> impl
      * @param alphabet
      *            the alphabet
      */
-    public BasicFastqSeq(final A alphabet) {
+    public BasicFastqSeq(final A alphabet, final ByteSeq<Q> qualityScores) {
         super(alphabet);
-        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
-
+        this.seq = qualityScores;
     }
 
     /**
@@ -103,7 +97,7 @@ public class BasicFastqSeq<A extends Nucleotide<?>> extends BasicByteSeq<A> impl
      * @return the qualityScores
      */
     @Override
-    public ByteSeq<QualityScore> getQualityScores() {
+    public ByteSeq<Q> getQualityScores() {
         return seq;
     }
 
@@ -113,7 +107,7 @@ public class BasicFastqSeq<A extends Nucleotide<?>> extends BasicByteSeq<A> impl
      * @param qualityScores
      *            the qualityScores to set
      */
-    public void setQualityScores(final ByteSeq<QualityScore> qualityScores) {
+    public void setQualityScores(final ByteSeq<Q> qualityScores) {
         this.seq = qualityScores;
     }
 

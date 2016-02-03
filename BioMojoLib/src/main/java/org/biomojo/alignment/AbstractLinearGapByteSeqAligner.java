@@ -17,6 +17,7 @@
 package org.biomojo.alignment;
 
 import org.biomojo.alphabet.GappableByte;
+import org.biomojo.alphabet.GappedByte;
 import org.biomojo.sequence.BasicByteSeq;
 import org.biomojo.sequence.ByteSeq;
 import org.slf4j.Logger;
@@ -28,7 +29,8 @@ import org.slf4j.LoggerFactory;
  * @param <A>
  *            the generic type
  */
-public abstract class AbstractLinearGapByteSeqAligner<A extends GappableByte<A>> extends AbstractByteSeqAligner<A> {
+public abstract class AbstractLinearGapByteSeqAligner<A extends GappableByte<A, GappedByte<A>>>
+        extends AbstractByteSeqAligner<A> {
 
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AbstractLinearGapByteSeqAligner.class.getName());
@@ -92,13 +94,12 @@ public abstract class AbstractLinearGapByteSeqAligner<A extends GappableByte<A>>
     }
 
     @Override
-    protected void calcTraceback(final PairwiseAlignment<ByteSeq<A>> alignment) {
+    protected void calcTraceback(final PairwiseByteSeqAlignment<A> alignment) {
+        final GappedByte<A> alphabet1 = seq1.getAlphabet().getGapped();
+        final GappedByte<A> alphabet2 = seq2.getAlphabet().getGapped();
 
-        final A alphabet1 = seq1.getAlphabet().getGapped();
-        final A alphabet2 = seq2.getAlphabet().getGapped();
-
-        final BasicByteSeq<A> align1 = new BasicByteSeq<A>(seq1Dim + seq2Dim, alphabet1);
-        final BasicByteSeq<A> align2 = new BasicByteSeq<A>(seq1Dim + seq2Dim, alphabet2);
+        final ByteSeq<GappedByte<A>> align1 = new BasicByteSeq<>(seq1Dim + seq2Dim, alphabet1);
+        final ByteSeq<GappedByte<A>> align2 = new BasicByteSeq<>(seq1Dim + seq2Dim, alphabet2);
 
         final byte gap1 = alphabet1.gapSymbol();
         final byte gap2 = alphabet2.gapSymbol();
@@ -109,7 +110,9 @@ public abstract class AbstractLinearGapByteSeqAligner<A extends GappableByte<A>>
         final byte[] seq1Bytes = seq1.toByteArray();
         final byte[] seq2Bytes = seq2.toByteArray();
 
-        while (seq1Pos > 0 && seq2Pos > 0) {
+        while (seq1Pos > 0 && seq2Pos > 0)
+
+        {
             final int currentCellScore = scores[seq1Pos][seq2Pos];
             if (currentCellScore == scores[seq1Pos - 1][seq2Pos - 1]
                     + matrix.getScore(seq1Bytes[seq1Pos - 1], seq2Bytes[seq2Pos - 1])) {
@@ -133,6 +136,7 @@ public abstract class AbstractLinearGapByteSeqAligner<A extends GappableByte<A>>
         alignment.setScore(scores[seq1TracebackStart][seq2TracebackStart]);
         alignment.add(align1);
         alignment.add(align2);
+
     }
 
     /**

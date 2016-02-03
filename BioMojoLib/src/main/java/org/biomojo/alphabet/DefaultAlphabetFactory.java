@@ -34,7 +34,7 @@ public class DefaultAlphabetFactory extends AbstractIdBasedFactory<Alphabet<?>> 
     public DefaultAlphabetFactory() {
         super(new Alphabet<?>[0]);
 
-        register(AllByte.INSTANCE);
+        register(new AllByte());
 
         for (int i = 0; i < IUPACVariant.NUM_VARIANTS; ++i) {
             registerProvider(AlphabetId.DNA + i, new ConfiguredObjectProvider<Alphabet<?>>() {
@@ -64,12 +64,10 @@ public class DefaultAlphabetFactory extends AbstractIdBasedFactory<Alphabet<?>> 
             }, true);
         }
 
-        registerProvider(AlphabetId.ASCII, new ConfiguredObjectProvider<Alphabet<?>>() {
-            @Override
-            public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
-                return new ASCIIAlphabet((int) config.values()[0]);
-            }
-        }, true);
+        register(new ASCII());
+
+        register(new Letters<Letters<?>>());
+        register(new UppercaseLetters());
 
         register(new SangerQualityScore());
         register(new Illumina10QualityScore());

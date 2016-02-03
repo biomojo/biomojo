@@ -16,11 +16,11 @@
  */
 package org.biomojo.alphabet;
 
-/**
- * The Interface QualityScoreAlphabet.
- *
- * @author Hugh Eaves
- */
-public interface QualityScore extends ByteAlphabet {
+public interface AlphabetVariant {
 
+    /** The Constant WITH_NON_CANONICAL. */
+    public static final int WITH_NON_CANONICAL = 1;
+
+    /** The Constant WITH_GAP. */
+    public static final int WITH_GAP = 2;
 }

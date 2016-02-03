@@ -16,10 +16,11 @@
  */
 package org.biomojo.alphabet;
 
-public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implements ByteAlphabet {
-
-    protected AbstractByteAlphabet(final int id) {
-        super(id);
-    }
+/**
+ * The Interface QualityScoreAlphabet.
+ *
+ * @author Hugh Eaves
+ */
+public interface ByteQualityScore<A extends CanonicalizableByte<?>> extends CanonicalizableByte<A> {
 
 }

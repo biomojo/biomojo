@@ -17,24 +17,24 @@
 
 package org.biomojo.alphabet;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class AbstractQualityScoreAlphabet.
- */
-public class AbstractQualityScore extends AbstractAlphabet<Byte> implements QualityScore {
+public class AbstractQualityScore<A extends CanonicalizableByte<?>> extends AbstractCanonicalizableByteAlphabet<A>
+        implements ByteQualityScore<A> {
 
     /** The start. */
     private final int start;
-    
+
     /** The end. */
     private final int end;
 
     /**
      * Instantiates a new abstract quality score alphabet.
      *
-     * @param id the id
-     * @param start the start
-     * @param end the end
+     * @param id
+     *            the id
+     * @param start
+     *            the start
+     * @param end
+     *            the end
      */
     protected AbstractQualityScore(final int id, final int start, final int end) {
         super(id);
@@ -67,7 +67,8 @@ public class AbstractQualityScore extends AbstractAlphabet<Byte> implements Qual
     /**
      * Gets the ordinal for symbol.
      *
-     * @param value the value
+     * @param value
+     *            the value
      * @return the ordinal for symbol
      * @see org.biomojo.alphabet.ByteAlphabet#getOrdinalForSymbol(byte)
      */
@@ -79,7 +80,8 @@ public class AbstractQualityScore extends AbstractAlphabet<Byte> implements Qual
     /**
      * Gets the byte symbol for ordinal.
      *
-     * @param ordinal the ordinal
+     * @param ordinal
+     *            the ordinal
      * @return the byte symbol for ordinal
      * @see org.biomojo.alphabet.ByteAlphabet#getByteSymbolForOrdinal(int)
      */
@@ -91,7 +93,8 @@ public class AbstractQualityScore extends AbstractAlphabet<Byte> implements Qual
     /**
      * Checks if is valid.
      *
-     * @param symbol the symbol
+     * @param symbol
+     *            the symbol
      * @return true, if is valid
      * @see org.biomojo.alphabet.ByteAlphabet#isValid(byte)
      */
@@ -103,9 +106,12 @@ public class AbstractQualityScore extends AbstractAlphabet<Byte> implements Qual
     /**
      * Checks if is valid.
      *
-     * @param symbols the symbols
-     * @param start the start
-     * @param end the end
+     * @param symbols
+     *            the symbols
+     * @param start
+     *            the start
+     * @param end
+     *            the end
      * @return true, if is valid
      * @see org.biomojo.alphabet.ByteAlphabet#isValid(byte[], int, int)
      */
@@ -122,7 +128,8 @@ public class AbstractQualityScore extends AbstractAlphabet<Byte> implements Qual
     /**
      * Gets the canonical.
      *
-     * @param symbol the symbol
+     * @param symbol
+     *            the symbol
      * @return the canonical
      * @see org.biomojo.alphabet.ByteAlphabet#getCanonical(byte)
      */
@@ -134,9 +141,12 @@ public class AbstractQualityScore extends AbstractAlphabet<Byte> implements Qual
     /**
      * Gets the canonical.
      *
-     * @param values the values
-     * @param start the start
-     * @param end the end
+     * @param values
+     *            the values
+     * @param start
+     *            the start
+     * @param end
+     *            the end
      * @return the canonical
      * @see org.biomojo.alphabet.ByteAlphabet#getCanonical(byte[], int, int)
      */
@@ -148,7 +158,8 @@ public class AbstractQualityScore extends AbstractAlphabet<Byte> implements Qual
     /**
      * Checks if is canonical.
      *
-     * @param symbol the symbol
+     * @param symbol
+     *            the symbol
      * @return true, if is canonical
      * @see org.biomojo.alphabet.ByteAlphabet#isCanonical(byte)
      */
@@ -157,7 +168,9 @@ public class AbstractQualityScore extends AbstractAlphabet<Byte> implements Qual
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.alphabet.Alphabet#isCanonical()
      */
     @Override
@@ -165,7 +178,9 @@ public class AbstractQualityScore extends AbstractAlphabet<Byte> implements Qual
         return true;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.alphabet.ByteAlphabet#validate(byte[], int, int)
      */
     @Override
@@ -177,11 +192,13 @@ public class AbstractQualityScore extends AbstractAlphabet<Byte> implements Qual
         return;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.alphabet.Alphabet#getCanonical()
      */
     @Override
-    public ByteAlphabet getCanonical() {
-        return this;
+    public A getCanonical() {
+        return (A) this;
     }
 }

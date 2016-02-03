@@ -18,22 +18,10 @@ package org.biomojo.alphabet;
 
 import org.java0.string.ASCII;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class CanonicalASCIIAlphabet.
- *
- * @author Hugh Eaves
- */
-public class CanonicalASCIIAlphabet extends AbstractAlphabet<Byte> implements ByteAlphabet {
-    
-    /**
-     * Create a new ASCIIAlphabet.
-     *
-     * @param id the id
-     */
-    protected CanonicalASCIIAlphabet(final int id) {
-        super(id);
+public class UppercaseLetters extends AbstractCanonicalizableByteAlphabet<UppercaseLetters> {
 
+    protected UppercaseLetters() {
+        super(AlphabetId.LETTERS_UPPERCASE);
     }
 
     /**
@@ -44,7 +32,7 @@ public class CanonicalASCIIAlphabet extends AbstractAlphabet<Byte> implements By
      */
     @Override
     public int numSymbols() {
-        return ASCII.NUM_CHARACTERS;
+        return ASCII.NUM_LETTERS;
     }
 
     /**
@@ -55,49 +43,53 @@ public class CanonicalASCIIAlphabet extends AbstractAlphabet<Byte> implements By
      */
     @Override
     public int numCanonicalSymbols() {
-        return ASCII.NUM_CHARACTERS - ASCII.NUM_LETTERS;
+        return ASCII.NUM_LETTERS;
     }
 
     /**
      * Gets the ordinal for symbol.
      *
-     * @param value the value
+     * @param value
+     *            the value
      * @return the ordinal for symbol
      * @see org.biomojo.alphabet.ByteAlphabet#getOrdinalForSymbol(byte)
      */
     @Override
     public int getOrdinalForSymbol(final byte value) {
-        return value & 0xff;
+        return value - ASCII.UPPER_CASE_START;
     }
 
     /**
      * Gets the byte symbol for ordinal.
      *
-     * @param ordinal the ordinal
+     * @param ordinal
+     *            the ordinal
      * @return the byte symbol for ordinal
      * @see org.biomojo.alphabet.ByteAlphabet#getByteSymbolForOrdinal(int)
      */
     @Override
     public byte getByteSymbolForOrdinal(final int ordinal) {
-        return (byte) (ordinal & 0xff);
+        return (byte) (ordinal - ASCII.NUM_LETTERS);
     }
 
     /**
      * Checks if is valid.
      *
-     * @param symbol the symbol
+     * @param symbol
+     *            the symbol
      * @return true, if is valid
      * @see org.biomojo.alphabet.ByteAlphabet#isValid(byte)
      */
     @Override
     public boolean isValid(final byte symbol) {
-        return (symbol >= 0);
+        return (symbol >= ASCII.UPPER_CASE_START && symbol <= ASCII.UPPER_CASE_END);
     }
 
     /**
      * Gets the canonical.
      *
-     * @param symbol the symbol
+     * @param symbol
+     *            the symbol
      * @return the canonical
      * @see org.biomojo.alphabet.ByteAlphabet#getCanonical(byte)
      */
@@ -112,7 +104,8 @@ public class CanonicalASCIIAlphabet extends AbstractAlphabet<Byte> implements By
     /**
      * Checks if is canonical.
      *
-     * @param symbol the symbol
+     * @param symbol
+     *            the symbol
      * @return true, if is canonical
      * @see org.biomojo.alphabet.ByteAlphabet#isCanonical(byte)
      */
@@ -123,21 +116,4 @@ public class CanonicalASCIIAlphabet extends AbstractAlphabet<Byte> implements By
         }
         return true;
     }
-
-    /* (non-Javadoc)
-     * @see org.biomojo.alphabet.Alphabet#isCanonical()
-     */
-    @Override
-    public boolean isCanonical() {
-        return false;
-    }
-
-    /* (non-Javadoc)
-     * @see org.biomojo.alphabet.Alphabet#getCanonical()
-     */
-    @Override
-    public CanonicalASCIIAlphabet getCanonical() {
-        return this;
-    }
-
 }

@@ -21,13 +21,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.Alphabets;
+import org.biomojo.alphabet.AlphabetVariant;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.IUPACVariant;
 import org.biomojo.io.SequenceInputStream;
 import org.biomojo.io.SequenceOutputStream;
-import org.biomojo.sequence.BasicByteSeq;
 import org.biomojo.sequence.ByteSeq;
+import org.biomojo.sequence.factory.ByteSeqSupplier;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -43,6 +43,9 @@ public class FastaParserTest extends FastxParserTest<ByteAlphabet, ByteSeq<ByteA
 
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(FastaParserTest.class.getName());
+
+    private final ByteSeqSupplier<ByteAlphabet> supplier = new ByteSeqSupplier<>(
+            AlphabetId.DNA | IUPACVariant.WITH_ANY | AlphabetVariant.WITH_NON_CANONICAL);
 
     /**
      * Instantiates a new fasta parser test.
@@ -75,7 +78,7 @@ public class FastaParserTest extends FastxParserTest<ByteAlphabet, ByteSeq<ByteA
     @Override
     protected SequenceInputStream<ByteSeq<ByteAlphabet>> getInputStream(final byte[] testData, final int bufSize) {
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(testData);
-        return new FastaInputStream<ByteAlphabet>(inputStream, bufSize);
+        return new FastaInputStream<ByteAlphabet>(inputStream, bufSize, supplier);
     }
 
     /**
@@ -90,17 +93,5 @@ public class FastaParserTest extends FastxParserTest<ByteAlphabet, ByteSeq<ByteA
     @Override
     protected SequenceOutputStream<ByteSeq<ByteAlphabet>> getOutputStream(final ByteArrayOutputStream outputStream) {
         return new FastaOutputStream<ByteAlphabet>(outputStream);
-    }
-
-    /**
-     * Gets the sequence.
-     *
-     * @return the sequence
-     * @see org.biomojo.io.fastx.FastxParserTest#getSequence()
-     */
-    @Override
-    protected ByteSeq<ByteAlphabet> getSequence() {
-        return new BasicByteSeq<ByteAlphabet>(
-                Alphabets.getAlphabet(AlphabetId.DNA | IUPACVariant.WITH_ANY | IUPACVariant.WITH_NON_CANONICAL));
     }
 }

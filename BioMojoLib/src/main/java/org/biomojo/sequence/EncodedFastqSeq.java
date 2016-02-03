@@ -20,10 +20,8 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
-import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.Alphabets;
+import org.biomojo.alphabet.ByteQualityScore;
 import org.biomojo.alphabet.Nucleotide;
-import org.biomojo.alphabet.QualityScore;
 import org.biomojo.codec.ByteByteCodec;
 
 // TODO: Auto-generated Javadoc
@@ -36,21 +34,21 @@ import org.biomojo.codec.ByteByteCodec;
  */
 @Entity
 @DiscriminatorValue("G")
-public class EncodedFastqSeq<A extends Nucleotide<A>> extends EncodedByteSeq<A> implements FastqSeq<A> {
+public class EncodedFastqSeq<A extends Nucleotide<A>, Q extends ByteQualityScore<?>> extends EncodedByteSeq<A>
+        implements FastqSeq<A, Q> {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;
 
     /** The seq. */
     @OneToOne(targetEntity = BasicByteSeq.class)
-    protected ByteSeq<QualityScore> seq;
+    protected ByteSeq<Q> seq;
 
     /**
      * Instantiates a new encoded fastq seq.
      */
     public EncodedFastqSeq() {
         super();
-        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
     }
 
     /**
@@ -63,10 +61,10 @@ public class EncodedFastqSeq<A extends Nucleotide<A>> extends EncodedByteSeq<A> 
      * @param codec
      *            the codec
      */
-    public EncodedFastqSeq(final byte[] data, final A alphabet, final ByteByteCodec codec) {
+    public EncodedFastqSeq(final byte[] data, final A alphabet, final ByteByteCodec codec,
+            final ByteSeq<Q> qualityScores) {
         super(data, alphabet, codec);
-        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
-
+        this.seq = qualityScores;
     }
 
     /**
@@ -79,8 +77,6 @@ public class EncodedFastqSeq<A extends Nucleotide<A>> extends EncodedByteSeq<A> 
      */
     public EncodedFastqSeq(final byte[] data, final A alphabet) {
         super(data, alphabet);
-        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
-
     }
 
     /**
@@ -91,8 +87,6 @@ public class EncodedFastqSeq<A extends Nucleotide<A>> extends EncodedByteSeq<A> 
      */
     public EncodedFastqSeq(final byte[] data) {
         super(data);
-        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
-
     }
 
     /**
@@ -103,9 +97,9 @@ public class EncodedFastqSeq<A extends Nucleotide<A>> extends EncodedByteSeq<A> 
      * @param codec
      *            the codec
      */
-    public EncodedFastqSeq(final A alphabet, final ByteByteCodec codec) {
+    public EncodedFastqSeq(final A alphabet, final ByteByteCodec codec, final ByteSeq<Q> qualityScores) {
         super(alphabet, codec);
-        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
+        this.seq = qualityScores;
 
     }
 
@@ -117,7 +111,6 @@ public class EncodedFastqSeq<A extends Nucleotide<A>> extends EncodedByteSeq<A> 
      */
     public EncodedFastqSeq(final A alphabet) {
         super(alphabet);
-        seq = new BasicByteSeq<QualityScore>(Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER));
     }
 
     /*
@@ -126,7 +119,7 @@ public class EncodedFastqSeq<A extends Nucleotide<A>> extends EncodedByteSeq<A> 
      * @see org.biomojo.sequence.FastqSeq#getQualityScores()
      */
     @Override
-    public ByteSeq<QualityScore> getQualityScores() {
+    public ByteSeq<Q> getQualityScores() {
         return seq;
     }
 

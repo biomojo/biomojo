@@ -17,8 +17,9 @@
 package org.biomojo.alignment;
 
 import org.biomojo.alphabet.GappableByte;
+import org.biomojo.alphabet.GappedByte;
 
-public class NeedlemanWunschAffineGapByteSeqAligner<A extends GappableByte<A>>
+public class NeedlemanWunschAffineGapByteSeqAligner<A extends GappableByte<A, GappedByte<A>>>
         extends AbstractAffineGapByteSeqAligner<A> {
 
     public NeedlemanWunschAffineGapByteSeqAligner(final ByteSubstitutionMatrix matrix, final int gapStartPenalty,

@@ -88,8 +88,8 @@ public class FileBasedMatrixTest extends BaseTest {
 
         float checkSum = 0;
         int cells = 0;
-        for (int i = 0; i < alphabet.numCanonicalSymbols(); ++i) {
-            for (int j = 0; j < alphabet.numCanonicalSymbols(); ++j) {
+        for (int i = 0; i < alphabet.numSymbols(); ++i) {
+            for (int j = 0; j < alphabet.numSymbols(); ++j) {
 
                 final byte from = alphabet.getByteSymbolForOrdinal(i);
                 final byte to = alphabet.getByteSymbolForOrdinal(j);

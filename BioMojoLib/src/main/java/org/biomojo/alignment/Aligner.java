@@ -19,6 +19,7 @@ package org.biomojo.alignment;
 import java.util.List;
 
 import org.biomojo.alphabet.Gappable;
+import org.biomojo.alphabet.Gapped;
 import org.biomojo.sequence.Seq;
 
 /**
@@ -28,7 +29,7 @@ import org.biomojo.sequence.Seq;
  * @param <T>
  *            the generic type
  */
-public interface Aligner<A extends Gappable<?, A>, T extends Seq<?, A>> {
+public interface Aligner<T, A extends Gappable<T, A, G>, G extends Gapped<T, A>, S extends Seq<T, G>, U extends Seq<T, A>> {
 
     /**
      * Align.
@@ -37,5 +38,5 @@ public interface Aligner<A extends Gappable<?, A>, T extends Seq<?, A>> {
      *            the sequences
      * @return the alignment
      */
-    public Alignment<T> align(List<T> sequences);
+    public Alignment<T, A, G, S> align(List<U> sequences);
 }

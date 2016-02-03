@@ -21,6 +21,7 @@ import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.DNA;
+import org.biomojo.alphabet.SangerQualityScore;
 import org.biomojo.codec.CodecId;
 import org.biomojo.io.fastx.FastqInputStream;
 import org.biomojo.sequence.FastqSeq;
@@ -47,19 +48,21 @@ public class ReadFastqCommand extends BaseInputCommand {
         try {
             logger.info("BioMojo Fastq Read Benchmark");
 
-            final FastqInputStream<DNA> inputStream = new FastqInputStream<>(new FileInputStream(inputFile),
-                    false);
+            final FastqInputStream<DNA, SangerQualityScore> inputStream = new FastqInputStream<>(
+                    new FileInputStream(inputFile), false);
 
             int recordCount = 0;
             long totalLength = 0;
             long qualityLength = 0;
 
-            Supplier<FastqSeq<DNA>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA);
+            Supplier<FastqSeq<DNA, SangerQualityScore>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA,
+                    AlphabetId.QUALITY_SANGER);
             if (encode) {
-                supplier = new EncodedFastqSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC);
+                supplier = new EncodedFastqSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC,
+                        AlphabetId.QUALITY_SANGER);
             }
 
-            final FastqSeq<DNA> sequence = supplier.get();
+            final FastqSeq<DNA, SangerQualityScore> sequence = supplier.get();
 
             while (inputStream.read(sequence)) {
                 ++recordCount;

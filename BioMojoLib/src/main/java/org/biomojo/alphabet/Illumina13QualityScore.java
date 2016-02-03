@@ -20,8 +20,8 @@ package org.biomojo.alphabet;
 /**
  * The Class Illumina13QualityScoreAlphabet.
  */
-//Valid range: 64 to 126 (Phred score + 64)
-public class Illumina13QualityScore extends AbstractQualityScore {
+// Valid range: 64 to 126 (Phred score + 64)
+public class Illumina13QualityScore extends AbstractQualityScore<SangerQualityScore> {
 
     /**
      * Instantiates a new illumina13 quality score alphabet.

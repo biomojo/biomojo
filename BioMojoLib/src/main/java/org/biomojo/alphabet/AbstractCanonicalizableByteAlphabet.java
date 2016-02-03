@@ -14,12 +14,23 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+
 package org.biomojo.alphabet;
 
-public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implements ByteAlphabet {
+public abstract class AbstractCanonicalizableByteAlphabet<A extends CanonicalizableByte<?>> extends AbstractByteAlphabet
+        implements CanonicalizableByte<A> {
 
-    protected AbstractByteAlphabet(final int id) {
+    protected AbstractCanonicalizableByteAlphabet(final int id) {
         super(id);
     }
 
+    @Override
+    public boolean isCanonical() {
+        return ((getId() & 1) == 0);
+    }
+
+    @Override
+    public Byte getCanonical(final Byte value) {
+        return value.byteValue();
+    }
 }

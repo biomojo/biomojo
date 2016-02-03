@@ -24,8 +24,8 @@ package org.biomojo.alphabet;
  * 
  *         Valid range: 33 - 126 (i.e. Phred score + 33)
  */
-public class SangerQualityScore extends AbstractQualityScore {
-    
+public class SangerQualityScore extends AbstractQualityScore<SangerQualityScore> {
+
     /**
      * Instantiates a new sanger quality score alphabet.
      */

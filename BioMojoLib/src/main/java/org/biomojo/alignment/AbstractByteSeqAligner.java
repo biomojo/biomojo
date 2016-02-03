@@ -19,11 +19,12 @@ package org.biomojo.alignment;
 import java.util.List;
 
 import org.biomojo.alphabet.GappableByte;
+import org.biomojo.alphabet.GappedByte;
 import org.biomojo.sequence.ByteSeq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractByteSeqAligner<A extends GappableByte<A>> implements Aligner<A, ByteSeq<A>> {
+public abstract class AbstractByteSeqAligner<A extends GappableByte<A, GappedByte<A>>> implements ByteSeqAligner<A> {
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AbstractByteSeqAligner.class);
 
@@ -85,9 +86,9 @@ public abstract class AbstractByteSeqAligner<A extends GappableByte<A>> implemen
     }
 
     @Override
-    public Alignment<ByteSeq<A>> align(final List<ByteSeq<A>> sequences) {
+    public ByteSeqAlignment<A> align(final List<ByteSeq<A>> sequences) {
         initialize(sequences);
-        final PairwiseAlignment<ByteSeq<A>> alignment = new PairwiseAlignment<>();
+        final PairwiseByteSeqAlignment<A> alignment = new PairwiseByteSeqAlignment<A>();
         calcCellScores();
         calcTraceback(alignment);
         return alignment;
@@ -113,7 +114,7 @@ public abstract class AbstractByteSeqAligner<A extends GappableByte<A>> implemen
         }
     }
 
-    protected abstract void calcTraceback(final PairwiseAlignment<ByteSeq<A>> alignment);
+    protected abstract void calcTraceback(final PairwiseByteSeqAlignment<A> alignment);
 
     protected abstract void clearScores();
 

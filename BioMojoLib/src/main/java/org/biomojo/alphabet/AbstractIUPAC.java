@@ -22,12 +22,7 @@ import org.biomojo.symbols.CommonSymbols;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
-/**
- * The Class AbstractIUPACAlphabet.
- */
-public abstract class AbstractIUPAC<A extends IUPAC<A>> extends AbstractByteAlphabet
-        implements IUPAC<A> {
+public abstract class AbstractIUPAC<A extends IUPAC<A>> extends TableBasedByteAlphabet<A> implements IUPAC<A> {
 
     /** The Constant logger. */
     @SuppressWarnings("unused")
@@ -53,13 +48,13 @@ public abstract class AbstractIUPAC<A extends IUPAC<A>> extends AbstractByteAlph
     protected AbstractIUPAC(final int id, final byte[] coreSymbols) {
         super(id);
         final int flags = id % IUPACVariant.NUM_VARIANTS;
-        if ((flags & IUPACVariant.WITH_NON_CANONICAL) != 0) {
+        if ((flags & AlphabetVariant.WITH_NON_CANONICAL) != 0) {
             canonical = false;
         } else {
             canonical = true;
         }
         addSymbols(coreSymbols);
-        if ((flags & IUPACVariant.WITH_GAP) != 0) {
+        if ((flags & AlphabetVariant.WITH_GAP) != 0) {
             addGapSymbols();
             gap = true;
         }
@@ -118,10 +113,10 @@ public abstract class AbstractIUPAC<A extends IUPAC<A>> extends AbstractByteAlph
      * Supports gaps.
      *
      * @return true, if successful
-     * @see org.biomojo.alphabet.BioPolymerAlphabet#supportsGaps()
+     * @see org.biomojo.alphabet.BioPolymerAlphabet#isGapped()
      */
     @Override
-    public boolean supportsGaps() {
+    public boolean isGapped() {
         return gap;
     }
 
@@ -145,16 +140,6 @@ public abstract class AbstractIUPAC<A extends IUPAC<A>> extends AbstractByteAlph
     @Override
     public boolean supportsAmbiguity() {
         return ambiguity;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.alphabet.AbstractByteAlphabet#getCanonical()
-     */
-    @Override
-    public ByteAlphabet getCanonical() {
-        return this;
     }
 
     /*

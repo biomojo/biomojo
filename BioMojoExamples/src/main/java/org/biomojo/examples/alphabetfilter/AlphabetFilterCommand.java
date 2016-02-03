@@ -11,6 +11,7 @@ import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.alphabet.IUPACVariant;
+import org.biomojo.alphabet.SangerQualityScore;
 import org.biomojo.io.SequenceInputStream;
 import org.biomojo.io.SequenceOutputStream;
 import org.biomojo.io.fastx.FastqInputStream;
@@ -46,11 +47,11 @@ public class AlphabetFilterCommand extends InputOutputCommand {
             // FastaOutputStream(
             // new BufferedOutputStream(new FileOutputStream(outputFile)));
 
-            final Supplier<FastqSeq<DNA>> supplier = new FastqSeqSupplier<DNA>(
-                    AlphabetId.DNA | IUPACVariant.WITH_AMBIGIGUITY);
-            final SequenceInputStream<FastqSeq<DNA>> inputStream = new FastqInputStream<DNA>(
+            final Supplier<FastqSeq<DNA, SangerQualityScore>> supplier = new FastqSeqSupplier<>(
+                    AlphabetId.DNA | IUPACVariant.WITH_AMBIGIGUITY, AlphabetId.QUALITY_SANGER);
+            final SequenceInputStream<FastqSeq<DNA, SangerQualityScore>> inputStream = new FastqInputStream<>(
                     new FileInputStream(inputFile), supplier);
-            final SequenceOutputStream<FastqSeq<DNA>> outputStream = new FastqOutputStream<DNA>(
+            final SequenceOutputStream<FastqSeq<DNA, SangerQualityScore>> outputStream = new FastqOutputStream<>(
                     new BufferedOutputStream(new FileOutputStream(outputFile)));
 
             filter(inputStream, outputStream, targetAlphabet);

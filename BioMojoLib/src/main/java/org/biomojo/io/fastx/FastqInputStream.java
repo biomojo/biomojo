@@ -17,125 +17,100 @@
 
 package org.biomojo.io.fastx;
 
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.function.Supplier;
 
+import org.biomojo.alphabet.AlphabetId;
+import org.biomojo.alphabet.ByteAlphabet;
+import org.biomojo.alphabet.ByteQualityScore;
 import org.biomojo.alphabet.Nucleotide;
-import org.biomojo.alphabet.QualityScore;
 import org.biomojo.io.DefaultHeaderParser;
 import org.biomojo.io.HeaderParser;
 import org.biomojo.io.MarkAndCopyInputStream;
 import org.biomojo.io.ParseException;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.FastqSeq;
+import org.biomojo.sequence.factory.FastqSeqSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * The Class FastqInputStream.
  */
-public class FastqInputStream<T extends Nucleotide<?>> extends MarkAndCopyInputStream<FastqSeq<T>> {
+public class FastqInputStream<A extends Nucleotide<?>, Q extends ByteQualityScore<?>>
+        extends MarkAndCopyInputStream<FastqSeq<A, Q>> {
 
     /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(FastqInputStream.class.getName());
 
     /** The sequence header parser. */
-    private final HeaderParser sequenceHeaderParser;
+    private final HeaderParser headerParser;
 
     /** The validate sequence data. */
     private final boolean validateSequenceData;
 
-    private final Supplier<? extends FastqSeq<T>> factory;
+    private final Supplier<? extends FastqSeq<A, Q>> seqSupplier;
 
-    /**
-     * Instantiates a new fastq input stream.
-     *
-     * @param inputStream
-     *            the input stream
-     */
+    public FastqInputStream(final String inputFileName) throws FileNotFoundException {
+        this(new FileInputStream(inputFileName));
+    }
+
     public FastqInputStream(final InputStream inputStream) {
-        super(inputStream);
-        validateSequenceData = true;
-        sequenceHeaderParser = new DefaultHeaderParser();
-        factory = null;
+        this(inputStream, new DefaultHeaderParser(),
+                new FastqSeqSupplier<A, Q>(AlphabetId.NUCLEOTIDE, AlphabetId.QUALITY_SANGER), true);
     }
 
-    public FastqInputStream(final InputStream inputStream, final Supplier<? extends FastqSeq<T>> factory) {
-        super(inputStream);
-        validateSequenceData = true;
-        sequenceHeaderParser = new DefaultHeaderParser();
-        this.factory = factory;
+    public FastqInputStream(final InputStream inputStream, final int bufSize) {
+        this(inputStream, bufSize, new DefaultHeaderParser(),
+                new FastqSeqSupplier<A, Q>(AlphabetId.NUCLEOTIDE, AlphabetId.QUALITY_SANGER), true);
     }
 
-    /**
-     * Instantiates a new fastq input stream.
-     *
-     * @param inputStream
-     *            the input stream
-     * @param sequenceHeaderParser
-     *            the sequence header parser
-     */
-    public FastqInputStream(final InputStream inputStream, final HeaderParser sequenceHeaderParser) {
-        super(inputStream);
-        validateSequenceData = true;
-        this.sequenceHeaderParser = sequenceHeaderParser;
-        factory = null;
+    public FastqInputStream(final ByteArrayInputStream inputStream, final int bufSize,
+            final FastqSeqSupplier<A, Q> supplier) {
+        this(inputStream, bufSize, new DefaultHeaderParser(), supplier, true);
     }
 
-    public FastqInputStream(final InputStream inputStream, final HeaderParser sequenceHeaderParser,
-            final Supplier<? extends FastqSeq<T>> factory) {
-        super(inputStream);
-        validateSequenceData = true;
-        this.sequenceHeaderParser = sequenceHeaderParser;
-        this.factory = factory;
+    public FastqInputStream(final InputStream inputStream, final ByteAlphabet alphabet) {
+        this(inputStream, new DefaultHeaderParser(),
+                new FastqSeqSupplier<A, Q>(alphabet.getId(), AlphabetId.QUALITY_SANGER), true);
     }
 
-    public FastqInputStream(final InputStream inputStream, final HeaderParser sequenceHeaderParser,
-            final Supplier<? extends FastqSeq<T>> factory, final boolean validateSequenceData) {
+    public FastqInputStream(final InputStream inputStream, final Supplier<? extends FastqSeq<A, Q>> seqSupplier) {
+        this(inputStream, new DefaultHeaderParser(), seqSupplier, true);
+    }
+
+    public FastqInputStream(final InputStream inputStream, final HeaderParser headerParser,
+            final Supplier<? extends FastqSeq<A, Q>> seqSupplier) {
+        this(inputStream, headerParser, seqSupplier, true);
+    }
+
+    public FastqInputStream(final InputStream inputStream, final boolean validateSequenceData) {
+        this(inputStream, new DefaultHeaderParser(),
+                new FastqSeqSupplier<A, Q>(AlphabetId.NUCLEOTIDE, AlphabetId.QUALITY_SANGER), validateSequenceData);
+    }
+
+    public FastqInputStream(final InputStream inputStream, final HeaderParser headerParser,
+            final Supplier<? extends FastqSeq<A, Q>> seqSupplier, final boolean validateSequenceData) {
         super(inputStream);
+        this.headerParser = headerParser;
         this.validateSequenceData = validateSequenceData;
-        this.sequenceHeaderParser = sequenceHeaderParser;
-        this.factory = factory;
+        this.seqSupplier = seqSupplier;
     }
 
-    /**
-     * Instantiates a new fastq input stream.
-     *
-     * @param inputStream
-     *            the input stream
-     * @param bufferSize
-     *            the buffer size
-     */
-    public FastqInputStream(final InputStream inputStream, final int bufferSize) {
-        super(inputStream, bufferSize);
-        validateSequenceData = true;
-        sequenceHeaderParser = new DefaultHeaderParser();
-        factory = null;
+    public FastqInputStream(final InputStream inputStream, final int bufSize, final HeaderParser headerParser,
+            final Supplier<? extends FastqSeq<A, Q>> seqSupplier, final boolean validateSequenceData) {
+        super(inputStream, bufSize);
+        this.headerParser = headerParser;
+        this.validateSequenceData = validateSequenceData;
+        this.seqSupplier = seqSupplier;
     }
 
-    /**
-     * Instantiates a new fastq input stream.
-     *
-     * @param inputStream
-     *            the input stream
-     * @param validateSequence
-     *            the validate sequence
-     */
-    public FastqInputStream(final InputStream inputStream, final boolean validateSequence) {
-        super(inputStream);
-        this.validateSequenceData = validateSequence;
-        sequenceHeaderParser = new DefaultHeaderParser();
-        factory = null;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.io.SequenceInputStream#read(org.biomojo.sequence.Seq)
-     */
     @Override
-    public boolean read(final FastqSeq<T> fastQSeq) throws ParseException {
+    public boolean read(final FastqSeq<A, Q> fastQSeq) throws ParseException {
         if (isEof()) {
             return false;
         }
@@ -146,7 +121,7 @@ public class FastqInputStream<T extends Nucleotide<?>> extends MarkAndCopyInputS
         readToEndOfLine();
 
         // parse the header
-        sequenceHeaderParser.parseHeader(fastQSeq, assembleSegments());
+        headerParser.parseHeader(fastQSeq, assembleSegments());
 
         // read all the sequence data
         while (peek() != FastqConst.QUALITY_DELIMITER) {
@@ -165,7 +140,7 @@ public class FastqInputStream<T extends Nucleotide<?>> extends MarkAndCopyInputS
         // read and discard the second Header line
         skipNextLine();
 
-        final ByteSeq<QualityScore> qualityScores = fastQSeq.getQualityScores();
+        final ByteSeq<Q> qualityScores = fastQSeq.getQualityScores();
 
         while (getTotalLength() < sequenceLength && !readToEndOfLineOrEOF())
             ;
@@ -180,8 +155,8 @@ public class FastqInputStream<T extends Nucleotide<?>> extends MarkAndCopyInputS
     }
 
     @Override
-    public FastqSeq<T> read() throws ParseException {
-        final FastqSeq<T> seq = factory.get();
+    public FastqSeq<A, Q> read() throws ParseException {
+        final FastqSeq<A, Q> seq = seqSupplier.get();
         if (read(seq)) {
             return seq;
         }

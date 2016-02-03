@@ -21,7 +21,8 @@ package org.biomojo.alphabet;
  * The Class AbstractAlphabet.
  *
  * @author Hugh Eaves
- * @param <T> the generic type
+ * @param <T>
+ *            the generic type
  */
 public abstract class AbstractAlphabet<T> implements Alphabet<T> {
 
@@ -31,13 +32,16 @@ public abstract class AbstractAlphabet<T> implements Alphabet<T> {
     /**
      * Instantiates a new abstract alphabet.
      *
-     * @param id the id
+     * @param id
+     *            the id
      */
     protected AbstractAlphabet(final int id) {
         this.id = id;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.core.IntegerIdentified#getId()
      */
     @Override
@@ -45,7 +49,9 @@ public abstract class AbstractAlphabet<T> implements Alphabet<T> {
         return id;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#toString()
      */
     @Override

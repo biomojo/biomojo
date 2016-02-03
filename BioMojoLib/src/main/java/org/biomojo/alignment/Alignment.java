@@ -17,6 +17,7 @@
 package org.biomojo.alignment;
 
 import org.biomojo.alphabet.Gappable;
+import org.biomojo.alphabet.Gapped;
 import org.biomojo.sequence.Seq;
 import org.biomojo.sequence.SeqList;
 
@@ -27,7 +28,8 @@ import org.biomojo.sequence.SeqList;
  * @param <T>
  *            the generic type
  */
-public interface Alignment<T extends Seq<?, ? extends Gappable<?, ?>>> extends SeqList<T> {
+public interface Alignment<T, A extends Gappable<T, A, G>, G extends Gapped<T, A>, S extends Seq<T, G>>
+        extends SeqList<S> {
 
     /**
      * Gets the score.

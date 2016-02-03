@@ -23,7 +23,7 @@ package org.biomojo.alphabet;
  * @author Hugh Eaves
  */
 public class AlphabetId {
-    
+
     /**
      * Instantiates a new alphabet id.
      */
@@ -36,6 +36,12 @@ public class AlphabetId {
 
     /** The Constant ALL_BYTE. */
     public static final int ALL_BYTE = 32;
+
+    public static final int ASCII_UPPERCASE = 34;
+    public static final int ASCII = 35;
+
+    public static final int LETTERS_UPPERCASE = 36;
+    public static final int LETTERS = 37;
 
     /** The Constant NUCLEOTIDE. */
     public static final int NUCLEOTIDE = 64;
@@ -51,17 +57,14 @@ public class AlphabetId {
 
     /** The Constant QUALITY_SANGER. */
     public static final int QUALITY_SANGER = 192;
-    
+
     /** The Constant QUALITY_ILLUMINA_10. */
     public static final int QUALITY_ILLUMINA_10 = 193;
-    
+
     /** The Constant QUALITY_ILLUMINA_13. */
     public static final int QUALITY_ILLUMINA_13 = 194;
 
-    /** The Constant ASCII. */
-    public static final int ASCII = 224;
-
     /** The Constant LAST_ALPHABET_ID. */
-    public static final int LAST_ALPHABET_ID = ASCII;
+    public static final int LAST_ALPHABET_ID = 194;
 
 }

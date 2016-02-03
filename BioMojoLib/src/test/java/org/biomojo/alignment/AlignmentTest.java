@@ -38,12 +38,11 @@ public class AlignmentTest {
         final ByteSeq<AminoAcid> seq1 = new BasicByteSeq<>("PRTEINS".getBytes(), alphabet);
         final ByteSeq<AminoAcid> seq2 = new BasicByteSeq<>("PRTWPSEIN".getBytes(), alphabet);
         final ByteSubstitutionMatrix matrix = new PrecomputedAminoAcidSubstitutionMatrix("BLOSUM", 62);
-        final Aligner<AminoAcid, ByteSeq<AminoAcid>> aligner = new NeedlemanWunschLinearGapByteSeqAligner<>(
-                matrix, 0);
+        final ByteSeqAligner<AminoAcid> aligner = new NeedlemanWunschLinearGapByteSeqAligner<>(matrix, 0);
         final SeqList<ByteSeq<AminoAcid>> seqList = new SeqArrayList<>();
         seqList.add(seq1);
         seqList.add(seq2);
-        final Alignment<ByteSeq<AminoAcid>> alignment = aligner.align(seqList);
+        final ByteSeqAlignment<AminoAcid> alignment = aligner.align(seqList);
         for (int i = 0; i < alignment.size(); ++i) {
             logger.info("Seq {} = {}", i, alignment.get(i).toString());
         }
@@ -55,11 +54,11 @@ public class AlignmentTest {
         final ByteSeq<DNA> seq1 = new BasicByteSeq<>("GAATTCAGTTA".getBytes(), alphabet);
         final ByteSeq<DNA> seq2 = new BasicByteSeq<>("GGATCGA".getBytes(), alphabet);
         final ByteSubstitutionMatrix matrix = new MatchMismatchByteSubstitutionMatrix(alphabet, 2, -1);
-        final Aligner<DNA, ByteSeq<DNA>> aligner = new NeedlemanWunschLinearGapByteSeqAligner<>(matrix, -2);
+        final ByteSeqAligner<DNA> aligner = new NeedlemanWunschLinearGapByteSeqAligner<>(matrix, -2);
         final SeqList<ByteSeq<DNA>> seqList = new SeqArrayList<>();
         seqList.add(seq1);
         seqList.add(seq2);
-        final Alignment<ByteSeq<DNA>> alignment = aligner.align(seqList);
+        final ByteSeqAlignment<DNA> alignment = aligner.align(seqList);
         for (int i = 0; i < alignment.size(); ++i) {
             logger.info("Seq {} = {}", i, alignment.get(i).toString());
         }
@@ -71,11 +70,11 @@ public class AlignmentTest {
         final ByteSeq<DNA> seq1 = new BasicByteSeq<>("AGTCAGTCAGTCAGTCAGTCAGTC".getBytes(), alphabet);
         final ByteSeq<DNA> seq2 = new BasicByteSeq<>("AGTCAGTCACCGTCAGTCAGTCAGTC".getBytes(), alphabet);
         final ByteSubstitutionMatrix matrix = new MatchMismatchByteSubstitutionMatrix(alphabet, 2, -1);
-        final Aligner<DNA, ByteSeq<DNA>> aligner = new NeedlemanWunschAffineGapByteSeqAligner<>(matrix, -2, -2);
+        final ByteSeqAligner<DNA> aligner = new NeedlemanWunschAffineGapByteSeqAligner<>(matrix, -2, -2);
         final SeqList<ByteSeq<DNA>> seqList = new SeqArrayList<>();
         seqList.add(seq1);
         seqList.add(seq2);
-        final Alignment<ByteSeq<DNA>> alignment = aligner.align(seqList);
+        final ByteSeqAlignment<DNA> alignment = aligner.align(seqList);
         for (int i = 0; i < alignment.size(); ++i) {
             logger.info("Seq {} = {}", i, alignment.get(i).toString());
         }

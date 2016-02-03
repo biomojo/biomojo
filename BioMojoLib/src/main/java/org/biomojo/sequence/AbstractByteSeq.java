@@ -38,7 +38,7 @@ public abstract class AbstractByteSeq<A extends ByteAlphabet> extends AbstractSe
     private static final long serialVersionUID = 1L;
 
     /** The alphabet. */
-    protected ByteAlphabet alphabet;
+    protected A alphabet;
 
     /**
      * Instantiates a new abstract byte seq.
@@ -73,7 +73,7 @@ public abstract class AbstractByteSeq<A extends ByteAlphabet> extends AbstractSe
      */
     @Override
     public A getAlphabet() {
-        return (A) alphabet;
+        return alphabet;
     }
 
     @Override

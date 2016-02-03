@@ -16,21 +16,25 @@
  */
 package org.biomojo.sequence.factory;
 
+import org.biomojo.alphabet.ByteQualityScore;
 import org.biomojo.alphabet.Nucleotide;
 import org.biomojo.codec.ByteByteCodec;
 import org.biomojo.codec.Codecs;
+import org.biomojo.sequence.BasicByteSeq;
 import org.biomojo.sequence.EncodedFastqSeq;
+import org.biomojo.sequence.FastqSeq;
 
 /**
  * @author Hugh Eaves
  *
  */
-public class EncodedFastqSeqSupplier<A extends Nucleotide<A>> extends FastqSeqSupplier<A> {
+public class EncodedFastqSeqSupplier<A extends Nucleotide<A>, Q extends ByteQualityScore<?>>
+        extends FastqSeqSupplier<A, Q> {
 
     private final ByteByteCodec codec;
 
-    public EncodedFastqSeqSupplier(final int alphabetId, final int codecId) {
-        super(alphabetId);
+    public EncodedFastqSeqSupplier(final int alphabetId, final int codecId, final int qualityScoreAlphabetId) {
+        super(alphabetId, qualityScoreAlphabetId);
         codec = Codecs.getCodec(codecId);
     }
 
@@ -38,8 +42,8 @@ public class EncodedFastqSeqSupplier<A extends Nucleotide<A>> extends FastqSeqSu
      * @see java.util.function.Supplier#get()
      */
     @Override
-    public EncodedFastqSeq<A> get() {
-        return new EncodedFastqSeq<>(alphabet, codec);
+    public FastqSeq<A, Q> get() {
+        return new EncodedFastqSeq<>(alphabet, codec, new BasicByteSeq<>(qualityScoreAlphabet));
     }
 
 }

@@ -22,6 +22,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import org.biomojo.alphabet.ByteAlphabet;
+import org.biomojo.alphabet.CanonicalizableByte;
 import org.biomojo.alphabet.InvalidSymbolException;
 import org.java0.core.type.Constants;
 
@@ -216,11 +217,14 @@ public class BasicByteSeq<A extends ByteAlphabet> extends AbstractByteSeq<A> {
      */
     @Override
     public void canonicalize() {
-        if (alphabet.isCanonical()) {
-            return;
-        } else {
-            alphabet.makeCanonical(data, 0, length);
-            alphabet = alphabet.getCanonical();
+        if (alphabet instanceof CanonicalizableByte) {
+            final CanonicalizableByte<?> cba = (CanonicalizableByte<?>) alphabet;
+            if (cba.isCanonical()) {
+                return;
+            } else {
+                cba.makeCanonical(data, 0, length);
+                alphabet = (A) cba.getCanonical();
+            }
         }
     }
 
