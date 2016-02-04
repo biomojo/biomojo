@@ -53,10 +53,10 @@ public class GCUtil {
             final int log = (int) (Math.log(recordCount) / Math.log(gcRatio));
             if (log != lastLog) {
                 lastLog = log;
+                logger.info("Forcing GC, recordCount = {} ", recordCount);
                 logMemory("Before GC");
-                logger.info("Forcing GC");
-                logMemory("After GC");
                 System.gc();
+                logMemory("After GC");
             }
         }
     }
@@ -85,7 +85,7 @@ public class GCUtil {
         lastMaxMemory = maxMemory;
     }
 
-    private void logMemory(final String msg) {
+    public void logMemory(final String msg) {
         final long totalMemory = runtime.totalMemory();
         final long freeMemory = runtime.freeMemory();
         final long maxMemory = runtime.maxMemory();
