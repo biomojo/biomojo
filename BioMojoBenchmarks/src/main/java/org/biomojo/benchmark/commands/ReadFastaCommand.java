@@ -29,6 +29,7 @@ import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.factory.ByteSeqSupplier;
 import org.biomojo.sequence.factory.EncodedByteSeqSupplier;
 import org.java0.core.exception.UncheckedException;
+import org.java0.util.timing.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -50,7 +51,10 @@ public class ReadFastaCommand extends BaseInputCommand {
         try {
             logger.info("BioMojo Fasta Read Benchmark");
 
-            final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile), false);
+            final Stopwatch sw = new Stopwatch();
+            sw.start();
+
+            final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile));
 
             int recordCount = 0;
             long totalLength = 0;
@@ -69,6 +73,8 @@ public class ReadFastaCommand extends BaseInputCommand {
 
             logger.info("Done loading " + recordCount + " sequences");
             logger.info("Total length is " + totalLength + " bases");
+
+            sw.stop();
 
         } catch (final FileNotFoundException e) {
             throw new UncheckedException(e);

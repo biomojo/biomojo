@@ -22,7 +22,7 @@ import java.io.OutputStream;
 
 import org.biomojo.alphabet.ASCII;
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.ByteQualityScore;
+import org.biomojo.alphabet.ByteQuality;
 import org.biomojo.alphabet.IUPACVariant;
 import org.biomojo.alphabet.Nucleotide;
 import org.biomojo.io.SequenceInputStream;
@@ -100,11 +100,11 @@ public class FastxFormatCommand extends AbstractCommand {
     public void run() {
         logger.info("Formatting fastx file");
         if (fastq) {
-            final FastqSeqSupplier<Nucleotide<?>, ByteQualityScore<?>> supplier = new FastqSeqSupplier<>(
+            final FastqSeqSupplier<Nucleotide<?>, ByteQuality<?>> supplier = new FastqSeqSupplier<>(
                     AlphabetId.NUCLEOTIDE | IUPACVariant.WITH_ANY, AlphabetId.QUALITY_SANGER);
-            try (SequenceInputStream<FastqSeq<Nucleotide<?>, ByteQualityScore<?>>> input = new FastqInputStream<>(
+            try (SequenceInputStream<FastqSeq<Nucleotide<?>, ByteQuality<?>>> input = new FastqInputStream<>(
                     inputStream, supplier);
-                    SequenceOutputStream<FastqSeq<Nucleotide<?>, ByteQualityScore<?>>> output = new FastqOutputStream<>(
+                    SequenceOutputStream<FastqSeq<Nucleotide<?>, ByteQuality<?>>> output = new FastqOutputStream<>(
                             outputStream)) {
                 process(input, output);
             } catch (final IOException e) {

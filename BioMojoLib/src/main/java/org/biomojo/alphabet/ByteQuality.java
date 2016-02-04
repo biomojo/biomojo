@@ -17,10 +17,10 @@
 package org.biomojo.alphabet;
 
 /**
- * The Interface QualityScoreAlphabet.
+ * The Interface ByteQuality.
  *
  * @author Hugh Eaves
  */
-public interface ByteQualityScore<A extends CanonicalizableByte<?>> extends CanonicalizableByte<A> {
+public interface ByteQuality<A extends CanonicalizableByte<?>> extends CanonicalizableByte<A> {
 
 }

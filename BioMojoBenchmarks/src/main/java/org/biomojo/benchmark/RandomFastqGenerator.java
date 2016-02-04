@@ -24,7 +24,7 @@ import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.DNA;
-import org.biomojo.alphabet.SangerQualityScore;
+import org.biomojo.alphabet.SangerQuality;
 import org.biomojo.io.FixedWidthSequenceIdHeaderBuilder;
 import org.biomojo.io.fastx.FastqOutputStream;
 import org.biomojo.sequence.FastqSeq;
@@ -39,13 +39,13 @@ import org.slf4j.LoggerFactory;
 public class RandomFastqGenerator extends RandomSeqGenerator {
     private static final Logger logger = LoggerFactory.getLogger(RandomFastqGenerator.class.getName());
 
-    private final Supplier<FastqSeq<DNA, SangerQualityScore>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA,
+    private final Supplier<FastqSeq<DNA, SangerQuality>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA,
             AlphabetId.QUALITY_SANGER);
 
     @Override
     public void createFile(final File file, final int numSeqs, final int seqLength) {
         try {
-            final FastqOutputStream<DNA, SangerQualityScore> output = new FastqOutputStream<>(
+            final FastqOutputStream<DNA, SangerQuality> output = new FastqOutputStream<>(
                     new BufferedOutputStream(new FileOutputStream(file)), new FixedWidthSequenceIdHeaderBuilder(8),
                     Integer.MAX_VALUE);
             // Start seqNum at 1 because BioPerl blows up with a sequence id of
@@ -60,8 +60,8 @@ public class RandomFastqGenerator extends RandomSeqGenerator {
         }
     }
 
-    protected FastqSeq<DNA, SangerQualityScore> genByteSeq(final int seqNum, final int length) {
-        final FastqSeq<DNA, SangerQualityScore> record = supplier.get();
+    protected FastqSeq<DNA, SangerQuality> genByteSeq(final int seqNum, final int length) {
+        final FastqSeq<DNA, SangerQuality> record = supplier.get();
         record.setId(seqNum);
         createRandomSeqData(record, length);
         createRandomSeqData(record.getQualityScores(), length);

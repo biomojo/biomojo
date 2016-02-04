@@ -25,7 +25,7 @@ import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.DNA;
-import org.biomojo.alphabet.SangerQualityScore;
+import org.biomojo.alphabet.SangerQuality;
 import org.biomojo.benchmark.util.GCUtil;
 import org.biomojo.codec.CodecId;
 import org.biomojo.io.SequenceIdHeaderParser;
@@ -64,17 +64,17 @@ public class LoadFastqCommand extends BaseInputCommand {
             long totalLength = 0;
             long qualityLength = 0;
 
-            Supplier<FastqSeq<DNA, SangerQualityScore>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA,
+            Supplier<FastqSeq<DNA, SangerQuality>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA,
                     AlphabetId.QUALITY_SANGER);
             if (encode) {
                 supplier = new EncodedFastqSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC,
                         AlphabetId.QUALITY_SANGER);
             }
 
-            final SequenceInputStream<FastqSeq<DNA, SangerQualityScore>> inputStream = new FastqInputStream<DNA, SangerQualityScore>(
+            final SequenceInputStream<FastqSeq<DNA, SangerQuality>> inputStream = new FastqInputStream<DNA, SangerQuality>(
                     new FileInputStream(inputFile), new SequenceIdHeaderParser(), supplier);
 
-            for (final FastqSeq<DNA, SangerQualityScore> sequence : inputStream) {
+            for (final FastqSeq<DNA, SangerQuality> sequence : inputStream) {
                 sequences.add(sequence);
                 totalLength += sequence.size();
                 qualityLength += sequence.getQualityScores().size();
@@ -87,14 +87,12 @@ public class LoadFastqCommand extends BaseInputCommand {
             logger.info("Total sequence length is " + totalLength + " bases");
             logger.info("Total quality length is " + qualityLength + " values");
 
-            Thread.sleep(0);
+            gcUtil.logMemory("At End");
 
         } catch (final FileNotFoundException e) {
             throw new UncheckedException(e);
         } catch (final IOException e) {
             throw new UncheckedException(e);
-        } catch (final InterruptedException e) {
-            logger.error("Caught exception in auto-generated catch block", e);
         }
     }
 }

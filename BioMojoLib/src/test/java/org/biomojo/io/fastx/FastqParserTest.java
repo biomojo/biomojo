@@ -23,7 +23,7 @@ import java.io.IOException;
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.alphabet.IUPACVariant;
-import org.biomojo.alphabet.SangerQualityScore;
+import org.biomojo.alphabet.SangerQuality;
 import org.biomojo.io.SequenceInputStream;
 import org.biomojo.io.SequenceOutputStream;
 import org.biomojo.sequence.FastqSeq;
@@ -35,12 +35,12 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class FastqParserTest.
  */
-public class FastqParserTest extends FastxParserTest<DNA, FastqSeq<DNA, SangerQualityScore>> {
+public class FastqParserTest extends FastxParserTest<DNA, FastqSeq<DNA, SangerQuality>> {
 
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(FastqParserTest.class.getName());
 
-    private final FastqSeqSupplier<DNA, SangerQualityScore> supplier = new FastqSeqSupplier<>(
+    private final FastqSeqSupplier<DNA, SangerQuality> supplier = new FastqSeqSupplier<>(
             AlphabetId.DNA | IUPACVariant.WITH_ANY, AlphabetId.QUALITY_SANGER);
 
     /**
@@ -74,10 +74,10 @@ public class FastqParserTest extends FastxParserTest<DNA, FastqSeq<DNA, SangerQu
      * @see org.biomojo.io.fastx.FastxParserTest#getInputStream(byte[], int)
      */
     @Override
-    protected SequenceInputStream<FastqSeq<DNA, SangerQualityScore>> getInputStream(final byte[] testData,
+    protected SequenceInputStream<FastqSeq<DNA, SangerQuality>> getInputStream(final byte[] testData,
             final int bufSize) {
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(testData);
-        return new FastqInputStream<DNA, SangerQualityScore>(inputStream, bufSize, supplier);
+        return new FastqInputStream<DNA, SangerQuality>(inputStream, bufSize, supplier);
     }
 
     /**
@@ -89,8 +89,8 @@ public class FastqParserTest extends FastxParserTest<DNA, FastqSeq<DNA, SangerQu
      * @see org.biomojo.io.fastx.FastxParserTest#getOutputStream(java.io.ByteArrayOutputStream)
      */
     @Override
-    protected SequenceOutputStream<FastqSeq<DNA, SangerQualityScore>> getOutputStream(
+    protected SequenceOutputStream<FastqSeq<DNA, SangerQuality>> getOutputStream(
             final ByteArrayOutputStream outputStream) {
-        return new FastqOutputStream<DNA, SangerQualityScore>(outputStream);
+        return new FastqOutputStream<DNA, SangerQuality>(outputStream);
     }
 }

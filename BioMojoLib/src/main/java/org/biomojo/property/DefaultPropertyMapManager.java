@@ -25,7 +25,7 @@ import java.util.Map;
  * @author Hugh Eaves
  */
 public class DefaultPropertyMapManager implements PropertyMapManager {
-    
+
     /** The Constant INSTANCE. */
     public static final DefaultPropertyMapManager INSTANCE = new DefaultPropertyMapManager();
 
@@ -39,49 +39,64 @@ public class DefaultPropertyMapManager implements PropertyMapManager {
     /**
      * Put.
      *
-     * @param <T> the generic type
-     * @param properties the properties
-     * @param key the key
-     * @param value the value
+     * @param <T>
+     *            the generic type
+     * @param properties
+     *            the properties
+     * @param key
+     *            the key
+     * @param value
+     *            the value
      * @return the t
      * @see org.biomojo.property.PropertyMapManager#put(java.util.Map,
      *      java.lang.String, java.lang.Object)
      */
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T put(Map<String, Object> properties, String key, Object value) {
+    public <T> T put(final Map<String, Object> properties, final String key, final Object value) {
         return (T) properties.put(key, value);
     }
 
     /**
      * Gets the.
      *
-     * @param <T> the generic type
-     * @param properties the properties
-     * @param key the key
+     * @param <T>
+     *            the generic type
+     * @param properties
+     *            the properties
+     * @param key
+     *            the key
      * @return the t
      * @see org.biomojo.property.PropertyMapManager#get(java.util.Map,
      *      java.lang.String)
      */
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T get(Map<String, Object> properties, String key) {
+    public <T> T get(final Map<String, Object> properties, final String key) {
         return (T) properties.get(key);
     }
 
     /**
      * Removes the.
      *
-     * @param <T> the generic type
-     * @param properties the properties
-     * @param key the key
+     * @param <T>
+     *            the generic type
+     * @param properties
+     *            the properties
+     * @param key
+     *            the key
      * @return the t
      * @see org.biomojo.property.PropertyMapManager#remove(java.util.Map,
      *      java.lang.String)
      */
     @SuppressWarnings("unchecked")
     @Override
-    public <T> T remove(Map<String, Object> properties, String key) {
+    public <T> T remove(final Map<String, Object> properties, final String key) {
         return (T) properties.remove(key);
+    }
+
+    @Override
+    public Map<String, Object> convert(final Map<String, Object> properties) {
+        return properties;
     }
 }

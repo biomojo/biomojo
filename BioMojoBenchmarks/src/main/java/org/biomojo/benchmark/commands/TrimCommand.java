@@ -26,7 +26,7 @@ import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.DNA;
-import org.biomojo.alphabet.SangerQualityScore;
+import org.biomojo.alphabet.SangerQuality;
 import org.biomojo.codec.CodecId;
 import org.biomojo.io.ParseException;
 import org.biomojo.io.fastx.FastqInputStream;
@@ -60,18 +60,18 @@ public class TrimCommand extends BaseInputOutputCommand {
         try {
             logger.info("BioMojo Fastq trim benchmark");
 
-            final FastqInputStream<DNA, SangerQualityScore> inputStream = new FastqInputStream<>(
-                    new FileInputStream(inputFile), false);
-            final FastqOutputStream<DNA, SangerQualityScore> outputStream = new FastqOutputStream<>(
+            final FastqInputStream<DNA, SangerQuality> inputStream = new FastqInputStream<>(
+                    new FileInputStream(inputFile));
+            final FastqOutputStream<DNA, SangerQuality> outputStream = new FastqOutputStream<>(
                     new BufferedOutputStream(new FileOutputStream(outputFile), 1024 * 1024));
 
-            Supplier<FastqSeq<DNA, SangerQualityScore>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA,
+            Supplier<FastqSeq<DNA, SangerQuality>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA,
                     AlphabetId.QUALITY_SANGER);
             if (encode) {
                 supplier = new EncodedFastqSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC,
                         AlphabetId.QUALITY_SANGER);
             }
-            final FastqSeq<DNA, SangerQualityScore> sequence = supplier.get();
+            final FastqSeq<DNA, SangerQuality> sequence = supplier.get();
 
             int recordCount = 0;
             long totalLength = 0;

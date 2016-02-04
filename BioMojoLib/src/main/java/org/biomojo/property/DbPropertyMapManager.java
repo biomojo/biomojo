@@ -51,27 +51,31 @@ public class DbPropertyMapManager implements PropertyMapManager {
 
     }
 
-    /* (non-Javadoc)
-     * @see org.biomojo.property.PropertyMapManager#put(java.util.Map, java.lang.String, java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.biomojo.property.PropertyMapManager#put(java.util.Map,
+     * java.lang.String, java.lang.Object)
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T put(Map<String, Object> properties, String key, Object value) {
+    public <T> T put(final Map<String, Object> properties, final String key, final Object value) {
         return (T) unwrap(properties.put(key, wrap(value)));
     }
 
     /**
      * Wrap.
      *
-     * @param value the value
+     * @param value
+     *            the value
      * @return the basic property
      */
-    public static BasicProperty wrap(Object value) {
+    private static BasicProperty wrap(final Object value) {
         if (value instanceof BasicProperty) {
             return (BasicProperty) value;
         }
 
-        Class<? extends BasicProperty> cls = typeMap.get(value.getClass());
+        final Class<? extends BasicProperty> cls = typeMap.get(value.getClass());
         if (cls == null) {
             throw new IllegalArgumentException("Unhandled property type " + value.getClass().getName());
         }
@@ -88,10 +92,11 @@ public class DbPropertyMapManager implements PropertyMapManager {
     /**
      * Unwrap.
      *
-     * @param property the property
+     * @param property
+     *            the property
      * @return the object
      */
-    public static Object unwrap(Object property) {
+    private static Object unwrap(final Object property) {
         if (property != null) {
             if (property instanceof BasicProperty) {
                 return ((BasicProperty) property).getValue();
@@ -103,21 +108,33 @@ public class DbPropertyMapManager implements PropertyMapManager {
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.biomojo.property.PropertyMapManager#get(java.util.Map, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.biomojo.property.PropertyMapManager#get(java.util.Map,
+     * java.lang.String)
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T get(Map<String, Object> properties, String key) {
+    public <T> T get(final Map<String, Object> properties, final String key) {
         return (T) unwrap(properties.get(key));
     }
 
-    /* (non-Javadoc)
-     * @see org.biomojo.property.PropertyMapManager#remove(java.util.Map, java.lang.String)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.biomojo.property.PropertyMapManager#remove(java.util.Map,
+     * java.lang.String)
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <T> T remove(Map<String, Object> properties, String key) {
+    public <T> T remove(final Map<String, Object> properties, final String key) {
         return (T) unwrap(properties.remove(key));
+    }
+
+    @Override
+    public Map<String, Object> convert(final Map<String, Object> properties) {
+        properties.replaceAll((k, v) -> wrap(v));
+        return properties;
     }
 }

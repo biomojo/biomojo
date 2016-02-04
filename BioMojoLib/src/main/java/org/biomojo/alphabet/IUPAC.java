@@ -24,7 +24,7 @@ package org.biomojo.alphabet;
  *
  */
 public interface IUPAC<A extends IUPAC<?>>
-        extends AmbiguitySupport, GappableByte<A, GappedByte<A>>, CanonicalizableByte<A> {
+        extends AmbiguitySupport, GappableByte<A, GappedByte<A>>, GappedByte<A>, CanonicalizableByte<A> {
     @Override
     public default GappedByte<A> getGapped() {
         return Alphabets.getAlphabet(getId() | AlphabetVariant.WITH_GAP);

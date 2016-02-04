@@ -16,7 +16,6 @@
  */
 package org.biomojo.alphabet;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AbstractAlphabet.
  *

@@ -110,17 +110,6 @@ public abstract class AbstractIUPAC<A extends IUPAC<A>> extends TableBasedByteAl
     }
 
     /**
-     * Supports gaps.
-     *
-     * @return true, if successful
-     * @see org.biomojo.alphabet.BioPolymerAlphabet#isGapped()
-     */
-    @Override
-    public boolean isGapped() {
-        return gap;
-    }
-
-    /**
      * Supports any.
      *
      * @return true, if successful

@@ -20,7 +20,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
-import org.biomojo.alphabet.ByteQualityScore;
+import org.biomojo.alphabet.ByteQuality;
 import org.biomojo.alphabet.Nucleotide;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  */
 @Entity
 @DiscriminatorValue("F")
-public class BasicFastqSeq<A extends Nucleotide<?>, Q extends ByteQualityScore<?>> extends BasicByteSeq<A>
+public class BasicFastqSeq<A extends Nucleotide<?>, Q extends ByteQuality<?>> extends BasicByteSeq<A>
         implements FastqSeq<A, Q> {
 
     /** The Constant serialVersionUID. */
@@ -66,7 +66,7 @@ public class BasicFastqSeq<A extends Nucleotide<?>, Q extends ByteQualityScore<?
      */
     public BasicFastqSeq(final byte[] data, final A alphabet, final ByteSeq<Q> qualityScores) {
         super(data, alphabet);
-        this.seq = qualityScores;
+        setQualityScores(qualityScores);
     }
 
     /**
@@ -77,7 +77,7 @@ public class BasicFastqSeq<A extends Nucleotide<?>, Q extends ByteQualityScore<?
      */
     public BasicFastqSeq(final byte[] data, final ByteSeq<Q> qualityScores) {
         super(data);
-        this.seq = qualityScores;
+        setQualityScores(qualityScores);
     }
 
     /**
@@ -88,7 +88,7 @@ public class BasicFastqSeq<A extends Nucleotide<?>, Q extends ByteQualityScore<?
      */
     public BasicFastqSeq(final A alphabet, final ByteSeq<Q> qualityScores) {
         super(alphabet);
-        this.seq = qualityScores;
+        setQualityScores(qualityScores);
     }
 
     /**
@@ -98,7 +98,8 @@ public class BasicFastqSeq<A extends Nucleotide<?>, Q extends ByteQualityScore<?
      */
     @Override
     public ByteSeq<Q> getQualityScores() {
-        return seq;
+        return getProp("qual");
+        // return seq;
     }
 
     /**
@@ -108,7 +109,7 @@ public class BasicFastqSeq<A extends Nucleotide<?>, Q extends ByteQualityScore<?
      *            the qualityScores to set
      */
     public void setQualityScores(final ByteSeq<Q> qualityScores) {
-        this.seq = qualityScores;
+        // this.seq = qualityScores;
+        setProp("qual", qualityScores);
     }
-
 }

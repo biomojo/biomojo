@@ -25,7 +25,7 @@ import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.ByteAlphabet;
-import org.biomojo.alphabet.ByteQualityScore;
+import org.biomojo.alphabet.ByteQuality;
 import org.biomojo.alphabet.Nucleotide;
 import org.biomojo.io.DefaultHeaderParser;
 import org.biomojo.io.HeaderParser;
@@ -40,7 +40,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class FastqInputStream.
  */
-public class FastqInputStream<A extends Nucleotide<?>, Q extends ByteQualityScore<?>>
+public class FastqInputStream<A extends Nucleotide<?>, Q extends ByteQuality<?>>
         extends MarkAndCopyInputStream<FastqSeq<A, Q>> {
 
     /** The Constant logger. */

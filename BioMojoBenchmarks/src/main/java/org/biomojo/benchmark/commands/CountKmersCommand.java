@@ -15,8 +15,8 @@ import org.biomojo.io.fastx.FastaInputStream;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.factory.ByteSeqSupplier;
 import org.biomojo.sequence.factory.EncodedByteSeqSupplier;
+import org.biomojo.stats.KmerCounter;
 import org.java0.core.exception.UncheckedException;
-import org.java0.util.bits.Masks;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,44 +39,27 @@ public class CountKmersCommand extends BaseInputOutputCommand {
 
         try {
 
-            final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile), false);
+            final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile));
             final PrintStream outputStream = new PrintStream(
                     new BufferedOutputStream(new FileOutputStream(outputFile)));
-
-            int numKmers = 4;
-            for (int i = 1; i < kmerLength; ++i) {
-                numKmers = numKmers * 4;
-            }
-            final int kmerCounts[] = new int[numKmers];
 
             int recordCount = 0;
             Supplier<ByteSeq<DNA>> supplier = new ByteSeqSupplier<>(AlphabetId.DNA);
             if (encode) {
                 supplier = new EncodedByteSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC);
             }
-            final ByteSeq<DNA> sequence = supplier.get();
-            final DNA alphabet = sequence.getAlphabet();
 
-            final int bitsPerSymbol = 2;
-            final int kmerMask = Masks.LOW_ORDER_INT_MASK[kmerLength * bitsPerSymbol];
+            final ByteSeq<DNA> sequence = supplier.get();
+            final KmerCounter<DNA> counter = new KmerCounter<>(kmerLength, sequence.getAlphabet());
 
             while (inputStream.read(sequence)) {
-                final byte[] bytes = sequence.toByteArray();
-                int kmer = 0;
-                for (int i = 0; i < kmerLength; ++i) {
-                    kmer = kmer << bitsPerSymbol;
-                    kmer = kmer | alphabet.getOrdinalForSymbol(bytes[i]);
-                }
-                kmerCounts[kmer]++;
-                for (int i = kmerLength; i < bytes.length; ++i) {
-                    kmer = kmer << bitsPerSymbol;
-                    kmer = kmer | alphabet.getOrdinalForSymbol(bytes[i]);
-                    kmerCounts[kmer & kmerMask]++;
-                }
+                counter.count(sequence);
                 ++recordCount;
             }
+
             inputStream.close();
 
+            final int[] kmerCounts = counter.getCounts();
             for (int i = 0; i < kmerCounts.length; ++i) {
                 outputStream.println(kmerCounts[i]);
             }

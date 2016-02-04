@@ -62,7 +62,8 @@ public abstract class AbstractPropertiedEntity extends AbstractEntity implements
     @PreUpdate
     protected void wrapProps() {
         if (propertyMapManager != DbPropertyMapManager.INSTANCE) {
-            properties.replaceAll((k, v) -> DbPropertyMapManager.wrap(v));
+            propertyMapManager = DbPropertyMapManager.INSTANCE;
+            properties = propertyMapManager.convert(properties);
         }
     }
 
@@ -76,7 +77,9 @@ public abstract class AbstractPropertiedEntity extends AbstractEntity implements
         propertyMapManager = DbPropertyMapManager.INSTANCE;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.property.Propertied#getProp(java.lang.String)
      */
     @Override
@@ -84,16 +87,22 @@ public abstract class AbstractPropertiedEntity extends AbstractEntity implements
         return propertyMapManager.get(getProperties(), key);
     }
 
-    /* (non-Javadoc)
-     * @see org.biomojo.property.Propertied#getProp(java.lang.String, java.lang.Class)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.biomojo.property.Propertied#getProp(java.lang.String,
+     * java.lang.Class)
      */
     @Override
     public <T> T getProp(final String key, final Class<T> type) {
         return propertyMapManager.get(getProperties(), key);
     }
 
-    /* (non-Javadoc)
-     * @see org.biomojo.property.Propertied#setProp(java.lang.String, java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see org.biomojo.property.Propertied#setProp(java.lang.String,
+     * java.lang.Object)
      */
     @Override
     public <T> T setProp(final String key, final Object value) {
@@ -101,7 +110,9 @@ public abstract class AbstractPropertiedEntity extends AbstractEntity implements
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.property.Propertied#removeProp(java.lang.String)
      */
     @Override

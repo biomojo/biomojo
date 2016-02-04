@@ -20,7 +20,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.OneToOne;
 
-import org.biomojo.alphabet.ByteQualityScore;
+import org.biomojo.alphabet.ByteQuality;
 import org.biomojo.alphabet.Nucleotide;
 import org.biomojo.codec.ByteByteCodec;
 
@@ -34,7 +34,7 @@ import org.biomojo.codec.ByteByteCodec;
  */
 @Entity
 @DiscriminatorValue("G")
-public class EncodedFastqSeq<A extends Nucleotide<A>, Q extends ByteQualityScore<?>> extends EncodedByteSeq<A>
+public class EncodedFastqSeq<A extends Nucleotide<A>, Q extends ByteQuality<?>> extends EncodedByteSeq<A>
         implements FastqSeq<A, Q> {
 
     /** The Constant serialVersionUID. */
@@ -64,7 +64,7 @@ public class EncodedFastqSeq<A extends Nucleotide<A>, Q extends ByteQualityScore
     public EncodedFastqSeq(final byte[] data, final A alphabet, final ByteByteCodec codec,
             final ByteSeq<Q> qualityScores) {
         super(data, alphabet, codec);
-        this.seq = qualityScores;
+        setQualityScores(qualityScores);
     }
 
     /**
@@ -99,8 +99,7 @@ public class EncodedFastqSeq<A extends Nucleotide<A>, Q extends ByteQualityScore
      */
     public EncodedFastqSeq(final A alphabet, final ByteByteCodec codec, final ByteSeq<Q> qualityScores) {
         super(alphabet, codec);
-        this.seq = qualityScores;
-
+        setQualityScores(qualityScores);
     }
 
     /**
@@ -121,6 +120,16 @@ public class EncodedFastqSeq<A extends Nucleotide<A>, Q extends ByteQualityScore
     @Override
     public ByteSeq<Q> getQualityScores() {
         return seq;
+    }
+
+    /**
+     * Sets the quality scores.
+     *
+     * @param qualityScores
+     *            the qualityScores to set
+     */
+    public void setQualityScores(final ByteSeq<Q> qualityScores) {
+        this.seq = qualityScores;
     }
 
 }

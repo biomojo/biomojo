@@ -18,6 +18,7 @@ package org.biomojo.benchmark;
 
 import org.biomojo.BioMojo;
 import org.biomojo.benchmark.commands.AlignCommand;
+import org.biomojo.benchmark.commands.ConvertFast5Command;
 import org.biomojo.benchmark.commands.CountKmersCommand;
 import org.biomojo.benchmark.commands.GenFastaCommand;
 import org.biomojo.benchmark.commands.GenFastqCommand;
@@ -42,6 +43,7 @@ public class Main {
     public static void main(final String[] args) {
         BioMojo.init(args, new LoadFastaCommand(), new LoadFastqCommand(), new ReadFastaCommand(),
                 new ReadFastqCommand(), new TrimCommand(), new AlignCommand(), new GenFastaCommand(),
-                new GenFastqCommand(), new ExecuteCommand(), new TranslateCommand(), new CountKmersCommand());
+                new GenFastqCommand(), new ExecuteCommand(), new TranslateCommand(), new CountKmersCommand(),
+                new ConvertFast5Command());
     }
 }

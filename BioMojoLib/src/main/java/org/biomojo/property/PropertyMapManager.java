@@ -25,35 +25,47 @@ import java.util.Map;
  * @author Hugh Eaves
  */
 public interface PropertyMapManager {
-    
+
     /**
      * Put.
      *
-     * @param <T> the generic type
-     * @param properties the properties
-     * @param key the key
-     * @param value the value
+     * @param <T>
+     *            the generic type
+     * @param properties
+     *            the properties
+     * @param key
+     *            the key
+     * @param value
+     *            the value
      * @return the t
      */
-    public <T> T put(Map<String, Object> properties, String key, Object value);
+    <T> T put(Map<String, Object> properties, String key, Object value);
 
     /**
      * Gets the.
      *
-     * @param <T> the generic type
-     * @param properties the properties
-     * @param key the key
+     * @param <T>
+     *            the generic type
+     * @param properties
+     *            the properties
+     * @param key
+     *            the key
      * @return the t
      */
-    public <T> T get(Map<String, Object> properties, String key);
+    <T> T get(Map<String, Object> properties, String key);
 
     /**
      * Removes the.
      *
-     * @param <T> the generic type
-     * @param properties the properties
-     * @param key the key
+     * @param <T>
+     *            the generic type
+     * @param properties
+     *            the properties
+     * @param key
+     *            the key
      * @return the t
      */
-    public <T> T remove(Map<String, Object> properties, String key);
+    <T> T remove(Map<String, Object> properties, String key);
+
+    Map<String, Object> convert(Map<String, Object> properties);
 }

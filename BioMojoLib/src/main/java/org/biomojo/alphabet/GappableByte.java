@@ -16,8 +16,6 @@
  */
 package org.biomojo.alphabet;
 
-import org.biomojo.symbols.CommonSymbols;
-
 // TODO: Auto-generated Javadoc
 /**
  * Interface for alphabets supporting gap symbols.
@@ -34,23 +32,4 @@ public interface GappableByte<A extends ByteAlphabet, G extends GappedByte<A>>
         return (G) Alphabets.getAlphabet(getId() | AlphabetVariant.WITH_GAP);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.alphabet.GappableAlphabet#supportsGaps()
-     */
-    @Override
-    public default boolean isGapped() {
-        return ((getId() & AlphabetVariant.WITH_GAP) != 0);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.alphabet.GappableAlphabet#gapSymbol()
-     */
-    @Override
-    public default Byte gapSymbol() {
-        return CommonSymbols.GAP;
-    }
 }

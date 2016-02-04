@@ -55,16 +55,18 @@ public class AlphabetId {
     /** The Constant AMINO_ACID. */
     public static final int AMINO_ACID = 160;
 
+    public static final int QUALITY_PHRED = 192;
+
     /** The Constant QUALITY_SANGER. */
-    public static final int QUALITY_SANGER = 192;
+    public static final int QUALITY_SANGER = 193;
 
     /** The Constant QUALITY_ILLUMINA_10. */
-    public static final int QUALITY_ILLUMINA_10 = 193;
+    public static final int QUALITY_ILLUMINA_10 = 194;
 
     /** The Constant QUALITY_ILLUMINA_13. */
-    public static final int QUALITY_ILLUMINA_13 = 194;
+    public static final int QUALITY_ILLUMINA_13 = 195;
 
     /** The Constant LAST_ALPHABET_ID. */
-    public static final int LAST_ALPHABET_ID = 194;
+    public static final int LAST_ALPHABET_ID = 195;
 
 }

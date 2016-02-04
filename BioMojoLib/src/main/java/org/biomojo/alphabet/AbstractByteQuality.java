@@ -17,8 +17,8 @@
 
 package org.biomojo.alphabet;
 
-public class AbstractQualityScore<A extends CanonicalizableByte<?>> extends AbstractCanonicalizableByteAlphabet<A>
-        implements ByteQualityScore<A> {
+public class AbstractByteQuality<A extends CanonicalizableByte<?>> extends AbstractCanonicalizableByteAlphabet<A>
+        implements ByteQuality<A> {
 
     /** The start. */
     private final int start;
@@ -36,7 +36,7 @@ public class AbstractQualityScore<A extends CanonicalizableByte<?>> extends Abst
      * @param end
      *            the end
      */
-    protected AbstractQualityScore(final int id, final int start, final int end) {
+    protected AbstractByteQuality(final int id, final int start, final int end) {
         super(id);
         this.start = start;
         this.end = end;

@@ -69,8 +69,8 @@ public class DefaultAlphabetFactory extends AbstractIdBasedFactory<Alphabet<?>> 
         register(new Letters<Letters<?>>());
         register(new UppercaseLetters());
 
-        register(new SangerQualityScore());
-        register(new Illumina10QualityScore());
-        register(new Illumina13QualityScore());
+        register(new SangerQuality());
+        register(new Illumina10Quality());
+        register(new Illumina13Quality());
     }
 }

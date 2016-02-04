@@ -21,12 +21,13 @@ import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.DNA;
-import org.biomojo.alphabet.SangerQualityScore;
+import org.biomojo.alphabet.SangerQuality;
 import org.biomojo.codec.CodecId;
 import org.biomojo.io.fastx.FastqInputStream;
 import org.biomojo.sequence.FastqSeq;
 import org.biomojo.sequence.factory.EncodedFastqSeqSupplier;
 import org.biomojo.sequence.factory.FastqSeqSupplier;
+import org.java0.util.timing.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,21 +49,24 @@ public class ReadFastqCommand extends BaseInputCommand {
         try {
             logger.info("BioMojo Fastq Read Benchmark");
 
-            final FastqInputStream<DNA, SangerQualityScore> inputStream = new FastqInputStream<>(
-                    new FileInputStream(inputFile), false);
+            final Stopwatch sw = new Stopwatch();
+            sw.start();
+
+            final FastqInputStream<DNA, SangerQuality> inputStream = new FastqInputStream<>(
+                    new FileInputStream(inputFile));
 
             int recordCount = 0;
             long totalLength = 0;
             long qualityLength = 0;
 
-            Supplier<FastqSeq<DNA, SangerQualityScore>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA,
+            Supplier<FastqSeq<DNA, SangerQuality>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA,
                     AlphabetId.QUALITY_SANGER);
             if (encode) {
                 supplier = new EncodedFastqSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC,
                         AlphabetId.QUALITY_SANGER);
             }
 
-            final FastqSeq<DNA, SangerQualityScore> sequence = supplier.get();
+            final FastqSeq<DNA, SangerQuality> sequence = supplier.get();
 
             while (inputStream.read(sequence)) {
                 ++recordCount;
@@ -74,6 +78,8 @@ public class ReadFastqCommand extends BaseInputCommand {
             logger.info("Done loading " + recordCount + " sequences");
             logger.info("Total sequence length is " + totalLength + " bases");
             logger.info("Total quality length is " + qualityLength + " values");
+
+            sw.stop();
 
         } catch (final Exception e) {
             logger.error("Caught exception in auto-generated catch block", e);

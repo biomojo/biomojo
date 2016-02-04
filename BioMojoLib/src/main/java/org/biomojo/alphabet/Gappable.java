@@ -26,14 +26,6 @@ package org.biomojo.alphabet;
  *            the type of alphabet returned when a gapped alphabet is requested
  */
 public interface Gappable<T, A extends Alphabet<T>, G extends Gapped<T, A>> extends Alphabet<T> {
-
-    /**
-     * Supports gaps.
-     *
-     * @return true, if successful
-     */
-    public boolean isGapped();
-
     /**
      * Gets the gapped.
      *
@@ -41,10 +33,4 @@ public interface Gappable<T, A extends Alphabet<T>, G extends Gapped<T, A>> exte
      */
     public G getGapped();
 
-    /**
-     * Gap symbol.
-     *
-     * @return the t
-     */
-    public T gapSymbol();
 }

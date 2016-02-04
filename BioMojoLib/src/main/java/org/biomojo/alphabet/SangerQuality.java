@@ -16,20 +16,19 @@
  */
 package org.biomojo.alphabet;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class SangerQualityScoreAlphabet.
+ * The Class SangerQuality.
  *
  * @author hugh
  * 
  *         Valid range: 33 - 126 (i.e. Phred score + 33)
  */
-public class SangerQualityScore extends AbstractQualityScore<SangerQualityScore> {
+public class SangerQuality extends AbstractByteQuality<PhredQuality> {
 
     /**
      * Instantiates a new sanger quality score alphabet.
      */
-    public SangerQualityScore() {
+    public SangerQuality() {
         super(AlphabetId.QUALITY_SANGER, 33, 126);
     }
 }

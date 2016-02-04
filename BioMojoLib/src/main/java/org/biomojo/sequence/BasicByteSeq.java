@@ -66,38 +66,16 @@ public class BasicByteSeq<A extends ByteAlphabet> extends AbstractByteSeq<A> {
         super(alphabet);
     }
 
-    /**
-     * Instantiates a new byte seq impl.
-     *
-     * @param data
-     *            the data
-     */
     public BasicByteSeq(final byte[] data) {
         super();
         setAll(data);
     }
 
-    /**
-     * Instantiates a new byte seq impl.
-     *
-     * @param data
-     *            the data
-     * @param alphabet
-     *            the alphabet
-     */
     public BasicByteSeq(final byte[] data, final A alphabet) {
         super(alphabet);
         setAll(data);
     }
 
-    /**
-     * Instantiates a new byte seq impl.
-     *
-     * @param initialCapacity
-     *            the initial capacity
-     * @param alphabet
-     *            the alphabet
-     */
     public BasicByteSeq(final int initialCapacity, final A alphabet) {
         super(alphabet);
         data = new byte[initialCapacity];

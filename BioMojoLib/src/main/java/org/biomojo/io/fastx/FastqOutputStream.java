@@ -21,7 +21,7 @@ import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.biomojo.alphabet.ByteQualityScore;
+import org.biomojo.alphabet.ByteQuality;
 import org.biomojo.alphabet.Nucleotide;
 import org.biomojo.io.DefaultHeaderBuilder;
 import org.biomojo.io.HeaderBuilder;
@@ -33,7 +33,7 @@ import org.biomojo.util.OutputUtil;
 /**
  * The Class FastqOutputStream.
  */
-public class FastqOutputStream<T extends Nucleotide<?>, Q extends ByteQualityScore<?>> extends FilterOutputStream
+public class FastqOutputStream<T extends Nucleotide<?>, Q extends ByteQuality<?>> extends FilterOutputStream
         implements SequenceOutputStream<FastqSeq<T, Q>> {
 
     /** The Constant DEFAULT_LINE_LENGTH. */
