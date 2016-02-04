@@ -11,12 +11,19 @@
 	<artifactId>BioMojoLib</artifactId>
 	<packaging>jar</packaging>
 
+    <repositories>
+        <repository>
+            <id>ucar-repo</id>
+            <url>http://artifacts.unidata.ucar.edu/content/repositories/unidata-releases/</url>
+        </repository>
+    </repositories>
+
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>aspectj-maven-plugin</artifactId>
-			  <configuration>
+				<configuration>
 					<sources>
 						<source>
 							<includes>
@@ -30,17 +37,17 @@
 	</build>
 
 	<dependencies>
-            <dependency>
-            <groupId>edu.ucar</groupId>
-            <artifactId>netcdf4</artifactId>
-            <version>4.5.5</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>commons-logging</artifactId>
-                    <groupId>commons-logging</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+		<dependency>
+			<groupId>edu.ucar</groupId>
+			<artifactId>netcdf4</artifactId>
+			<version>5.0.0</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>commons-logging</artifactId>
+					<groupId>commons-logging</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<dependency>
 			<groupId>org.java0</groupId>
 			<artifactId>java0-collection</artifactId>
@@ -67,10 +74,10 @@
 			<version>${java0.version}</version>
 		</dependency>
 		<dependency>
-            <groupId>org.java0</groupId>
-            <artifactId>java0-util</artifactId>
-            <version>${java0.version}</version>
-        </dependency>
+			<groupId>org.java0</groupId>
+			<artifactId>java0-util</artifactId>
+			<version>${java0.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.java0</groupId>
 			<artifactId>java0-test</artifactId>
@@ -83,12 +90,8 @@
 			<version>${hibernate.version}</version>
 		</dependency>
 
-		<!-- 
-		<dependency>
-			<groupId>it.unimi.dsi</groupId>
-			<artifactId>fastutil</artifactId>
-			<version>6.4.6</version>
-		</dependency> -->
+		<!-- <dependency> <groupId>it.unimi.dsi</groupId> <artifactId>fastutil</artifactId> 
+			<version>6.4.6</version> </dependency> -->
 		<dependency>
 			<groupId>com.jcraft</groupId>
 			<artifactId>jzlib</artifactId>
