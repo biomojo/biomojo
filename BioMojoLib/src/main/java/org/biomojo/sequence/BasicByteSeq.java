@@ -98,10 +98,20 @@ public class BasicByteSeq<A extends ByteAlphabet> extends AbstractByteSeq<A> {
      */
     @Override
     public byte[] toByteArray() {
+        // if we have extra data in the backing array, resize it and return it
         if (data.length > length) {
             data = Arrays.copyOf(data, length);
         }
         return data;
+    }
+
+    @Override
+    public byte[] toByteArray(final long start, final long end) {
+        if (end <= length && start < length && end >= start) {
+            return (Arrays.copyOfRange(data, (int) start, (int) end));
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     /*
@@ -130,9 +140,6 @@ public class BasicByteSeq<A extends ByteAlphabet> extends AbstractByteSeq<A> {
 
     @Override
     public byte getByte(final long index) {
-        if (index > Integer.MAX_VALUE) {
-            throw new ArrayIndexOutOfBoundsException("BasicByteSeq only supports index values <= " + Integer.MAX_VALUE);
-        }
         return data[(int) index];
     }
 
@@ -142,9 +149,9 @@ public class BasicByteSeq<A extends ByteAlphabet> extends AbstractByteSeq<A> {
      * @see org.biomojo.sequence.ByteSeq#set(byte, int)
      */
     @Override
-    public void set(final int index, final byte symbol) throws InvalidSymbolException {
+    public void set(final long index, final byte symbol) throws InvalidSymbolException {
         alphabet.validate(symbol);
-        data[index] = symbol;
+        data[(int) index] = symbol;
     }
 
     /*
@@ -153,7 +160,7 @@ public class BasicByteSeq<A extends ByteAlphabet> extends AbstractByteSeq<A> {
      * @see org.biomojo.sequence.Seq#size()
      */
     @Override
-    public int size() {
+    public long sizeL() {
         return length;
     }
 
@@ -201,7 +208,7 @@ public class BasicByteSeq<A extends ByteAlphabet> extends AbstractByteSeq<A> {
                 return;
             } else {
                 cba.makeCanonical(data, 0, length);
-                alphabet = (A) cba.getCanonical();
+                alphabet = cba.getCanonical();
             }
         }
     }
@@ -232,6 +239,11 @@ public class BasicByteSeq<A extends ByteAlphabet> extends AbstractByteSeq<A> {
     @Override
     public void clear() {
         this.setAll(Constants.EMPTY_BYTE_ARRAY);
+    }
+
+    @Override
+    public ByteSeqIterator listIterator(final long index) {
+        return new DefaultByteSeqIterator(this, index);
     }
 
 }

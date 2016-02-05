@@ -108,7 +108,7 @@ public class FastqOutputStream<T extends Nucleotide<?>, Q extends ByteQuality<?>
      * @see org.biomojo.io.SequenceOutputStream#write(org.biomojo.sequence.Seq)
      */
     @Override
-    public void write(final FastqSeq<T, Q> sequence) throws IOException {
+    public <X extends FastqSeq<T, Q>> void write(final X sequence) throws IOException {
         out.write(FastqConst.RECORD_DELIMITER);
         out.write(headerBuilder.buildHeader(sequence));
         out.write('\n');

@@ -20,7 +20,6 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
 import org.biomojo.alphabet.ByteAlphabet;
-import org.biomojo.alphabet.InvalidSymbolException;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -38,7 +37,8 @@ public abstract class AbstractByteSeq<A extends ByteAlphabet> extends AbstractSe
     private static final long serialVersionUID = 1L;
 
     /** The alphabet. */
-    protected A alphabet;
+
+    protected ByteAlphabet alphabet;
 
     /**
      * Instantiates a new abstract byte seq.
@@ -73,31 +73,27 @@ public abstract class AbstractByteSeq<A extends ByteAlphabet> extends AbstractSe
      */
     @Override
     public A getAlphabet() {
-        return alphabet;
+        return (A) alphabet;
     }
 
-    @Override
-    public void set(final long index, final byte symbol) throws InvalidSymbolException {
-        if (index > Integer.MAX_VALUE) {
-            throw new ArrayIndexOutOfBoundsException(
-                    "AbstractByteSeq only supports index values <= " + Integer.MAX_VALUE);
-        }
-        set((int) index, symbol);
-    }
-
-    @Override
-    public byte getByte(final long index) {
-        if (index > Integer.MAX_VALUE) {
-            throw new ArrayIndexOutOfBoundsException(
-                    "AbstractByteSeq only supports index values <= " + Integer.MAX_VALUE);
-        }
-        return getByte((int) index);
-    }
-
-    @Override
-    public long lsize() {
-        return size();
-    }
+    // @Override
+    // public void set(final long index, final byte symbol) throws
+    // InvalidSymbolException {
+    // if (index > Integer.MAX_VALUE) {
+    // throw new ArrayIndexOutOfBoundsException(
+    // "AbstractByteSeq only supports index values <= " + Integer.MAX_VALUE);
+    // }
+    // set((int) index, symbol);
+    // }
+    //
+    // @Override
+    // public byte getByte(final long index) {
+    // if (index > Integer.MAX_VALUE) {
+    // throw new ArrayIndexOutOfBoundsException(
+    // "AbstractByteSeq only supports index values <= " + Integer.MAX_VALUE);
+    // }
+    // return getByte((int) index);
+    // }
 
     @Override
     public String toString() {
@@ -106,6 +102,16 @@ public abstract class AbstractByteSeq<A extends ByteAlphabet> extends AbstractSe
             buf.append(charAt(i));
         }
         return buf.toString();
+    }
+
+    @Override
+    public ByteSeq<A> subList(final long from, final long to) {
+        return new SubByteSeq<A>(this, from, to);
+    }
+
+    @Override
+    public ByteSeqIterator listIterator(final long index) {
+        return new DefaultByteSeqIterator(this, index);
     }
 
 }

@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
+import org.biomojo.GlobalConst;
 import org.biomojo.sequence.Seq;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +58,7 @@ public abstract class MarkAndCopyInputStream<T extends Seq<?, ?>> implements Seq
     private int totalLength = 0;
 
     /** The Constant INITIAL_MAX_SEGMENTS. */
-    private static final int INITIAL_MAX_SEGMENTS = 1000;
+    private static final int INITIAL_MAX_SEGMENTS = 2;
 
     /** The segment buffers. */
     private byte[][] segmentBuffers = new byte[INITIAL_MAX_SEGMENTS][];
@@ -74,9 +75,6 @@ public abstract class MarkAndCopyInputStream<T extends Seq<?, ?>> implements Seq
     /** The num segments. */
     private int numSegments = 0;
 
-    /** The Constant DEFAULT_BUFFER_SIZE. */
-    private static final int DEFAULT_BUFFER_SIZE = 0xFFFF;
-
     /** The buffer size. */
     private final int bufferSize;
 
@@ -91,7 +89,7 @@ public abstract class MarkAndCopyInputStream<T extends Seq<?, ?>> implements Seq
      *            the input stream
      */
     protected MarkAndCopyInputStream(final InputStream inputStream) {
-        this(inputStream, DEFAULT_BUFFER_SIZE);
+        this(inputStream, GlobalConst.DEFAULT_BUFFER_SIZE);
     }
 
     /**
@@ -320,7 +318,7 @@ public abstract class MarkAndCopyInputStream<T extends Seq<?, ?>> implements Seq
 
     @Override
     public void close() throws IOException {
-        // TODO Cleanup internal buffers
+        clearSegments();
         inputStream.close();
     }
 

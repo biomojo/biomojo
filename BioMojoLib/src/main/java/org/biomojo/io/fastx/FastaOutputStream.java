@@ -93,7 +93,7 @@ public class FastaOutputStream<T extends ByteAlphabet> extends FilterOutputStrea
      * @see org.biomojo.io.SequenceOutputStream#write(org.biomojo.sequence.Seq)
      */
     @Override
-    public void write(final ByteSeq<T> sequence) throws IOException {
+    public <X extends ByteSeq<T>> void write(final X sequence) throws IOException {
         out.write(FastaConst.RECORD_DELIMITER);
         out.write(headerBuilder.buildHeader(sequence));
         out.write('\n');

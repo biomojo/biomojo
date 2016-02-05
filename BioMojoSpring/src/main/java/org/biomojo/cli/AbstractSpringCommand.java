@@ -19,6 +19,7 @@ package org.biomojo.cli;
 import java.io.Closeable;
 import java.io.IOException;
 
+import org.biomojo.GlobalConst;
 import org.java0.cli.AbstractCommand;
 import org.java0.cli.Command;
 import org.slf4j.Logger;
@@ -37,10 +38,14 @@ public abstract class AbstractSpringCommand extends AbstractCommand implements S
     private static final Logger logger = LoggerFactory.getLogger(AbstractSpringCommand.class.getName());
 
     /** The config location. */
-    private String configLocation;
+    private final String configLocation;
 
     /** The context. */
     private AbstractApplicationContext applicationContext;
+
+    public AbstractSpringCommand() {
+        this.configLocation = GlobalConst.LIB_SPRING_CONTEXT;
+    }
 
     /**
      * Instantiates a new abstract spring command.
@@ -48,7 +53,7 @@ public abstract class AbstractSpringCommand extends AbstractCommand implements S
      * @param configLocation
      *            the config location
      */
-    public AbstractSpringCommand(String configLocation) {
+    public AbstractSpringCommand(final String configLocation) {
         this.configLocation = configLocation;
     }
 
@@ -69,7 +74,7 @@ public abstract class AbstractSpringCommand extends AbstractCommand implements S
     public Command prepare() {
         applicationContext = new ClassPathXmlApplicationContext(getConfigLocation());
         applicationContext.registerShutdownHook();
-        AbstractSpringCommand command = applicationContext.getBean(getClass());
+        final AbstractSpringCommand command = applicationContext.getBean(getClass());
         command.applicationContext = applicationContext;
         return command;
 
@@ -80,7 +85,7 @@ public abstract class AbstractSpringCommand extends AbstractCommand implements S
         if (getApplicationContext() instanceof Closeable) {
             try {
                 ((Closeable) getApplicationContext()).close();
-            } catch (IOException e) {
+            } catch (final IOException e) {
                 logger.error("Caught exception in auto-generated catch block", e);
             }
         }

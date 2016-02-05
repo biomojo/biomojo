@@ -2,8 +2,8 @@ package org.biomojo.examples.commands;
 
 import java.io.File;
 
+import org.biomojo.GlobalConst;
 import org.biomojo.cli.AbstractSpringCommand;
-import org.biomojo.core.GlobalConst;
 import org.biomojo.sequence.SequenceService;
 import org.java0.cli.InputFileConverter;
 
@@ -40,7 +40,7 @@ public class FastxLoadCommand extends AbstractSpringCommand {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -48,11 +48,11 @@ public class FastxLoadCommand extends AbstractSpringCommand {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
-    public void setInputFile(File inputFile) {
+    public void setInputFile(final File inputFile) {
         this.inputFile = inputFile;
     }
 
@@ -60,7 +60,7 @@ public class FastxLoadCommand extends AbstractSpringCommand {
         return sequenceType;
     }
 
-    public void setSequenceType(int sequenceType) {
+    public void setSequenceType(final int sequenceType) {
         this.sequenceType = sequenceType;
     }
 

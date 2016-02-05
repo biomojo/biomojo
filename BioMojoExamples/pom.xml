@@ -16,6 +16,14 @@
 		<shade.main.class>org.biomojo.benchmark.Main</shade.main.class>
 	</properties>
 	
+    <build>
+        <plugins>
+            <plugin>
+                <artifactId>maven-shade-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+	
 	<dependencies>
 	</dependencies>
 </project>

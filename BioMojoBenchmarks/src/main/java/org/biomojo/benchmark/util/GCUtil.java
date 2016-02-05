@@ -1,5 +1,6 @@
 package org.biomojo.benchmark.util;
 
+import org.biomojo.GlobalConst;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,24 +13,10 @@ public class GCUtil {
     private long lastFreeMemory = 0;
     private long lastTotalMemory = 0;
     private long lastMaxMemory = 0;
-    private float gcRatio = -1;
-    private boolean logMemory = false;
 
     private static final Runtime runtime = Runtime.getRuntime();
 
     public GCUtil() {
-        final String gcRatioStr = System.getProperty("gcRatio");
-        if (gcRatioStr != null) {
-            try {
-                gcRatio = Float.parseFloat(gcRatioStr);
-            } catch (final NumberFormatException e) {
-                logger.error("Unable to convert gcInterval value");
-            }
-        }
-
-        if (System.getProperty("logMemory") != null) {
-            logMemory = true;
-        }
         reset();
     }
 
@@ -45,12 +32,12 @@ public class GCUtil {
 
         ++recordCount;
 
-        if (logMemory) {
+        if (GlobalConst.DEBUG_MEMORY) {
             checkMemory();
         }
 
-        if (gcRatio > 0) {
-            final int log = (int) (Math.log(recordCount) / Math.log(gcRatio));
+        if (GlobalConst.GC_RATIO > 0) {
+            final int log = (int) (Math.log(recordCount) / Math.log(GlobalConst.GC_RATIO));
             if (log != lastLog) {
                 lastLog = log;
                 logger.info("Forcing GC, recordCount = {} ", recordCount);

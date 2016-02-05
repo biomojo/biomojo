@@ -35,6 +35,8 @@ public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A>, CharSeque
      */
     byte[] toByteArray();
 
+    byte[] toByteArray(long start, long end);
+
     /**
      * Sets the all.
      *
@@ -64,7 +66,18 @@ public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A>, CharSeque
      *            the index
      * @return the byte
      */
-    byte getByte(int index);
+    default byte getByte(final int index) {
+        return getByte((long) index);
+    }
+
+    /**
+     * Gets the byte.
+     *
+     * @param index
+     *            the index
+     * @return the byte
+     */
+    byte getByte(long index);
 
     /**
      * Sets the.
@@ -76,20 +89,13 @@ public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A>, CharSeque
      * @throws InvalidSymbolException
      *             the invalid symbol exception
      */
-    void set(int index, byte symbol) throws InvalidSymbolException;
+    default void set(final int index, final byte symbol) throws InvalidSymbolException {
+        set((long) index, symbol);
+    }
 
-    void set(long index, byte element) throws InvalidSymbolException;
+    void set(long index, byte symbol) throws InvalidSymbolException;
 
     void add(final byte symbol) throws InvalidSymbolException;
-
-    /**
-     * Gets the byte.
-     *
-     * @param index
-     *            the index
-     * @return the byte
-     */
-    byte getByte(long index);
 
     /*
      * (non-Javadoc)
@@ -174,5 +180,36 @@ public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A>, CharSeque
     default void add(final long index, final Byte value) {
         throw new UnsupportedOperationException();
     }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see java.util.List#subList(int, int)
+     */
+    @Override
+    ByteSeq<A> subList(long fromIndex, long toIndex);
+
+    @Override
+    default ByteSeq<A> subList(final int fromIndex, final int toIndex) {
+        return subList((long) fromIndex, (long) toIndex);
+    }
+
+    @Override
+    default ByteSeqIterator iterator() {
+        return listIterator(0L);
+    }
+
+    @Override
+    default ByteSeqIterator listIterator() {
+        return listIterator(0L);
+    }
+
+    @Override
+    default ByteSeqIterator listIterator(final int index) {
+        return listIterator((long) index);
+    }
+
+    @Override
+    ByteSeqIterator listIterator(long index);
 
 }

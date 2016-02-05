@@ -80,7 +80,7 @@ public abstract class AbstractByteSeqAligner<A extends GappableByte<A, GappedByt
         if (seq1Dim > arrayDim1 || seq2Dim > arrayDim2) {
             arrayDim1 = Math.max(seq1Dim, arrayDim1);
             arrayDim2 = Math.max(seq2Dim, arrayDim2);
-            logger.debug("Re-Dimming matrices: arrayDim1 = {}, arrayDim2 = {}", arrayDim1, arrayDim2);
+            logger.info("Re-Dimming matrices: arrayDim1 = {}, arrayDim2 = {}", arrayDim1, arrayDim2);
             reallocateMatrices();
         }
     }

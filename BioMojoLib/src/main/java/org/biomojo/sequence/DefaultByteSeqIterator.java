@@ -16,6 +16,94 @@
  */
 package org.biomojo.sequence;
 
-public class DefaultByteSeqIterator {
+public class DefaultByteSeqIterator extends DefaultSeqIterator<Byte, ByteSeq<?>> implements ByteSeqIterator {
+
+    public DefaultByteSeqIterator(final ByteSeq<?> target, final long index) {
+        super(target, index);
+    }
+
+    /**
+     * @see java.util.ListIterator#hasNext()
+     */
+    @Override
+    public boolean hasNext() {
+        return currentPosition != target.size();
+    }
+
+    /**
+     * @see java.util.ListIterator#next()
+     */
+    @Override
+    public byte nextByte() {
+        final byte next = target.getByte(currentPosition);
+        activeElement = currentPosition;
+        currentPosition = currentPosition + 1;
+        return next;
+    }
+
+    /**
+     * @see java.util.ListIterator#set(java.lang.Object)
+     */
+    @Override
+    public void set(final byte e) {
+        if (activeElement < 0) {
+            throw new IllegalStateException();
+        }
+        target.set(activeElement, e);
+    }
+
+    /**
+     * @see java.util.ListIterator#add(java.lang.Object)
+     */
+    @Override
+    public void add(final byte e) {
+        target.add(currentPosition, e);
+        activeElement = -1;
+        currentPosition = currentPosition + 1;
+    }
+
+    /**
+     * @see java.util.ListIterator#remove()
+     */
+    @Override
+    public void remove() {
+        if (activeElement < 0) {
+            throw new IllegalStateException();
+        }
+        target.remove(activeElement);
+        if (activeElement < currentPosition)
+            currentPosition--;
+        activeElement = -1;
+    }
+
+    /**
+     * @see java.util.ListIterator#hasPrevious()
+     */
+    @Override
+    public boolean hasPrevious() {
+        return currentPosition != 0;
+    }
+
+    /**
+     * @see java.util.ListIterator#previous()
+     */
+    @Override
+    public byte previousByte() {
+        currentPosition = currentPosition - 1;
+        final byte previous = target.getByte(currentPosition);
+        activeElement = currentPosition;
+        return previous;
+
+    }
+
+    @Override
+    public long nextIndexL() {
+        return currentPosition;
+    }
+
+    @Override
+    public long previousIndexL() {
+        return currentPosition - 1;
+    }
 
 }

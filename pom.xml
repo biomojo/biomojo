@@ -63,7 +63,8 @@
 		<module>BioMojoBioJava</module>
 		<module>BioMojoBenchmarks</module>
 		<module>BioMojoSpring</module>
-		<module>BioMojoParent</module>
+        <module>BioMojoParent</module>
+        <module>BioMojoTools</module>
 	</modules>
 
 	<build>

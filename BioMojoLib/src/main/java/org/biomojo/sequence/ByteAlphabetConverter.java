@@ -22,7 +22,6 @@ import javax.persistence.Converter;
 import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.ByteAlphabet;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class ByteAlphabetConverter.
  *

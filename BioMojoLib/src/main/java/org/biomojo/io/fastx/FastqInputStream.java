@@ -23,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.function.Supplier;
 
+import org.biomojo.GlobalConst;
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.ByteQuality;
@@ -61,31 +62,34 @@ public class FastqInputStream<A extends Nucleotide<?>, Q extends ByteQuality<?>>
 
     public FastqInputStream(final InputStream inputStream) {
         this(inputStream, new DefaultHeaderParser(),
-                new FastqSeqSupplier<A, Q>(AlphabetId.NUCLEOTIDE, AlphabetId.QUALITY_SANGER), true);
+                new FastqSeqSupplier<A, Q>(AlphabetId.NUCLEOTIDE, AlphabetId.QUALITY_SANGER),
+                GlobalConst.VALIDATE_INPUT_SEQS);
     }
 
     public FastqInputStream(final InputStream inputStream, final int bufSize) {
         this(inputStream, bufSize, new DefaultHeaderParser(),
-                new FastqSeqSupplier<A, Q>(AlphabetId.NUCLEOTIDE, AlphabetId.QUALITY_SANGER), true);
+                new FastqSeqSupplier<A, Q>(AlphabetId.NUCLEOTIDE, AlphabetId.QUALITY_SANGER),
+                GlobalConst.VALIDATE_INPUT_SEQS);
     }
 
     public FastqInputStream(final ByteArrayInputStream inputStream, final int bufSize,
             final FastqSeqSupplier<A, Q> supplier) {
-        this(inputStream, bufSize, new DefaultHeaderParser(), supplier, true);
+        this(inputStream, bufSize, new DefaultHeaderParser(), supplier, GlobalConst.VALIDATE_INPUT_SEQS);
     }
 
     public FastqInputStream(final InputStream inputStream, final ByteAlphabet alphabet) {
         this(inputStream, new DefaultHeaderParser(),
-                new FastqSeqSupplier<A, Q>(alphabet.getId(), AlphabetId.QUALITY_SANGER), true);
+                new FastqSeqSupplier<A, Q>(alphabet.getId(), AlphabetId.QUALITY_SANGER),
+                GlobalConst.VALIDATE_INPUT_SEQS);
     }
 
     public FastqInputStream(final InputStream inputStream, final Supplier<? extends FastqSeq<A, Q>> seqSupplier) {
-        this(inputStream, new DefaultHeaderParser(), seqSupplier, true);
+        this(inputStream, new DefaultHeaderParser(), seqSupplier, GlobalConst.VALIDATE_INPUT_SEQS);
     }
 
     public FastqInputStream(final InputStream inputStream, final HeaderParser headerParser,
             final Supplier<? extends FastqSeq<A, Q>> seqSupplier) {
-        this(inputStream, headerParser, seqSupplier, true);
+        this(inputStream, headerParser, seqSupplier, GlobalConst.VALIDATE_INPUT_SEQS);
     }
 
     public FastqInputStream(final InputStream inputStream, final boolean validateSequenceData) {

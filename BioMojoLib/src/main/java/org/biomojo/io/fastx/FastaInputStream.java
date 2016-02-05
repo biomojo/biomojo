@@ -23,6 +23,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.function.Supplier;
 
+import org.biomojo.GlobalConst;
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.io.DefaultHeaderParser;
@@ -41,7 +42,7 @@ public class FastaInputStream<T extends ByteAlphabet> extends MarkAndCopyInputSt
     private final HeaderParser headerParser;
 
     /** The validate sequence data. */
-    private final boolean validateSequenceData;
+    private boolean validateSequenceData;
 
     private final Supplier<? extends ByteSeq<T>> seqSupplier;
 
@@ -50,29 +51,32 @@ public class FastaInputStream<T extends ByteAlphabet> extends MarkAndCopyInputSt
     }
 
     public FastaInputStream(final InputStream inputStream, final int bufSize) {
-        this(inputStream, bufSize, new DefaultHeaderParser(), new ByteSeqSupplier<T>(AlphabetId.LETTERS), true);
+        this(inputStream, bufSize, new DefaultHeaderParser(), new ByteSeqSupplier<T>(AlphabetId.LETTERS),
+                GlobalConst.VALIDATE_INPUT_SEQS);
     }
 
     public FastaInputStream(final ByteArrayInputStream inputStream, final int bufSize,
             final ByteSeqSupplier<T> supplier) {
-        this(inputStream, bufSize, new DefaultHeaderParser(), supplier, true);
+        this(inputStream, bufSize, new DefaultHeaderParser(), supplier, GlobalConst.VALIDATE_INPUT_SEQS);
     }
 
     public FastaInputStream(final InputStream inputStream) {
-        this(inputStream, new DefaultHeaderParser(), new ByteSeqSupplier<T>(AlphabetId.LETTERS), true);
+        this(inputStream, new DefaultHeaderParser(), new ByteSeqSupplier<T>(AlphabetId.LETTERS),
+                GlobalConst.VALIDATE_INPUT_SEQS);
     }
 
     public FastaInputStream(final InputStream inputStream, final ByteAlphabet alphabet) {
-        this(inputStream, new DefaultHeaderParser(), new ByteSeqSupplier<T>(alphabet.getId()), true);
+        this(inputStream, new DefaultHeaderParser(), new ByteSeqSupplier<T>(alphabet.getId()),
+                GlobalConst.VALIDATE_INPUT_SEQS);
     }
 
     public FastaInputStream(final InputStream inputStream, final Supplier<? extends ByteSeq<T>> seqSupplier) {
-        this(inputStream, new DefaultHeaderParser(), seqSupplier, true);
+        this(inputStream, new DefaultHeaderParser(), seqSupplier, GlobalConst.VALIDATE_INPUT_SEQS);
     }
 
     public FastaInputStream(final InputStream inputStream, final HeaderParser headerParser,
             final Supplier<? extends ByteSeq<T>> seqSupplier) {
-        this(inputStream, headerParser, seqSupplier, true);
+        this(inputStream, headerParser, seqSupplier, GlobalConst.VALIDATE_INPUT_SEQS);
     }
 
     public FastaInputStream(final InputStream inputStream, final boolean validateSequenceData) {

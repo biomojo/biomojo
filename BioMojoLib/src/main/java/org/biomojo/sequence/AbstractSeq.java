@@ -16,8 +16,6 @@
  */
 package org.biomojo.sequence;
 
-import java.util.List;
-
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -76,8 +74,8 @@ public abstract class AbstractSeq<T, A extends Alphabet<T>> extends AbstractProp
      * @see org.biomojo.sequence.Seq#subList(int, int)
      */
     @Override
-    public List<T> subList(final int from, final int to) {
-        throw new UnsupportedOperationException();
+    public Seq<T, A> subList(final long fromIndex, final long toIndex) {
+        return new SubSeq<T, A, Seq<T, A>>(this, fromIndex, toIndex);
     }
 
     /*

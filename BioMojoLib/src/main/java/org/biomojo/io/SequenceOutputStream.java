@@ -37,8 +37,9 @@ public interface SequenceOutputStream<S extends Seq<?, ?>> extends Closeable {
      *
      * @param sequence
      *            the sequence
+     * @return
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
-    void write(S sequence) throws IOException;
+    <X extends S> void write(X sequence) throws IOException;
 }

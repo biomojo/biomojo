@@ -16,6 +16,8 @@
  */
 package org.biomojo.sequence;
 
+import java.util.ListIterator;
+
 import org.biomojo.alphabet.Alphabet;
 import org.biomojo.core.Described;
 import org.biomojo.core.Identified;
@@ -68,13 +70,52 @@ public interface Seq<T, A extends Alphabet<T>> extends DefaultList<T>, Propertie
 
     T get(long index);
 
-    long lsize();
+    long sizeL();
+
+    Seq<T, A> subList(long from, long to);
+
+    ListIterator<T> listIterator(long index);
+
+    @Override
+    default ListIterator<T> listIterator(final int index) {
+        return listIterator((long) index);
+    }
+
+    @Override
+    default void add(final int index, final T element) {
+        add((long) index, element);
+    }
+
+    @Override
+    default T set(final int index, final T element) {
+        return set((long) index, element);
+    }
+
+    @Override
+    default T get(final int index) {
+        return get((long) index);
+    }
+
+    @Override
+    default int size() {
+        final long size = sizeL();
+        if (sizeL() > Integer.MAX_VALUE) {
+            return Integer.MAX_VALUE;
+        } else {
+            return (int) size;
+        }
+    }
+
+    @Override
+    default Seq<T, A> subList(final int from, final int to) {
+        return subList((long) from, (long) to);
+    }
 
     /**
      * Reverse the order of elements in the s
      */
     default void reverse() {
-        final long lastPos = lsize() - 1;
+        final long lastPos = sizeL() - 1;
         final long midPos = lastPos / 2;
         for (long i = 0; i < midPos; ++i) {
             final T val = get(i);

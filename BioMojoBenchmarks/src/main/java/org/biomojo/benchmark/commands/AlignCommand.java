@@ -99,7 +99,7 @@ public class AlignCommand extends BaseInputOutputCommand {
                     seqList.clear();
                     seqList.add(sequences.get(i));
                     seqList.add(sequences.get(j));
-                    logger.debug("Aligning {} and {}", i, j);
+                    logger.info("Aligning {} and {}", i, j);
                     final ByteSeqAlignment<DNA> alignment = aligner.align(seqList);
                     // logger.info("{}", alignment.get(0).toString());
                     // logger.info("{}", alignment.get(1).toString());

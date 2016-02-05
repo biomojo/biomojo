@@ -16,6 +16,8 @@
  */
 package org.biomojo.sequence;
 
+import java.util.Arrays;
+
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.AminoAcid;
@@ -24,7 +26,6 @@ import org.biomojo.codon.CodonTable;
 import org.biomojo.codon.CodonTableId;
 import org.biomojo.codon.CodonTables;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class TranslatedSeq.
  *
@@ -100,13 +101,22 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcid> {
         return aminoAcids;
     }
 
+    @Override
+    public byte[] toByteArray(final long start, final long end) {
+        if (end < size() && start < size() && end >= start) {
+            return (Arrays.copyOfRange(toByteArray(), (int) start, (int) end));
+        } else {
+            throw new IndexOutOfBoundsException();
+        }
+    }
+
     /*
      * (non-Javadoc)
      * 
      * @see org.biomojo.sequence.ByteSeq#getValue(int)
      */
     @Override
-    public byte getByte(final int index) {
+    public byte getByte(final long index) {
         return codonTable.getAminoAcid(seq.getByte(index * 3), seq.getByte(index * 3 + 1), seq.getByte(index * 3 + 2));
     }
 
@@ -126,7 +136,7 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcid> {
      * @see org.biomojo.sequence.ByteSeq#setValue(byte, int)
      */
     @Override
-    public void set(final int pos, final byte value) {
+    public void set(final long pos, final byte value) {
         throw new UnsupportedOperationException();
     }
 
@@ -135,6 +145,11 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcid> {
      * 
      * @see org.biomojo.sequence.Seq#size()
      */
+    @Override
+    public long sizeL() {
+        return seq.sizeL() / 3;
+    }
+
     @Override
     public int size() {
         return seq.size() / 3;
