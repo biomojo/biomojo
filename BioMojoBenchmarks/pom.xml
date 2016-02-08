@@ -11,7 +11,7 @@
 	</parent>
 
 	<properties>
-		<shade.main.class>org.biomojo.benchmark.Main</shade.main.class>
+		<shade.main.class>org.biomojo.benchmark.biomojo.Main</shade.main.class>
 	</properties>
 
 	<build>

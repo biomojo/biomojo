@@ -11,7 +11,7 @@
 	</parent>
 
 	<properties>
-		<shade.main.class>org.biomojo.benchmark.Main</shade.main.class>
+		<shade.main.class>org.biomojo.benchmark.framework.Main</shade.main.class>
 	</properties>
 
 	<build>
@@ -19,8 +19,21 @@
 			<plugin>
 				<artifactId>maven-shade-plugin</artifactId>
 			</plugin>
-		</plugins>
-	</build>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>aspectj-maven-plugin</artifactId>
+                <configuration>
+             <!--       <sources>
+                        <source>
+                            <includes>
+                                <include>**/*Service.java</include>
+                            </includes>
+                        </source>
+                    </sources> --> 
+                </configuration>
+            </plugin> 
+        </plugins>
+    </build>
 
 	<dependencies>
         <dependency>
