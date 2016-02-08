@@ -50,64 +50,81 @@ public class DbUtil {
     /**
      * Find by attribute.
      *
-     * @param <T> the generic type
-     * @param resultClass the result class
-     * @param attributeKey the attribute key
-     * @param attributeValue the attribute value
+     * @param <T>
+     *            the generic type
+     * @param resultClass
+     *            the result class
+     * @param attributeKey
+     *            the attribute key
+     * @param attributeValue
+     *            the attribute value
      * @return the t
      */
-    public <T> T findByAttribute(Class<T> resultClass, String attributeKey, Long attributeValue) {
+    public <T> T findByAttribute(final Class<T> resultClass, final String attributeKey, final Long attributeValue) {
         return findByAttributeInternal(resultClass, "long", attributeKey, attributeValue);
     }
 
     /**
      * Find by attribute.
      *
-     * @param <T> the generic type
-     * @param resultClass the result class
-     * @param attributeKey the attribute key
-     * @param attributeValue the attribute value
+     * @param <T>
+     *            the generic type
+     * @param resultClass
+     *            the result class
+     * @param attributeKey
+     *            the attribute key
+     * @param attributeValue
+     *            the attribute value
      * @return the t
      */
-    public <T> T findByAttribute(Class<T> resultClass, String attributeKey, Double attributeValue) {
+    public <T> T findByAttribute(final Class<T> resultClass, final String attributeKey, final Double attributeValue) {
         return findByAttributeInternal(resultClass, "double", attributeKey, attributeValue);
     }
 
     /**
      * Find by attribute.
      *
-     * @param <T> the generic type
-     * @param resultClass the result class
-     * @param attributeKey the attribute key
-     * @param attributeValue the attribute value
+     * @param <T>
+     *            the generic type
+     * @param resultClass
+     *            the result class
+     * @param attributeKey
+     *            the attribute key
+     * @param attributeValue
+     *            the attribute value
      * @return the t
      */
-    public <T> T findByAttribute(Class<T> resultClass, String attributeKey, String attributeValue) {
+    public <T> T findByAttribute(final Class<T> resultClass, final String attributeKey, final String attributeValue) {
         return findByAttributeInternal(resultClass, "string", attributeKey, attributeValue);
     }
 
     /**
      * Find by attribute internal.
      *
-     * @param <T> the generic type
-     * @param resultClass the result class
-     * @param attributeType the attribute type
-     * @param attributeKey the attribute key
-     * @param attributeValue the attribute value
+     * @param <T>
+     *            the generic type
+     * @param resultClass
+     *            the result class
+     * @param attributeType
+     *            the attribute type
+     * @param attributeKey
+     *            the attribute key
+     * @param attributeValue
+     *            the attribute value
      * @return the t
      */
-    protected <T> T findByAttributeInternal(Class<T> resultClass, String attributeType, String attributeKey,
-            Object attributeValue) {
+    protected <T> T findByAttributeInternal(final Class<T> resultClass, final String attributeType,
+            final String attributeKey, final Object attributeValue) {
         try {
-            TypedQuery<T> query = entityManager.createQuery("select obj from " + resultClass.getName()
-                    + " obj inner join treat(obj.attributes as " + attributeType + "Attribute" + ") a where key(a) = "
+            final TypedQuery<T> query = entityManager.createQuery("select obj from " + resultClass.getName()
+                    + " obj inner join treat(obj.properties as " + attributeType + "Attribute" + ") a where key(a) = "
                     + ":attributeKey and a." + attributeType + "Value = :attributeValue", resultClass);
 
             query.setParameter("attributeKey", attributeKey);
             query.setParameter("attributeValue", attributeValue);
             query.setHint("org.hibernate.cacheable", true);
             return query.getSingleResult();
-        } catch (NoResultException e) {
+        } catch (final NoResultException e) {
             return null;
         }
     }
@@ -115,9 +132,10 @@ public class DbUtil {
     /**
      * Clear cache.
      *
-     * @param object the object
+     * @param object
+     *            the object
      */
-    public void clearCache(Object object) {
+    public void clearCache(final Object object) {
         entityManager.flush();
         entityManager.detach(object);
     }
@@ -125,11 +143,12 @@ public class DbUtil {
     /**
      * Clear cache.
      *
-     * @param objects the objects
+     * @param objects
+     *            the objects
      */
-    public void clearCache(Collection<Object> objects) {
+    public void clearCache(final Collection<Object> objects) {
         entityManager.flush();
-        for (Object object : objects) {
+        for (final Object object : objects) {
             entityManager.detach(object);
         }
     }
@@ -137,11 +156,12 @@ public class DbUtil {
     /**
      * Log stats.
      *
-     * @param comment the comment
+     * @param comment
+     *            the comment
      */
-    public void logStats(String comment) {
+    public void logStats(final String comment) {
         if (entityManager instanceof HibernateEntityManager) {
-            Session session = ((HibernateEntityManager) entityManager).getSession();
+            final Session session = ((HibernateEntityManager) entityManager).getSession();
             logger.info("STATS: " + comment);
             session.getSessionFactory().getStatistics().logSummary();
         } else {

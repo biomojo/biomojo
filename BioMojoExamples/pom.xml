@@ -4,26 +4,26 @@
 
 	<parent>
 		<groupId>org.biomojo</groupId>
-		<artifactId>BioMojoParent</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
-		<relativePath>../BioMojoParent/pom.xml</relativePath>
+		<artifactId>BioMojoSpringParent</artifactId>
+		<version>0.0.3-SNAPSHOT</version>
+		<relativePath>../BioMojoSpringParent/pom.xml</relativePath>
 	</parent>
 
 	<artifactId>BioMojoExamples</artifactId>
 	<packaging>jar</packaging>
-	
+
 	<properties>
-		<shade.main.class>org.biomojo.benchmark.Main</shade.main.class>
+		<shade.main.class>org.biomojo.examples.Main</shade.main.class>
 	</properties>
-	
-    <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-shade-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-	
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-shade-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
 	<dependencies>
 	</dependencies>
 </project>

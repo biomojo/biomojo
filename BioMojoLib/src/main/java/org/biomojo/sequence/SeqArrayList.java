@@ -24,14 +24,12 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OrderColumn;
 
 import org.biomojo.core.CommonProperties;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class SeqArrayList.
  *
- * @param <T> the generic type
+ * @param <T>
+ *            the generic type
  */
 @Entity
 public class SeqArrayList<T extends Seq<?, ?>> extends AbstractSeqList<T> {
@@ -42,7 +40,6 @@ public class SeqArrayList<T extends Seq<?, ?>> extends AbstractSeqList<T> {
     /** The sequences. */
     @ManyToMany(targetEntity = AbstractSeq.class)
     @OrderColumn
-    @LazyCollection(LazyCollectionOption.EXTRA)
     protected List<T> sequences = new ArrayList<>();
 
     /**
@@ -55,13 +52,16 @@ public class SeqArrayList<T extends Seq<?, ?>> extends AbstractSeqList<T> {
     /**
      * Create a new BasicMultiSequence.
      *
-     * @param name the name
+     * @param name
+     *            the name
      */
     public SeqArrayList(final String name) {
         setProp(CommonProperties.NAME, name);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.List#get(int)
      */
     @Override
@@ -69,7 +69,9 @@ public class SeqArrayList<T extends Seq<?, ?>> extends AbstractSeqList<T> {
         return sequences.get(index);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.List#set(int, java.lang.Object)
      */
     @Override
@@ -77,7 +79,9 @@ public class SeqArrayList<T extends Seq<?, ?>> extends AbstractSeqList<T> {
         return sequences.get(index);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.List#size()
      */
     @Override
@@ -85,7 +89,9 @@ public class SeqArrayList<T extends Seq<?, ?>> extends AbstractSeqList<T> {
         return sequences.size();
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.List#subList(int, int)
      */
     @Override
@@ -93,7 +99,9 @@ public class SeqArrayList<T extends Seq<?, ?>> extends AbstractSeqList<T> {
         return new SeqSubList<T>(this, start, end);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.List#add(java.lang.Object)
      */
     @Override
@@ -101,7 +109,9 @@ public class SeqArrayList<T extends Seq<?, ?>> extends AbstractSeqList<T> {
         return sequences.add(e);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.util.List#remove(int)
      */
     @Override

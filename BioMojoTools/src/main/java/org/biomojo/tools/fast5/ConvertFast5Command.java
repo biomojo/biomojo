@@ -40,7 +40,6 @@ public class ConvertFast5Command extends AbstractCommand {
 
         try (final SequenceInputStream<FastqSeq<DNA, SangerQuality>> inputStream = new Fast5InputStream<DNA, SangerQuality>(
                 new File(inputDir))) {
-
             if (fasta) {
                 try (final SequenceOutputStream<ByteSeq<DNA>> outputStream = new FastaOutputStream<>(
                         new BufferedOutputStream(new FileOutputStream(outputFile)));) {

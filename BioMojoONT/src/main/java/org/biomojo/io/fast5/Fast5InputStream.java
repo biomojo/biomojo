@@ -26,7 +26,6 @@ import java.util.function.Supplier;
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.ByteQuality;
 import org.biomojo.alphabet.Nucleotide;
-import org.biomojo.io.ParseException;
 import org.biomojo.io.SequenceInputStream;
 import org.biomojo.io.fastx.FastqInputStream;
 import org.biomojo.sequence.FastqSeq;
@@ -35,6 +34,7 @@ import org.java0.logging.slf4j.Logger;
 import org.java0.logging.slf4j.LoggerFactory;
 import org.java0.string.CharArrayInputStream;
 import org.java0.util.Nullsafe;
+import org.biomojo.io.ParseException;
 
 import ucar.ma2.Array;
 import ucar.nc2.Attribute;

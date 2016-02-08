@@ -87,6 +87,12 @@ public class FastqInputStream<A extends Nucleotide<?>, Q extends ByteQuality<?>>
         this(inputStream, new DefaultHeaderParser(), seqSupplier, GlobalConst.VALIDATE_INPUT_SEQS);
     }
 
+    public FastqInputStream(final String inputFileName, final Supplier<? extends FastqSeq<A, Q>> seqSupplier)
+            throws FileNotFoundException {
+        this(new FileInputStream(inputFileName), new DefaultHeaderParser(), seqSupplier,
+                GlobalConst.VALIDATE_INPUT_SEQS);
+    }
+
     public FastqInputStream(final InputStream inputStream, final HeaderParser headerParser,
             final Supplier<? extends FastqSeq<A, Q>> seqSupplier) {
         this(inputStream, headerParser, seqSupplier, GlobalConst.VALIDATE_INPUT_SEQS);

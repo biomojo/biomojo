@@ -18,7 +18,6 @@ package org.biomojo.benchmark;
 
 import org.biomojo.BioMojo;
 import org.biomojo.benchmark.commands.AlignCommand;
-import org.biomojo.benchmark.commands.ConvertFast5Command;
 import org.biomojo.benchmark.commands.CountKmersCommand;
 import org.biomojo.benchmark.commands.GenFastaCommand;
 import org.biomojo.benchmark.commands.GenFastqCommand;
@@ -29,6 +28,7 @@ import org.biomojo.benchmark.commands.ReadFastqCommand;
 import org.biomojo.benchmark.commands.TranslateCommand;
 import org.biomojo.benchmark.commands.TrimCommand;
 import org.biomojo.benchmark.executor.ExecuteCommand;
+import org.biomojo.tools.fast5.ConvertFast5Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

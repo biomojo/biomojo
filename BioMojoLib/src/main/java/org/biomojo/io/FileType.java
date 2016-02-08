@@ -14,22 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.biomojo.sequence;
 
-import javax.persistence.AttributeConverter;
+package org.biomojo.io;
 
-public class TestConverter implements AttributeConverter<long[], byte[]> {
-
-    @Override
-    public byte[] convertToDatabaseColumn(final long[] attribute) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public long[] convertToEntityAttribute(final byte[] dbData) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+public enum FileType {
+    FASTA, FASTQ, FAST5
 }

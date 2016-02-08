@@ -11,7 +11,6 @@ import org.biomojo.examples.simpledb.SimpleDBExample;
 public class Main {
 
     public static void main(final String[] args) {
-        BioMojo.init(args, new FastxFormatCommand(), new SimpleDBExample(), new FastaHeadCommand(),
-                new AlphabetFilterCommand());
+        BioMojo.init(args, new FastxFormatCommand(), new SimpleDBExample(), new AlphabetFilterCommand());
     }
 }

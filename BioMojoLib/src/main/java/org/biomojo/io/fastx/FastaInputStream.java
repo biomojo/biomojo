@@ -74,6 +74,12 @@ public class FastaInputStream<T extends ByteAlphabet> extends MarkAndCopyInputSt
         this(inputStream, new DefaultHeaderParser(), seqSupplier, GlobalConst.VALIDATE_INPUT_SEQS);
     }
 
+    public FastaInputStream(final String inputFileName, final Supplier<? extends ByteSeq<T>> seqSupplier)
+            throws FileNotFoundException {
+        this(new FileInputStream(inputFileName), new DefaultHeaderParser(), seqSupplier,
+                GlobalConst.VALIDATE_INPUT_SEQS);
+    }
+
     public FastaInputStream(final InputStream inputStream, final HeaderParser headerParser,
             final Supplier<? extends ByteSeq<T>> seqSupplier) {
         this(inputStream, headerParser, seqSupplier, GlobalConst.VALIDATE_INPUT_SEQS);

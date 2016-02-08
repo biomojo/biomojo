@@ -16,6 +16,9 @@
  */
 package org.biomojo.examples.simpledb;
 
+import java.util.Random;
+
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -24,8 +27,9 @@ import javax.transaction.Transactional;
 import org.biomojo.BioMojo;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.cli.AbstractSpringCommand;
-import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.BasicByteSeq;
+import org.biomojo.sequence.ByteSeq;
+import org.biomojo.util.DbUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,6 +57,9 @@ public class SimpleDBExample extends AbstractSpringCommand {
     @PersistenceContext
     private EntityManager entityManager;
 
+    @Inject
+    DbUtil dbUtil;
+
     public static void main(final String[] args) {
         BioMojo.init(args, new SimpleDBExample());
     }
@@ -66,12 +73,20 @@ public class SimpleDBExample extends AbstractSpringCommand {
         logger.info("Started");
 
         final ByteSeq<ByteAlphabet> sequence = new BasicByteSeq<ByteAlphabet>("AGTGCCGGTC".getBytes());
-        sequence.setProp("name", "name of the sequence");
+        final String name = "Sequence " + new Random().nextInt(100000);
+        logger.info("Creating sequence: {}", name);
+        sequence.setProp("name", name);
         sequence.setProp("another", "test value");
         entityManager.persist(sequence);
+        entityManager.flush();
 
-        final ByteSeq<ByteAlphabet> newSeq = entityManager.find(ByteSeq.class, 1L);
-        logger.info(newSeq.getProp("name", String.class));
+        for (final Object result : entityManager.createQuery("from BasicByteSeq").getResultList()) {
+            final ByteSeq<ByteAlphabet> seq = (ByteSeq<ByteAlphabet>) result;
+            logger.info(seq.getProp("name", String.class));
+        }
+
+        final BasicByteSeq seq = dbUtil.findByAttribute(BasicByteSeq.class, "name", name);
+        logger.info("seq {}", seq);
 
         logger.info("Done");
     }

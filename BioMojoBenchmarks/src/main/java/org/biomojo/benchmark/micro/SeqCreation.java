@@ -11,7 +11,7 @@ public class SeqCreation {
         sw.start();
         final int count = 0;
         for (int i = 0; i < 100000000; ++i) {
-            final Seq seq = new BasicByteSeq();
+            final Seq<?, ?> seq = new BasicByteSeq<>();
             // seq.setProp("key", "abc");
             // if (seq.getProp("key") == "abcd") {
             // ++count;

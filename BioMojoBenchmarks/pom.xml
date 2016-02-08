@@ -2,12 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>BioMojoBenchmarks</artifactId>
-	
+
 	<parent>
 		<groupId>org.biomojo</groupId>
-		<artifactId>BioMojoParent</artifactId>
-		<version>0.0.2-SNAPSHOT</version>
-		<relativePath>../BioMojoParent/pom.xml</relativePath>
+		<artifactId>BioMojoSpringParent</artifactId>
+		<version>0.0.3-SNAPSHOT</version>
+		<relativePath>../BioMojoSpringParent/pom.xml</relativePath>
 	</parent>
 
 	<properties>
@@ -21,7 +21,12 @@
 			</plugin>
 		</plugins>
 	</build>
-	
+
 	<dependencies>
+        <dependency>
+            <groupId>org.biomojo</groupId>
+            <artifactId>BioMojoTools</artifactId>
+            <version>0.0.3-SNAPSHOT</version>
+        </dependency>
 	</dependencies>
 </project>

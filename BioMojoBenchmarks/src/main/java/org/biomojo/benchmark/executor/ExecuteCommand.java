@@ -129,6 +129,13 @@ public class ExecuteCommand extends AbstractSpringCommand {
                     libraries.add(library);
                 }
             }
+
+            if (inputFile != null && inputFile.getName().equals(inputFile.toString())) {
+                inputFile = new File(dataDir + File.separator + inputFile);
+                logger.info("Added dataDir to input file path: {}", inputFile);
+
+            }
+
             prepareTestData();
             prepareTestCases();
 

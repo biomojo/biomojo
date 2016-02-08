@@ -14,43 +14,37 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.biomojo.sequence;
+package org.biomojo.sequence.converter;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import org.biomojo.alphabet.Alphabets;
-import org.biomojo.alphabet.ByteAlphabet;
+import org.biomojo.codec.ByteByteCodec;
+import org.biomojo.codec.Codecs;
 
+// TODO: Auto-generated Javadoc
 /**
- * The Class ByteAlphabetConverter.
+ * The Class ByteCodecConverter.
  *
  * @author Hugh Eaves
  */
 @Converter(autoApply = true)
-public class ByteAlphabetConverter implements AttributeConverter<ByteAlphabet, Integer> {
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * javax.persistence.AttributeConverter#convertToDatabaseColumn(java.lang.
-     * Object)
+public class ByteCodecConverter implements AttributeConverter<ByteByteCodec, Integer> {
+    
+    /* (non-Javadoc)
+     * @see javax.persistence.AttributeConverter#convertToDatabaseColumn(java.lang.Object)
      */
     @Override
-    public Integer convertToDatabaseColumn(final ByteAlphabet alphabet) {
-        return (int) alphabet.getId();
+    public Integer convertToDatabaseColumn(ByteByteCodec codec) {
+        return (int) codec.getId();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see
-     * javax.persistence.AttributeConverter#convertToEntityAttribute(java.lang.
-     * Object)
+    /* (non-Javadoc)
+     * @see javax.persistence.AttributeConverter#convertToEntityAttribute(java.lang.Object)
      */
     @Override
-    public ByteAlphabet convertToEntityAttribute(final Integer alphabetId) {
-        return Alphabets.getAlphabet(alphabetId);
+    public ByteByteCodec convertToEntityAttribute(Integer codecId) {
+        return Codecs.getCodec(codecId, ByteByteCodec.class);
     }
+
 }
