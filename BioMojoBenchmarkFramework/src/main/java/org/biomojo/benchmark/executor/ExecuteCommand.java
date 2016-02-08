@@ -325,7 +325,7 @@ public class ExecuteCommand extends AbstractSpringCommand {
 
         addTestCase(new CppTestCase(Benchmark.COUNT_KMERS, Library.SEQAN));
         addTestCase(new JavaTestCase(Benchmark.COUNT_KMERS, Library.BIOMOJO));
-
+        addTestCase(new JavaTestCase(Benchmark.COUNT_KMERS, Library.BIOJAVA));
     }
 
     private void addTestCase(final TestCase testCase) {

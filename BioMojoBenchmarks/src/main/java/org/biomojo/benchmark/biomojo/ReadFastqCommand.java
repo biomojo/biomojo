@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.biomojo.benchmark.commands;
+package org.biomojo.benchmark.biomojo;
 
 import java.io.FileInputStream;
 import java.util.function.Supplier;

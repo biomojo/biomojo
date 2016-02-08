@@ -1,4 +1,4 @@
-package org.biomojo.benchmark.util;
+package org.biomojo.util;
 
 import org.biomojo.GlobalConst;
 import org.slf4j.Logger;

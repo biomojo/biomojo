@@ -20,6 +20,7 @@ import java.io.Closeable;
 import java.io.IOException;
 
 import org.biomojo.GlobalConst;
+import org.biomojo.hacks.SpringDependencyHack;
 import org.java0.cli.AbstractCommand;
 import org.java0.cli.Command;
 import org.slf4j.Logger;
@@ -38,6 +39,8 @@ public abstract class AbstractSpringCommand extends AbstractCommand implements S
 
     /** The config location. */
     private final String configLocation;
+
+    private static SpringDependencyHack unused;
 
     /** The context. */
     private AbstractApplicationContext applicationContext;

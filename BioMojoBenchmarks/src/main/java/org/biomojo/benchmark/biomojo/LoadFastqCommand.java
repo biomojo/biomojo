@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.biomojo.benchmark.commands;
+package org.biomojo.benchmark.biomojo;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -26,7 +26,6 @@ import java.util.function.Supplier;
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.alphabet.SangerQuality;
-import org.biomojo.benchmark.util.GCUtil;
 import org.biomojo.codec.CodecId;
 import org.biomojo.io.SequenceIdHeaderParser;
 import org.biomojo.io.SequenceInputStream;
@@ -35,6 +34,7 @@ import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.FastqSeq;
 import org.biomojo.sequence.factory.EncodedFastqSeqSupplier;
 import org.biomojo.sequence.factory.FastqSeqSupplier;
+import org.biomojo.util.GCUtil;
 import org.java0.core.exception.UncheckedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

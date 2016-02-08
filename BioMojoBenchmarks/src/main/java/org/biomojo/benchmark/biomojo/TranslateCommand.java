@@ -14,22 +14,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.biomojo.benchmark.commands;
+package org.biomojo.benchmark.biomojo;
 
+import java.io.BufferedOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
+import org.biomojo.alphabet.Alphabets;
+import org.biomojo.alphabet.AminoAcid;
 import org.biomojo.alphabet.DNA;
+import org.biomojo.alphabet.IUPACVariant;
 import org.biomojo.codec.CodecId;
 import org.biomojo.io.fastx.FastaInputStream;
+import org.biomojo.io.fastx.FastaOutputStream;
 import org.biomojo.sequence.ByteSeq;
+import org.biomojo.sequence.TranslatedSeq;
 import org.biomojo.sequence.factory.ByteSeqSupplier;
 import org.biomojo.sequence.factory.EncodedByteSeqSupplier;
 import org.java0.core.exception.UncheckedException;
-import org.java0.util.timing.Stopwatch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,9 +45,9 @@ import com.beust.jcommander.Parameters;
  * @author Hugh Eaves
  *
  */
-@Parameters(commandNames = "read_fasta")
-public class ReadFastaCommand extends BaseInputCommand {
-    private static final Logger logger = LoggerFactory.getLogger(ReadFastaCommand.class.getName());
+@Parameters(commandNames = "translate")
+public class TranslateCommand extends BaseInputOutputCommand {
+    private static final Logger logger = LoggerFactory.getLogger(TranslateCommand.class.getName());
 
     /**
      * @see org.java0.cli.Command#run()
@@ -49,12 +55,11 @@ public class ReadFastaCommand extends BaseInputCommand {
     @Override
     public void run() {
         try {
-            logger.info("BioMojo Fasta Read Benchmark");
-
-            final Stopwatch sw = new Stopwatch();
-            sw.start();
+            logger.info("BioMojo sequence translation benchmark");
 
             final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile));
+            final FastaOutputStream<AminoAcid> outputStream = new FastaOutputStream<>(
+                    new BufferedOutputStream(new FileOutputStream(outputFile)));
 
             int recordCount = 0;
             long totalLength = 0;
@@ -65,22 +70,24 @@ public class ReadFastaCommand extends BaseInputCommand {
             }
             final ByteSeq<DNA> sequence = supplier.get();
 
+            final TranslatedSeq translatedSeq = new TranslatedSeq(sequence,
+                    Alphabets.getAlphabet(AlphabetId.AMINO_ACID + IUPACVariant.WITH_AMBIGIGUITY, AminoAcid.class));
+
             while (inputStream.read(sequence)) {
                 totalLength += sequence.size();
+                outputStream.write(translatedSeq);
                 ++recordCount;
             }
+            outputStream.close();
             inputStream.close();
 
             logger.info("Done loading " + recordCount + " sequences");
             logger.info("Total length is " + totalLength + " bases");
-
-            sw.stop();
 
         } catch (final FileNotFoundException e) {
             throw new UncheckedException(e);
         } catch (final IOException e) {
             throw new UncheckedException(e);
         }
-
     }
 }
