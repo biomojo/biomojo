@@ -1,6 +1,5 @@
 package org.biomojo.hacks;
 
-import org.biomojo.hacks.HibernateDependencyHack;
 import org.java0.logging.slf4j.Logger;
 import org.java0.logging.slf4j.LoggerFactory;
 import org.springframework.orm.jpa.vendor.SpringVendorDependencyHack;
@@ -9,8 +8,8 @@ public class SpringDependencyHack extends AbstractDependencyHack {
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(SpringDependencyHack.class);
 
-    public SpringVendorDependencyHack hack1;
-    public HibernateDependencyHack hack2;
+    public static SpringVendorDependencyHack unused1;
+    public static HibernateDependencyHack unused2;
 
     @Override
     public void depend() {

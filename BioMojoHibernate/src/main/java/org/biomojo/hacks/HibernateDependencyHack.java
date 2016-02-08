@@ -1,12 +1,13 @@
 package org.biomojo.hacks;
 
-import org.biomojo.hacks.AbstractDependencyHack;
 import org.java0.logging.slf4j.Logger;
 import org.java0.logging.slf4j.LoggerFactory;
 
 public class HibernateDependencyHack extends AbstractDependencyHack {
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(HibernateDependencyHack.class);
+
+    public static BioMojoDependencyHack unused;
 
     @Override
     public void depend() {
