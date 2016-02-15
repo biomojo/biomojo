@@ -20,6 +20,7 @@ import java.util.Arrays;
 
 import org.biomojo.symbols.AminoAcids;
 import org.biomojo.symbols.Nucleotides;
+import org.java0.factory.LifecycleEvent;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -28,15 +29,15 @@ import org.biomojo.symbols.Nucleotides;
  * @author Hugh Eaves
  */
 public class DefaultCodonTable implements CodonTable {
-    
+
     /** The id. */
     int id;
-    
+
     /** The amino acid lookup table. */
-    private byte[] aminoAcidLookupTable;
-    
+    private final byte[] aminoAcidLookupTable;
+
     /** The start codon lookup table. */
-    private boolean[] startCodonLookupTable;
+    private final boolean[] startCodonLookupTable;
 
     /** The Constant TABLE_SIZE. */
     private static final int TABLE_SIZE = (Byte.MAX_VALUE + 1) * (Byte.MAX_VALUE + 1) * (Byte.MAX_VALUE + 1);
@@ -44,13 +45,16 @@ public class DefaultCodonTable implements CodonTable {
     /**
      * Instantiates a new codon table impl.
      *
-     * @param id the id
-     * @param aminoAcids the amino acids
-     * @param startCodons the start codons
+     * @param id
+     *            the id
+     * @param aminoAcids
+     *            the amino acids
+     * @param startCodons
+     *            the start codons
      */
-    DefaultCodonTable(int id, String aminoAcids, String startCodons) {
+    DefaultCodonTable(final int id, final String aminoAcids, final String startCodons) {
         this.id = id;
-        char BASES[] = { Nucleotides.URACIL, Nucleotides.CYTOSINE, Nucleotides.ADENINE, Nucleotides.GUANINE };
+        final char BASES[] = { Nucleotides.URACIL, Nucleotides.CYTOSINE, Nucleotides.ADENINE, Nucleotides.GUANINE };
         aminoAcidLookupTable = new byte[TABLE_SIZE];
         Arrays.fill(aminoAcidLookupTable, AminoAcids.ANY);
         startCodonLookupTable = new boolean[TABLE_SIZE];
@@ -80,43 +84,55 @@ public class DefaultCodonTable implements CodonTable {
     /**
      * Index.
      *
-     * @param base1 the base1
-     * @param base2 the base2
-     * @param base3 the base3
+     * @param base1
+     *            the base1
+     * @param base2
+     *            the base2
+     * @param base3
+     *            the base3
      * @return the int
      */
-    private int index(char base1, char base2, char base3) {
+    private int index(final char base1, final char base2, final char base3) {
         return (base1 * (Byte.MAX_VALUE + 1) * (Byte.MAX_VALUE + 1) + base2 * (Byte.MAX_VALUE + 1) + base3);
     }
 
     /**
      * Index.
      *
-     * @param base1 the base1
-     * @param base2 the base2
-     * @param base3 the base3
+     * @param base1
+     *            the base1
+     * @param base2
+     *            the base2
+     * @param base3
+     *            the base3
      * @return the int
      */
-    private int index(byte base1, byte base2, byte base3) {
+    private int index(final byte base1, final byte base2, final byte base3) {
         return (base1 * (Byte.MAX_VALUE + 1) * (Byte.MAX_VALUE + 1) + base2 * (Byte.MAX_VALUE + 1) + base3);
     }
 
     /**
      * Adds the codon.
      *
-     * @param base1u the base1u
-     * @param base2u the base2u
-     * @param base3u the base3u
-     * @param aminoAcid the amino acid
-     * @param startCodon the start codon
+     * @param base1u
+     *            the base1u
+     * @param base2u
+     *            the base2u
+     * @param base3u
+     *            the base3u
+     * @param aminoAcid
+     *            the amino acid
+     * @param startCodon
+     *            the start codon
      */
-    private void addCodon(char base1u, char base2u, char base3u, byte aminoAcid, boolean startCodon) {
-        char bases1[] = getAlternates(base1u);
-        char bases2[] = getAlternates(base2u);
-        char bases3[] = getAlternates(base3u);
-        for (char base1 : bases1) {
-            for (char base2 : bases2) {
-                for (char base3 : bases3) {
+    private void addCodon(final char base1u, final char base2u, final char base3u, final byte aminoAcid,
+            final boolean startCodon) {
+        final char bases1[] = getAlternates(base1u);
+        final char bases2[] = getAlternates(base2u);
+        final char bases3[] = getAlternates(base3u);
+        for (final char base1 : bases1) {
+            for (final char base2 : bases2) {
+                for (final char base3 : bases3) {
                     aminoAcidLookupTable[index(base1, base2, base3)] = aminoAcid;
                     startCodonLookupTable[index(base1, base2, base3)] = startCodon;
                 }
@@ -127,10 +143,11 @@ public class DefaultCodonTable implements CodonTable {
     /**
      * Gets the alternates.
      *
-     * @param base the base
+     * @param base
+     *            the base
      * @return the alternates
      */
-    private char[] getAlternates(char base) {
+    private char[] getAlternates(final char base) {
         if (base == Nucleotides.URACIL) {
             return new char[] { base, Character.toLowerCase(base), Nucleotides.THYMINE,
                     Character.toLowerCase((char) Nucleotides.THYMINE) };
@@ -139,28 +156,39 @@ public class DefaultCodonTable implements CodonTable {
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.codon.CodonTable#getAminoAcid(byte[], int)
      */
     @Override
-    public byte getAminoAcid(byte[] nucleotides, int offset) {
+    public byte getAminoAcid(final byte[] nucleotides, final int offset) {
         return aminoAcidLookupTable[index(nucleotides[offset], nucleotides[offset + 1], nucleotides[offset + 2])];
 
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.codon.CodonTable#getAminoAcid(byte[])
      */
     @Override
-    public byte getAminoAcid(byte[] nucleotides) {
+    public byte getAminoAcid(final byte[] nucleotides) {
         return aminoAcidLookupTable[index(nucleotides[0], nucleotides[1], nucleotides[2])];
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.codon.CodonTable#getAminoAcid(byte, byte, byte)
      */
     @Override
-    public byte getAminoAcid(byte nucleotide1, byte nucleotide2, byte nucleotide3) {
+    public byte getAminoAcid(final byte nucleotide1, final byte nucleotide2, final byte nucleotide3) {
         return aminoAcidLookupTable[index(nucleotide1, nucleotide2, nucleotide3)];
+    }
+
+    @Override
+    public void notify(final LifecycleEvent event) {
+
     }
 }

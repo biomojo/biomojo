@@ -19,7 +19,7 @@ package org.biomojo.alphabet;
 
 import org.biomojo.core.AbstractIdBasedFactory;
 import org.java0.factory.Config;
-import org.java0.factory.ConfiguredObjectProvider;
+import org.java0.factory.ConfiguredObjectSupplier;
 import org.java0.factory.FactoryException;
 
 // TODO: Auto-generated Javadoc
@@ -37,26 +37,26 @@ public class DefaultAlphabetFactory extends AbstractIdBasedFactory<Alphabet<?>> 
         register(new AllByte());
 
         for (int i = 0; i < IUPACVariant.NUM_VARIANTS; ++i) {
-            registerProvider(AlphabetId.DNA + i, new ConfiguredObjectProvider<Alphabet<?>>() {
+            registerProvider(AlphabetId.DNA + i, new ConfiguredObjectSupplier<Alphabet<?>>() {
                 @Override
                 public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
                     return new BasicDNA((int) config.values()[0]);
                 }
             }, true);
-            registerProvider(AlphabetId.RNA + i, new ConfiguredObjectProvider<Alphabet<?>>() {
+            registerProvider(AlphabetId.RNA + i, new ConfiguredObjectSupplier<Alphabet<?>>() {
                 @Override
                 public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
                     return new BasicRNA((int) config.values()[0]);
                 }
             }, true);
-            registerProvider(AlphabetId.NUCLEOTIDE + i, new ConfiguredObjectProvider<Alphabet<?>>() {
+            registerProvider(AlphabetId.NUCLEOTIDE + i, new ConfiguredObjectSupplier<Alphabet<?>>() {
                 @Override
                 public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
                     return new BasicNucleotide<>((int) config.values()[0]);
                 }
             }, true);
 
-            registerProvider(AlphabetId.AMINO_ACID + i, new ConfiguredObjectProvider<Alphabet<?>>() {
+            registerProvider(AlphabetId.AMINO_ACID + i, new ConfiguredObjectSupplier<Alphabet<?>>() {
                 @Override
                 public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
                     return new BasicAminoAcid((int) config.values()[0]);

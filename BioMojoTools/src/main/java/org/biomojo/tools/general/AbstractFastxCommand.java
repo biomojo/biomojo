@@ -7,8 +7,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import org.biomojo.alphabet.AlphabetId;
+import org.biomojo.alphabet.AlphabetVariant;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.ByteQuality;
+import org.biomojo.alphabet.IUPACVariant;
 import org.biomojo.alphabet.Nucleotide;
 import org.biomojo.io.FileType;
 import org.biomojo.io.FileUtil;
@@ -22,11 +24,11 @@ import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.FastqSeq;
 import org.biomojo.sequence.factory.ByteSeqSupplier;
 import org.biomojo.sequence.factory.FastqSeqSupplier;
-import org.java0.cli.InputOutputCommand;
+import org.java0.cli.FileInputFileOutputCommand;
 import org.java0.logging.slf4j.Logger;
 import org.java0.logging.slf4j.LoggerFactory;
 
-public abstract class AbstractFastxCommand extends InputOutputCommand {
+public abstract class AbstractFastxCommand extends FileInputFileOutputCommand {
     private static final Logger logger = LoggerFactory.getLogger(AbstractFastxCommand.class);
 
     @Override
@@ -74,10 +76,12 @@ public abstract class AbstractFastxCommand extends InputOutputCommand {
 
     private void processFastq() throws FileNotFoundException, IOException {
 
-        try (final SequenceInputStream<FastqSeq<Nucleotide<?>, ByteQuality<?>>> inputStream = new FastqInputStream<>(
-                new FileInputStream(inputFile), new FastqSeqSupplier<>(AlphabetId.NUCLEOTIDE, 0));
+        try (final SequenceInputStream<FastqSeq<Nucleotide<?>, ByteQuality>> inputStream = new FastqInputStream<>(
+                new FileInputStream(inputFile),
+                new FastqSeqSupplier<>(AlphabetId.NUCLEOTIDE | IUPACVariant.WITH_ANY | IUPACVariant.WITH_AMBIGIGUITY
+                        | AlphabetVariant.WITH_NON_CANONICAL, AlphabetId.QUALITY_SANGER));
 
-                final SequenceOutputStream<FastqSeq<Nucleotide<?>, ByteQuality<?>>> outputStream = new FastqOutputStream<>(
+                final SequenceOutputStream<FastqSeq<Nucleotide<?>, ByteQuality>> outputStream = new FastqOutputStream<>(
                         new BufferedOutputStream(new FileOutputStream(outputFile)));) {
 
             process(inputStream, outputStream);

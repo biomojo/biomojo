@@ -40,6 +40,7 @@ public class DbPropertyMapManager implements PropertyMapManager {
         typeMap.put(Integer.class, IntegerProperty.class);
         typeMap.put(Double.class, DoubleProperty.class);
         typeMap.put(String.class, StringProperty.class);
+        typeMap.put(Boolean.class, BooleanProperty.class);
         typeMap.put(BasicByteSeq.class, SeqProperty.class);
         typeMap.put(EncodedByteSeq.class, SeqProperty.class);
     }
@@ -75,9 +76,9 @@ public class DbPropertyMapManager implements PropertyMapManager {
             return (BasicProperty) value;
         }
 
-        final Class<? extends BasicProperty> cls = typeMap.get(value.getClass());
+        Class<? extends BasicProperty> cls = typeMap.get(value.getClass());
         if (cls == null) {
-            throw new IllegalArgumentException("Unhandled property type " + value.getClass().getName());
+            cls = ObjectProperty.class;
         }
         BasicProperty property;
         try {

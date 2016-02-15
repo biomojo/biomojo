@@ -16,7 +16,7 @@
  */
 package org.biomojo.codon;
 
-import org.biomojo.core.IntegerIdentified;
+import org.biomojo.core.IdBasedFactoryObject;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -24,13 +24,15 @@ import org.biomojo.core.IntegerIdentified;
  *
  * @author Hugh Eaves
  */
-public interface CodonTable extends IntegerIdentified {
+public interface CodonTable extends IdBasedFactoryObject {
 
     /**
      * Gets the amino acid.
      *
-     * @param nucleotides the nucleotides
-     * @param offset the offset
+     * @param nucleotides
+     *            the nucleotides
+     * @param offset
+     *            the offset
      * @return the amino acid
      */
     byte getAminoAcid(byte[] nucleotides, int offset);
@@ -38,7 +40,8 @@ public interface CodonTable extends IntegerIdentified {
     /**
      * Gets the amino acid.
      *
-     * @param nucleotides the nucleotides
+     * @param nucleotides
+     *            the nucleotides
      * @return the amino acid
      */
     byte getAminoAcid(byte[] nucleotides);
@@ -46,9 +49,12 @@ public interface CodonTable extends IntegerIdentified {
     /**
      * Gets the amino acid.
      *
-     * @param nucleotide1 the nucleotide1
-     * @param nucleotide2 the nucleotide2
-     * @param nucleotide3 the nucleotide3
+     * @param nucleotide1
+     *            the nucleotide1
+     * @param nucleotide2
+     *            the nucleotide2
+     * @param nucleotide3
+     *            the nucleotide3
      * @return the amino acid
      */
     byte getAminoAcid(byte nucleotide1, byte nucleotide2, byte nucleotide3);

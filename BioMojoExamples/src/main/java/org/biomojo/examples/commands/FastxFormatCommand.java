@@ -100,11 +100,11 @@ public class FastxFormatCommand extends AbstractCommand {
     public void run() {
         logger.info("Formatting fastx file");
         if (fastq) {
-            final FastqSeqSupplier<Nucleotide<?>, ByteQuality<?>> supplier = new FastqSeqSupplier<>(
+            final FastqSeqSupplier<Nucleotide<?>, ByteQuality> supplier = new FastqSeqSupplier<>(
                     AlphabetId.NUCLEOTIDE | IUPACVariant.WITH_ANY, AlphabetId.QUALITY_SANGER);
-            try (SequenceInputStream<FastqSeq<Nucleotide<?>, ByteQuality<?>>> input = new FastqInputStream<>(
-                    inputStream, supplier);
-                    SequenceOutputStream<FastqSeq<Nucleotide<?>, ByteQuality<?>>> output = new FastqOutputStream<>(
+            try (SequenceInputStream<FastqSeq<Nucleotide<?>, ByteQuality>> input = new FastqInputStream<>(inputStream,
+                    supplier);
+                    SequenceOutputStream<FastqSeq<Nucleotide<?>, ByteQuality>> output = new FastqOutputStream<>(
                             outputStream)) {
                 process(input, output);
             } catch (final IOException e) {

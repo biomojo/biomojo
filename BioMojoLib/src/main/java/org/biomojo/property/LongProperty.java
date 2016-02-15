@@ -43,21 +43,26 @@ public class LongProperty extends NumericProperty {
     /**
      * Instantiates a new long property.
      *
-     * @param longValue the long value
+     * @param longValue
+     *            the long value
      */
-    public LongProperty(long longValue) {
+    public LongProperty(final long longValue) {
         this.longValue = longValue;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.property.BasicProperty#setValue(java.lang.Object)
      */
     @Override
-    public void setValue(Object value) {
+    public void setValue(final Object value) {
         setLong((long) value);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.property.BasicProperty#getValue()
      */
     @Override
@@ -68,9 +73,10 @@ public class LongProperty extends NumericProperty {
     /**
      * Sets the long.
      *
-     * @param longValue the new long
+     * @param longValue
+     *            the new long
      */
-    public void setLong(long longValue) {
+    public void setLong(final long longValue) {
         this.longValue = longValue;
     }
 

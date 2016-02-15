@@ -33,7 +33,7 @@ import org.biomojo.util.OutputUtil;
 /**
  * The Class FastqOutputStream.
  */
-public class FastqOutputStream<T extends Nucleotide<?>, Q extends ByteQuality<?>> extends FilterOutputStream
+public class FastqOutputStream<T extends Nucleotide<?>, Q extends ByteQuality> extends FilterOutputStream
         implements SequenceOutputStream<FastqSeq<T, Q>> {
 
     /** The Constant DEFAULT_LINE_LENGTH. */

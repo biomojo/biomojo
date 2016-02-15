@@ -41,7 +41,7 @@ import org.slf4j.LoggerFactory;
 /**
  * The Class FastqInputStream.
  */
-public class FastqInputStream<A extends Nucleotide<?>, Q extends ByteQuality<?>>
+public class FastqInputStream<A extends Nucleotide<?>, Q extends ByteQuality>
         extends MarkAndCopyInputStream<FastqSeq<A, Q>> {
 
     /** The Constant logger. */

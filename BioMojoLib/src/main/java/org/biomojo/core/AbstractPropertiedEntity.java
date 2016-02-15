@@ -22,8 +22,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
 import javax.persistence.PostLoad;
-import javax.persistence.PostPersist;
-import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Transient;
@@ -35,7 +33,6 @@ import org.biomojo.property.Propertied;
 import org.biomojo.property.PropertyMapManager;
 import org.java0.collection.ArrayMap;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class AbstractPropertiedEntity.
  *
@@ -70,8 +67,6 @@ public abstract class AbstractPropertiedEntity extends AbstractEntity implements
     /**
      * Use db property manager.
      */
-    @PostPersist
-    @PostUpdate
     @PostLoad
     protected void useDbPropertyManager() {
         propertyMapManager = DbPropertyMapManager.INSTANCE;

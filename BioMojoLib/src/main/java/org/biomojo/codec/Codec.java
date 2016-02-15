@@ -19,24 +19,24 @@ package org.biomojo.codec;
 import java.util.List;
 
 import org.biomojo.alphabet.Alphabet;
-import org.biomojo.core.IntegerIdentified;
+import org.biomojo.core.IdBasedFactoryObject;
 
 /**
  * A Codec provides a method to encode / decode data from one format to another.
  * For example, a codec could convert sequence data between a single byte
  * representation and a two-bit representation, or just compress / decompress
- * data using a compression algorithm.
+ * data using a variable length compression algorithm.
  *
  * @author Hugh Eaves
  * @param <D>
- *            the decoded type
+ *            the type of decoded data
  * @param <E>
- *            the encoded type
+ *            the type of encoded data
  */
-public interface Codec<D, E> extends IntegerIdentified {
+public interface Codec<D, E> extends IdBasedFactoryObject {
 
     /**
-     * Supports alphabet.
+     * Checks to see if this Codec supports the given Alphabet.
      *
      * @param alphabet
      *            the alphabet
@@ -44,16 +44,63 @@ public interface Codec<D, E> extends IntegerIdentified {
      */
     boolean supportsAlphabet(Alphabet<D> alphabet);
 
+    /**
+     * Decodes all of the encoded data.
+     * 
+     * @param alphabet
+     *            the Alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param decodedLength
+     *            the expected length of the decoded data
+     * @return
+     */
     public List<D> decodeAll(Alphabet<D> alphabet, List<E> encodedData, int decodedLength);
 
+    /**
+     * Decodes all of the encoded data.
+     * 
+     * @param Alphabet
+     *            the alphabet
+     * @param encodedData
+     *            the encoded data
+     * @param decodedLength
+     *            the expected length of the decoded data
+     * @param pos
+     *            the position of the element that should be decoded. (i.e. the
+     *            position in the decoded data, not the encoded data)
+     * @return
+     */
     public D decode(Alphabet<D> alphabet, List<E> encodedData, int decodedLength, int pos);
 
-    public List<D> decodeBlock(Alphabet<D> alphabet, List<E> encodedData, List<D> decodedBlock, int blockNum);
+    /**
+     * @param alphabet
+     * @param decodedData
+     * @return
+     */
+    public List<E> encodeAll(Alphabet<D> alphabet, List<D> decodedData);
 
-    public int blockSize(int blockNum);
-
+    /**
+     * @param alphabet
+     * @param encodedData
+     * @param symbol
+     * @param pos
+     */
     public void encode(Alphabet<D> alphabet, List<E> encodedData, D symbol, int pos);
 
-    public List<E> encodeAll(Alphabet<D> alphabet, List<D> decodedData);
+    /**
+     * @param alphabet
+     * @param encodedData
+     * @param decodedBlock
+     * @param blockNum
+     * @return
+     */
+    public List<D> decodeBlock(Alphabet<D> alphabet, List<E> encodedData, List<D> decodedBlock, int blockNum);
+
+    /**
+     * @param blockNum
+     * @return
+     */
+    public int blockSize(int blockNum);
 
 }

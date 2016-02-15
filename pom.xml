@@ -33,7 +33,7 @@
 	<distributionManagement>
 		<repository>
 			<id>biomojo-deploy</id>
-			<url>scpexe://www.biomojo.org/home/maven/maven_deploy</url>
+			<url>scpexe://maven@www.biomojo.org/home/maven/maven_deploy</url>
 		</repository>
 	</distributionManagement>
 
@@ -79,7 +79,7 @@
 				<plugin>
 					<groupId>org.codehaus.mojo</groupId>
 					<artifactId>aspectj-maven-plugin</artifactId>
-					<version>1.7</version>
+					<version>1.8</version>
 					<configuration>
 						<complianceLevel>1.8</complianceLevel>
 						<showWeaveInfo>true</showWeaveInfo>
@@ -136,6 +136,12 @@
 	</dependencyManagement>
 
 	<dependencies>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 </project>
 

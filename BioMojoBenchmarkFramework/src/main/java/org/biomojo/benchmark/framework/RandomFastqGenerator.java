@@ -44,6 +44,8 @@ public class RandomFastqGenerator extends RandomSeqGenerator {
 
     @Override
     public void createFile(final File file, final int numSeqs, final int seqLength) {
+        logger.info("Creating random FASTQ file {}, numSeqs {}, seqLength{}", file, numSeqs, seqLength);
+
         try {
             final FastqOutputStream<DNA, SangerQuality> output = new FastqOutputStream<>(
                     new BufferedOutputStream(new FileOutputStream(file)), new FixedWidthSequenceIdHeaderBuilder(8),

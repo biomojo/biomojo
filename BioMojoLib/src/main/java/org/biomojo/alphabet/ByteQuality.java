@@ -21,6 +21,8 @@ package org.biomojo.alphabet;
  *
  * @author Hugh Eaves
  */
-public interface ByteQuality<A extends CanonicalizableByte<?>> extends CanonicalizableByte<A> {
+public interface ByteQuality extends CanonicalizableByte<SangerQuality> {
+    byte getMinValue();
 
+    byte getMaxValue();
 }

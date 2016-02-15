@@ -35,7 +35,7 @@ import org.slf4j.LoggerFactory;
  */
 @Entity
 @DiscriminatorValue("F")
-public class BasicFastqSeq<A extends Nucleotide<?>, Q extends ByteQuality<?>> extends BasicByteSeq<A>
+public class BasicFastqSeq<A extends Nucleotide<?>, Q extends ByteQuality> extends BasicByteSeq<A>
         implements FastqSeq<A, Q> {
 
     /** The Constant serialVersionUID. */
@@ -98,8 +98,8 @@ public class BasicFastqSeq<A extends Nucleotide<?>, Q extends ByteQuality<?>> ex
      */
     @Override
     public ByteSeq<Q> getQualityScores() {
-        return getProp("qual");
-        // return seq;
+        // return getProp("qual");
+        return seq;
     }
 
     /**
@@ -109,7 +109,7 @@ public class BasicFastqSeq<A extends Nucleotide<?>, Q extends ByteQuality<?>> ex
      *            the qualityScores to set
      */
     public void setQualityScores(final ByteSeq<Q> qualityScores) {
-        // this.seq = qualityScores;
-        setProp("qual", qualityScores);
+        this.seq = qualityScores;
+        // setProp("qual", qualityScores);
     }
 }

@@ -17,104 +17,47 @@
 
 package org.biomojo.alphabet;
 
-public class AbstractByteQuality<A extends CanonicalizableByte<?>> extends AbstractCanonicalizableByteAlphabet<A>
-        implements ByteQuality<A> {
+public class AbstractByteQuality extends AbstractCanonicalizableByteAlphabet<SangerQuality> implements ByteQuality {
 
     /** The start. */
-    private final int start;
+    private final int minValue;
 
     /** The end. */
-    private final int end;
+    private final int maxValue;
 
-    /**
-     * Instantiates a new abstract quality score alphabet.
-     *
-     * @param id
-     *            the id
-     * @param start
-     *            the start
-     * @param end
-     *            the end
-     */
+    private SangerQuality canonicalAlphabet;
+
     protected AbstractByteQuality(final int id, final int start, final int end) {
         super(id);
-        this.start = start;
-        this.end = end;
+        this.minValue = start;
+        this.maxValue = end;
     }
 
-    /**
-     * Num symbols.
-     *
-     * @return the int
-     * @see org.biomojo.alphabet.Alphabet#numSymbols()
-     */
     @Override
     public int numSymbols() {
-        return end - start;
+        return maxValue - minValue;
     }
 
-    /**
-     * Num canonical symbols.
-     *
-     * @return the int
-     * @see org.biomojo.alphabet.Alphabet#numCanonicalSymbols()
-     */
     @Override
     public int numCanonicalSymbols() {
-        return numSymbols();
+        return 0;
     }
 
-    /**
-     * Gets the ordinal for symbol.
-     *
-     * @param value
-     *            the value
-     * @return the ordinal for symbol
-     * @see org.biomojo.alphabet.ByteAlphabet#getOrdinalForSymbol(byte)
-     */
     @Override
     public int getOrdinalForSymbol(final byte value) {
-        return value - start;
+        return value - minValue;
     }
 
-    /**
-     * Gets the byte symbol for ordinal.
-     *
-     * @param ordinal
-     *            the ordinal
-     * @return the byte symbol for ordinal
-     * @see org.biomojo.alphabet.ByteAlphabet#getByteSymbolForOrdinal(int)
-     */
     @Override
     public byte getByteSymbolForOrdinal(final int ordinal) {
-        return (byte) ((start + ordinal) & 0xff);
+        return (byte) ((minValue + ordinal) & 0xff);
     }
 
-    /**
-     * Checks if is valid.
-     *
-     * @param symbol
-     *            the symbol
-     * @return true, if is valid
-     * @see org.biomojo.alphabet.ByteAlphabet#isValid(byte)
-     */
     @Override
     public boolean isValid(final byte symbol) {
-        return (symbol >= start && symbol < end);
+        return (symbol >= minValue && symbol < maxValue);
     }
 
-    /**
-     * Checks if is valid.
-     *
-     * @param symbols
-     *            the symbols
-     * @param start
-     *            the start
-     * @param end
-     *            the end
-     * @return true, if is valid
-     * @see org.biomojo.alphabet.ByteAlphabet#isValid(byte[], int, int)
-     */
     @Override
     public boolean isValid(final byte[] symbols, final int start, final int end) {
         for (final byte symbol : symbols) {
@@ -125,64 +68,6 @@ public class AbstractByteQuality<A extends CanonicalizableByte<?>> extends Abstr
         return true;
     }
 
-    /**
-     * Gets the canonical.
-     *
-     * @param symbol
-     *            the symbol
-     * @return the canonical
-     * @see org.biomojo.alphabet.ByteAlphabet#getCanonical(byte)
-     */
-    @Override
-    public byte getCanonical(final byte symbol) {
-        return symbol;
-    }
-
-    /**
-     * Gets the canonical.
-     *
-     * @param values
-     *            the values
-     * @param start
-     *            the start
-     * @param end
-     *            the end
-     * @return the canonical
-     * @see org.biomojo.alphabet.ByteAlphabet#getCanonical(byte[], int, int)
-     */
-    @Override
-    public byte[] getCanonical(final byte[] values, final int start, final int end) {
-        return values;
-    }
-
-    /**
-     * Checks if is canonical.
-     *
-     * @param symbol
-     *            the symbol
-     * @return true, if is canonical
-     * @see org.biomojo.alphabet.ByteAlphabet#isCanonical(byte)
-     */
-    @Override
-    public boolean isCanonical(final byte symbol) {
-        return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.alphabet.Alphabet#isCanonical()
-     */
-    @Override
-    public boolean isCanonical() {
-        return true;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.alphabet.ByteAlphabet#validate(byte[], int, int)
-     */
     @Override
     public void validate(final byte[] symbols, final int start, final int end) throws InvalidSymbolException {
         for (int i = start; i < end; ++i) {
@@ -192,13 +77,50 @@ public class AbstractByteQuality<A extends CanonicalizableByte<?>> extends Abstr
         return;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.alphabet.Alphabet#getCanonical()
-     */
     @Override
-    public A getCanonical() {
-        return (A) this;
+    public byte getMinValue() {
+        return (byte) minValue;
+    }
+
+    @Override
+    public byte getMaxValue() {
+        return (byte) maxValue;
+    }
+
+    @Override
+    public byte getCanonical(final byte symbol) {
+        final int canonicalMinValue = getCanonical().getMinValue();
+        final int diff = this.getMinValue() - canonicalMinValue;
+        return (byte) (symbol - diff);
+    }
+
+    @Override
+    public byte[] getCanonical(final byte[] symbols, final int start, final int end) {
+        final int canonicalMinValue = getCanonical().getMinValue();
+        final int diff = this.getMinValue() - canonicalMinValue;
+        final byte[] canonicals = new byte[symbols.length];
+        int pos = 0;
+        for (final byte symbol : symbols) {
+            canonicals[pos++] = (byte) (symbol - diff);
+        }
+        return canonicals;
+    }
+
+    @Override
+    public boolean isCanonical(final byte symbol) {
+        return false;
+    }
+
+    @Override
+    public boolean isCanonical() {
+        return false;
+    }
+
+    @Override
+    public SangerQuality getCanonical() {
+        if (canonicalAlphabet == null) {
+            canonicalAlphabet = Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER);
+        }
+        return canonicalAlphabet;
     }
 }

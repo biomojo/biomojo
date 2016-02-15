@@ -33,9 +33,9 @@ import org.biomojo.core.AbstractEntity;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(discriminatorType = DiscriminatorType.CHAR)
-@DiscriminatorValue("P")
+@DiscriminatorValue("_")
 public abstract class BasicProperty extends AbstractEntity {
-    
+
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 7469166508807299605L;
 
@@ -49,21 +49,24 @@ public abstract class BasicProperty extends AbstractEntity {
     /**
      * Sets the value.
      *
-     * @param value the new value
+     * @param value
+     *            the new value
      */
     public abstract void setValue(Object value);
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#equals(java.lang.Object)
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj == null) {
             return false;
         } else if (obj == this) {
             return true;
         } else if (obj instanceof BasicProperty) {
-            BasicProperty attribute = (BasicProperty) obj;
+            final BasicProperty attribute = (BasicProperty) obj;
             if (getValue().equals(attribute.getValue())) {
                 return true;
             }
@@ -71,7 +74,9 @@ public abstract class BasicProperty extends AbstractEntity {
         return false;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see java.lang.Object#hashCode()
      */
     @Override

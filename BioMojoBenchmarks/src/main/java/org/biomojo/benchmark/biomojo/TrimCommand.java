@@ -25,6 +25,8 @@ import java.util.Arrays;
 import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
+import org.biomojo.alphabet.Alphabets;
+import org.biomojo.alphabet.ByteQuality;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.alphabet.SangerQuality;
 import org.biomojo.codec.CodecId;
@@ -50,7 +52,7 @@ public class TrimCommand extends BaseInputOutputCommand {
     private static final Logger logger = LoggerFactory.getLogger(TrimCommand.class.getName());
 
     @Parameter(names = { "-q", "--qscore" }, description = "Minimum quality score for trimming")
-    private final int cutoff = 30;
+    protected int cutoff = 30;
 
     /**
      * @see org.java0.cli.Command#run()
@@ -65,6 +67,8 @@ public class TrimCommand extends BaseInputOutputCommand {
             final FastqOutputStream<DNA, SangerQuality> outputStream = new FastqOutputStream<>(
                     new BufferedOutputStream(new FileOutputStream(outputFile), 1024 * 1024));
 
+            final ByteQuality qualityAlphabet = Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER);
+
             Supplier<FastqSeq<DNA, SangerQuality>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA,
                     AlphabetId.QUALITY_SANGER);
             if (encode) {
@@ -76,6 +80,7 @@ public class TrimCommand extends BaseInputOutputCommand {
             int recordCount = 0;
             long totalLength = 0;
             long qualityLength = 0;
+            final int scoreOffset = qualityAlphabet.getMinValue();
 
             while (inputStream.read(sequence)) {
 
@@ -88,7 +93,7 @@ public class TrimCommand extends BaseInputOutputCommand {
 
                 int trimPos = -1;
                 for (int j = end; j >= 0; --j) {
-                    if ((quality[j] - 33) >= cutoff) {
+                    if ((quality[j] - scoreOffset) >= cutoff) {
                         trimPos = j;
                         break;
                     }

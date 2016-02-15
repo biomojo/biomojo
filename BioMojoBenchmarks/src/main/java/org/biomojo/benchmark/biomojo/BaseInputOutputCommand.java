@@ -16,7 +16,7 @@
  */
 package org.biomojo.benchmark.biomojo;
 
-import org.java0.cli.InputOutputCommand;
+import org.java0.cli.FileInputFileOutputCommand;
 
 import com.beust.jcommander.Parameter;
 
@@ -24,7 +24,7 @@ import com.beust.jcommander.Parameter;
  * @author Hugh Eaves
  *
  */
-public abstract class BaseInputOutputCommand extends InputOutputCommand {
+public abstract class BaseInputOutputCommand extends FileInputFileOutputCommand {
     @Parameter(names = { "-e", "--encode" }, description = "Use two bit encoding for sequences")
     protected boolean encode = false;
 }

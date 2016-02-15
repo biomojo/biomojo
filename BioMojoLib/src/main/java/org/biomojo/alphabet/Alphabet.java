@@ -19,7 +19,7 @@ package org.biomojo.alphabet;
 
 import java.util.List;
 
-import org.biomojo.core.IntegerIdentified;
+import org.biomojo.core.IdBasedFactoryObject;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -29,7 +29,7 @@ import org.biomojo.core.IntegerIdentified;
  * @param <T>
  *            the type of values in the alphabet
  */
-public interface Alphabet<T> extends IntegerIdentified {
+public interface Alphabet<T> extends IdBasedFactoryObject {
 
     /**
      * Gets the symbol type.

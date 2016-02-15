@@ -16,19 +16,21 @@
  */
 package org.biomojo.property;
 
-// TODO: Auto-generated Javadoc
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
 /**
  * The Class IntegerProperty.
  *
  * @author Hugh Eaves
  */
-public class IntegerProperty extends NumericProperty {
-    
+
+@Entity
+@DiscriminatorValue("I")
+public class IntegerProperty extends LongProperty {
+
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1448961994278386666L;
-
-    /** The int value. */
-    protected int intValue;
 
     /**
      * Instantiates a new integer property.
@@ -39,34 +41,44 @@ public class IntegerProperty extends NumericProperty {
     /**
      * Instantiates a new integer property.
      *
-     * @param intValue the int value
+     * @param intValue
+     *            the int value
      */
-    public IntegerProperty(int intValue) {
-        this.intValue = intValue;
+    public IntegerProperty(final int intValue) {
+        this.longValue = intValue;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.property.BasicProperty#setValue(java.lang.Object)
      */
     @Override
-    public void setValue(Object value) {
+    public void setValue(final Object value) {
         setInteger((int) value);
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.property.BasicProperty#getValue()
      */
     @Override
     public Object getValue() {
-        return intValue;
+        return (int) longValue;
     }
 
     /**
      * Sets the integer.
      *
-     * @param intValue the new integer
+     * @param intValue
+     *            the new integer
      */
-    public void setInteger(int intValue) {
-        this.intValue = intValue;
+    public void setInteger(final int intValue) {
+        this.longValue = intValue;
+    }
+
+    public int getInteger() {
+        return (int) longValue;
     }
 }

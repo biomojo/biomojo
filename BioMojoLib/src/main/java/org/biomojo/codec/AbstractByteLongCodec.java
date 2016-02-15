@@ -16,7 +16,6 @@
  */
 package org.biomojo.codec;
 
-import org.biomojo.alphabet.Alphabet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,68 +40,4 @@ public abstract class AbstractByteLongCodec extends AbstractCodec<Byte, Long> im
         super(codecId);
     }
 
-    /**
-     * Decode all the data in the sequence.
-     *
-     * @param alphabet
-     *            the alphabet
-     * @param encodedData
-     *            the encoded data
-     * @param length
-     *            the length
-     * @return the d[]
-     */
-    @Override
-    public Byte[] decode(final Alphabet<Byte> alphabet, final long[] encodedData, final int length) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Decode a single position in the sequence.
-     *
-     * @param alphabet
-     *            the alphabet
-     * @param encodedData
-     *            the encoded data
-     * @param length
-     *            the length
-     * @param pos
-     *            the pos
-     * @return the byte
-     */
-    @Override
-    public Byte decode(final Alphabet<Byte> alphabet, final long[] encodedData, final int length, final int pos) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Encode a single value, replacing the value at the given position.
-     *
-     * @param alphabet
-     *            the alphabet
-     * @param encodedData
-     *            the encoded data
-     * @param symbol
-     *            the symbol
-     * @param pos
-     *            the pos
-     */
-    @Override
-    public void encode(final Alphabet<Byte> alphabet, final long[] encodedData, final Byte symbol, final int pos) {
-        throw new UnsupportedOperationException();
-    }
-
-    /**
-     * Encode all the data into the sequence, replacing any existing data.
-     *
-     * @param alphabet
-     *            the alphabet
-     * @param decodedData
-     *            the decoded data
-     * @return the byte[]
-     */
-    @Override
-    public long[] encode(final Alphabet<Byte> alphabet, final Byte[] decodedData) {
-        throw new UnsupportedOperationException();
-    }
 }

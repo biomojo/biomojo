@@ -27,23 +27,32 @@ import javax.persistence.Entity;
 @Entity
 @DiscriminatorValue("N")
 public abstract class NumericProperty extends BasicProperty {
-    
-    /** The Constant serialVersionUID. */
-    private static final long serialVersionUID = 8901783423194087216L;
 
-    //
-    // private short exponent;
-    //
+    /** The Constant serialVersionUID. */
+    private static final long serialVersionUID = 1L;
+
     // @Column(scale = 10, precision = 20)
     // private BigDecimal number;
-    //
-    // private boolean exact;
 
     /**
      * Instantiates a new numeric property.
      */
     public NumericProperty() {
     }
+
+    // @PrePersist
+    // @PreUpdate
+    // protected void toDB() {
+    //
+    // }
+
+    // @PostPersist
+    // @PostUpdate
+    // @PostLoad
+    // protected void fromDB() {
+    //
+    // }
+
     //
     // public boolean isExact() {
     // return exact;

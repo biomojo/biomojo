@@ -34,7 +34,7 @@ import org.biomojo.codec.ByteByteCodec;
  */
 @Entity
 @DiscriminatorValue("G")
-public class EncodedFastqSeq<A extends Nucleotide<A>, Q extends ByteQuality<?>> extends EncodedByteSeq<A>
+public class EncodedFastqSeq<A extends Nucleotide<A>, Q extends ByteQuality> extends EncodedByteSeq<A>
         implements FastqSeq<A, Q> {
 
     /** The Constant serialVersionUID. */

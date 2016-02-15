@@ -23,12 +23,32 @@ package org.biomojo.alphabet;
  * 
  *         Valid range: 33 - 126 (i.e. Phred score + 33)
  */
-public class SangerQuality extends AbstractByteQuality<PhredQuality> {
+public class SangerQuality extends AbstractByteQuality {
 
     /**
      * Instantiates a new sanger quality score alphabet.
      */
     public SangerQuality() {
         super(AlphabetId.QUALITY_SANGER, 33, 126);
+    }
+
+    @Override
+    public byte getCanonical(final byte symbol) {
+        return symbol;
+    }
+
+    @Override
+    public byte[] getCanonical(final byte[] symbols, final int start, final int end) {
+        return symbols;
+    }
+
+    @Override
+    public boolean isCanonical(final byte symbol) {
+        return isValid(symbol);
+    }
+
+    @Override
+    public boolean isCanonical() {
+        return true;
     }
 }

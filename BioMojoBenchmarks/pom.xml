@@ -7,7 +7,7 @@
 		<groupId>org.biomojo</groupId>
 		<artifactId>BioMojoParent</artifactId>
 		<version>0.0.3-SNAPSHOT</version>
-		<relativePath>../BioMojoSpringParent/pom.xml</relativePath>
+		<relativePath>../BioMojoParent/pom.xml</relativePath>
 	</parent>
 
 	<properties>

@@ -21,8 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.java0.core.exception.UncheckedException;
-import org.java0.factory.ConfiguredObjectProvider;
-import org.java0.factory.ObjectProvider;
+import org.java0.factory.ConfiguredObjectSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,26 +30,28 @@ import org.slf4j.LoggerFactory;
  * A factory for creating AbstractIdBased objects.
  *
  * @author Hugh Eaves
- * @param <T> the generic type
+ * @param <T>
+ *            the generic type
  */
-public class AbstractIdBasedFactory<T extends IntegerIdentified> implements IdBasedFactory<T> {
-    
+public abstract class AbstractIdBasedFactory<T extends IdBasedFactoryObject> implements IdBasedFactory<T> {
+
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AbstractIdBasedFactory.class.getName());
 
     /** The object cache. */
     private T[] objectCache;
-    
+
     /** The providers. */
-    private final Map<Integer, ConfiguredObjectProvider<T>> providers = new HashMap<>();
-    
+    private final Map<Integer, ConfiguredObjectSupplier<T>> providers = new HashMap<>();
+
     /** The create singleton. */
     private final Map<Integer, Boolean> createSingleton = new HashMap<>();
 
     /**
      * Instantiates a new abstract id based factory.
      *
-     * @param emptyObjects the empty objects
+     * @param emptyObjects
+     *            the empty objects
      */
     protected AbstractIdBasedFactory(final T[] emptyObjects) {
         this.objectCache = emptyObjects;
@@ -59,26 +60,30 @@ public class AbstractIdBasedFactory<T extends IntegerIdentified> implements IdBa
     /**
      * Register provider.
      *
-     * @param objectId the object id
-     * @param provider the provider
-     * @param singleton the singleton
+     * @param objectId
+     *            the object id
+     * @param provider
+     *            the provider
+     * @param singleton
+     *            the singleton
      */
-    public void registerProvider(final int objectId, final ConfiguredObjectProvider<T> provider,
+    public void registerProvider(final int objectId, final ConfiguredObjectSupplier<T> provider,
             final boolean singleton) {
         checkCacheSize(objectId);
         createSingleton.put(objectId, singleton);
-        final ObjectProvider<T> oldProvider = providers.put(objectId, provider);
+        final ConfiguredObjectSupplier<T> oldProvider = providers.put(objectId, provider);
         if (oldProvider != null) {
             throw new UncheckedException("Duplicate object id registered in factory, objectId = " + objectId
-                    + ", current class = " + oldProvider.getObject().getClass().getName() + ", new class = "
-                    + provider.getObject().getClass().getName());
+                    + ", current class = " + oldProvider.get().getClass().getName() + ", new class = "
+                    + provider.get().getClass().getName());
         }
     }
 
     /**
      * Register.
      *
-     * @param object the object
+     * @param object
+     *            the object
      */
     public void register(final T object) {
         checkCacheSize(object.getId());
@@ -95,7 +100,8 @@ public class AbstractIdBasedFactory<T extends IntegerIdentified> implements IdBa
     /**
      * Check cache size.
      *
-     * @param id the id
+     * @param id
+     *            the id
      */
     protected void checkCacheSize(final int id) {
         if (objectCache.length <= id) {
@@ -103,15 +109,17 @@ public class AbstractIdBasedFactory<T extends IntegerIdentified> implements IdBa
         }
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.core.IdBasedFactory#getInstance(int, java.lang.Class)
      */
     @Override
     @SuppressWarnings("unchecked")
-    public <Z extends T> Z getInstance(final int objectId, final Class<Z> type) {
+    public <Z extends T> Z getInstance(final Class<Z> type, final int objectId) {
         Z instance = (Z) objectCache[objectId];
         if (instance == null) {
-            final ConfiguredObjectProvider<T> provider = providers.get(objectId);
+            final ConfiguredObjectSupplier<T> provider = providers.get(objectId);
             if (provider != null) {
                 logger.debug("Constructing new object for objectId {}", objectId);
                 instance = (Z) provider.getObject(new IdBasedConfig<T>(objectId));
@@ -123,4 +131,5 @@ public class AbstractIdBasedFactory<T extends IntegerIdentified> implements IdBa
         }
         return instance;
     }
+
 }

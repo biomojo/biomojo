@@ -17,8 +17,7 @@
 
 package org.biomojo.alphabet;
 
-public interface CanonicalizableByte<A extends CanonicalizableByte<?>>
-        extends Canonicalizable<Byte, A>, ByteAlphabet {
+public interface CanonicalizableByte<A extends CanonicalizableByte<?>> extends Canonicalizable<Byte, A>, ByteAlphabet {
 
     /**
      * Checks if is canonical.
@@ -28,15 +27,6 @@ public interface CanonicalizableByte<A extends CanonicalizableByte<?>>
      * @return true, if is canonical
      */
     boolean isCanonical(byte symbol);
-
-    /**
-     * Gets the canonical.
-     *
-     * @param symbol
-     *            the symbol
-     * @return the canonical
-     */
-    byte getCanonical(byte symbol);
 
     /**
      * Returns a new array containing the canonical representation of all the
@@ -109,4 +99,7 @@ public interface CanonicalizableByte<A extends CanonicalizableByte<?>>
     default boolean isEquivalent(final byte a, final byte b) {
         return (getCanonical(a) == getCanonical(b));
     }
+
+    byte getCanonical(byte symbol);
+
 }

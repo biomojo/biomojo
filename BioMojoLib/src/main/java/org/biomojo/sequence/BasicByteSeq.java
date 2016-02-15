@@ -18,6 +18,7 @@ package org.biomojo.sequence;
 
 import java.util.Arrays;
 
+import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
@@ -43,6 +44,7 @@ public class BasicByteSeq<A extends ByteAlphabet> extends AbstractByteSeq<A> {
     private static final long serialVersionUID = 1L;
 
     /** The data. */
+    @Column(length = Integer.MAX_VALUE)
     protected byte[] data = Constants.EMPTY_BYTE_ARRAY;
 
     /** The description. */

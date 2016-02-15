@@ -40,7 +40,7 @@ public class Alphabets {
      * @return the alphabet
      */
     public static <T extends Alphabet<?>> T getAlphabet(final int alphabetId) {
-        return (T) factory.getInstance(alphabetId, Alphabet.class);
+        return (T) factory.getInstance(Alphabet.class, alphabetId);
     }
 
     /**
@@ -55,6 +55,6 @@ public class Alphabets {
      * @return the alphabet
      */
     public static <T extends Alphabet<?>> T getAlphabet(final int alphabetId, final Class<T> requiredType) {
-        return factory.getInstance(alphabetId, requiredType);
+        return factory.getInstance(requiredType, alphabetId);
     }
 }

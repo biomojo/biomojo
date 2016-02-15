@@ -26,7 +26,7 @@ import org.biomojo.alphabet.Nucleotide;
  * @param <A>
  *            the generic type
  */
-public interface FastqSeq<A extends Nucleotide<?>, Q extends ByteQuality<?>> extends ByteSeq<A> {
+public interface FastqSeq<A extends Nucleotide<?>, Q extends ByteQuality> extends ByteSeq<A> {
 
     /**
      * Gets the quality scores.

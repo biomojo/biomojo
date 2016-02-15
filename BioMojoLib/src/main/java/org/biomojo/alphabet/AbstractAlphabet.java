@@ -16,6 +16,8 @@
  */
 package org.biomojo.alphabet;
 
+import org.java0.factory.LifecycleEvent;
+
 /**
  * The Class AbstractAlphabet.
  *
@@ -56,6 +58,10 @@ public abstract class AbstractAlphabet<T> implements Alphabet<T> {
     @Override
     public String toString() {
         return this.getClass().getName() + "(id=" + id + ")";
+    }
+
+    public void notify(final LifecycleEvent event) {
+
     }
 
 }

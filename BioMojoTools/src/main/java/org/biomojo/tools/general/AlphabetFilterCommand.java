@@ -29,14 +29,17 @@ import org.java0.logging.slf4j.LoggerFactory;
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 
-@Parameters(commandNames = "alphabetfilter", commandDescription = "Filter Input File Alphabet")
+@Parameters(commandNames = "alphabet_filter", commandDescription = "Filter Input File Alphabet")
 public class AlphabetFilterCommand extends AbstractFastxCommand {
     private static final Logger logger = LoggerFactory.getLogger(AlphabetFilterCommand.class.getName());
 
     @Parameter(names = { "-a", "--alphabetId" }, required = true, description = "Numeric alphabet id")
-    private int alphabetId;
+    protected int alphabetId;
 
-    private ByteAlphabet targetAlphabet;
+    @Parameter(names = { "-r", "--replace" }, description = "Replace invalid symbols (skip otherwise)")
+    protected boolean replace = false;
+
+    protected ByteAlphabet targetAlphabet;
 
     @Override
     protected void setup() {
@@ -57,7 +60,17 @@ public class AlphabetFilterCommand extends AbstractFastxCommand {
                     logger.info("Length = {}", sequence.size());
                 }
                 sequence.canonicalize();
-                if (targetAlphabet.isValid(sequence.toByteArray())) {
+                if (replace) {
+                    final byte[] seqData = sequence.toByteArray();
+                    for (int i = 0; i < seqData.length; ++i) {
+                        if (!targetAlphabet.isValid(seqData[i])) {
+                            seqData[i] = targetAlphabet.getByteSymbolForOrdinal(0);
+                        }
+                    }
+                    sequence.setAll(seqData);
+                    sequence.setAlphabet((A) targetAlphabet);
+                    outputStream.write(sequence);
+                } else if (targetAlphabet.isValid(sequence.toByteArray())) {
                     outputStream.write(sequence);
                 } else {
                     logger.info("Skipping sequence {}", sequence.getDescription());

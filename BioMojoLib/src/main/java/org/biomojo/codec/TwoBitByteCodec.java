@@ -58,6 +58,8 @@ public class TwoBitByteCodec extends AbstractByteByteCodec {
     /** The Constant NUM_SYMBOLS. */
     private static final int NUM_SYMBOLS = 1 << BITS_PER_SYMBOL;
 
+    private static final int LENGTH_MASK = SYMBOLS_PER_BYTE - 1;
+
     /** The Constant MASK_3. */
     private static final int SYMBOL_MASK = 0x03;
 
@@ -99,7 +101,7 @@ public class TwoBitByteCodec extends AbstractByteByteCodec {
     @Override
     public byte[] decodeAll(final ByteAlphabet alphabet, final byte[] encodedData, final int length) {
         final byte[] decodedData = new byte[length];
-        final int endPos = length - (length & 0x03);
+        final int endPos = length - (length & LENGTH_MASK);
         int decodedPos = 0;
         int encodedPos = 0;
         // decode full bytes
@@ -132,8 +134,8 @@ public class TwoBitByteCodec extends AbstractByteByteCodec {
      */
     @Override
     public byte decode(final ByteAlphabet alphabet, final byte[] encodedData, final int decodedLength, final int pos) {
-        final int bytePos = pos >>> 2;
-        final int symbolPos = pos & 0x03;
+        final int bytePos = pos >>> 2; // fast divide by 4
+        final int symbolPos = pos & LENGTH_MASK;
 
         switch (symbolPos) {
         case 0:
@@ -174,7 +176,7 @@ public class TwoBitByteCodec extends AbstractByteByteCodec {
         // encodedData = oldEncodedData;
         // }
         final byte[] encodedData = new byte[arrayLength];
-        final int endPos = length - (length & 0x03);
+        final int endPos = length - (length & LENGTH_MASK);
         int decodedPos = 0;
         int encodedPos = 0;
         // encode full bytes
@@ -219,8 +221,8 @@ public class TwoBitByteCodec extends AbstractByteByteCodec {
     @Override
     public void encode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final byte symbol,
             final int pos) {
-        final int bytePos = pos >>> 2;
-        final int symbolPos = pos & 0x03;
+        final int bytePos = pos >>> 2; // fast divide by 4
+        final int symbolPos = pos & LENGTH_MASK;
         switch (symbolPos) {
         case 0:
             encodedData[bytePos] = (byte) (encodedData[bytePos] & CLEAR_MASK_0

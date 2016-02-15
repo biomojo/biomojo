@@ -19,11 +19,10 @@ package org.biomojo.codec;
 import org.biomojo.alphabet.ByteAlphabet;
 
 /**
- * The Interface ByteCodec. Decodes / Encodes byte values into an array of long
- * values.
+ * The Interface ByteLongCodec. Decodes / Encodes byte values into an array of
+ * long values.
  */
 public interface ByteLongCodec extends ObjectLongCodec<Byte> {
-
     /**
      * Decode all the data in the sequence.
      *
@@ -31,11 +30,11 @@ public interface ByteLongCodec extends ObjectLongCodec<Byte> {
      *            the alphabet
      * @param encodedData
      *            the encoded data
-     * @param length
+     * @param encodeAll
      *            the length
      * @return the d[]
      */
-    public byte[] decode(ByteAlphabet alphabet, long[] encodedData, int length);
+    public byte[] decodeAll(ByteAlphabet alphabet, long[] encodedData, int decodedLength);
 
     /**
      * Decode a single position in the sequence.
@@ -44,13 +43,13 @@ public interface ByteLongCodec extends ObjectLongCodec<Byte> {
      *            the alphabet
      * @param encodedData
      *            the encoded data
-     * @param length
-     *            the length
      * @param index
      *            the index
      * @return the byte
      */
-    public byte decode(ByteAlphabet alphabet, long[] encodedData, int length, int index);
+    public byte decode(ByteAlphabet alphabet, long[] encodedData, int decodedLength, int index);
+
+    public byte[] decodeBlock(ByteAlphabet alphabet, long[] encodedData, byte[] decodedBlock, int blockNum);
 
     /**
      * Encode all the data into the sequence, replacing any existing data.
@@ -59,13 +58,13 @@ public interface ByteLongCodec extends ObjectLongCodec<Byte> {
      *            the alphabet
      * @param encodedData
      *            the encoded data
-     * @param length
+     * @param decodedLength
      *            the length
      * @param decodedData
      *            the decoded data
      * @return the byte[]
      */
-    public long[] encode(ByteAlphabet alphabet, long[] encodedData, int length, byte[] decodedData);
+    public long[] encode(ByteAlphabet alphabet, long[] encodedData, int decodedLength, byte[] decodedData);
 
     /**
      * Encode a single value, replacing the value at the given position.
@@ -81,6 +80,6 @@ public interface ByteLongCodec extends ObjectLongCodec<Byte> {
      * @param index
      *            the index
      */
-    public void encode(ByteAlphabet alphabet, long[] encodedData, int length, byte symbol, int index);
+    public void encode(ByteAlphabet alphabet, long[] encodedData, int decodedLength, byte symbol, int index);
 
 }

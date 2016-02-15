@@ -46,12 +46,17 @@ public class CodecTest {
     /** The random. */
     public Random random = new Random(0);
 
+    public static final int ITERATIONS = 1000;
+    public static final int ENCODE_POS_ITERATIONS = 1000;
+    public static final int NUM_SEQS = 1000;
+    public static final int MAX_SEQ_LEN = 1000;
+
     /**
      * Test null.
      */
     @Test
     public void testNull() {
-        testCodec(CodecId.NULL_BYTE_CODEC, AlphabetId.DNA);
+        testByteCodec(CodecId.NULL_BYTE_CODEC, AlphabetId.DNA);
     }
 
     /**
@@ -59,7 +64,7 @@ public class CodecTest {
      */
     @Test
     public void testTwoBit() {
-        testCodec(CodecId.TWO_BIT_BYTE_CODEC, AlphabetId.DNA);
+        testByteCodec(CodecId.TWO_BIT_BYTE_CODEC, AlphabetId.DNA);
     }
 
     @Test
@@ -93,11 +98,10 @@ public class CodecTest {
         final ByteAlphabet alphabet = Alphabets.getAlphabet(AlphabetId.DNA | AlphabetVariant.WITH_NON_CANONICAL,
                 ByteAlphabet.class);
         final ByteByteCodec codec = Codecs.getCodec(CodecId.THREE_BIT_BYTE_CODEC, ByteByteCodec.class);
-        final int NUM_SEQS = 1000;
-        final int SEQ_LEN = 1000;
+
         final byte[][] seq = new byte[NUM_SEQS][];
         for (int i = 0; i < NUM_SEQS; ++i) {
-            final int length = random.nextInt(SEQ_LEN);
+            final int length = random.nextInt(MAX_SEQ_LEN);
             seq[i] = new byte[length];
             for (int j = 0; j < length; ++j) {
                 seq[i][j] = alphabet.getByteSymbolForOrdinal(random.nextInt(alphabet.numSymbols()));
@@ -128,7 +132,7 @@ public class CodecTest {
      */
     @Test
     public void testThreeBit() {
-        testCodec(CodecId.THREE_BIT_BYTE_CODEC, AlphabetId.DNA | AlphabetVariant.WITH_NON_CANONICAL);
+        testByteCodec(CodecId.THREE_BIT_BYTE_CODEC, AlphabetId.DNA | AlphabetVariant.WITH_NON_CANONICAL);
     }
 
     /**
@@ -136,28 +140,30 @@ public class CodecTest {
      */
     @Test
     public void testFourBit() {
-        testCodec(CodecId.FOUR_BIT_BYTE_CODEC,
+        testByteCodec(CodecId.FOUR_BIT_BYTE_CODEC,
                 AlphabetId.DNA | AlphabetVariant.WITH_NON_CANONICAL | AlphabetVariant.WITH_GAP | IUPACVariant.WITH_ANY);
     }
 
     @Test
     public void testFiveBit() {
-        testCodec(CodecId.FIVE_BIT_BYTE_CODEC,
+        testByteCodec(CodecId.FIVE_BIT_BYTE_CODEC,
                 AlphabetId.AMINO_ACID | AlphabetVariant.WITH_GAP | IUPACVariant.WITH_ANY);
     }
 
-    /**
-     * Test codec.
-     *
-     * @param codecId
-     *            the codec id
-     * @param alphabetId
-     *            the alphabet id
-     */
-    public void testCodec(final int codecId, final int alphabetId) {
-        for (int i = 0; i < 10000; ++i) {
-            // logger.debug("run {}", i);
-            runTest(codecId, alphabetId);
+    @Test
+    public void testTwoBitLong() {
+        testLongCodec(CodecId.TWO_BIT_LONG_CODEC, AlphabetId.DNA);
+    }
+
+    public void testByteCodec(final int codecId, final int alphabetId) {
+        for (int i = 0; i < ITERATIONS; ++i) {
+            runByteCodecTest(codecId, alphabetId);
+        }
+    }
+
+    public void testLongCodec(final int codecId, final int alphabetId) {
+        for (int i = 0; i < ITERATIONS; ++i) {
+            runLongCodecTest(codecId, alphabetId);
         }
     }
 
@@ -169,63 +175,44 @@ public class CodecTest {
      * @param alphabetId
      *            the alphabet id
      */
-    public void runTest(final int codecId, final int alphabetId) {
+    public void runLongCodecTest(final int codecId, final int alphabetId) {
         final ByteAlphabet alphabet = Alphabets.getAlphabet(alphabetId, ByteAlphabet.class);
-        final ByteByteCodec codec = Codecs.getCodec(codecId, ByteByteCodec.class);
+        final ByteLongCodec codec = Codecs.getCodec(codecId, ByteLongCodec.class);
+
         if (!codec.supportsAlphabet(alphabet)) {
-
+            logger.error("Codec does not support alphabet");
         }
-        final int length = random.nextInt(1000);
-        final byte[] seq = new byte[length];
-        for (int i = 0; i < length; ++i) {
-            seq[i] = alphabet.getByteSymbolForOrdinal(random.nextInt(alphabet.numSymbols()));
-        }
-        final byte[] encoded = codec.encode(alphabet, null, seq.length, seq);
 
-        // logger.debug("seq {}", new String(seq));
-        // StringBuffer message = new StringBuffer();
-        // for (int i = 0; i < length; ++i) {
-        //
-        // message.append(BitStringUtil.toString(alphabet.getOrdinalForSymbol(seq[i]),
-        // 5));
-        // message.append(" ");
-        // }
-        // logger.debug("ordinals = {}", message.toString());
-        // logger.debug(" {}",
-        // "11100000|11322222|44443333|46655555|66677777
-        // 11100000|11322222|44443333|46655555|66677777");
-        // logger.debug("encoded = {}", split(BitStringUtil.toString(encoded),
-        // 8));
+        final byte[] seq = genRandomSeq(alphabet);
+
+        // logger.info("length = {}", seq.length);
+        // logger.info("decoded = {}", new String(seq));
+        final long[] encoded = codec.encode(alphabet, null, seq.length, seq);
+        // logger.info("encoded = {}", split(BitStringUtil.toString(encoded),
+        // 64));
 
         byte[] decoded = codec.decodeAll(alphabet, encoded, seq.length);
+        // logger.info("decoded = {}", new String(decoded));
         assertArrayEquals(seq, decoded);
         for (int i = 0; i < seq.length; ++i) {
-            // logger.debug("decoding position {}:", i);
             final byte decodedByte = codec.decode(alphabet, encoded, seq.length, i);
-            // logger.debug("ord = {}, seq[i] = {}, decoded = {}",
-            // alphabet.getOrdinalForSymbol(seq[i]), seq[i],
-            // decodedByte);
-            // assertEquals(seq[i], decodedByte);
+            assertEquals(seq[i], decodedByte);
         }
         // logger.debug("encoded = {} (A)", BitStringUtil.toString(encoded));
 
         Arrays.fill(encoded, (byte) 0);
         for (int i = 0; i < seq.length; ++i) {
-            codec.encode(alphabet, encoded, length, seq[i], i);
+            codec.encode(alphabet, encoded, seq.length, seq[i], i);
         }
 
         decoded = codec.decodeAll(alphabet, encoded, seq.length);
         assertArrayEquals(seq, decoded);
         // logger.debug("encoded = {} (B)", BitStringUtil.toString(encoded));
 
-        if (length != 0) {
-            for (int i = 0; i < 1000; ++i) {
-                final int pos = random.nextInt(length);
-                codec.encode(alphabet, encoded, length, seq[pos], pos);
-                // logger.debug("encoded = {} {}",
-                // split(BitStringUtil.toString(encoded), 8), pos);
-                // decoded = codec.decode(alphabet, encoded, seq.length);
-                // assertArrayEquals(seq, decoded);
+        if (seq.length != 0) {
+            for (int i = 0; i < ENCODE_POS_ITERATIONS; ++i) {
+                final int pos = random.nextInt(seq.length);
+                codec.encode(alphabet, encoded, seq.length, seq[pos], pos);
             }
         }
         // logger.debug("encoded = {}", BitStringUtil.toString(encoded));
@@ -239,7 +226,70 @@ public class CodecTest {
         assertArrayEquals(seq, decoded);
     }
 
-    String split(final String str, final int interval) {
+    /**
+     * Run test.
+     *
+     * @param codecId
+     *            the codec id
+     * @param alphabetId
+     *            the alphabet id
+     */
+    public void runByteCodecTest(final int codecId, final int alphabetId) {
+        final ByteAlphabet alphabet = Alphabets.getAlphabet(alphabetId, ByteAlphabet.class);
+        final ByteByteCodec codec = Codecs.getCodec(codecId, ByteByteCodec.class);
+
+        if (!codec.supportsAlphabet(alphabet)) {
+            logger.error("Codec does not support alphabet");
+        }
+
+        final byte[] seq = genRandomSeq(alphabet);
+
+        final byte[] encoded = codec.encode(alphabet, null, seq.length, seq);
+
+        byte[] decoded = codec.decodeAll(alphabet, encoded, seq.length);
+        assertArrayEquals(seq, decoded);
+        for (int i = 0; i < seq.length; ++i) {
+            final byte decodedByte = codec.decode(alphabet, encoded, seq.length, i);
+            assertEquals(seq[i], decodedByte);
+        }
+        // logger.debug("encoded = {} (A)", BitStringUtil.toString(encoded));
+
+        Arrays.fill(encoded, (byte) 0);
+        for (int i = 0; i < seq.length; ++i) {
+            codec.encode(alphabet, encoded, seq.length, seq[i], i);
+        }
+
+        decoded = codec.decodeAll(alphabet, encoded, seq.length);
+        assertArrayEquals(seq, decoded);
+        // logger.debug("encoded = {} (B)", BitStringUtil.toString(encoded));
+
+        if (seq.length != 0) {
+            for (int i = 0; i < ENCODE_POS_ITERATIONS; ++i) {
+                final int pos = random.nextInt(seq.length);
+                codec.encode(alphabet, encoded, seq.length, seq[pos], pos);
+            }
+        }
+        // logger.debug("encoded = {}", BitStringUtil.toString(encoded));
+        decoded = codec.decodeAll(alphabet, encoded, seq.length);
+        assertArrayEquals(seq, decoded);
+        for (int i = 0; i < seq.length; ++i) {
+            assertEquals(seq[i], codec.decode(alphabet, encoded, seq.length, i));
+        }
+
+        // logger.debug("decoded {}", new String(decoded));
+        assertArrayEquals(seq, decoded);
+    }
+
+    public byte[] genRandomSeq(final ByteAlphabet alphabet) {
+        final int length = random.nextInt(MAX_SEQ_LEN);
+        final byte[] seq = new byte[length];
+        for (int i = 0; i < length; ++i) {
+            seq[i] = alphabet.getByteSymbolForOrdinal(random.nextInt(alphabet.numSymbols()));
+        }
+        return seq;
+    }
+
+    public String split(final String str, final int interval) {
         final StringBuffer result = new StringBuffer();
         for (int i = 0; i < str.length(); ++i) {
             result.append(str.charAt(i));

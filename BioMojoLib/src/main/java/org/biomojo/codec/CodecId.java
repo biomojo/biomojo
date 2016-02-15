@@ -41,4 +41,6 @@ public interface CodecId {
 
     /** The Constant ZLIB_BYTE_CODEC. */
     public static final int ZLIB_BYTE_CODEC = 192;
+
+    public static final int TWO_BIT_LONG_CODEC = 256;
 }

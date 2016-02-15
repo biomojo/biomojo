@@ -41,6 +41,7 @@ public class RandomFastaGenerator extends RandomSeqGenerator {
 
     @Override
     public void createFile(final File file, final int numSeqs, final int seqLength) {
+        logger.info("Creating random FASTA file {}, numSeqs {}, seqLength{}", file, numSeqs, seqLength);
         try {
             final FastaOutputStream<DNA> output = new FastaOutputStream<>(
                     new BufferedOutputStream(new FileOutputStream(file)), new FixedWidthSequenceIdHeaderBuilder(8));

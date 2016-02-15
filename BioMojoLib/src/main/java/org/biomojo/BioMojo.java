@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
  * @author Hugh Eaves
  */
 public class BioMojo {
-    
+
     /** The Constant logger. */
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(BioMojo.class.getName());
@@ -43,8 +43,10 @@ public class BioMojo {
     /**
      * Inits the.
      *
-     * @param args the args
-     * @param commands the commands
+     * @param args
+     *            the args
+     * @param commands
+     *            the commands
      */
     public static void init(final String[] args, final Command... commands) {
         CLIUtil.processCommandLine(args, commands);

@@ -38,7 +38,7 @@ public abstract class Codecs {
      * @return the codec
      */
     public static <T extends Codec<?, ?>> T getCodec(int codecId) {
-        return (T) factory.getInstance(codecId, Codec.class);
+        return (T) factory.getInstance(Codec.class, codecId);
     }
 
     /**
@@ -50,6 +50,6 @@ public abstract class Codecs {
      * @return the codec
      */
     public static <T extends Codec<?, ?>> T getCodec(int codecId, Class<T> requiredType) {
-        return factory.getInstance(codecId, requiredType);
+        return factory.getInstance(requiredType, codecId);
     }
 }

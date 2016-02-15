@@ -20,6 +20,7 @@ package org.biomojo.codec;
 import java.util.List;
 
 import org.biomojo.alphabet.Alphabet;
+import org.java0.factory.LifecycleEvent;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -96,5 +97,10 @@ public abstract class AbstractCodec<D, E> implements Codec<D, E> {
     @Override
     public List<E> encodeAll(final Alphabet<D> alphabet, final List<D> decodedData) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public void notify(final LifecycleEvent event) {
+
     }
 }

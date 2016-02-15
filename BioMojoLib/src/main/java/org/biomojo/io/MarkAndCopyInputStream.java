@@ -39,7 +39,6 @@ public abstract class MarkAndCopyInputStream<T extends Seq<?, ?>> implements Seq
     protected volatile InputStream inputStream;
 
     /** The buffer. */
-    // Various pointers / counters
     private byte[] buffer;
 
     /** The buffer length. */
@@ -112,7 +111,10 @@ public abstract class MarkAndCopyInputStream<T extends Seq<?, ?>> implements Seq
     private final void loadBuffer() {
         try {
             final boolean inSegment = segmentStart != Integer.MAX_VALUE;
-            markSegmentEnd();
+
+            markSegmentEnd(); // adds current segment (if any) to segment list,
+                              // and resets segmentStart
+
             buffer = new byte[bufferSize];
             bufferLength = inputStream.read(buffer);
             if (bufferLength != -1) {
@@ -166,10 +168,6 @@ public abstract class MarkAndCopyInputStream<T extends Seq<?, ?>> implements Seq
     private void reallocateSegments() {
         final int newLen = maxSegments * 2;
 
-        // final byte[][] newBuffers = new byte[newLen][];
-        // System.arraycopy(segmentBuffers, 0, newBuffers, 0, maxSegments);
-        // segmentBuffers = newBuffers;
-
         segmentBuffers = Arrays.copyOf(segmentBuffers, newLen);
         segmentStarts = Arrays.copyOf(segmentStarts, newLen);
         segmentLengths = Arrays.copyOf(segmentLengths, newLen);
@@ -187,11 +185,6 @@ public abstract class MarkAndCopyInputStream<T extends Seq<?, ?>> implements Seq
         int assembledSegmentsPos = 0;
 
         for (int pos = 0; pos < numSegments; ++pos) {
-            // byte[] segmentData = new byte[segmentLengths[pos]];
-            // System.arraycopy(segmentBuffers[pos], segmentStarts[pos],
-            // segmentData, 0, segmentLengths[pos]);
-            // logger.debug("{} {} {} {}", pos, segmentStarts[pos],
-            // segmentLengths[pos], new String(segmentData));
             System.arraycopy(segmentBuffers[pos], segmentStarts[pos], assembledSegments, assembledSegmentsPos,
                     segmentLengths[pos]);
             assembledSegmentsPos += segmentLengths[pos];
@@ -320,6 +313,12 @@ public abstract class MarkAndCopyInputStream<T extends Seq<?, ?>> implements Seq
     public void close() throws IOException {
         clearSegments();
         inputStream.close();
+    }
+
+    public void reset() {
+        clearSegments();
+        bufferPos = bufferLength;
+        segmentStart = Integer.MAX_VALUE;
     }
 
 }

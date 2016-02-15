@@ -78,7 +78,7 @@ public class LoadFastqCommand extends BaseInputCommand {
                 sequences.add(sequence);
                 totalLength += sequence.size();
                 qualityLength += sequence.getQualityScores().size();
-                gcUtil.recordAdded();
+                gcUtil.check();
             }
 
             inputStream.close();

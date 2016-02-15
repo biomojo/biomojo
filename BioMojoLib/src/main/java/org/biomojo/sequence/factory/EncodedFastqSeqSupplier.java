@@ -28,8 +28,7 @@ import org.biomojo.sequence.FastqSeq;
  * @author Hugh Eaves
  *
  */
-public class EncodedFastqSeqSupplier<A extends Nucleotide<A>, Q extends ByteQuality<?>>
-        extends FastqSeqSupplier<A, Q> {
+public class EncodedFastqSeqSupplier<A extends Nucleotide<A>, Q extends ByteQuality> extends FastqSeqSupplier<A, Q> {
 
     private final ByteByteCodec codec;
 

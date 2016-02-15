@@ -16,11 +16,9 @@
  */
 package org.biomojo.benchmark.framework.executor;
 
-import java.sql.Timestamp;
-import java.util.Map;
-
 import javax.persistence.Entity;
 
+import org.biomojo.benchmark.framework.procutil.BasicProcessInfo;
 import org.biomojo.core.AbstractEntity;
 
 /**
@@ -29,155 +27,120 @@ import org.biomojo.core.AbstractEntity;
  */
 @SuppressWarnings("serial")
 @Entity
-public class BenchmarkSample extends AbstractEntity {
+public class BenchmarkSample extends AbstractEntity implements BasicProcessInfo {
 
-    private Timestamp sampleTime;
-    private int pid;
-    private int parentPid;
-    private long userMilliseconds;
-    private long systemMilliseconds;
-    private long residentBytes;
-    private long totalBytes;
-    private long majorFaults;
-    private long minorFaults;
-    private long childMajorFaults;
+    private final long sampleTimeMilliseconds;
 
-    public Timestamp getSampleTime() {
-        return sampleTime;
+    protected int pid = MISSING_VALUE;
+    protected int parentPid = MISSING_VALUE;
+
+    protected long userMilliseconds = MISSING_VALUE;
+    protected long systemMilliseconds = MISSING_VALUE;
+    protected long elapsedMilliseconds = MISSING_VALUE;
+
+    protected long residentBytes = MISSING_VALUE;
+    protected long virtualBytes = MISSING_VALUE;
+
+    protected long majorFaults = MISSING_VALUE;
+    protected long minorFaults = MISSING_VALUE;
+
+    public BenchmarkSample(final BasicProcessInfo info) {
+        sampleTimeMilliseconds = System.currentTimeMillis();
+        copyInfo(info);
     }
 
-    public void setSampleTime(Timestamp sampleTime) {
-        this.sampleTime = sampleTime;
-    }
-
-    public long getUserMilliseconds() {
-        return userMilliseconds;
-    }
-
-    public void setUserMilliseconds(long userMilliseconds) {
-        this.userMilliseconds = userMilliseconds;
-    }
-
-    public long getSystemMilliseconds() {
-        return systemMilliseconds;
-    }
-
-    public void setSystemMilliseconds(long systemMilliseconds) {
-        this.systemMilliseconds = systemMilliseconds;
-    }
-
-    public long getChildMajorFaults() {
-        return childMajorFaults;
-    }
-
-    public void setChildMajorFaults(long childMajorFaults) {
-        this.childMajorFaults = childMajorFaults;
-    }
-
-    public long getChildMinorFaults() {
-        return childMinorFaults;
-    }
-
-    public void setChildMinorFaults(long childMinorFaults) {
-        this.childMinorFaults = childMinorFaults;
-    }
-
-    public long getChildUserMillis() {
-        return childUserMillis;
-    }
-
-    public void setChildUserMillis(long childUserMillis) {
-        this.childUserMillis = childUserMillis;
-    }
-
-    public long getChildSystemMillis() {
-        return childSystemMillis;
-    }
-
-    public void setChildSystemMillis(long childSystemMillis) {
-        this.childSystemMillis = childSystemMillis;
-    }
-
-    private long childMinorFaults;
-    private long childUserMillis;
-    private long childSystemMillis;
-
-    public BenchmarkSample(Map<LinuxProcStatField, Object> info) {
-        sampleTime = new Timestamp(System.currentTimeMillis());
-        this.pid = (int) info.get(LinuxProcStatField.PID);
-        this.parentPid = (int) info.get(LinuxProcStatField.PPID);
-        this.userMilliseconds = (long) info.get(LinuxProcStatField.USER_TIME);
-        this.systemMilliseconds = (long) info.get(LinuxProcStatField.SYSTEM_TIME);
-        this.residentBytes = (long) info.get(LinuxProcStatField.RSS);
-        this.totalBytes = (long) info.get(LinuxProcStatField.TOTAL_MEM);
-        this.majorFaults = (long) info.get(LinuxProcStatField.MAJOR_FAULTS);
-        this.minorFaults = (long) info.get(LinuxProcStatField.MINOR_FAULTS);
-        this.childMajorFaults = (long) info.get(LinuxProcStatField.CHILD_MAJOR_FAULTS);
-        this.childMinorFaults = (long) info.get(LinuxProcStatField.CHILD_MINOR_FAULTS);
-        this.childUserMillis = (long) info.get(LinuxProcStatField.CHILD_USER_TIME);
-        this.childSystemMillis = (long) info.get(LinuxProcStatField.CHILD_SYSTEM_TIME);
-    }
-
+    @Override
     public int getPid() {
         return pid;
     }
 
-    public void setPid(int pid) {
+    @Override
+    public void setPid(final int pid) {
         this.pid = pid;
     }
 
+    @Override
     public int getParentPid() {
         return parentPid;
     }
 
-    public void setParentPid(int parentPid) {
+    @Override
+    public void setParentPid(final int parentPid) {
         this.parentPid = parentPid;
     }
 
+    @Override
+    public long getUserMilliseconds() {
+        return userMilliseconds;
+    }
+
+    @Override
+    public void setUserMilliseconds(final long userMilliseconds) {
+        this.userMilliseconds = userMilliseconds;
+    }
+
+    @Override
+    public long getSystemMilliseconds() {
+        return systemMilliseconds;
+    }
+
+    @Override
+    public void setSystemMilliseconds(final long systemMilliseconds) {
+        this.systemMilliseconds = systemMilliseconds;
+    }
+
+    @Override
+    public long getElapsedMilliseconds() {
+        return elapsedMilliseconds;
+    }
+
+    @Override
+    public void setElapsedMilliseconds(final long elapsedMilliseconds) {
+        this.elapsedMilliseconds = elapsedMilliseconds;
+    }
+
+    @Override
     public long getResidentBytes() {
         return residentBytes;
     }
 
-    public void setResidentBytes(long residentBytes) {
+    @Override
+    public void setResidentBytes(final long residentBytes) {
         this.residentBytes = residentBytes;
     }
 
-    public long getTotalBytes() {
-        return totalBytes;
+    @Override
+    public long getVirtualBytes() {
+        return virtualBytes;
     }
 
-    public void setTotalBytes(long totalBytes) {
-        this.totalBytes = totalBytes;
+    @Override
+    public void setVirtualBytes(final long virtualBytes) {
+        this.virtualBytes = virtualBytes;
     }
 
-    /**
-     * @return the majorFaults
-     */
+    @Override
     public long getMajorFaults() {
         return majorFaults;
     }
 
-    /**
-     * @param majorFaults
-     *            the majorFaults to set
-     */
-    public void setMajorFaults(long majorFaults) {
+    @Override
+    public void setMajorFaults(final long majorFaults) {
         this.majorFaults = majorFaults;
     }
 
-    /**
-     * @return the minorFaults
-     */
+    @Override
     public long getMinorFaults() {
         return minorFaults;
     }
 
-    /**
-     * @param minorFaults
-     *            the minorFaults to set
-     */
-    public void setMinorFaults(long minorFaults) {
+    @Override
+    public void setMinorFaults(final long minorFaults) {
         this.minorFaults = minorFaults;
+    }
+
+    public long getSampleTimeMilliseconds() {
+        return sampleTimeMilliseconds;
     }
 
 }

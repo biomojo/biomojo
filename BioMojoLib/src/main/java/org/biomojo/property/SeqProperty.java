@@ -32,7 +32,7 @@ import org.slf4j.LoggerFactory;
 @Entity
 @DiscriminatorValue(value = "E")
 public class SeqProperty extends BasicProperty {
-    
+
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 8959250872527073219L;
 
@@ -42,10 +42,12 @@ public class SeqProperty extends BasicProperty {
 
     /** The sequence. */
     @ManyToOne
-    @JoinColumn(name = "longValue")
+    @JoinColumn(name = "seqId")
     private AbstractSeq<?, ?> sequence;
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.property.BasicProperty#getValue()
      */
     @Override
@@ -53,7 +55,9 @@ public class SeqProperty extends BasicProperty {
         return sequence;
     }
 
-    /* (non-Javadoc)
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.biomojo.property.BasicProperty#setValue(java.lang.Object)
      */
     @Override

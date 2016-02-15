@@ -29,8 +29,7 @@ import org.biomojo.sequence.FastqSeq;
  * @author Hugh Eaves
  *
  */
-public class FastqSeqSupplier<A extends Nucleotide<?>, Q extends ByteQuality<?>>
-        implements Supplier<FastqSeq<A, Q>> {
+public class FastqSeqSupplier<A extends Nucleotide<?>, Q extends ByteQuality> implements Supplier<FastqSeq<A, Q>> {
 
     protected final A alphabet;
     protected final Q qualityScoreAlphabet;
