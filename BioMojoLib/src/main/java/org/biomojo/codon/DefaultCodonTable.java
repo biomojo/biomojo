@@ -20,18 +20,14 @@ import java.util.Arrays;
 
 import org.biomojo.symbols.AminoAcids;
 import org.biomojo.symbols.Nucleotides;
-import org.java0.factory.LifecycleEvent;
+import org.java0.core.type.AbstractLongIdentified;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Class CodonTableImpl.
+ * The Class DefaultCodonTable.
  *
  * @author Hugh Eaves
  */
-public class DefaultCodonTable implements CodonTable {
-
-    /** The id. */
-    int id;
+public class DefaultCodonTable extends AbstractLongIdentified implements CodonTable {
 
     /** The amino acid lookup table. */
     private final byte[] aminoAcidLookupTable;
@@ -52,8 +48,8 @@ public class DefaultCodonTable implements CodonTable {
      * @param startCodons
      *            the start codons
      */
-    DefaultCodonTable(final int id, final String aminoAcids, final String startCodons) {
-        this.id = id;
+    DefaultCodonTable(final long id, final String aminoAcids, final String startCodons) {
+        super(id);
         final char BASES[] = { Nucleotides.URACIL, Nucleotides.CYTOSINE, Nucleotides.ADENINE, Nucleotides.GUANINE };
         aminoAcidLookupTable = new byte[TABLE_SIZE];
         Arrays.fill(aminoAcidLookupTable, AminoAcids.ANY);
@@ -77,7 +73,7 @@ public class DefaultCodonTable implements CodonTable {
      * @see org.biomojo.codon.CodonTable#getId()
      */
     @Override
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -185,10 +181,5 @@ public class DefaultCodonTable implements CodonTable {
     @Override
     public byte getAminoAcid(final byte nucleotide1, final byte nucleotide2, final byte nucleotide3) {
         return aminoAcidLookupTable[index(nucleotide1, nucleotide2, nucleotide3)];
-    }
-
-    @Override
-    public void notify(final LifecycleEvent event) {
-
     }
 }

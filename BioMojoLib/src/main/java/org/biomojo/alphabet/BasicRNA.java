@@ -32,7 +32,7 @@ public class BasicRNA extends AbstractNucleotide<RNA> implements RNA {
      * @param id
      *            the id
      */
-    protected BasicRNA(final int id) {
+    protected BasicRNA(final long id) {
         super(id, Nucleotides.RNA_SYMBOLS);
     }
 }

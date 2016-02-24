@@ -11,7 +11,7 @@ import java.util.function.Supplier;
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.codec.CodecId;
-import org.biomojo.io.fastx.FastaInputStream;
+import org.biomojo.io.fastx.FastaInput;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.factory.ByteSeqSupplier;
 import org.biomojo.sequence.factory.EncodedByteSeqSupplier;
@@ -38,16 +38,16 @@ public class CountKmersCommand extends BaseInputOutputCommand {
         logger.info("BioMojo Kmer Count Benchmark");
 
         try {
-
-            final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile));
-            final PrintStream outputStream = new PrintStream(
-                    new BufferedOutputStream(new FileOutputStream(outputFile)));
-
-            int recordCount = 0;
             Supplier<ByteSeq<DNA>> supplier = new ByteSeqSupplier<>(AlphabetId.DNA);
             if (encode) {
                 supplier = new EncodedByteSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC);
             }
+
+            final FastaInput<DNA> inputStream = new FastaInput<>(new FileInputStream(inputFile), supplier);
+            final PrintStream outputStream = new PrintStream(
+                    new BufferedOutputStream(new FileOutputStream(outputFile)));
+
+            int recordCount = 0;
 
             final ByteSeq<DNA> sequence = supplier.get();
             final KmerCounter<DNA> counter = new KmerCounter<>(kmerLength, sequence.getAlphabet());

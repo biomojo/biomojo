@@ -24,6 +24,7 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.regex.Pattern;
 
+import org.java0.core.exception.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -54,31 +55,38 @@ public class LinuxProcStatFile implements Closeable {
     }
 
     public LinuxProcessInfo getInfo() {
-        if (invalidPid) {
-            return null;
+        String line = null;
+        LinuxProcessInfo linuxProcessInfo = null;
+
+        if (!invalidPid) {
+            try {
+                openStatFile();
+                statFile.seek(0);
+                line = statFile.readLine();
+                logger.trace("proc stat line: {}", line);
+                linuxProcessInfo = new LinuxProcessInfo(splitPattern.split(line));
+            } catch (final ParseException e) {
+                logger.error("Parse exception", e);
+                logger.error("Unable to parse proc/stat line: {}", line);
+            } catch (final FileNotFoundException e) {
+                logger.info("Process {} went away", pid);
+                invalidPid = true;
+            } catch (final IOException e) {
+                // We get here with an "java.io.IOException: No such process" if
+                // we tried to read the process file for a process that no
+                // longer
+                // exists. Unfortunately, we can't easily tell if the
+                // IOException
+                // was the
+                // result of something more unusual.
+                // For now, we'll just treat is as a normal process
+                // disappearance
+                logger.info("Process {} went away", pid);
+                invalidPid = true;
+            }
         }
 
-        try {
-            openStatFile();
-            statFile.seek(0);
-            final String line = statFile.readLine();
-            logger.debug("proc stat line: {}", line);
-            return new LinuxProcessInfo(splitPattern.split(line));
-        } catch (final FileNotFoundException e) {
-            logger.info("Process {} went away", pid);
-            invalidPid = true;
-            return null;
-        } catch (final IOException e) {
-            // We get here with an "java.io.IOException: No such process" if
-            // we tried to read the process file for a process that no longer
-            // exists. Unfortunately, we can't easily tell if the IOException
-            // was the
-            // result of something more unusual.
-            // For now, we'll just treat is as a normal process disappearance
-            logger.info("Process {} went away", pid);
-            invalidPid = true;
-            return null;
-        }
+        return linuxProcessInfo;
     }
 
     /**

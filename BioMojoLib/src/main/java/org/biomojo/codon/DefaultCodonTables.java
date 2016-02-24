@@ -16,12 +16,11 @@
  */
 package org.biomojo.codon;
 
-import org.biomojo.core.AbstractIdBasedFactory;
-import org.java0.factory.Config;
-import org.java0.factory.ConfiguredObjectSupplier;
-import org.java0.factory.FactoryException;
+import java.util.function.Supplier;
 
-// TODO: Auto-generated Javadoc
+import org.java0.core.type.LongIdentified;
+import org.java0.factory.LongSelectorFactory;
+
 /**
  *
  * Codon tables derived from Version 4.0 of NCBI published tables here:
@@ -30,166 +29,102 @@ import org.java0.factory.FactoryException;
  * @author Hugh Eaves
  *
  */
-public class DefaultCodonTableFactory extends AbstractIdBasedFactory<CodonTable> {
+public class DefaultCodonTables {
 
     /**
      * Instantiates a new default codon table factory.
      */
-    DefaultCodonTableFactory() {
-        super(new CodonTable[0]);
+    public static void registerWithFactory(final LongSelectorFactory factory) {
 
-        registerProvider(CodonTableId.STANDARD, new ConfiguredObjectSupplier<CodonTable>() {
+        register(factory, CodonTableId.STANDARD, "FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
+                "---M---------------M---------------M----------------------------");
+
+        register(factory, CodonTableId.VERTEBRATE_MITOCHONDRIAL,
+
+                "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIMMTTTTNNKKSS**VVVVAAAADDEEGGGG",
+                "--------------------------------MMMM---------------M------------");
+        register(factory, CodonTableId.YEAST_MITOCHONDRIAL,
+
+                "FFLLSSSSYY**CCWWTTTTPPPPHHQQRRRRIIMMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
+                "----------------------------------MM----------------------------");
+        register(factory, CodonTableId.MOLD_MITOCHONDRIAL,
+
+                "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
+                "--MM---------------M------------MMMM---------------M------------");
+        register(factory, CodonTableId.INVERTEBRATE_MITOCHONDRIAL,
+
+                "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIMMTTTTNNKKSSSSVVVVAAAADDEEGGGG",
+                "---M----------------------------MMMM---------------M------------");
+        register(factory, CodonTableId.CILIATE_NUCLEAR,
+
+                "FFLLSSSSYYQQCC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
+                "-----------------------------------M----------------------------");
+        register(factory, CodonTableId.ECHINODERM_MITOCHONDRIAL,
+
+                "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIIMTTTTNNNKSSSSVVVVAAAADDEEGGGG",
+                "-----------------------------------M---------------M------------");
+        register(factory, CodonTableId.EUPLOTID_NUCLEAR,
+
+                "FFLLSSSSYY**CCCWLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
+                "-----------------------------------M----------------------------");
+        register(factory, CodonTableId.BACTERIAL_PLASTID,
+
+                "FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
+                "---M---------------M------------MMMM---------------M------------");
+        register(factory, CodonTableId.ALTERNATIVE_YEAST_NUCLEAR,
+
+                "FFLLSSSSYY**CC*WLLLSPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
+                "-------------------M---------------M----------------------------");
+        register(factory, CodonTableId.ASCIDIAN_MITOCHONDRIAL,
+
+                "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIMMTTTTNNKKSSGGVVVVAAAADDEEGGGG",
+                "---M------------------------------MM---------------M------------");
+        register(factory, CodonTableId.ALTERNATIVE_FLATWORM_MITOCHONDRIAL,
+
+                "FFLLSSSSYYY*CCWWLLLLPPPPHHQQRRRRIIIMTTTTNNNKSSSSVVVVAAAADDEEGGGG",
+                "-----------------------------------M----------------------------");
+        register(factory, CodonTableId.BLEPHARISMA_MACRONUCLEAR,
+
+                "FFLLSSSSYY*QCC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
+                "-----------------------------------M----------------------------");
+        register(factory, CodonTableId.CHLOROPHYCEAN_MITOCHONDRIAL,
+
+                "FFLLSSSSYY*LCC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
+                "-----------------------------------M----------------------------");
+        register(factory, CodonTableId.TREMATODE_MITOCHONDRIAL,
+
+                "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIMMTTTTNNNKSSSSVVVVAAAADDEEGGGG",
+                "-----------------------------------M---------------M------------");
+        register(factory, CodonTableId.SCENEDESMUS_OBLIQUUS_MITOCHONDRIAL,
+
+                "FFLLSS*SYY*LCC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
+                "-----------------------------------M----------------------------");
+        register(factory, CodonTableId.THRAUSTOCHYTRIUM_MITOCHONDRIAL,
+
+                "FF*LSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
+                "--------------------------------M--M---------------M------------");
+        register(factory, CodonTableId.PTEROBRANCHIA_MITOCHONDRIAL,
+
+                "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSSKVVVVAAAADDEEGGGG",
+                "---M---------------M---------------M---------------M------------");
+        register(factory, CodonTableId.CGRACILIBACTERIA,
+
+                "FFLLSSSSYY**CCGWLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
+                "---M-------------------------------M---------------M------------");
+
+        factory.setDefaultType(CodonTable.class, CodonTableId.STANDARD);
+    }
+
+    private static void register(final LongSelectorFactory factory, final long id, final String aminoAcids,
+            final String startCodons) {
+        factory.registerProvider(id, new Supplier<LongIdentified>() {
+
             @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
-                        "---M---------------M---------------M----------------------------");
+            public LongIdentified get() {
+                return new DefaultCodonTable(id, aminoAcids, startCodons);
             }
+
         }, true);
 
-        registerProvider(CodonTableId.VERTEBRATE_MITOCHONDRIAL, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIMMTTTTNNKKSS**VVVVAAAADDEEGGGG",
-                        "--------------------------------MMMM---------------M------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.YEAST_MITOCHONDRIAL, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYY**CCWWTTTTPPPPHHQQRRRRIIMMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
-                        "----------------------------------MM----------------------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.MOLD_MITOCHONDRIAL, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
-                        "--MM---------------M------------MMMM---------------M------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.INVERTEBRATE_MITOCHONDRIAL, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIMMTTTTNNKKSSSSVVVVAAAADDEEGGGG",
-                        "---M----------------------------MMMM---------------M------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.CILIATE_NUCLEAR, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYYQQCC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
-                        "-----------------------------------M----------------------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.ECHINODERM_MITOCHONDRIAL, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIIMTTTTNNNKSSSSVVVVAAAADDEEGGGG",
-                        "-----------------------------------M---------------M------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.EUPLOTID_NUCLEAR, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYY**CCCWLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
-                        "-----------------------------------M----------------------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.BACTERIAL_PLASTID, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
-                        "---M---------------M------------MMMM---------------M------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.ALTERNATIVE_YEAST_NUCLEAR, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYY**CC*WLLLSPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
-                        "-------------------M---------------M----------------------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.ASCIDIAN_MITOCHONDRIAL, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIMMTTTTNNKKSSGGVVVVAAAADDEEGGGG",
-                        "---M------------------------------MM---------------M------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.ALTERNATIVE_FLATWORM_MITOCHONDRIAL, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYYY*CCWWLLLLPPPPHHQQRRRRIIIMTTTTNNNKSSSSVVVVAAAADDEEGGGG",
-                        "-----------------------------------M----------------------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.BLEPHARISMA_MACRONUCLEAR, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYY*QCC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
-                        "-----------------------------------M----------------------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.CHLOROPHYCEAN_MITOCHONDRIAL, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYY*LCC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
-                        "-----------------------------------M----------------------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.TREMATODE_MITOCHONDRIAL, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIMMTTTTNNNKSSSSVVVVAAAADDEEGGGG",
-                        "-----------------------------------M---------------M------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.SCENEDESMUS_OBLIQUUS_MITOCHONDRIAL, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSS*SYY*LCC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
-                        "-----------------------------------M----------------------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.THRAUSTOCHYTRIUM_MITOCHONDRIAL, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FF*LSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
-                        "--------------------------------M--M---------------M------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.PTEROBRANCHIA_MITOCHONDRIAL, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYY**CCWWLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSSKVVVVAAAADDEEGGGG",
-                        "---M---------------M---------------M---------------M------------");
-            }
-        }, true);
-        registerProvider(CodonTableId.CGRACILIBACTERIA, new ConfiguredObjectSupplier<CodonTable>() {
-            @Override
-            public CodonTable getObject(final Config<CodonTable> config) throws FactoryException {
-                return new DefaultCodonTable((int) config.values()[0],
-                        "FFLLSSSSYY**CCGWLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG",
-                        "---M-------------------------------M---------------M------------");
-            }
-        }, true);
     }
 }

@@ -16,12 +16,10 @@
  */
 package org.biomojo.tools.general;
 
-import java.io.IOException;
-
-import org.biomojo.alphabet.Alphabets;
+import org.biomojo.BioMojo;
 import org.biomojo.alphabet.ByteAlphabet;
-import org.biomojo.io.SequenceInputStream;
-import org.biomojo.io.SequenceOutputStream;
+import org.biomojo.io.SeqInput;
+import org.biomojo.io.SeqOutput;
 import org.biomojo.sequence.ByteSeq;
 import org.java0.logging.slf4j.Logger;
 import org.java0.logging.slf4j.LoggerFactory;
@@ -43,43 +41,39 @@ public class AlphabetFilterCommand extends AbstractFastxCommand {
 
     @Override
     protected void setup() {
-        targetAlphabet = Alphabets.getAlphabet(alphabetId);
+        targetAlphabet = BioMojo.getObject(ByteAlphabet.class, alphabetId);
 
     }
 
     @Override
-    protected <A extends ByteAlphabet, T extends ByteSeq<A>> void process(final SequenceInputStream<T> inputStream,
-            final SequenceOutputStream<T> outputStream) {
-        try {
+    protected <A extends ByteAlphabet, T extends ByteSeq<A>> void process(final SeqInput<T> inputStream,
+            final SeqOutput<T> outputStream) {
 
-            int recordCount = 0;
-            for (T sequence = inputStream.read(); sequence != null; sequence = inputStream.read()) {
-                ++recordCount;
-                if (recordCount % 10000 == 0) {
-                    logger.info("Record #{}", recordCount);
-                    logger.info("Length = {}", sequence.size());
-                }
-                sequence.canonicalize();
-                if (replace) {
-                    final byte[] seqData = sequence.toByteArray();
-                    for (int i = 0; i < seqData.length; ++i) {
-                        if (!targetAlphabet.isValid(seqData[i])) {
-                            seqData[i] = targetAlphabet.getByteSymbolForOrdinal(0);
-                        }
-                    }
-                    sequence.setAll(seqData);
-                    sequence.setAlphabet((A) targetAlphabet);
-                    outputStream.write(sequence);
-                } else if (targetAlphabet.isValid(sequence.toByteArray())) {
-                    outputStream.write(sequence);
-                } else {
-                    logger.info("Skipping sequence {}", sequence.getDescription());
-                }
+        int recordCount = 0;
+        for (T sequence = inputStream.read(); sequence != null; sequence = inputStream.read()) {
+            ++recordCount;
+            if (recordCount % 10000 == 0) {
+                logger.info("Record #{}", recordCount);
+                logger.info("Length = {}", sequence.size());
             }
-
-        } catch (final IOException e) {
-            logger.error("Error", e);
+            sequence.canonicalize();
+            if (replace) {
+                final byte[] seqData = sequence.toByteArray();
+                for (int i = 0; i < seqData.length; ++i) {
+                    if (!targetAlphabet.isValid(seqData[i])) {
+                        seqData[i] = targetAlphabet.getByteSymbolForOrdinal(0);
+                    }
+                }
+                sequence.setAll(seqData);
+                sequence.setAlphabet((A) targetAlphabet);
+                outputStream.write(sequence);
+            } else if (targetAlphabet.isValid(sequence.toByteArray())) {
+                outputStream.write(sequence);
+            } else {
+                logger.info("Skipping sequence {}", sequence.getDescription());
+            }
         }
+
     }
 
 }

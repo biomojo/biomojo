@@ -18,7 +18,8 @@ package org.biomojo.sequence.factory;
 
 import java.util.function.Supplier;
 
-import org.biomojo.alphabet.Alphabets;
+import org.biomojo.BioMojo;
+import org.biomojo.alphabet.Alphabet;
 import org.biomojo.alphabet.ByteQuality;
 import org.biomojo.alphabet.Nucleotide;
 import org.biomojo.sequence.BasicByteSeq;
@@ -34,10 +35,21 @@ public class FastqSeqSupplier<A extends Nucleotide<?>, Q extends ByteQuality> im
     protected final A alphabet;
     protected final Q qualityScoreAlphabet;
 
+    public FastqSeqSupplier(final A alphabet, final Q qualityScoreAlphabet) {
+        this.alphabet = alphabet;
+        this.qualityScoreAlphabet = qualityScoreAlphabet;
+    }
+
+    public FastqSeqSupplier(final Class<? extends A> alphabetClass,
+            final Class<? extends Q> qualityScoreAlphabetClass) {
+        alphabet = BioMojo.getObject(alphabetClass);
+        qualityScoreAlphabet = BioMojo.getObject(qualityScoreAlphabetClass);
+    }
+
     @SuppressWarnings("unchecked")
-    public FastqSeqSupplier(final int alphabetId, final int qualityScoreAlphabetId) {
-        alphabet = (A) Alphabets.getAlphabet(alphabetId);
-        qualityScoreAlphabet = (Q) Alphabets.getAlphabet(qualityScoreAlphabetId);
+    public FastqSeqSupplier(final long alphabetId, final long qualityScoreAlphabetId) {
+        alphabet = (A) BioMojo.getObject(Alphabet.class, alphabetId);
+        qualityScoreAlphabet = (Q) BioMojo.getObject(Alphabet.class, qualityScoreAlphabetId);
     }
 
     /**

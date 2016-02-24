@@ -26,16 +26,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Supplier;
 
+import org.biomojo.BioMojo;
 import org.biomojo.alignment.ByteSeqAligner;
 import org.biomojo.alignment.ByteSeqAlignment;
 import org.biomojo.alignment.ByteSubstitutionMatrix;
 import org.biomojo.alignment.MatchMismatchByteSubstitutionMatrix;
 import org.biomojo.alignment.SmithWatermanLinearGapByteSeqAligner;
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.Alphabets;
+import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.codec.CodecId;
-import org.biomojo.io.fastx.FastaInputStream;
+import org.biomojo.io.fastx.FastaInput;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.factory.ByteSeqSupplier;
 import org.biomojo.sequence.factory.EncodedByteSeqSupplier;
@@ -62,23 +63,22 @@ public class AlignCommand extends BaseInputOutputCommand {
         try {
             logger.info("BioMojo alignment benchmark");
 
-            final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile));
-            final PrintStream outputStream = new PrintStream(
-                    new BufferedOutputStream(new FileOutputStream(outputFile)));
-
             final List<ByteSeq<DNA>> sequences = new ArrayList<>();
 
             Supplier<ByteSeq<DNA>> supplier = new ByteSeqSupplier<>(AlphabetId.DNA);
             if (encode) {
                 supplier = new EncodedByteSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC);
             }
-            ByteSeq<DNA> sequence = supplier.get();
 
-            while (inputStream.read(sequence)) {
+            final FastaInput<DNA> inputStream = new FastaInput<DNA>(new FileInputStream(inputFile), supplier);
+            final PrintStream outputStream = new PrintStream(
+                    new BufferedOutputStream(new FileOutputStream(outputFile)));
+
+            for (final ByteSeq<DNA> sequence : inputStream) {
                 logger.debug("Read sequence: {}", sequence.getDescription());
                 sequences.add(sequence);
-                sequence = supplier.get();
             }
+
             inputStream.close();
 
             logger.info("Done loading " + sequences.size() + " sequences");
@@ -88,7 +88,7 @@ public class AlignCommand extends BaseInputOutputCommand {
             final int numSeqs = sequences.size();
 
             final ByteSubstitutionMatrix matrix = new MatchMismatchByteSubstitutionMatrix(
-                    Alphabets.getAlphabet(AlphabetId.DNA), 1, -1);
+                    BioMojo.getObject(ByteAlphabet.class, AlphabetId.DNA), 1, -1);
 
             final ByteSeqAligner<DNA> aligner = new SmithWatermanLinearGapByteSeqAligner<>(matrix, -2);
             final Stopwatch sw = new Stopwatch();
@@ -111,9 +111,17 @@ public class AlignCommand extends BaseInputOutputCommand {
             sw.stop();
             logger.info("Done");
 
-        } catch (final FileNotFoundException e) {
+        } catch (
+
+        final FileNotFoundException e)
+
+        {
             throw new UncheckedException(e);
-        } catch (final IOException e) {
+        } catch (
+
+        final IOException e)
+
+        {
             throw new UncheckedException(e);
         }
     }

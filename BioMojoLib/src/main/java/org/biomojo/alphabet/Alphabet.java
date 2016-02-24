@@ -19,17 +19,19 @@ package org.biomojo.alphabet;
 
 import java.util.List;
 
-import org.biomojo.core.IdBasedFactoryObject;
+import org.java0.core.type.LongIdentified;
 
-// TODO: Auto-generated Javadoc
 /**
  * An {@code Alphabet} represents a specific subset of all the possible values
  * of a particular Java type.
  *
+ * @author Hugh Eaves
+ * 
  * @param <T>
  *            the type of values in the alphabet
+ * 
  */
-public interface Alphabet<T> extends IdBasedFactoryObject {
+public interface Alphabet<T> extends LongIdentified {
 
     /**
      * Gets the symbol type.
@@ -120,7 +122,11 @@ public interface Alphabet<T> extends IdBasedFactoryObject {
     }
 
     /**
-     * Check validity.
+     * Checks to the symbols in the given list are members of this alphabet.
+     * Returns an InvalidSymbolInfo structure for the first symbol that is not a
+     * member of this alphabet, or null, if all symbols are members of this
+     * alphabet.
+     *
      *
      * @param symbols
      *            the symbols
@@ -131,7 +137,10 @@ public interface Alphabet<T> extends IdBasedFactoryObject {
     }
 
     /**
-     * Check validity.
+     * Checks to the symbols in the given list (between start and end) are
+     * members of this alphabet. Returns an InvalidSymbolInfo structure for the
+     * first symbol that is not a member of this alphabet, or null, if all
+     * symbols are members of this alphabet.
      *
      * @param symbols
      *            the symbols
@@ -151,12 +160,12 @@ public interface Alphabet<T> extends IdBasedFactoryObject {
     }
 
     /**
-     * Validate.
+     * Validates the given symbol against this alphabet.
      *
      * @param symbol
      *            the symbol
      * @throws InvalidSymbolException
-     *             the invalid symbol exception
+     *             thrown if the symbol is not a member of this alphabet
      */
     public default void validate(final T symbol) throws InvalidSymbolException {
         final InvalidSymbolInfo info = checkValidity(symbol);
@@ -166,7 +175,9 @@ public interface Alphabet<T> extends IdBasedFactoryObject {
     }
 
     /**
-     * Validate.
+     * Validates the given symbols. Throws an InvalidSymbolException if any of
+     * the symbols in the List are invalid.
+     *
      *
      * @param symbols
      *            the symbols
@@ -181,7 +192,9 @@ public interface Alphabet<T> extends IdBasedFactoryObject {
     }
 
     /**
-     * Validate.
+     * Validates a portion of the given List of symbols. Throws an
+     * InvalidSymbolException if any of the symbols in the specified portion
+     * array are invalid.
      *
      * @param symbols
      *            the symbols

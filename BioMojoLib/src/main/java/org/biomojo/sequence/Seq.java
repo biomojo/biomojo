@@ -16,28 +16,28 @@
  */
 package org.biomojo.sequence;
 
-import java.util.ListIterator;
-
 import org.biomojo.alphabet.Alphabet;
+import org.biomojo.alphabet.InvalidSymbolException;
 import org.biomojo.core.Described;
-import org.biomojo.core.Identified;
 import org.biomojo.property.Propertied;
-import org.java0.collection.DefaultList;
+import org.java0.collection.LongList;
+import org.java0.core.type.LongIdentified;
 
 /**
- * The {@code Seq} interface represents a sequence of values of the specified
- * Java type from the specified {@link org.biomojo.alphabet.Alphabet}.
+ * The {@code Seq} interface represents a sequence of values of type T from the
+ * {@link org.biomojo.alphabet.Alphabet} A.
  *
  * @author Hugh Eaves
+ * 
  * @param <T>
  *            the type of values in the sequence
  * @param <A>
- *            the alphabet from which values are taken
+ *            the Alphabet for this sequence
  */
-public interface Seq<T, A extends Alphabet<T>> extends DefaultList<T>, Propertied, Described, Identified {
+public interface Seq<T, A extends Alphabet<T>> extends LongList<T>, Propertied, Described, LongIdentified {
 
     /**
-     * Sets the id.
+     * Sets the id for this sequence.
      *
      * @param id
      *            the new id
@@ -45,74 +45,33 @@ public interface Seq<T, A extends Alphabet<T>> extends DefaultList<T>, Propertie
     void setId(long id);
 
     /**
-     * Gets the alphabet.
+     * Gets the alphabet for this sequence.
      *
      * @return the alphabet
      */
     public A getAlphabet();
 
     /**
-     * Sets the alphabet.
-     *
+     * Modifies this sequence by replacing each of the elements with the
+     * equivalent symbol in the given alphabet, and then set the alphabet of
+     * this sequence to the given alphabet.
+     * 
      * @param alphabet
-     *            the new alphabet
+     * @throws InvalidSymbolException
+     *             if the current sequence contains elements that can not be
+     *             represented in the new alphabet
      */
-    public void setAlphabet(A alphabet);
+    public void setAlphabet(A alphabet) throws InvalidSymbolException;
 
     /**
-     * Canonicalize.
+     * Modifies this sequence by replacing each of the elements with its
+     * canonical form, and then changes the alphabet of this sequence the
+     * canonical version.
      */
     public void canonicalize();
 
-    void add(long index, T element);
-
-    T set(long index, T element);
-
-    T get(long index);
-
-    long sizeL();
-
-    Seq<T, A> subList(long from, long to);
-
-    ListIterator<T> listIterator(long index);
-
-    @Override
-    default ListIterator<T> listIterator(final int index) {
-        return listIterator((long) index);
-    }
-
-    @Override
-    default void add(final int index, final T element) {
-        add((long) index, element);
-    }
-
-    @Override
-    default T set(final int index, final T element) {
-        return set((long) index, element);
-    }
-
-    @Override
-    default T get(final int index) {
-        return get((long) index);
-    }
-
-    @Override
-    default int size() {
-        final long size = sizeL();
-        if (sizeL() > Integer.MAX_VALUE) {
-            return Integer.MAX_VALUE;
-        } else {
-            return (int) size;
-        }
-    }
-
-    @Override
-    default Seq<T, A> subList(final int from, final int to) {
-        return subList((long) from, (long) to);
-    }
-
     /**
-     * Reverse the order of elements in the s
+     * Reverse the order of elements in this sequence.
      */
     default void reverse() {
         final long lastPos = sizeL() - 1;
@@ -124,5 +83,4 @@ public interface Seq<T, A extends Alphabet<T>> extends DefaultList<T>, Propertie
             set(lastPos - i, val);
         }
     }
-
 }

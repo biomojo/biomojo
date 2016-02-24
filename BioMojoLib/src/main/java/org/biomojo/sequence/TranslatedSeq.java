@@ -18,13 +18,12 @@ package org.biomojo.sequence;
 
 import java.util.Arrays;
 
+import org.biomojo.BioMojo;
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.AminoAcid;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.codon.CodonTable;
 import org.biomojo.codon.CodonTableId;
-import org.biomojo.codon.CodonTables;
 
 /**
  * The Class TranslatedSeq.
@@ -46,8 +45,8 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcid> {
      * Create a new TranslatedSeq.
      */
     public TranslatedSeq() {
-        super(Alphabets.getAlphabet(AlphabetId.AMINO_ACID));
-        codonTable = CodonTables.getCodonTable(CodonTableId.STANDARD);
+        super(BioMojo.getObject(AminoAcid.class, AlphabetId.AMINO_ACID));
+        codonTable = BioMojo.getObject(CodonTable.class, CodonTableId.STANDARD);
     }
 
     /**
@@ -71,7 +70,7 @@ public class TranslatedSeq extends AbstractByteSeq<AminoAcid> {
      */
     public TranslatedSeq(final ByteSeq<DNA> sequence, final AminoAcid alphabet) {
         super(alphabet);
-        codonTable = CodonTables.getCodonTable(CodonTableId.STANDARD);
+        codonTable = BioMojo.getObject(CodonTable.class, CodonTableId.STANDARD);
         this.seq = sequence;
     }
 

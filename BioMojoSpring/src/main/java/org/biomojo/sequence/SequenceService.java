@@ -36,9 +36,9 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 
 import org.biomojo.alphabet.ByteAlphabet;
-import org.biomojo.io.SequenceIdHeaderBuilder;
-import org.biomojo.io.fastx.FastaInputStream;
-import org.biomojo.io.fastx.FastaOutputStream;
+import org.biomojo.io.SeqIdHeaderBuilder;
+import org.biomojo.io.fastx.FastaInput;
+import org.biomojo.io.fastx.FastaOutput;
 import org.biomojo.util.DbUtil;
 import org.java0.core.exception.UncheckedException;
 import org.slf4j.Logger;
@@ -82,11 +82,12 @@ public class SequenceService {
     public SeqList<ByteSeq<ByteAlphabet>> loadFastxFile(final File fastxFile, final String name, String description,
             final int alphabetId) {
 
-        FastaInputStream<ByteAlphabet> fastxInputStream = null;
+        FastaInput<ByteAlphabet> fastxInputStream = null;
         final ByteSeq<ByteAlphabet> sequence = null;
 
         try {
-            fastxInputStream = new FastaInputStream<>(new BufferedInputStream(new FileInputStream(fastxFile)));
+            fastxInputStream = new FastaInput<>(new BufferedInputStream(new FileInputStream(fastxFile)),
+                    ByteAlphabet.class);
             fastxInputStream.read(sequence);
         } catch (final FileNotFoundException e) {
             throw new UncheckedException(e);
@@ -145,8 +146,8 @@ public class SequenceService {
     @Transactional
     public void saveFastxFile(final File fastxFile, SeqList<? extends ByteSeq<ByteAlphabet>> sequenceList)
             throws IOException {
-        final FastaOutputStream<ByteAlphabet> output = new FastaOutputStream<>(
-                new BufferedOutputStream(new FileOutputStream(fastxFile)), new SequenceIdHeaderBuilder());
+        final FastaOutput<ByteAlphabet> output = new FastaOutput<>(
+                new BufferedOutputStream(new FileOutputStream(fastxFile)), new SeqIdHeaderBuilder());
 
         // Write Fasta-formatted queryFile using the database ID as the
         // header

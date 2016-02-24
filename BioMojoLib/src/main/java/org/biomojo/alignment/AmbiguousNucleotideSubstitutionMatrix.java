@@ -16,13 +16,13 @@
  */
 package org.biomojo.alignment;
 
+import org.biomojo.BioMojo;
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.Alphabets;
+import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.IUPACVariant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO: Auto-generated Javadoc
 /**
  * Nucleotide substitution matrix supporting ambiguity codes using scores from
  * NCBI BLAST matrix:
@@ -62,7 +62,7 @@ public class AmbiguousNucleotideSubstitutionMatrix extends ArrayLookupByteSubsti
      * Instantiates a new ambiguous nucleotide substitution matrix.
      */
     public AmbiguousNucleotideSubstitutionMatrix() {
-        super(Alphabets.getAlphabet(AlphabetId.DNA | IUPACVariant.WITH_AMBIGIGUITY));
+        super(BioMojo.getObject(ByteAlphabet.class, AlphabetId.DNA | IUPACVariant.WITH_AMBIGIGUITY));
 
         this.initMatrix(Integer.MIN_VALUE);
         for (int i = 0; i < matrixOrder.length; ++i) {

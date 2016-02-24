@@ -85,8 +85,8 @@ public class ThreeBitByteCodec extends AbstractByteByteCodec {
      * @param id
      *            the id
      */
-    ThreeBitByteCodec(final int id) {
-        super(id);
+    ThreeBitByteCodec() {
+        super(CodecId.THREE_BIT_BYTE_CODEC);
     }
 
     /**
@@ -144,6 +144,7 @@ public class ThreeBitByteCodec extends AbstractByteByteCodec {
     public byte decode(final ByteAlphabet alphabet, final byte[] encodedData, final int decodedLength, final int pos) {
         int ordinal = 0;
 
+        // TODO Use bit shift ops instead of div / mod operator
         final int start = pos / SYMBOLS_PER_CHUNK * BITS_PER_SYMBOL;
         switch (pos % SYMBOLS_PER_CHUNK) {
         case 0:
@@ -247,6 +248,9 @@ public class ThreeBitByteCodec extends AbstractByteByteCodec {
     public void encode(final ByteAlphabet alphabet, final byte[] encodedData, final int length, final byte symbol,
             final int pos) {
         final int ordinal = alphabet.getOrdinalForSymbol(symbol);
+
+        // TODO Use bit shift ops instead of div / mod operator
+
         final int start = pos / SYMBOLS_PER_CHUNK * BITS_PER_SYMBOL;
         switch (pos % SYMBOLS_PER_CHUNK) {
         case 0:
@@ -297,8 +301,18 @@ public class ThreeBitByteCodec extends AbstractByteByteCodec {
     @Override
     public byte[] decodeBlock(final ByteAlphabet alphabet, final byte[] encodedData, final byte[] decodedBlock,
             final int blockNum) {
-        // TODO Auto-generated method stub
-        return null;
+        int encodedPos = blockNum * 3;
+        decodedBlock[0] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] & MASK);
+        decodedBlock[1] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] >>> SHIFT_1 & MASK);
+        decodedBlock[2] = alphabet.getByteSymbolForOrdinal(
+                encodedData[encodedPos++] >>> SHIFT_2A & MASK_2A | encodedData[encodedPos] >>> 31);
+        decodedBlock[3] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] & MASK);
+        decodedBlock[4] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] >>> SHIFT_4 & MASK);
+        decodedBlock[5] = alphabet.getByteSymbolForOrdinal(
+                encodedData[encodedPos++] >>> SHIFT_5A & MASK_5A | encodedData[encodedPos] >>> SHIFT_5B & MASK_5B);
+        decodedBlock[6] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] & MASK);
+        decodedBlock[7] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos++] >>> SHIFT_7 & MASK);
+        return decodedBlock;
     }
 
     @Override

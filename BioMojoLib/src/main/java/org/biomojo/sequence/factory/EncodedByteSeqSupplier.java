@@ -18,9 +18,9 @@ package org.biomojo.sequence.factory;
 
 import java.util.function.Supplier;
 
+import org.biomojo.BioMojo;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.codec.ByteByteCodec;
-import org.biomojo.codec.Codecs;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.EncodedByteSeq;
 
@@ -32,9 +32,20 @@ public class EncodedByteSeqSupplier<A extends ByteAlphabet> extends ByteSeqSuppl
 
     private final ByteByteCodec codec;
 
-    public EncodedByteSeqSupplier(final int alphabetId, final int codecId) {
+    public EncodedByteSeqSupplier(final A alphabet, final ByteByteCodec codec) {
+        super(alphabet);
+        this.codec = codec;
+    }
+
+    public EncodedByteSeqSupplier(final Class<? extends A> alphabetClass,
+            final Class<? extends ByteByteCodec> codecClass) {
+        super(BioMojo.getObject(alphabetClass));
+        codec = BioMojo.getObject(codecClass);
+    }
+
+    public EncodedByteSeqSupplier(final long alphabetId, final long codecId) {
         super(alphabetId);
-        codec = Codecs.getCodec(codecId);
+        codec = BioMojo.getObject(ByteByteCodec.class, codecId);
     }
 
     /**

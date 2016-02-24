@@ -72,7 +72,8 @@ public class SimpleDBExample extends AbstractSpringCommand {
     public void run() {
         logger.info("Started");
 
-        final ByteSeq<ByteAlphabet> sequence = new BasicByteSeq<ByteAlphabet>("AGTGCCGGTC".getBytes());
+        final ByteSeq<ByteAlphabet> sequence = new BasicByteSeq<ByteAlphabet>("AGTGCCGGTC".getBytes(),
+                BioMojo.getObject(ByteAlphabet.class));
         final String name = "Sequence " + new Random().nextInt(100000);
         logger.info("Creating sequence: {}", name);
         sequence.setProp("name", name);

@@ -27,9 +27,9 @@ import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.alphabet.SangerQuality;
 import org.biomojo.codec.CodecId;
-import org.biomojo.io.SequenceIdHeaderParser;
-import org.biomojo.io.SequenceInputStream;
-import org.biomojo.io.fastx.FastqInputStream;
+import org.biomojo.io.SeqInput;
+import org.biomojo.io.SeqIdHeaderParser;
+import org.biomojo.io.fastx.FastqInput;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.FastqSeq;
 import org.biomojo.sequence.factory.EncodedFastqSeqSupplier;
@@ -71,8 +71,8 @@ public class LoadFastqCommand extends BaseInputCommand {
                         AlphabetId.QUALITY_SANGER);
             }
 
-            final SequenceInputStream<FastqSeq<DNA, SangerQuality>> inputStream = new FastqInputStream<DNA, SangerQuality>(
-                    new FileInputStream(inputFile), new SequenceIdHeaderParser(), supplier);
+            final SeqInput<FastqSeq<DNA, SangerQuality>> inputStream = new FastqInput<DNA, SangerQuality>(
+                    new FileInputStream(inputFile), new SeqIdHeaderParser(), supplier);
 
             for (final FastqSeq<DNA, SangerQuality> sequence : inputStream) {
                 sequences.add(sequence);

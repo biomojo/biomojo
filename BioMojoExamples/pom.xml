@@ -25,5 +25,10 @@
 	</build>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.biomojo</groupId>
+			<artifactId>BioMojoONT</artifactId>
+			<version>0.0.3-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

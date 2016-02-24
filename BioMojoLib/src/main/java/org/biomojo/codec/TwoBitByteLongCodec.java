@@ -52,8 +52,8 @@ public class TwoBitByteLongCodec extends AbstractByteLongCodec {
      * @param id
      *            the id
      */
-    TwoBitByteLongCodec(final int id) {
-        super(id);
+    TwoBitByteLongCodec() {
+        super(CodecId.TWO_BIT_LONG_CODEC);
     }
 
     /**

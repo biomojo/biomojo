@@ -17,14 +17,9 @@
 package org.biomojo.benchmark.framework;
 
 import org.biomojo.BioMojo;
-import org.biomojo.benchmark.framework.commands.GenFastaCommand;
-import org.biomojo.benchmark.framework.commands.GenFastqCommand;
-import org.biomojo.benchmark.framework.executor.ExecuteCommand;
+import org.biomojo.benchmark.framework.commands.BenchmarkCommand;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.core.util.StatusPrinter;
 
 /*
  * @author Hugh Eaves
@@ -32,13 +27,9 @@ import ch.qos.logback.core.util.StatusPrinter;
  */
 public class Main {
     @SuppressWarnings("unused")
-    private static final Logger logger = LoggerFactory.getLogger(Main.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(Main.class);
 
     public static void main(final String[] args) {
-        final LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-        // print logback's internal status
-        StatusPrinter.print(lc);
-
-        BioMojo.init(args, new GenFastaCommand(), new GenFastqCommand(), new ExecuteCommand());
+        BioMojo.init(args, new BenchmarkCommand());
     }
 }

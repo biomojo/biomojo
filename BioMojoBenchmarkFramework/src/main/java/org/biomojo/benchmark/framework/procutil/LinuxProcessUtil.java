@@ -2,6 +2,7 @@ package org.biomojo.benchmark.framework.procutil;
 
 import java.io.IOException;
 import java.lang.reflect.Field;
+import java.nio.file.DirectoryStream;
 import java.nio.file.DirectoryStream.Filter;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
@@ -90,7 +91,6 @@ public class LinuxProcessUtil {
             final SetMap<Integer, Integer> pidDepths, final Set<Integer> pids, final int depth, final int pid) {
         pidDepths.add(depth, pid);
         pids.add(pid);
-
         final Set<Integer> childPids = pidTree.get(pid);
         if (childPids != null) {
             for (final int childPid : childPids) {
@@ -102,10 +102,9 @@ public class LinuxProcessUtil {
 
     public static Set<Integer> getAllPids() {
         final Set<Integer> pids = new HashSet<>();
-
-        try {
-            final Path dir = Paths.get(LinuxProcConst.PROC_DIR);
-            final Iterator<Path> fileList = Files.newDirectoryStream(dir, pidFileFilter).iterator();
+        final Path dir = Paths.get(LinuxProcConst.PROC_DIR);
+        try (final DirectoryStream<Path> directoryStream = Files.newDirectoryStream(dir, pidFileFilter)) {
+            final Iterator<Path> fileList = directoryStream.iterator();
             while (fileList.hasNext()) {
                 final Path path = fileList.next();
                 final String pidStr = path.getFileName().toString();
@@ -115,7 +114,6 @@ public class LinuxProcessUtil {
         } catch (final IOException e) {
             logger.error("Caught exception in auto-generated catch block", e);
         }
-
         return pids;
     }
 

@@ -18,15 +18,15 @@ package org.biomojo.alignment;
 
 import org.biomojo.alphabet.Alphabet;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Interface SubstitutionMatrix.
  *
  * @author Hugh Eaves
- * @param <T> the generic type
+ * @param <T>
+ *            the generic type
  */
 public interface SubstitutionMatrix<T> {
-    
+
     /**
      * Gets the alphabet.
      *
@@ -37,8 +37,10 @@ public interface SubstitutionMatrix<T> {
     /**
      * Gets the score.
      *
-     * @param from the from
-     * @param to the to
+     * @param from
+     *            the from
+     * @param to
+     *            the to
      * @return the score
      */
     public int getScore(T from, T to);

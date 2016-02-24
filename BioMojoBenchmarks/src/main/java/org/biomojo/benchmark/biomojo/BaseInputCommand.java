@@ -25,7 +25,7 @@ import com.beust.jcommander.Parameter;
  *
  */
 public abstract class BaseInputCommand extends FileInputCommand {
-    @Parameter(names = { "-e", "--encode" }, description = "Use two bit encoding for sequences")
+    @Parameter(names = { "-e", "--encode" }, description = "Use two bit encoding for sequences", arity = 1)
     protected boolean encode = false;
 
 }

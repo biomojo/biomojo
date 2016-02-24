@@ -14,13 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.biomojo.sequence.converter;
+package org.biomojo.alphabet;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import org.biomojo.alphabet.Alphabets;
-import org.biomojo.alphabet.ByteAlphabet;
+import org.biomojo.BioMojo;
 
 /**
  * The Class ByteAlphabetConverter.
@@ -28,7 +27,7 @@ import org.biomojo.alphabet.ByteAlphabet;
  * @author Hugh Eaves
  */
 @Converter(autoApply = true)
-public class ByteAlphabetConverter implements AttributeConverter<ByteAlphabet, Integer> {
+public class ByteAlphabetConverter implements AttributeConverter<ByteAlphabet, Long> {
 
     /*
      * (non-Javadoc)
@@ -38,8 +37,8 @@ public class ByteAlphabetConverter implements AttributeConverter<ByteAlphabet, I
      * Object)
      */
     @Override
-    public Integer convertToDatabaseColumn(final ByteAlphabet alphabet) {
-        return (int) alphabet.getId();
+    public Long convertToDatabaseColumn(final ByteAlphabet alphabet) {
+        return alphabet.getId();
     }
 
     /*
@@ -50,7 +49,7 @@ public class ByteAlphabetConverter implements AttributeConverter<ByteAlphabet, I
      * Object)
      */
     @Override
-    public ByteAlphabet convertToEntityAttribute(final Integer alphabetId) {
-        return Alphabets.getAlphabet(alphabetId);
+    public ByteAlphabet convertToEntityAttribute(final Long alphabetId) {
+        return BioMojo.getObject(ByteAlphabet.class, alphabetId);
     }
 }

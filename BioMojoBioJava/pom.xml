@@ -14,7 +14,7 @@
 	<properties>
 		<biojava.version>4.1.0</biojava.version>
 	</properties>
-	
+
 	<repositories>
 		<repository>
 			<id>biojava-maven-repo</id>

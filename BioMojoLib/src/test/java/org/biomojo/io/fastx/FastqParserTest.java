@@ -24,8 +24,8 @@ import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.alphabet.IUPACVariant;
 import org.biomojo.alphabet.SangerQuality;
-import org.biomojo.io.SequenceInputStream;
-import org.biomojo.io.SequenceOutputStream;
+import org.biomojo.io.SeqInput;
+import org.biomojo.io.SeqOutput;
 import org.biomojo.sequence.FastqSeq;
 import org.biomojo.sequence.factory.FastqSeqSupplier;
 import org.junit.Test;
@@ -74,10 +74,10 @@ public class FastqParserTest extends FastxParserTest<DNA, FastqSeq<DNA, SangerQu
      * @see org.biomojo.io.fastx.FastxParserTest#getInputStream(byte[], int)
      */
     @Override
-    protected SequenceInputStream<FastqSeq<DNA, SangerQuality>> getInputStream(final byte[] testData,
+    protected SeqInput<FastqSeq<DNA, SangerQuality>> getInputStream(final byte[] testData,
             final int bufSize) {
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(testData);
-        return new FastqInputStream<DNA, SangerQuality>(inputStream, bufSize, supplier);
+        return new FastqInput<DNA, SangerQuality>(inputStream, bufSize, supplier);
     }
 
     /**
@@ -89,8 +89,8 @@ public class FastqParserTest extends FastxParserTest<DNA, FastqSeq<DNA, SangerQu
      * @see org.biomojo.io.fastx.FastxParserTest#getOutputStream(java.io.ByteArrayOutputStream)
      */
     @Override
-    protected SequenceOutputStream<FastqSeq<DNA, SangerQuality>> getOutputStream(
+    protected SeqOutput<FastqSeq<DNA, SangerQuality>> getOutputStream(
             final ByteArrayOutputStream outputStream) {
-        return new FastqOutputStream<DNA, SangerQuality>(outputStream);
+        return new FastqOutput<DNA, SangerQuality>(outputStream);
     }
 }

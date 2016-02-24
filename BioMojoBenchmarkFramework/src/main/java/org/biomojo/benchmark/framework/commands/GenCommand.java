@@ -16,19 +16,23 @@
  */
 package org.biomojo.benchmark.framework.commands;
 
+import javax.inject.Inject;
+
+import org.biomojo.benchmark.framework.benchmark.BenchmarkServices;
 import org.java0.cli.AbstractCommand;
 import org.java0.cli.OutputFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 
 /**
  * @author Hugh Eaves
  *
  */
-
-public abstract class GenCommand extends AbstractCommand {
+@Parameters(commandNames = "gen_test_data")
+public class GenCommand extends AbstractCommand {
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(GenCommand.class.getName());
 
@@ -40,4 +44,15 @@ public abstract class GenCommand extends AbstractCommand {
 
     @Parameter(names = { "-o", "--out" }, description = "Output file name", required = true)
     protected OutputFile outputFile;
+
+    @Inject
+    protected BenchmarkServices services;
+
+    /**
+     * @see org.java0.cli.Command#run()
+     */
+    @Override
+    public void run() {
+        services.createRandomSequenceFile(outputFile.getAbsolutePath().toString(), numSeqs, () -> seqLength);
+    }
 }

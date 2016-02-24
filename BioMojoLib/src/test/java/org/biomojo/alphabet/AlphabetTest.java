@@ -21,6 +21,7 @@ import static org.junit.Assert.assertTrue;
 import java.lang.reflect.Array;
 import java.util.Random;
 
+import org.biomojo.BioMojo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,6 +38,10 @@ public class AlphabetTest {
 
     /** The random. */
     Random random = new Random(0);
+
+    public AlphabetTest() {
+        BioMojo.init();
+    }
 
     /**
      * Test byte alphabet.
@@ -56,7 +61,7 @@ public class AlphabetTest {
     public <T> void testAlphabet(final Class<T> type) {
         for (int i = 0; i < AlphabetId.LAST_ALPHABET_ID; ++i) {
             @SuppressWarnings("unchecked")
-            final Alphabet<T> alphabet = (Alphabet<T>) Alphabets.getAlphabet(i);
+            final Alphabet<T> alphabet = BioMojo.getObject(Alphabet.class, i);
             if (alphabet != null) {
                 logger.debug("testing alphabet id {}", alphabet.getId());
                 for (int j = 0; j < alphabet.numSymbols(); ++j) {

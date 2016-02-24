@@ -36,15 +36,8 @@ public class TwoBitByteCodec extends AbstractByteByteCodec {
      * @param id
      *            the id
      */
-    TwoBitByteCodec(final int id) {
-        super(id);
-        // for (int table = 0; table < 4; ++table) {
-        // decodeTable[table] = new byte[256];
-        // final byte data[] = new byte[1];
-        // for (int i = 0; i < 256; ++i) {
-        // decodeTable[table][i] = (byte) (i % 4);
-        // }
-        // }
+    TwoBitByteCodec() {
+        super(CodecId.TWO_BIT_BYTE_CODEC);
     }
 
     // private static final byte[][] decodeTable = new byte[4][];
@@ -259,8 +252,12 @@ public class TwoBitByteCodec extends AbstractByteByteCodec {
     @Override
     public byte[] decodeBlock(final ByteAlphabet alphabet, final byte[] encodedData, final byte[] decodedBlock,
             final int blockNum) {
-        // TODO Auto-generated method stub
-        return null;
+        final byte encodedByte = encodedData[blockNum];
+        decodedBlock[0] = alphabet.getByteSymbolForOrdinal((encodedByte >> SHIFT_0 & SYMBOL_MASK));
+        decodedBlock[1] = alphabet.getByteSymbolForOrdinal((encodedByte >> SHIFT_1 & SYMBOL_MASK));
+        decodedBlock[2] = alphabet.getByteSymbolForOrdinal((encodedByte >> SHIFT_2 & SYMBOL_MASK));
+        decodedBlock[3] = alphabet.getByteSymbolForOrdinal(encodedByte & SYMBOL_MASK);
+        return decodedBlock;
     }
 
     @Override

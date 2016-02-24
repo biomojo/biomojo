@@ -82,16 +82,6 @@ public class EncodedFastqSeq<A extends Nucleotide<A>, Q extends ByteQuality> ext
     /**
      * Instantiates a new encoded fastq seq.
      *
-     * @param data
-     *            the data
-     */
-    public EncodedFastqSeq(final byte[] data) {
-        super(data);
-    }
-
-    /**
-     * Instantiates a new encoded fastq seq.
-     *
      * @param alphabet
      *            the alphabet
      * @param codec

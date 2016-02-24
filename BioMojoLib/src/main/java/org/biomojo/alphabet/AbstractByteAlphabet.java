@@ -18,7 +18,7 @@ package org.biomojo.alphabet;
 
 public abstract class AbstractByteAlphabet extends AbstractAlphabet<Byte> implements ByteAlphabet {
 
-    protected AbstractByteAlphabet(final int id) {
+    protected AbstractByteAlphabet(final long id) {
         super(id);
     }
 

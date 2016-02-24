@@ -16,13 +16,10 @@
  */
 package org.biomojo.sequence;
 
-import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.Alphabets;
+import org.biomojo.BioMojo;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.alphabet.InvalidSymbolException;
-import org.biomojo.codec.ByteByteCodec;
-import org.biomojo.codec.CodecId;
-import org.biomojo.codec.Codecs;
+import org.biomojo.codec.TwoBitByteCodec;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -33,15 +30,17 @@ import org.slf4j.LoggerFactory;
 public class SequenceTest {
 
     /** The Constant logger. */
+    @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(SequenceTest.class.getName());
 
     public SequenceTest() {
+        BioMojo.init();
     }
 
     @Test(expected = InvalidSymbolException.class)
     public void testValidation() {
-        final EncodedByteSeq<DNA> seq = new EncodedByteSeq<>(Alphabets.getAlphabet(AlphabetId.DNA, DNA.class),
-                Codecs.getCodec(CodecId.TWO_BIT_BYTE_CODEC, ByteByteCodec.class));
+        final EncodedByteSeq<DNA> seq = new EncodedByteSeq<>(BioMojo.getObject(DNA.class),
+                BioMojo.getObject(TwoBitByteCodec.class));
         seq.setAll("N".getBytes());
     }
 

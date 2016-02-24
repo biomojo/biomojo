@@ -20,7 +20,7 @@ package org.biomojo.alphabet;
 public abstract class AbstractCanonicalizableByteAlphabet<A extends CanonicalizableByte<?>> extends AbstractByteAlphabet
         implements CanonicalizableByte<A> {
 
-    protected AbstractCanonicalizableByteAlphabet(final int id) {
+    protected AbstractCanonicalizableByteAlphabet(final long id) {
         super(id);
     }
 

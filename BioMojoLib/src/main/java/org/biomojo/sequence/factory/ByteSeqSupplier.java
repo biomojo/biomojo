@@ -18,7 +18,8 @@ package org.biomojo.sequence.factory;
 
 import java.util.function.Supplier;
 
-import org.biomojo.alphabet.Alphabets;
+import org.biomojo.BioMojo;
+import org.biomojo.alphabet.Alphabet;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.sequence.BasicByteSeq;
 import org.biomojo.sequence.ByteSeq;
@@ -31,9 +32,17 @@ public class ByteSeqSupplier<A extends ByteAlphabet> implements Supplier<ByteSeq
 
     protected final A alphabet;
 
+    public ByteSeqSupplier(final A alphabet) {
+        this.alphabet = alphabet;
+    }
+
+    public ByteSeqSupplier(final Class<? extends A> alphabetClass) {
+        alphabet = BioMojo.getObject(alphabetClass);
+    }
+
     @SuppressWarnings("unchecked")
-    public ByteSeqSupplier(final int alphabetId) {
-        alphabet = (A) Alphabets.getAlphabet(alphabetId);
+    public ByteSeqSupplier(final long alphabetId) {
+        alphabet = (A) BioMojo.getObject(Alphabet.class, alphabetId);
     }
 
     /**

@@ -17,14 +17,17 @@
 
 package org.biomojo.io.fastx;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FilterOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UncheckedIOException;
 
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.io.DefaultHeaderBuilder;
 import org.biomojo.io.HeaderBuilder;
-import org.biomojo.io.SequenceOutputStream;
+import org.biomojo.io.SeqOutput;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.util.OutputUtil;
 
@@ -32,8 +35,7 @@ import org.biomojo.util.OutputUtil;
 /**
  * The Class FastaOutputStream.
  */
-public class FastaOutputStream<T extends ByteAlphabet> extends FilterOutputStream
-        implements SequenceOutputStream<ByteSeq<T>> {
+public class FastaOutput<T extends ByteAlphabet> extends FilterOutputStream implements SeqOutput<ByteSeq<T>> {
 
     /** The Constant DEFAULT_LINE_LENGTH. */
     private static final int DEFAULT_LINE_LENGTH = 60;
@@ -50,8 +52,14 @@ public class FastaOutputStream<T extends ByteAlphabet> extends FilterOutputStrea
      * @param outputStream
      *            the output stream
      */
-    public FastaOutputStream(final OutputStream outputStream) {
+    public FastaOutput(final OutputStream outputStream) {
         super(outputStream);
+        maxLineLength = DEFAULT_LINE_LENGTH;
+        headerBuilder = new DefaultHeaderBuilder();
+    }
+
+    public FastaOutput(final String outputFileName) throws FileNotFoundException {
+        super(new FileOutputStream(outputFileName));
         maxLineLength = DEFAULT_LINE_LENGTH;
         headerBuilder = new DefaultHeaderBuilder();
     }
@@ -64,7 +72,7 @@ public class FastaOutputStream<T extends ByteAlphabet> extends FilterOutputStrea
      * @param sequenceHeaderBuilder
      *            the sequence header builder
      */
-    public FastaOutputStream(final OutputStream outputStream, final HeaderBuilder sequenceHeaderBuilder) {
+    public FastaOutput(final OutputStream outputStream, final HeaderBuilder sequenceHeaderBuilder) {
         super(outputStream);
         this.headerBuilder = sequenceHeaderBuilder;
         maxLineLength = DEFAULT_LINE_LENGTH;
@@ -80,7 +88,7 @@ public class FastaOutputStream<T extends ByteAlphabet> extends FilterOutputStrea
      * @param maxLineLength
      *            the max line length
      */
-    public FastaOutputStream(final OutputStream outputStream, final HeaderBuilder sequenceHeaderBuilder,
+    public FastaOutput(final OutputStream outputStream, final HeaderBuilder sequenceHeaderBuilder,
             final int maxLineLength) {
         super(outputStream);
         this.maxLineLength = maxLineLength;
@@ -93,10 +101,14 @@ public class FastaOutputStream<T extends ByteAlphabet> extends FilterOutputStrea
      * @see org.biomojo.io.SequenceOutputStream#write(org.biomojo.sequence.Seq)
      */
     @Override
-    public <X extends ByteSeq<T>> void write(final X sequence) throws IOException {
-        out.write(FastaConst.RECORD_DELIMITER);
-        out.write(headerBuilder.buildHeader(sequence));
-        out.write('\n');
-        OutputUtil.writeSplitLines(out, maxLineLength, sequence.toByteArray());
+    public <X extends ByteSeq<T>> void write(final X sequence) throws UncheckedIOException {
+        try {
+            out.write(FastaConst.RECORD_DELIMITER);
+            out.write(headerBuilder.buildHeader(sequence));
+            out.write('\n');
+            OutputUtil.writeSplitLines(out, maxLineLength, sequence.toByteArray());
+        } catch (final IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 }

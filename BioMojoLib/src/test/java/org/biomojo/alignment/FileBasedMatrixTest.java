@@ -19,6 +19,7 @@ package org.biomojo.alignment;
 
 import static org.junit.Assert.assertEquals;
 
+import org.biomojo.BioMojo;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.symbols.AminoAcids;
 import org.java0.test.BaseTest;
@@ -40,6 +41,7 @@ public class FileBasedMatrixTest extends BaseTest {
      * Instantiates a new file based matrix test.
      */
     public FileBasedMatrixTest() {
+        BioMojo.init();
     }
 
     /**

@@ -93,8 +93,8 @@ public class FiveBitByteCodec extends AbstractByteByteCodec {
      * @param id
      *            the id
      */
-    FiveBitByteCodec(final int id) {
-        super(id);
+    FiveBitByteCodec() {
+        super(CodecId.FIVE_BIT_BYTE_CODEC);
     }
 
     /**
@@ -117,18 +117,9 @@ public class FiveBitByteCodec extends AbstractByteByteCodec {
         int decodedPos = 0;
         int encodedPos = 0;
         while (decodedPos < endPos) {
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] & MASK);
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(
-                    encodedData[encodedPos++] >>> SHIFT_1A & MASK_1A | encodedData[encodedPos] >>> SHIFT_1B & MASK_1B);
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] & MASK);
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(
-                    encodedData[encodedPos++] >>> SHIFT_3A & MASK_3A | encodedData[encodedPos] >>> SHIFT_3B & MASK_3B);
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(
-                    encodedData[encodedPos++] >>> SHIFT_4A & MASK_4A | encodedData[encodedPos] >>> SHIFT_4B & MASK_4B);
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] & MASK);
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(
-                    encodedData[encodedPos++] >>> SHIFT_6A & MASK_6A | encodedData[encodedPos] >>> SHIFT_6B & MASK_6B);
-            decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos++] & MASK);
+            decodeBlock(alphabet, decodedData, encodedData, decodedPos, encodedPos);
+            decodedPos += 8;
+            encodedPos += 5;
         }
         while (decodedPos < length) {
             decodedData[decodedPos] = decode(alphabet, encodedData, length, decodedPos);
@@ -136,6 +127,22 @@ public class FiveBitByteCodec extends AbstractByteByteCodec {
         }
 
         return decodedData;
+    }
+
+    protected void decodeBlock(final ByteAlphabet alphabet, final byte[] decodedData, final byte[] encodedData,
+            int decodedPos, int encodedPos) {
+        decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] & MASK);
+        decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(
+                encodedData[encodedPos++] >>> SHIFT_1A & MASK_1A | encodedData[encodedPos] >>> SHIFT_1B & MASK_1B);
+        decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] & MASK);
+        decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(
+                encodedData[encodedPos++] >>> SHIFT_3A & MASK_3A | encodedData[encodedPos] >>> SHIFT_3B & MASK_3B);
+        decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(
+                encodedData[encodedPos++] >>> SHIFT_4A & MASK_4A | encodedData[encodedPos] >>> SHIFT_4B & MASK_4B);
+        decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos] & MASK);
+        decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(
+                encodedData[encodedPos++] >>> SHIFT_6A & MASK_6A | encodedData[encodedPos] >>> SHIFT_6B & MASK_6B);
+        decodedData[decodedPos++] = alphabet.getByteSymbolForOrdinal(encodedData[encodedPos++] & MASK);
     }
 
     /**
@@ -316,8 +323,9 @@ public class FiveBitByteCodec extends AbstractByteByteCodec {
     @Override
     public byte[] decodeBlock(final ByteAlphabet alphabet, final byte[] encodedData, final byte[] decodedBlock,
             final int blockNum) {
-        // TODO Auto-generated method stub
-        return null;
+        final int encodedPos = blockNum * 5;
+        decodeBlock(alphabet, decodedBlock, encodedData, 0, encodedPos);
+        return decodedBlock;
     }
 
     @Override

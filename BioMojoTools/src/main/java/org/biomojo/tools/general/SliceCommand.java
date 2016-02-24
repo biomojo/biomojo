@@ -3,8 +3,8 @@ package org.biomojo.tools.general;
 import java.io.IOException;
 
 import org.biomojo.alphabet.ByteAlphabet;
-import org.biomojo.io.SequenceInputStream;
-import org.biomojo.io.SequenceOutputStream;
+import org.biomojo.io.SeqInput;
+import org.biomojo.io.SeqOutput;
 import org.biomojo.sequence.ByteSeq;
 import org.java0.logging.slf4j.Logger;
 import org.java0.logging.slf4j.LoggerFactory;
@@ -30,8 +30,8 @@ public class SliceCommand extends AbstractFastxCommand {
     }
 
     @Override
-    protected <A extends ByteAlphabet, T extends ByteSeq<A>> void process(final SequenceInputStream<T> inputStream,
-            final SequenceOutputStream<T> outputStream) throws IOException {
+    protected <A extends ByteAlphabet, T extends ByteSeq<A>> void process(final SeqInput<T> inputStream,
+            final SeqOutput<T> outputStream) throws IOException {
         int recordCount = 0;
         for (final T seq : inputStream) {
             ++recordCount;

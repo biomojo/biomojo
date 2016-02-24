@@ -32,7 +32,7 @@ public class BasicAminoAcid extends AbstractIUPAC<AminoAcid> implements AminoAci
      * @param id
      *            the id
      */
-    protected BasicAminoAcid(final int id) {
+    protected BasicAminoAcid(final long id) {
         super(id, AminoAcids.CORE_SYMBOLS);
     }
 

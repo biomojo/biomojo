@@ -32,7 +32,7 @@ public class BasicDNA extends AbstractNucleotide<DNA> implements DNA {
      * @param id
      *            the id
      */
-    protected BasicDNA(final int id) {
+    protected BasicDNA(final long id) {
         super(id, Nucleotides.DNA_SYMBOLS);
     }
 }

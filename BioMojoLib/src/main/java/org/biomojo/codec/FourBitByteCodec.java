@@ -37,8 +37,9 @@ public class FourBitByteCodec extends AbstractByteByteCodec {
      * @param id
      *            the id
      */
-    FourBitByteCodec(final int id) {
-        super(id);
+    FourBitByteCodec() {
+        super(CodecId.FOUR_BIT_BYTE_CODEC);
+
     }
 
     /** The Constant BITS_PER_SYMBOL. */
@@ -190,8 +191,10 @@ public class FourBitByteCodec extends AbstractByteByteCodec {
     @Override
     public byte[] decodeBlock(final ByteAlphabet alphabet, final byte[] encodedData, final byte[] decodedBlock,
             final int blockNum) {
-        // TODO Auto-generated method stub
-        return null;
+        final byte encodedByte = encodedData[blockNum];
+        decodedBlock[0] = alphabet.getByteSymbolForOrdinal(encodedByte >> BITS_PER_SYMBOL & MASK);
+        decodedBlock[1] = alphabet.getByteSymbolForOrdinal(encodedByte & MASK);
+        return decodedBlock;
     }
 
     @Override

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.biomojo.benchmark.framework.executor;
+package org.biomojo.benchmark.framework.benchmark;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -41,7 +41,6 @@ import org.biomojo.core.AbstractPropertiedEntity;
 @SuppressWarnings("serial")
 @Entity
 public class BenchmarkRun extends AbstractPropertiedEntity implements BasicProcessInfo {
-    private static final long SAMPLING_INTERVAL = 200;
 
     private String runGroup;
     private Timestamp startTime;
@@ -49,6 +48,8 @@ public class BenchmarkRun extends AbstractPropertiedEntity implements BasicProce
     private String library;
     private String benchmark;
     private int exitStatus;
+    private long testId;
+    private long runNumber;
 
     protected int pid = MISSING_VALUE;
     protected int parentPid = MISSING_VALUE;
@@ -65,9 +66,6 @@ public class BenchmarkRun extends AbstractPropertiedEntity implements BasicProce
 
     @Column(length = Integer.MAX_VALUE)
     private String standardOut;
-    @Column(length = Integer.MAX_VALUE)
-    private String gcLog;
-    private int runNumber;
 
     @ElementCollection
     Map<String, String> config = new HashMap<>();
@@ -79,7 +77,7 @@ public class BenchmarkRun extends AbstractPropertiedEntity implements BasicProce
 
     }
 
-    public BenchmarkRun(final String runGroup, final int runNumber, final String library, final String benchmark) {
+    public BenchmarkRun(final String runGroup, final long runNumber, final String library, final String benchmark) {
         this.runGroup = runGroup;
         this.runNumber = runNumber;
         this.library = library.toUpperCase();
@@ -228,19 +226,11 @@ public class BenchmarkRun extends AbstractPropertiedEntity implements BasicProce
         this.standardOut = standardOut;
     }
 
-    public String getGcLog() {
-        return gcLog;
-    }
-
-    public void setGcLog(final String gcLog) {
-        this.gcLog = gcLog;
-    }
-
-    public int getRunNumber() {
+    public long getRunNumber() {
         return runNumber;
     }
 
-    public void setRunNumber(final int runNumber) {
+    public void setRunNumber(final long runNumber) {
         this.runNumber = runNumber;
     }
 

@@ -32,8 +32,8 @@ import javax.persistence.Version;
 
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.blast.blastoutput.BlastOutput;
-import org.biomojo.sequence.BasicByteSeq;
 import org.biomojo.sequence.AbstractSeqList;
+import org.biomojo.sequence.BasicByteSeq;
 
 // TODO: Auto-generated Javadoc
 /**

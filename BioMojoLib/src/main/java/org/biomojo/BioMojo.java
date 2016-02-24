@@ -16,8 +16,13 @@
  */
 package org.biomojo;
 
+import org.biomojo.alphabet.DefaultAlphabets;
+import org.biomojo.codec.DefaultCodecs;
+import org.biomojo.codon.DefaultCodonTables;
 import org.java0.cli.CLIUtil;
 import org.java0.cli.Command;
+import org.java0.factory.FactoryException;
+import org.java0.factory.LongSelectorFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,11 +38,24 @@ public class BioMojo {
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(BioMojo.class.getName());
 
+    private static final LongSelectorFactory factory = new LongSelectorFactory(GlobalConst.GROUP_ID_BITS);
+
+    private static boolean initialized = false;
+
     /**
      * Instantiates a new bio mojo.
      */
     private BioMojo() {
 
+    }
+
+    public static void init() {
+        if (!initialized) {
+            initialized = true;
+            DefaultAlphabets.registerWithFactory(factory);
+            DefaultCodecs.registerWithFactory(factory);
+            DefaultCodonTables.registerWithFactory(factory);
+        }
     }
 
     /**
@@ -49,6 +67,22 @@ public class BioMojo {
      *            the commands
      */
     public static void init(final String[] args, final Command... commands) {
-        CLIUtil.processCommandLine(args, commands);
+        try {
+            init();
+            CLIUtil.processCommandLine(args, commands);
+        } catch (final OutOfMemoryError e) {
+            e.printStackTrace();
+            System.err.println("BioMojo: out of memory");
+            System.exit(GlobalConst.OUT_OF_MEMORY_EXIT_CODE);
+        }
     }
+
+    public static <T> T getObject(final Class<T> type, final long selector) throws FactoryException {
+        return factory.getObject(type, selector);
+    }
+
+    public static <T> T getObject(final Class<T> type) throws FactoryException {
+        return factory.getObject(type);
+    }
+
 }

@@ -15,41 +15,43 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.biomojo.io;
+package org.biomojo.io.metadata;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 public class FileUtil {
-    private static final Map<String, FileType> suffixMap = new HashMap<>();
+    private static final Map<String, FileTypes> suffixMap = new HashMap<>();
 
     static {
-        suffixMap.put("fasta", FileType.FASTA);
-        suffixMap.put("fa", FileType.FASTA);
-        suffixMap.put("fas", FileType.FASTA);
-        suffixMap.put("fna", FileType.FASTA);
-        suffixMap.put("faa", FileType.FASTA);
-        suffixMap.put("ffn", FileType.FASTA);
-        suffixMap.put("frn", FileType.FASTA);
+        suffixMap.put("fasta", FileTypes.FASTA);
+        suffixMap.put("fa", FileTypes.FASTA);
+        suffixMap.put("fas", FileTypes.FASTA);
+        suffixMap.put("fna", FileTypes.FASTA);
+        suffixMap.put("faa", FileTypes.FASTA);
+        suffixMap.put("ffn", FileTypes.FASTA);
+        suffixMap.put("frn", FileTypes.FASTA);
 
-        suffixMap.put("fastq", FileType.FASTQ);
-        suffixMap.put("fq", FileType.FASTQ);
+        suffixMap.put("fastq", FileTypes.FASTQ);
+        suffixMap.put("fq", FileTypes.FASTQ);
 
-        suffixMap.put("fast5", FileType.FAST5);
+        suffixMap.put("fast5", FileTypes.FAST5);
 
     }
 
-    public static FileType guessFileType(final String fileName) {
+    public static FileMetaData getFileMetaData(final String fileName) {
         final int i = fileName.lastIndexOf('.');
         if (i > 0) {
-            final FileType type = suffixMap.get(fileName.substring(i + 1));
-            return (type);
+            final FileTypes type = suffixMap.get(fileName.substring(i + 1));
+            return new DefaultFileMetaData(type);
         }
         return null;
     }
 
-    public static FileType guessFileType(final File file) {
-        return guessFileType(file.getName());
+    public static FileMetaData getFileMetaData(final File file) {
+        return getFileMetaData(file.getName());
+
     }
+
 }

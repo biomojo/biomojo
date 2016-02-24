@@ -16,6 +16,8 @@
  */
 package org.biomojo.alphabet;
 
+import org.biomojo.GlobalConst;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class AlphabetId.
@@ -31,42 +33,41 @@ public class AlphabetId {
 
     }
 
-    /** The Constant UNKNOWN. */
-    public static final int UNKNOWN = 0;
+    public static final long START = GlobalConst.GROUP_ID * 1L;
 
     /** The Constant ALL_BYTE. */
-    public static final int ALL_BYTE = 32;
+    public static final long ALL_BYTE = START + 32;
 
-    public static final int ASCII_UPPERCASE = 34;
-    public static final int ASCII = 35;
+    public static final long ASCII_UPPERCASE = START + 34;
+    public static final long ASCII = START + 35;
 
-    public static final int LETTERS_UPPERCASE = 36;
-    public static final int LETTERS = 37;
+    public static final long LETTERS_UPPERCASE = START + 36;
+    public static final long LETTERS = START + 37;
 
     /** The Constant NUCLEOTIDE. */
-    public static final int NUCLEOTIDE = 64;
+    public static final long NUCLEOTIDE = START + 64;
 
     /** The Constant DNA. */
-    public static final int DNA = 96;
+    public static final long DNA = START + 96;
 
     /** The Constant RNA. */
-    public static final int RNA = 128;
+    public static final long RNA = START + 128;
 
     /** The Constant AMINO_ACID. */
-    public static final int AMINO_ACID = 160;
+    public static final long AMINO_ACID = START + 160;
 
-    public static final int QUALITY_PHRED = 192;
+    public static final long QUALITY_PHRED = START + 192;
 
     /** The Constant QUALITY_SANGER. */
-    public static final int QUALITY_SANGER = 193;
+    public static final long QUALITY_SANGER = START + 193;
 
     /** The Constant QUALITY_ILLUMINA_10. */
-    public static final int QUALITY_ILLUMINA_10 = 194;
+    public static final long QUALITY_ILLUMINA_10 = START + 194;
 
     /** The Constant QUALITY_ILLUMINA_13. */
-    public static final int QUALITY_ILLUMINA_13 = 195;
+    public static final long QUALITY_ILLUMINA_13 = START + 195;
 
     /** The Constant LAST_ALPHABET_ID. */
-    public static final int LAST_ALPHABET_ID = 195;
+    public static final long LAST_ALPHABET_ID = START + 195;
 
 }

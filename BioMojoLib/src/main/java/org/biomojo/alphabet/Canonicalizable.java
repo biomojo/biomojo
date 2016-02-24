@@ -20,17 +20,20 @@ package org.biomojo.alphabet;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.biomojo.BioMojo;
+
 public interface Canonicalizable<T, A extends Canonicalizable<T, ?>> extends Alphabet<T> {
 
     /**
-     * Get the number of canonical symbols in this alphabet.
+     * Get the number of canonical symbols in this alphabet. Note that some
+     * Alphabets may have no canonical symbols.
      *
      * @return the int
      */
     public int numCanonicalSymbols();
 
     /**
-     * Checks if is canonical.
+     * Checks if this Alphabet is the canonical variant.
      *
      * @return true, if is canonical
      */
@@ -85,7 +88,7 @@ public interface Canonicalizable<T, A extends Canonicalizable<T, ?>> extends Alp
     }
 
     /**
-     * Make canonical.
+     * Converts all the symbols in the list to their canonical represntation.
      *
      * @param symbols
      *            the symbols
@@ -113,7 +116,12 @@ public interface Canonicalizable<T, A extends Canonicalizable<T, ?>> extends Alp
         }
     }
 
+    /**
+     * Returns the canonical version of this Alphabet.
+     * 
+     * @return
+     */
     public default A getCanonical() {
-        return Alphabets.getAlphabet(this.getId() & ~AlphabetVariant.WITH_NON_CANONICAL);
+        return (A) BioMojo.getObject(Canonicalizable.class, this.getId() & ~AlphabetVariant.WITH_NON_CANONICAL);
     }
 }

@@ -24,8 +24,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.function.Supplier;
 
+import org.biomojo.BioMojo;
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.sequence.ByteSeq;
 import org.java0.util.timing.Stopwatch;
@@ -71,7 +71,7 @@ public class TestDriver {
         }
         logger.info("Creating test data");
         final Random random = new Random(5);
-        final DNA alphabet = Alphabets.getAlphabet(AlphabetId.DNA, DNA.class);
+        final DNA alphabet = BioMojo.getObject(DNA.class);
         final byte[] testData = new byte[DATA_LENGTH];
         for (int i = 0; i < testData.length; ++i) {
             testData[i] = alphabet.getSymbolForOrdinal(random.nextInt(alphabet.numSymbols()));

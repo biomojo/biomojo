@@ -19,27 +19,24 @@
 			<plugin>
 				<artifactId>maven-shade-plugin</artifactId>
 			</plugin>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-                <configuration>
-             <!--       <sources>
-                        <source>
-                            <includes>
-                                <include>**/*Service.java</include>
-                            </includes>
-                        </source>
-                    </sources> --> 
-                </configuration>
-            </plugin> 
-        </plugins>
-    </build>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>aspectj-maven-plugin</artifactId>
+				<configuration>
+					<!-- <sources> <source> <includes> <include>**/*Service.java</include> 
+						</includes> </source> </sources> -->
+				</configuration>
+			</plugin> 
+
+
+		</plugins>
+	</build>
 
 	<dependencies>
-        <dependency>
-            <groupId>org.biomojo</groupId>
-            <artifactId>BioMojoTools</artifactId>
-            <version>0.0.3-SNAPSHOT</version>
-        </dependency>
+		<dependency>
+			<groupId>org.biomojo</groupId>
+			<artifactId>BioMojoTools</artifactId>
+			<version>0.0.3-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

@@ -17,7 +17,6 @@
 package org.biomojo.benchmark.biomojo;
 
 import org.biomojo.BioMojo;
-import org.biomojo.tools.fast5.ConvertFast5Command;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +32,6 @@ public class Main {
 
         BioMojo.init(args, new LoadFastaCommand(), new LoadFastqCommand(), new ReadFastaCommand(),
                 new ReadFastqCommand(), new TrimCommand(), new AlignCommand(), new TranslateCommand(),
-                new CountKmersCommand(), new ConvertFast5Command());
+                new CountKmersCommand(), new ReadFast5Command());
     }
 }

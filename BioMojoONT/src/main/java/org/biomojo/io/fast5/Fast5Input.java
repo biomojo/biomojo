@@ -18,19 +18,21 @@ package org.biomojo.io.fast5;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.function.Supplier;
 
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.ByteQuality;
 import org.biomojo.alphabet.Nucleotide;
-import org.biomojo.io.ParseException;
-import org.biomojo.io.SequenceInputStream;
-import org.biomojo.io.fastx.FastqInputStream;
+import org.biomojo.io.SeqInput;
+import org.biomojo.io.fastx.FastqInput;
 import org.biomojo.sequence.FastqSeq;
 import org.biomojo.sequence.factory.FastqSeqSupplier;
+import org.java0.core.exception.ParseException;
 import org.java0.logging.slf4j.Logger;
 import org.java0.logging.slf4j.LoggerFactory;
 import org.java0.string.CharArrayInputStream;
@@ -42,9 +44,8 @@ import ucar.nc2.Group;
 import ucar.nc2.NetcdfFile;
 import ucar.nc2.Variable;
 
-public class Fast5InputStream<A extends Nucleotide<?>, Q extends ByteQuality>
-        implements SequenceInputStream<FastqSeq<A, Q>> {
-    private static final Logger logger = LoggerFactory.getLogger(Fast5InputStream.class.getName());
+public class Fast5Input<A extends Nucleotide<?>, Q extends ByteQuality> implements SeqInput<FastqSeq<A, Q>> {
+    private static final Logger logger = LoggerFactory.getLogger(Fast5Input.class.getName());
 
     private static final String _1_ANALYSES = "Analyses";
 
@@ -72,30 +73,57 @@ public class Fast5InputStream<A extends Nucleotide<?>, Q extends ByteQuality>
 
     private final Supplier<? extends FastqSeq<A, Q>> seqSupplier;
 
-    Iterator<Path> fileList;
+    private Collection<String> fileList;
+    private Iterator<String> fileIterator;
 
-    public Fast5InputStream(final File directory) throws IOException {
+    public Fast5Input(final File fileOrDir) throws UncheckedIOException {
         // RandomAccessFile.setDebugAccess(true);
         // RandomAccessFile.setDebugLeaks(true);
-        fileList = Files.newDirectoryStream(directory.toPath(), "*.{fast5}").iterator();
-        seqSupplier = new FastqSeqSupplier<A, Q>(AlphabetId.NUCLEOTIDE, AlphabetId.QUALITY_SANGER);
+        this(fileOrDir, new FastqSeqSupplier<A, Q>(AlphabetId.NUCLEOTIDE, AlphabetId.QUALITY_SANGER));
     }
 
-    public Path getNextFile() {
-        if (fileList.hasNext()) {
-            return fileList.next();
+    public Fast5Input(final File fileOrDir, final Supplier<? extends FastqSeq<A, Q>> seqSupplier)
+            throws UncheckedIOException {
+        buildFileList(fileOrDir);
+        this.seqSupplier = seqSupplier;
+    }
+
+    private void buildFileList(final File fileOrDir) {
+        logger.info("building file list");
+        fileList = new ArrayList<>();
+        try {
+            if (fileOrDir.isDirectory()) {
+
+                Files.newDirectoryStream(fileOrDir.toPath(), "*.{fast5}")
+                        .forEach(e -> fileList.add(e.toAbsolutePath().toString()));
+
+            } else {
+                fileList.add(fileOrDir.getAbsolutePath().toString());
+            }
+        } catch (final IOException e) {
+            throw new UncheckedIOException(e);
+        }
+
+        fileIterator = fileList.iterator();
+
+        logger.info("done building file list");
+    }
+
+    public String getNextFile() {
+        if (fileIterator.hasNext()) {
+            return fileIterator.next();
         }
         return null;
     }
 
     @Override
     public boolean read(final FastqSeq<A, Q> seq) throws ParseException {
-        Path path;
+        String path;
         for (path = getNextFile(); path != null; path = getNextFile()) {
 
-            logger.debug("Reading {}", path);
-            try (final NetcdfFile file = NetcdfFile.open(path.toAbsolutePath().toString(), 1024 * 256, null);) {
-
+            logger.debug("Opening {}", path);
+            try (final NetcdfFile file = NetcdfFile.open(path)) {
+                logger.debug("Opened");
                 if (readSequence(file, seq)) {
                     return true;
                 }
@@ -110,11 +138,14 @@ public class Fast5InputStream<A extends Nucleotide<?>, Q extends ByteQuality>
     }
 
     private boolean readSequence(final NetcdfFile file, final FastqSeq<A, Q> seq) throws IOException {
+        logger.debug(_1_ANALYSES);
 
         final Group analyses = Nullsafe.call(file.getRootGroup(), Group::findGroup, _1_ANALYSES);
 
+        logger.debug(_2_BASECALL_2D);
         final Group baseCall2D = Nullsafe.call(analyses, Group::findGroup, _2_BASECALL_2D);
 
+        logger.debug(_3_BASECALLED_2D);
         Variable fastq = Nullsafe.call(baseCall2D, Group::findGroup, _3_BASECALLED_2D, Group::findVariable, _4_FASTQ);
 
         if (fastq == null) {
@@ -140,7 +171,7 @@ public class Fast5InputStream<A extends Nucleotide<?>, Q extends ByteQuality>
             logger.debug("Converting Fastq");
             final Array data = fastq.read();
             final char[] d1 = (char[]) data.get1DJavaArray(char.class);
-            final FastqInputStream<A, Q> inputStream = new FastqInputStream<>(new CharArrayInputStream(d1));
+            final FastqInput<A, Q> inputStream = new FastqInput<>(new CharArrayInputStream(d1));
             inputStream.read(seq);
             inputStream.close();
             return true;

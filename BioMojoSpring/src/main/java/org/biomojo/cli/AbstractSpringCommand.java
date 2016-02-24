@@ -19,7 +19,6 @@ package org.biomojo.cli;
 import java.io.Closeable;
 import java.io.IOException;
 
-import org.biomojo.GlobalConst;
 import org.biomojo.hacks.SpringDependencyHack;
 import org.java0.cli.AbstractCommand;
 import org.java0.cli.Command;
@@ -45,9 +44,9 @@ public abstract class AbstractSpringCommand extends AbstractCommand implements S
     /** The context. */
     private AbstractApplicationContext applicationContext;
 
-    public AbstractSpringCommand() {
-        this.configLocation = GlobalConst.LIB_SPRING_CONTEXT;
-    }
+    // public AbstractSpringCommand() {
+    // this.configLocation = GlobalConst.LIB_SPRING_CONTEXT;
+    // }
 
     /**
      * Instantiates a new abstract spring command.

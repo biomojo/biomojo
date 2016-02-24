@@ -1,8 +1,8 @@
 package org.biomojo.hacks;
 
-import org.biomojo.sequence.converter.ByteAlphabetConverter;
-import org.biomojo.sequence.converter.ByteCodecConverter;
-import org.biomojo.sequence.converter.CharSequenceConverter;
+import org.biomojo.alphabet.ByteAlphabetConverter;
+import org.biomojo.codec.ByteCodecConverter;
+import org.biomojo.core.CharSequenceConverter;
 
 public class BioMojoDependencyHack extends AbstractDependencyHack {
     @Override

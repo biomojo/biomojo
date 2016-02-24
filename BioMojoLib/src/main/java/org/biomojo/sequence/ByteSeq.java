@@ -19,26 +19,44 @@ package org.biomojo.sequence;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.InvalidSymbolException;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Interface ByteSeq.
+ * Represents an sequence, where the underlying type is a java "byte" primitive.
+ * This interface avoids the boxing/unboxing that would be required with Byte
+ * objects.
+ * 
+ * @author Hugh Eaves
  *
  * @param <A>
- *            the generic type
+ *            the Alphabet for this sequence
  */
 public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A>, CharSequence {
 
     /**
-     * To byte array.
+     * Returns this sequence as a byte array. Note that the data is defensively
+     * copied, so modifications to the array will not alter the data in the
+     * original sequence.
      *
      * @return the byte[]
      */
     byte[] toByteArray();
 
-    byte[] toByteArray(long start, long end);
+    /**
+     * Returns a portion of this sequence as a byte array. The data returned
+     * will start at "startPos" inclusive, and end as "endPos" exclusive. Note
+     * that the data is defensively copied, so modifications to the array will
+     * not alter the data in the original sequence.
+     * 
+     * @param start
+     * @param end
+     * @return
+     */
+    byte[] toByteArray(long startPos, long endEnd);
 
     /**
-     * Sets the all.
+     * Replaces the contents of this sequence with the symbols contained in the
+     * given byte array. The array contents in validated against the current
+     * alphabet for this sequence, resulting in an "InvalidSymbolException"
+     * being thrown if the array contains invalid symbols.
      *
      * @param sequence
      *            the new all
@@ -48,7 +66,15 @@ public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A>, CharSeque
     void setAll(byte[] sequence) throws InvalidSymbolException;
 
     /**
-     * Sets the all.
+     * Replaces the contents of this sequence with the symbols contained in the
+     * given byte array. If valid is true, the array contents in validated
+     * against the current alphabet for this sequence, resulting in an
+     * "InvalidSymbolException" being thrown if the array contains invalid
+     * symbols. Setting validate to false overrides the validation check, and
+     * assumes that the byte array data being presented has already been
+     * validated. As validation is so fast, this typically results in only a 20%
+     * savings in the execution time of this method, so this method should not
+     * normally be used.
      *
      * @param sequence
      *            the sequence
@@ -60,7 +86,7 @@ public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A>, CharSeque
     void setAll(byte[] sequence, boolean validate) throws InvalidSymbolException;
 
     /**
-     * Gets the byte.
+     * Gets the byte at the given index.
      *
      * @param index
      *            the index
@@ -71,7 +97,7 @@ public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A>, CharSeque
     }
 
     /**
-     * Gets the byte.
+     * Gets the byte at the given index.
      *
      * @param index
      *            the index
@@ -80,26 +106,34 @@ public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A>, CharSeque
     byte getByte(long index);
 
     /**
-     * Sets the.
-     *
+     * Sets the byte at the given index.
+     * 
      * @param index
-     *            the index
      * @param symbol
-     *            the symbol
      * @throws InvalidSymbolException
-     *             the invalid symbol exception
      */
     default void set(final int index, final byte symbol) throws InvalidSymbolException {
         set((long) index, symbol);
     }
 
+    /**
+     * Sets the byte at the given index.
+     * 
+     * @param index
+     * @param symbol
+     * @throws InvalidSymbolException
+     */
     void set(long index, byte symbol) throws InvalidSymbolException;
 
+    /**
+     * Appends a new symbol to the end of the sequence.
+     * 
+     * @param symbol
+     * @throws InvalidSymbolException
+     */
     void add(final byte symbol) throws InvalidSymbolException;
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see java.lang.CharSequence#charAt(int)
      */
     @Override
@@ -107,19 +141,15 @@ public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A>, CharSeque
         return (char) getByte(index);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see java.lang.CharSequence#subSequence(int, int)
      */
     @Override
-    default CharSequence subSequence(final int start, final int end) {
-        throw new UnsupportedOperationException();
+    default CharSequence subSequence(final int fromIndex, final int toIndex) {
+        return subList(fromIndex, toIndex);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see java.lang.CharSequence#length()
      */
     @Override
@@ -127,30 +157,24 @@ public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A>, CharSeque
         return size();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.util.List#get(int)
+    /**
+     * @see org.java0.collection.LongList#get(int)
      */
     @Override
     default Byte get(final int index) {
         return getByte(index);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.sequence.Seq#get(long)
+    /**
+     * @see org.java0.collection.LongList#get(long)
      */
     @Override
     default Byte get(final long index) {
         return getByte(index);
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.util.List#set(int, java.lang.Object)
+    /**
+     * @see org.java0.collection.LongList#set(int, java.lang.Object)
      */
     @Override
     default Byte set(final int index, final Byte symbol) throws InvalidSymbolException {
@@ -159,10 +183,8 @@ public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A>, CharSeque
         return oldVal;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.sequence.Seq#set(long, java.lang.Object)
+    /**
+     * @see org.java0.collection.LongList#set(long, java.lang.Object)
      */
     @Override
     default Byte set(final long index, final Byte symbol) {
@@ -171,44 +193,55 @@ public interface ByteSeq<A extends ByteAlphabet> extends Seq<Byte, A>, CharSeque
         return oldVal;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.sequence.Seq#add(long, java.lang.Object)
+    /**
+     * @see org.java0.collection.LongList#add(long, java.lang.Object)
      */
     @Override
     default void add(final long index, final Byte value) {
         throw new UnsupportedOperationException();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.util.List#subList(int, int)
+    /**
+     * @see org.java0.collection.LongList#subList(long, long)
      */
     @Override
     ByteSeq<A> subList(long fromIndex, long toIndex);
 
+    /**
+     * @see org.java0.collection.LongList#subList(int, int)
+     */
     @Override
     default ByteSeq<A> subList(final int fromIndex, final int toIndex) {
         return subList((long) fromIndex, (long) toIndex);
     }
 
+    /**
+     * @see org.java0.collection.DefaultList#iterator()
+     */
     @Override
     default ByteSeqIterator iterator() {
         return listIterator(0L);
     }
 
+    /**
+     * @see org.java0.collection.DefaultList#listIterator()
+     */
     @Override
     default ByteSeqIterator listIterator() {
         return listIterator(0L);
     }
 
+    /**
+     * @see org.java0.collection.LongList#listIterator(int)
+     */
     @Override
     default ByteSeqIterator listIterator(final int index) {
         return listIterator((long) index);
     }
 
+    /**
+     * @see org.java0.collection.LongList#listIterator(long)
+     */
     @Override
     ByteSeqIterator listIterator(long index);
 

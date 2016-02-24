@@ -28,6 +28,6 @@ public class BioJavaRNASequenceFactory implements BioJavaSequenceFactory<RNASequ
 
     @Override
     public RNASequence createSequence(final org.biomojo.sequence.ByteSeq<RNA> sequence) {
-        return new RNASequence(new BioJavaSequenceAdapter<NucleotideCompound>(sequence));
+        return new RNASequence(new BioJavaSequenceAdapter<RNA, NucleotideCompound>(sequence));
     }
 }

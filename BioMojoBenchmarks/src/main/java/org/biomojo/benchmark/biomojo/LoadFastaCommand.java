@@ -26,8 +26,8 @@ import java.util.function.Supplier;
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.codec.CodecId;
-import org.biomojo.io.SequenceIdHeaderParser;
-import org.biomojo.io.fastx.FastaInputStream;
+import org.biomojo.io.SeqIdHeaderParser;
+import org.biomojo.io.fastx.FastaInput;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.factory.ByteSeqSupplier;
 import org.biomojo.sequence.factory.EncodedByteSeqSupplier;
@@ -65,8 +65,8 @@ public class LoadFastaCommand extends BaseInputCommand {
                 supplier = new EncodedByteSeqSupplier<>(AlphabetId.DNA, CodecId.TWO_BIT_BYTE_CODEC);
             }
 
-            final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile),
-                    new SequenceIdHeaderParser(), supplier);
+            final FastaInput<DNA> inputStream = new FastaInput<>(new FileInputStream(inputFile),
+                    new SeqIdHeaderParser(), supplier);
 
             gcUtil.reset();
 

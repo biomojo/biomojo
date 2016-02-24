@@ -16,8 +16,8 @@
  */
 package org.biomojo.alignment;
 
+import org.biomojo.BioMojo;
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.AminoAcid;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.sequence.BasicByteSeq;
@@ -32,9 +32,13 @@ public class AlignmentTest {
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(AlignmentTest.class);
 
+    public AlignmentTest() {
+        BioMojo.init();
+    }
+
     @Test
     public void testSmithWatermanLinear() {
-        final AminoAcid alphabet = Alphabets.getAlphabet(AlphabetId.AMINO_ACID, AminoAcid.class);
+        final AminoAcid alphabet = BioMojo.getObject(AminoAcid.class, AlphabetId.AMINO_ACID);
         final ByteSeq<AminoAcid> seq1 = new BasicByteSeq<>("PRTEINS".getBytes(), alphabet);
         final ByteSeq<AminoAcid> seq2 = new BasicByteSeq<>("PRTWPSEIN".getBytes(), alphabet);
         final ByteSubstitutionMatrix matrix = new PrecomputedAminoAcidSubstitutionMatrix("BLOSUM", 62);
@@ -50,7 +54,7 @@ public class AlignmentTest {
 
     @Test
     public void test2() {
-        final DNA alphabet = Alphabets.getAlphabet(AlphabetId.DNA, DNA.class);
+        final DNA alphabet = BioMojo.getObject(DNA.class);
         final ByteSeq<DNA> seq1 = new BasicByteSeq<>("GAATTCAGTTA".getBytes(), alphabet);
         final ByteSeq<DNA> seq2 = new BasicByteSeq<>("GGATCGA".getBytes(), alphabet);
         final ByteSubstitutionMatrix matrix = new MatchMismatchByteSubstitutionMatrix(alphabet, 2, -1);
@@ -66,7 +70,7 @@ public class AlignmentTest {
 
     @Test
     public void test3() {
-        final DNA alphabet = Alphabets.getAlphabet(AlphabetId.DNA, DNA.class);
+        final DNA alphabet = BioMojo.getObject(DNA.class);
         final ByteSeq<DNA> seq1 = new BasicByteSeq<>("AGTCAGTCAGTCAGTCAGTCAGTC".getBytes(), alphabet);
         final ByteSeq<DNA> seq2 = new BasicByteSeq<>("AGTCAGTCACCGTCAGTCAGTCAGTC".getBytes(), alphabet);
         final ByteSubstitutionMatrix matrix = new MatchMismatchByteSubstitutionMatrix(alphabet, 2, -1);

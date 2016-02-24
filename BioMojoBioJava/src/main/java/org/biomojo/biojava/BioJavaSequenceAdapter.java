@@ -37,10 +37,10 @@ import org.biomojo.sequence.ByteSeq;
  * @param <T>
  *            the generic type
  */
-public class BioJavaSequenceAdapter<T extends Compound> implements ProxySequenceReader<T> {
+public class BioJavaSequenceAdapter<A extends ByteAlphabet, T extends Compound> implements ProxySequenceReader<T> {
 
     /** The sequence. */
-    public ByteSeq<? extends ByteAlphabet> sequence;
+    public ByteSeq<A> sequence;
 
     /** The compound factory. */
     private BioJavaCompoundFactory<T> compoundFactory;
@@ -56,7 +56,7 @@ public class BioJavaSequenceAdapter<T extends Compound> implements ProxySequence
      * @param sequence
      *            the sequence
      */
-    public BioJavaSequenceAdapter(final ByteSeq<? extends ByteAlphabet> sequence) {
+    public BioJavaSequenceAdapter(final ByteSeq<A> sequence) {
         this.sequence = sequence;
         this.compoundFactory = BioJavaFactoryFactory.getCompoundFactory(sequence.getAlphabet());
     }

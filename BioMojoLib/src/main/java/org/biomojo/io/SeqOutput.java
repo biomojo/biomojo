@@ -18,6 +18,7 @@ package org.biomojo.io;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 
 import org.biomojo.sequence.Seq;
 
@@ -29,7 +30,7 @@ import org.biomojo.sequence.Seq;
  * @param <T>
  *            the generic type
  */
-public interface SequenceOutputStream<S extends Seq<?, ?>> extends Closeable {
+public interface SeqOutput<S extends Seq<?, ?>> extends Closeable {
 
     /**
      * Writes data from the given {@link org.biomojo.sequence.Seq} object to the
@@ -41,5 +42,5 @@ public interface SequenceOutputStream<S extends Seq<?, ?>> extends Closeable {
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
-    <X extends S> void write(X sequence) throws IOException;
+    <X extends S> void write(X sequence) throws UncheckedIOException;
 }

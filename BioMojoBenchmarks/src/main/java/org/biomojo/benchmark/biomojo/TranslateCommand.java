@@ -23,14 +23,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.function.Supplier;
 
+import org.biomojo.BioMojo;
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.AminoAcid;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.alphabet.IUPACVariant;
 import org.biomojo.codec.CodecId;
-import org.biomojo.io.fastx.FastaInputStream;
-import org.biomojo.io.fastx.FastaOutputStream;
+import org.biomojo.io.fastx.FastaInput;
+import org.biomojo.io.fastx.FastaOutput;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.TranslatedSeq;
 import org.biomojo.sequence.factory.ByteSeqSupplier;
@@ -57,8 +57,8 @@ public class TranslateCommand extends BaseInputOutputCommand {
         try {
             logger.info("BioMojo sequence translation benchmark");
 
-            final FastaInputStream<DNA> inputStream = new FastaInputStream<>(new FileInputStream(inputFile));
-            final FastaOutputStream<AminoAcid> outputStream = new FastaOutputStream<>(
+            final FastaInput<DNA> inputStream = new FastaInput<>(new FileInputStream(inputFile), DNA.class);
+            final FastaOutput<AminoAcid> outputStream = new FastaOutput<>(
                     new BufferedOutputStream(new FileOutputStream(outputFile)));
 
             int recordCount = 0;
@@ -71,7 +71,7 @@ public class TranslateCommand extends BaseInputOutputCommand {
             final ByteSeq<DNA> sequence = supplier.get();
 
             final TranslatedSeq translatedSeq = new TranslatedSeq(sequence,
-                    Alphabets.getAlphabet(AlphabetId.AMINO_ACID + IUPACVariant.WITH_AMBIGIGUITY, AminoAcid.class));
+                    BioMojo.getObject(AminoAcid.class, AlphabetId.AMINO_ACID + IUPACVariant.WITH_AMBIGIGUITY));
 
             while (inputStream.read(sequence)) {
                 totalLength += sequence.size();

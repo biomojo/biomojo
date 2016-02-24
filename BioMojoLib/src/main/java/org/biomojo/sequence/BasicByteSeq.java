@@ -22,8 +22,6 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
-import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.CanonicalizableByte;
 import org.biomojo.alphabet.InvalidSymbolException;
@@ -68,11 +66,6 @@ public class BasicByteSeq<A extends ByteAlphabet> extends AbstractByteSeq<A> {
      */
     public BasicByteSeq(final A alphabet) {
         super(alphabet);
-    }
-
-    public BasicByteSeq(final byte[] data) {
-        super(Alphabets.getAlphabet(AlphabetId.ASCII));
-        setAll(data);
     }
 
     public BasicByteSeq(final byte[] data, final A alphabet) {

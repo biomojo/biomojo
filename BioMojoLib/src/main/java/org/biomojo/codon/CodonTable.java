@@ -16,7 +16,7 @@
  */
 package org.biomojo.codon;
 
-import org.biomojo.core.IdBasedFactoryObject;
+import org.java0.core.type.LongIdentified;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -24,7 +24,7 @@ import org.biomojo.core.IdBasedFactoryObject;
  *
  * @author Hugh Eaves
  */
-public interface CodonTable extends IdBasedFactoryObject {
+public interface CodonTable extends LongIdentified {
 
     /**
      * Gets the amino acid.

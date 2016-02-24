@@ -32,8 +32,8 @@ public class NullByteCodec extends AbstractByteByteCodec implements ByteByteCode
      * @param id
      *            the id
      */
-    NullByteCodec(final int id) {
-        super(id);
+    NullByteCodec() {
+        super(CodecId.NULL_BYTE_CODEC);
     }
 
     /**

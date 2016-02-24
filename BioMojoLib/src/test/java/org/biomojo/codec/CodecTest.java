@@ -22,9 +22,9 @@ import static org.junit.Assert.assertEquals;
 import java.util.Arrays;
 import java.util.Random;
 
+import org.biomojo.BioMojo;
 import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.AlphabetVariant;
-import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.IUPACVariant;
 import org.java0.util.timing.Stopwatch;
@@ -51,6 +51,10 @@ public class CodecTest {
     public static final int NUM_SEQS = 1000;
     public static final int MAX_SEQ_LEN = 1000;
 
+    public CodecTest() {
+        BioMojo.init();
+    }
+
     /**
      * Test null.
      */
@@ -69,8 +73,8 @@ public class CodecTest {
 
     @Test
     public void testTwoBitPerf() {
-        final ByteAlphabet alphabet = Alphabets.getAlphabet(AlphabetId.DNA, ByteAlphabet.class);
-        final ByteByteCodec codec = Codecs.getCodec(CodecId.TWO_BIT_BYTE_CODEC, ByteByteCodec.class);
+        final ByteAlphabet alphabet = BioMojo.getObject(ByteAlphabet.class, AlphabetId.DNA);
+        final ByteByteCodec codec = BioMojo.getObject(ByteByteCodec.class, CodecId.TWO_BIT_BYTE_CODEC);
         final int NUM_SEQS = 1000;
         final int SEQ_LEN = 1000;
         final byte[][] seq = new byte[NUM_SEQS][];
@@ -95,9 +99,9 @@ public class CodecTest {
 
     @Test
     public void testThreeBitPerf() {
-        final ByteAlphabet alphabet = Alphabets.getAlphabet(AlphabetId.DNA | AlphabetVariant.WITH_NON_CANONICAL,
-                ByteAlphabet.class);
-        final ByteByteCodec codec = Codecs.getCodec(CodecId.THREE_BIT_BYTE_CODEC, ByteByteCodec.class);
+        final ByteAlphabet alphabet = BioMojo.getObject(ByteAlphabet.class,
+                AlphabetId.DNA | AlphabetVariant.WITH_NON_CANONICAL);
+        final ByteByteCodec codec = BioMojo.getObject(ByteByteCodec.class, CodecId.THREE_BIT_BYTE_CODEC);
 
         final byte[][] seq = new byte[NUM_SEQS][];
         for (int i = 0; i < NUM_SEQS; ++i) {
@@ -155,13 +159,13 @@ public class CodecTest {
         testLongCodec(CodecId.TWO_BIT_LONG_CODEC, AlphabetId.DNA);
     }
 
-    public void testByteCodec(final int codecId, final int alphabetId) {
+    public void testByteCodec(final long codecId, final long alphabetId) {
         for (int i = 0; i < ITERATIONS; ++i) {
             runByteCodecTest(codecId, alphabetId);
         }
     }
 
-    public void testLongCodec(final int codecId, final int alphabetId) {
+    public void testLongCodec(final long codecId, final long alphabetId) {
         for (int i = 0; i < ITERATIONS; ++i) {
             runLongCodecTest(codecId, alphabetId);
         }
@@ -175,9 +179,9 @@ public class CodecTest {
      * @param alphabetId
      *            the alphabet id
      */
-    public void runLongCodecTest(final int codecId, final int alphabetId) {
-        final ByteAlphabet alphabet = Alphabets.getAlphabet(alphabetId, ByteAlphabet.class);
-        final ByteLongCodec codec = Codecs.getCodec(codecId, ByteLongCodec.class);
+    public void runLongCodecTest(final long codecId, final long alphabetId) {
+        final ByteAlphabet alphabet = BioMojo.getObject(ByteAlphabet.class, alphabetId);
+        final ByteLongCodec codec = BioMojo.getObject(ByteLongCodec.class, codecId);
 
         if (!codec.supportsAlphabet(alphabet)) {
             logger.error("Codec does not support alphabet");
@@ -234,9 +238,9 @@ public class CodecTest {
      * @param alphabetId
      *            the alphabet id
      */
-    public void runByteCodecTest(final int codecId, final int alphabetId) {
-        final ByteAlphabet alphabet = Alphabets.getAlphabet(alphabetId, ByteAlphabet.class);
-        final ByteByteCodec codec = Codecs.getCodec(codecId, ByteByteCodec.class);
+    public void runByteCodecTest(final long codecId, final long alphabetId) {
+        final ByteAlphabet alphabet = BioMojo.getObject(ByteAlphabet.class, alphabetId);
+        final ByteByteCodec codec = BioMojo.getObject(ByteByteCodec.class, codecId);
 
         if (!codec.supportsAlphabet(alphabet)) {
             logger.error("Codec does not support alphabet");

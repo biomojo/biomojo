@@ -1,5 +1,6 @@
 package org.biomojo.benchmark.framework.procutil;
 
+import org.java0.core.exception.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -65,73 +66,78 @@ public class LinuxProcessInfo extends AbstractProcessInfo {
         parse(rawValues);
     }
 
-    protected void parse(final String[] rawValues) {
+    protected void parse(final String[] rawValues) throws ParseException {
         int pos = 0;
+        try {
 
-        // 1 - 10
-        pid = toInt(rawValues[pos++]);
-        command = rawValues[pos++];
-        state = rawValues[pos++];
-        parentPid = toInt(rawValues[pos++]);
-        processGroupId = toInt(rawValues[pos++]);
-        session = toInt(rawValues[pos++]);
-        ttyNumber = toInt(rawValues[pos++]);
-        terminalProcessGroupId = toInt(rawValues[pos++]);
-        flags = toInt(rawValues[pos++]);
-        minorFaults = toLong(rawValues[pos++]);
+            // 1 - 10
+            pid = toInt(rawValues[pos++]);
+            command = rawValues[pos++];
+            state = rawValues[pos++];
+            parentPid = toInt(rawValues[pos++]);
+            processGroupId = toInt(rawValues[pos++]);
+            session = toInt(rawValues[pos++]);
+            ttyNumber = toInt(rawValues[pos++]);
+            terminalProcessGroupId = toInt(rawValues[pos++]);
+            flags = toInt(rawValues[pos++]);
+            minorFaults = toLong(rawValues[pos++]);
 
-        // 11 - 20
-        childMinorFaults = toLong(rawValues[pos++]);
-        majorFaults = toLong(rawValues[pos++]);
-        childMajorFaults = toLong(rawValues[pos++]);
-        userMilliseconds = ticksToMilliseconds(rawValues[pos++]);
-        systemMilliseconds = ticksToMilliseconds(rawValues[pos++]);
-        childUserMilliseconds = ticksToMilliseconds(rawValues[pos++]);
-        childSystemMilliseconds = ticksToMilliseconds(rawValues[pos++]);
-        priority = toInt(rawValues[pos++]);
-        nice = toInt(rawValues[pos++]);
-        numThreads = toInt(rawValues[pos++]);
+            // 11 - 20
+            childMinorFaults = toLong(rawValues[pos++]);
+            majorFaults = toLong(rawValues[pos++]);
+            childMajorFaults = toLong(rawValues[pos++]);
+            userMilliseconds = ticksToMilliseconds(rawValues[pos++]);
+            systemMilliseconds = ticksToMilliseconds(rawValues[pos++]);
+            childUserMilliseconds = ticksToMilliseconds(rawValues[pos++]);
+            childSystemMilliseconds = ticksToMilliseconds(rawValues[pos++]);
+            priority = toInt(rawValues[pos++]);
+            nice = toInt(rawValues[pos++]);
+            numThreads = toInt(rawValues[pos++]);
 
-        // 21 - 30
-        intervalMillisecondsrRealValue = toLong(rawValues[pos++]);
-        startMilliseconds = ticksToMilliseconds(rawValues[pos++]);
-        virtualBytes = pagesToBytes(rawValues[pos++]);
-        residentBytes = pagesToBytes(rawValues[pos++]);
-        residentLimitBytes = unsignedLongToLong(rawValues[pos++]);
-        startCodeAddress = unsignedLongToLong(rawValues[pos++]);
-        endCodeAddress = unsignedLongToLong(rawValues[pos++]);
-        startStackAddress = unsignedLongToLong(rawValues[pos++]);
-        kernelStackESP = unsignedLongToLong(rawValues[pos++]);
-        kernelStackEIP = unsignedLongToLong(rawValues[pos++]);
+            // 21 - 30
+            intervalMillisecondsrRealValue = toLong(rawValues[pos++]);
+            startMilliseconds = ticksToMilliseconds(rawValues[pos++]);
+            virtualBytes = pagesToBytes(rawValues[pos++]);
+            residentBytes = pagesToBytes(rawValues[pos++]);
+            residentLimitBytes = unsignedLongToLong(rawValues[pos++]);
+            startCodeAddress = unsignedLongToLong(rawValues[pos++]);
+            endCodeAddress = unsignedLongToLong(rawValues[pos++]);
+            startStackAddress = unsignedLongToLong(rawValues[pos++]);
+            kernelStackESP = unsignedLongToLong(rawValues[pos++]);
+            kernelStackEIP = unsignedLongToLong(rawValues[pos++]);
 
-        // 31 - 40
-        signal = toInt(rawValues[pos++]);
-        blocked = toInt(rawValues[pos++]);
-        sigIgnore = toInt(rawValues[pos++]);
-        sigCatch = unsignedLongToLong(rawValues[pos++]);
-        waitChannel = unsignedLongToLong(rawValues[pos++]);
-        pagesSwapped = toLong(rawValues[pos++]);
-        childPagesSwapped = toLong(rawValues[pos++]);
-        exitSignal = toInt(rawValues[pos++]);
-        processorNum = toInt(rawValues[pos++]);
-        rtPriority = toInt(rawValues[pos++]);
+            // 31 - 40
+            signal = toInt(rawValues[pos++]);
+            blocked = toInt(rawValues[pos++]);
+            sigIgnore = toInt(rawValues[pos++]);
+            sigCatch = unsignedLongToLong(rawValues[pos++]);
+            waitChannel = unsignedLongToLong(rawValues[pos++]);
+            pagesSwapped = toLong(rawValues[pos++]);
+            childPagesSwapped = toLong(rawValues[pos++]);
+            exitSignal = toInt(rawValues[pos++]);
+            processorNum = toInt(rawValues[pos++]);
+            rtPriority = toInt(rawValues[pos++]);
 
-        policy = toInt(rawValues[pos++]);
-        // Linux 2.6+
-        blockIODelayMilliseconds = ticksToMilliseconds(rawValues[pos++]);
-        guestMilliseconds = ticksToMilliseconds(rawValues[pos++]);
-        childGuestMilliseconds = ticksToMilliseconds(rawValues[pos++]);
-        // Linux 3.3+
-        startDataAddress = unsignedLongToLong(rawValues[pos++]);
-        endDataAddress = unsignedLongToLong(rawValues[pos++]);
-        startBrkAddress = unsignedLongToLong(rawValues[pos++]);
-        // Linux 3.5+
-        argStartAddress = unsignedLongToLong(rawValues[pos++]);
-        argEndAddress = unsignedLongToLong(rawValues[pos++]);
-        envStartAddress = unsignedLongToLong(rawValues[pos++]);
+            policy = toInt(rawValues[pos++]);
+            // Linux 2.6+
+            blockIODelayMilliseconds = ticksToMilliseconds(rawValues[pos++]);
+            guestMilliseconds = ticksToMilliseconds(rawValues[pos++]);
+            childGuestMilliseconds = ticksToMilliseconds(rawValues[pos++]);
+            // Linux 3.3+
+            startDataAddress = unsignedLongToLong(rawValues[pos++]);
+            endDataAddress = unsignedLongToLong(rawValues[pos++]);
+            startBrkAddress = unsignedLongToLong(rawValues[pos++]);
+            // Linux 3.5+
+            argStartAddress = unsignedLongToLong(rawValues[pos++]);
+            argEndAddress = unsignedLongToLong(rawValues[pos++]);
+            envStartAddress = unsignedLongToLong(rawValues[pos++]);
 
-        envEndAddress = unsignedLongToLong(rawValues[pos++]);
-        exitCode = toInt(rawValues[pos++]);
+            envEndAddress = unsignedLongToLong(rawValues[pos++]);
+            exitCode = toInt(rawValues[pos++]);
+        } catch (final ArrayIndexOutOfBoundsException | NumberFormatException e) {
+            logger.error("Error parsing proc file fields, last field parsed = " + pos);
+            throw new ParseException(e);
+        }
     }
 
     private long ticksToMilliseconds(final String value) {

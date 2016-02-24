@@ -23,8 +23,7 @@ import org.biomojo.symbols.Nucleotides;
 /**
  * The Class AbstractNucleotideAlphabet.
  */
-public abstract class AbstractNucleotide<A extends Nucleotide<A>> extends AbstractIUPAC<A>
-        implements Nucleotide<A> {
+public abstract class AbstractNucleotide<A extends Nucleotide<A>> extends AbstractIUPAC<A> implements Nucleotide<A> {
 
     /** The complement. */
     protected byte[] complement = new byte[Byte.MAX_VALUE + 1];
@@ -40,7 +39,7 @@ public abstract class AbstractNucleotide<A extends Nucleotide<A>> extends Abstra
      * @param coreSymbols
      *            the core symbols
      */
-    protected AbstractNucleotide(final int id, final byte[] coreSymbols) {
+    protected AbstractNucleotide(final long id, final byte[] coreSymbols) {
         super(id, coreSymbols);
         initComplements();
     }

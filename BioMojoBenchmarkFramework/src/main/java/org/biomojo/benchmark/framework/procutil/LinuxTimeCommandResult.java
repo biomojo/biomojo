@@ -16,23 +16,32 @@
  */
 package org.biomojo.benchmark.framework.procutil;
 
+import org.java0.core.exception.ParseException;
+
 /**
  * @author Hugh Eaves
  *
  */
-public class LinuxTimeCommandInfo extends AbstractProcessInfo {
+public class LinuxTimeCommandResult extends AbstractProcessInfo {
 
     String commandLine;
     String percentCPU;
+    int exitStatus;
 
-    public LinuxTimeCommandInfo(final String[] values) {
+    public LinuxTimeCommandResult(final String[] values) throws ParseException {
         parse(values);
     }
 
     // command line ^ major faults ^ minor faults ^ max rss ^ percent cpu ^
     // system time ^ user time ^ elapsed time
-    public void parse(final String[] rawValues) {
+    public void parse(final String[] rawValues) throws ParseException {
+        if (rawValues.length < LinuxTimeCommandUtil.NUM_FIELDS) {
+            throw new ParseException("Unable to parse time command result, required fields = "
+                    + LinuxTimeCommandUtil.NUM_FIELDS + ", num fields in result = " + rawValues.length);
+        }
+
         int pos = 0;
+
         commandLine = rawValues[pos++];
         majorFaults = toLong(rawValues[pos++]);
         minorFaults = toLong(rawValues[pos++]);
@@ -41,6 +50,7 @@ public class LinuxTimeCommandInfo extends AbstractProcessInfo {
         systemMilliseconds = secondsToMS(rawValues[pos++]);
         userMilliseconds = secondsToMS(rawValues[pos++]);
         elapsedMilliseconds = secondsToMS(rawValues[pos++]);
+        exitStatus = toInt(rawValues[pos++]);
     }
 
     public static long secondsToMS(final String value) {
@@ -49,6 +59,18 @@ public class LinuxTimeCommandInfo extends AbstractProcessInfo {
 
     public static long memoryKBToBytes(final String value) {
         return Long.parseLong(value) * 1024;
+    }
+
+    public String getCommandLine() {
+        return commandLine;
+    }
+
+    public String getPercentCPU() {
+        return percentCPU;
+    }
+
+    public int getExitStatus() {
+        return exitStatus;
     }
 
 }

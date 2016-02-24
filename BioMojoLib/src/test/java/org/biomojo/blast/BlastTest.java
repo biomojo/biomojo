@@ -27,6 +27,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 
+import org.biomojo.BioMojo;
 import org.biomojo.blast.blastoutput.BlastOutput;
 import org.java0.test.BaseTest;
 import org.junit.Test;
@@ -40,33 +41,38 @@ import org.xml.sax.XMLReader;
  * The Class BlastTest.
  */
 public class BlastTest extends BaseTest {
-    
+
     /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(BlastTest.class.getName());
+
+    public BlastTest() {
+        BioMojo.init();
+    }
 
     /**
      * Test blast parser.
      *
-     * @throws Exception the exception
+     * @throws Exception
+     *             the exception
      */
     @Test
     public void testBlastParser() throws Exception {
-        File outFile = File.createTempFile("blast_output_", ".xml");
-        File inFile = new File("src/test/resources/data/BlastOutput.xml");
-        InputSource inputSource = new InputSource(new FileReader(inFile));
+        final File outFile = File.createTempFile("blast_output_", ".xml");
+        final File inFile = new File("src/test/resources/data/BlastOutput.xml");
+        final InputSource inputSource = new InputSource(new FileReader(inFile));
 
-        SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-        XMLReader xmlReader = parserFactory.newSAXParser().getXMLReader();
-        SAXSource source = new SAXSource(xmlReader, inputSource);
+        final SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+        final XMLReader xmlReader = parserFactory.newSAXParser().getXMLReader();
+        final SAXSource source = new SAXSource(xmlReader, inputSource);
 
-        JAXBContext jaxBContext = JAXBContext.newInstance(BlastOutput.class);
-        Unmarshaller unmarshaller = jaxBContext.createUnmarshaller();
+        final JAXBContext jaxBContext = JAXBContext.newInstance(BlastOutput.class);
+        final Unmarshaller unmarshaller = jaxBContext.createUnmarshaller();
         // BlastOutput blastOutput = (BlastOutput)
         // unmarshaller.unmarshal(inFile);
-        BlastOutput blastOutput = (BlastOutput) unmarshaller.unmarshal(source);
+        final BlastOutput blastOutput = (BlastOutput) unmarshaller.unmarshal(source);
         assertEquals("nr", blastOutput.getDb());
 
-        Marshaller marshaller = jaxBContext.createMarshaller();
+        final Marshaller marshaller = jaxBContext.createMarshaller();
         marshaller.setProperty("jaxb.formatted.output", Boolean.TRUE);
         marshaller.marshal(blastOutput, outFile);
 

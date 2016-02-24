@@ -135,6 +135,9 @@ public class DbPropertyMapManager implements PropertyMapManager {
 
     @Override
     public Map<String, Object> convert(final Map<String, Object> properties) {
+        if (properties == null) {
+            return null;
+        }
         properties.replaceAll((k, v) -> wrap(v));
         return properties;
     }

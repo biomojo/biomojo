@@ -24,8 +24,8 @@ import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.AlphabetVariant;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.IUPACVariant;
-import org.biomojo.io.SequenceInputStream;
-import org.biomojo.io.SequenceOutputStream;
+import org.biomojo.io.SeqInput;
+import org.biomojo.io.SeqOutput;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.factory.ByteSeqSupplier;
 import org.junit.Test;
@@ -76,9 +76,9 @@ public class FastaParserTest extends FastxParserTest<ByteAlphabet, ByteSeq<ByteA
      * @see org.biomojo.io.fastx.FastxParserTest#getInputStream(byte[], int)
      */
     @Override
-    protected SequenceInputStream<ByteSeq<ByteAlphabet>> getInputStream(final byte[] testData, final int bufSize) {
+    protected SeqInput<ByteSeq<ByteAlphabet>> getInputStream(final byte[] testData, final int bufSize) {
         final ByteArrayInputStream inputStream = new ByteArrayInputStream(testData);
-        return new FastaInputStream<ByteAlphabet>(inputStream, bufSize, supplier);
+        return new FastaInput<ByteAlphabet>(inputStream, bufSize, supplier);
     }
 
     /**
@@ -91,7 +91,7 @@ public class FastaParserTest extends FastxParserTest<ByteAlphabet, ByteSeq<ByteA
      */
 
     @Override
-    protected SequenceOutputStream<ByteSeq<ByteAlphabet>> getOutputStream(final ByteArrayOutputStream outputStream) {
-        return new FastaOutputStream<ByteAlphabet>(outputStream);
+    protected SeqOutput<ByteSeq<ByteAlphabet>> getOutputStream(final ByteArrayOutputStream outputStream) {
+        return new FastaOutput<ByteAlphabet>(outputStream);
     }
 }

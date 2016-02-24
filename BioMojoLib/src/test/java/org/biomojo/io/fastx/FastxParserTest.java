@@ -23,11 +23,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.biomojo.BioMojo;
 import org.biomojo.alphabet.ByteAlphabet;
-import org.biomojo.io.ParseException;
-import org.biomojo.io.SequenceInputStream;
-import org.biomojo.io.SequenceOutputStream;
+import org.biomojo.io.SeqInput;
+import org.biomojo.io.SeqOutput;
 import org.biomojo.sequence.ByteSeq;
+import org.java0.core.exception.ParseException;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,6 +49,10 @@ public abstract class FastxParserTest<A extends ByteAlphabet, T extends ByteSeq<
 
     /** The Constant invalidData. */
     protected static final String[] invalidData = { " ", "    ", "\n", "\n\n", "\n \n \n" };
+
+    public FastxParserTest() {
+        BioMojo.init();
+    }
 
     /**
      * Test empty file.
@@ -116,9 +121,9 @@ public abstract class FastxParserTest<A extends ByteAlphabet, T extends ByteSeq<
     protected byte[] copyRecords(final byte[] testData, final int bufSize, final int expectedReadCount)
             throws IOException {
 
-        final SequenceInputStream<T> sequenceInputStream = getInputStream(testData, bufSize);
+        final SeqInput<T> sequenceInputStream = getInputStream(testData, bufSize);
         final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        final SequenceOutputStream<T> sequenceOutputStream = getOutputStream(outputStream);
+        final SeqOutput<T> sequenceOutputStream = getOutputStream(outputStream);
 
         int numReads = 0;
         for (final T seq : sequenceInputStream) {
@@ -169,7 +174,7 @@ public abstract class FastxParserTest<A extends ByteAlphabet, T extends ByteSeq<
      *            the buf size
      * @return the input stream
      */
-    protected abstract SequenceInputStream<T> getInputStream(byte[] testData, int bufSize);
+    protected abstract SeqInput<T> getInputStream(byte[] testData, int bufSize);
 
     /**
      * Gets the output stream.
@@ -178,5 +183,5 @@ public abstract class FastxParserTest<A extends ByteAlphabet, T extends ByteSeq<
      *            the output stream
      * @return the output stream
      */
-    protected abstract SequenceOutputStream<T> getOutputStream(ByteArrayOutputStream outputStream);
+    protected abstract SeqOutput<T> getOutputStream(ByteArrayOutputStream outputStream);
 }

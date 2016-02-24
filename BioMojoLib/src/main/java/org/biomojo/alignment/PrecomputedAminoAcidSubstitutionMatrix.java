@@ -20,11 +20,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
+import org.biomojo.BioMojo;
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.Alphabets;
+import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.IUPACVariant;
-import org.biomojo.io.ParseException;
 import org.biomojo.symbols.AminoAcids;
+import org.java0.core.exception.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -69,7 +70,8 @@ public class PrecomputedAminoAcidSubstitutionMatrix extends ArrayLookupByteSubst
      *            the instance
      */
     public PrecomputedAminoAcidSubstitutionMatrix(final String prefix, final int instance) {
-        super(Alphabets.getAlphabet(AlphabetId.AMINO_ACID | IUPACVariant.WITH_ANY | IUPACVariant.WITH_AMBIGIGUITY));
+        super(BioMojo.getObject(ByteAlphabet.class,
+                AlphabetId.AMINO_ACID | IUPACVariant.WITH_ANY | IUPACVariant.WITH_AMBIGIGUITY));
 
         final String fileName = PATH_PREFIX + prefix + instance;
 

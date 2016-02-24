@@ -45,8 +45,8 @@ public class ZLibByteCodec extends AbstractByteByteCodec implements StatefulByte
      * @param id
      *            the id
      */
-    public ZLibByteCodec(final int id) {
-        super(id);
+    public ZLibByteCodec() {
+        super(CodecId.ZLIB_BYTE_CODEC);
     }
 
     /**

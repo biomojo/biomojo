@@ -58,7 +58,7 @@ public abstract class TableBasedByteAlphabet<A extends CanonicalizableByte<?>>
      * @param id
      *            the id
      */
-    protected TableBasedByteAlphabet(final int id) {
+    protected TableBasedByteAlphabet(final long id) {
         super(id);
 
     }

@@ -19,8 +19,10 @@ package org.biomojo.codec;
 import org.biomojo.alphabet.ByteAlphabet;
 
 /**
- * The Interface ByteByteCodec. Decodes / Encodes byte values into an array of
+ * Decodes / encodes byte values into an array of
  * byte values.
+ * 
+ * @author Hugh Eaves
  */
 public interface ByteByteCodec extends ObjectByteCodec<Byte> {
 
@@ -44,12 +46,21 @@ public interface ByteByteCodec extends ObjectByteCodec<Byte> {
      *            the alphabet
      * @param encodedData
      *            the encoded data
-     * @param index
-     *            the index
+     * @param blockNum
+     *            the block number to decode
      * @return the byte
      */
-    public byte decode(ByteAlphabet alphabet, byte[] encodedData, int decodedLength, int index);
+    public byte decode(ByteAlphabet alphabet, byte[] encodedData, int decodedLength, int blockNum);
 
+    /**
+     * Decodes the given block number in the encoded data
+     * 
+     * @param alphabet
+     * @param encodedData
+     * @param decodedBlock
+     * @param blockNum
+     * @return
+     */
     public byte[] decodeBlock(ByteAlphabet alphabet, byte[] encodedData, byte[] decodedBlock, int blockNum);
 
     /**

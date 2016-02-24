@@ -19,7 +19,7 @@ package org.biomojo.codec;
 import java.util.List;
 
 import org.biomojo.alphabet.Alphabet;
-import org.biomojo.core.IdBasedFactoryObject;
+import org.java0.core.type.LongIdentified;
 
 /**
  * A Codec provides a method to encode / decode data from one format to another.
@@ -33,7 +33,7 @@ import org.biomojo.core.IdBasedFactoryObject;
  * @param <E>
  *            the type of encoded data
  */
-public interface Codec<D, E> extends IdBasedFactoryObject {
+public interface Codec<D, E> extends LongIdentified {
 
     /**
      * Checks to see if this Codec supports the given Alphabet.
@@ -58,7 +58,7 @@ public interface Codec<D, E> extends IdBasedFactoryObject {
     public List<D> decodeAll(Alphabet<D> alphabet, List<E> encodedData, int decodedLength);
 
     /**
-     * Decodes all of the encoded data.
+     * Decodes the symbol at the specified position in the unencoded data..
      * 
      * @param Alphabet
      *            the alphabet
@@ -81,6 +81,8 @@ public interface Codec<D, E> extends IdBasedFactoryObject {
     public List<E> encodeAll(Alphabet<D> alphabet, List<D> decodedData);
 
     /**
+     * Replaces the symbol at the specified position with the new symbol.
+     * 
      * @param alphabet
      * @param encodedData
      * @param symbol
@@ -89,6 +91,8 @@ public interface Codec<D, E> extends IdBasedFactoryObject {
     public void encode(Alphabet<D> alphabet, List<E> encodedData, D symbol, int pos);
 
     /**
+     * Decodes the specified block number in the encode data
+     * 
      * @param alphabet
      * @param encodedData
      * @param decodedBlock
@@ -98,6 +102,8 @@ public interface Codec<D, E> extends IdBasedFactoryObject {
     public List<D> decodeBlock(Alphabet<D> alphabet, List<E> encodedData, List<D> decodedBlock, int blockNum);
 
     /**
+     * Returns the size of the given block number
+     * 
      * @param blockNum
      * @return
      */

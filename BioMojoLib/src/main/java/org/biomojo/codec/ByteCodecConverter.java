@@ -14,13 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.biomojo.sequence.converter;
+package org.biomojo.codec;
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
 
-import org.biomojo.codec.ByteByteCodec;
-import org.biomojo.codec.Codecs;
+import org.biomojo.BioMojo;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -29,22 +28,30 @@ import org.biomojo.codec.Codecs;
  * @author Hugh Eaves
  */
 @Converter(autoApply = true)
-public class ByteCodecConverter implements AttributeConverter<ByteByteCodec, Integer> {
-    
-    /* (non-Javadoc)
-     * @see javax.persistence.AttributeConverter#convertToDatabaseColumn(java.lang.Object)
+public class ByteCodecConverter implements AttributeConverter<ByteByteCodec, Long> {
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * javax.persistence.AttributeConverter#convertToDatabaseColumn(java.lang.
+     * Object)
      */
     @Override
-    public Integer convertToDatabaseColumn(ByteByteCodec codec) {
-        return (int) codec.getId();
+    public Long convertToDatabaseColumn(final ByteByteCodec codec) {
+        return codec.getId();
     }
 
-    /* (non-Javadoc)
-     * @see javax.persistence.AttributeConverter#convertToEntityAttribute(java.lang.Object)
+    /*
+     * (non-Javadoc)
+     * 
+     * @see
+     * javax.persistence.AttributeConverter#convertToEntityAttribute(java.lang.
+     * Object)
      */
     @Override
-    public ByteByteCodec convertToEntityAttribute(Integer codecId) {
-        return Codecs.getCodec(codecId, ByteByteCodec.class);
+    public ByteByteCodec convertToEntityAttribute(final Long codecId) {
+        return BioMojo.getObject(ByteByteCodec.class, codecId);
     }
 
 }

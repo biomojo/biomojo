@@ -23,7 +23,7 @@ import org.biomojo.alphabet.AlphabetId;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.alphabet.SangerQuality;
 import org.biomojo.codec.CodecId;
-import org.biomojo.io.fastx.FastqInputStream;
+import org.biomojo.io.fastx.FastqInput;
 import org.biomojo.sequence.FastqSeq;
 import org.biomojo.sequence.factory.EncodedFastqSeqSupplier;
 import org.biomojo.sequence.factory.FastqSeqSupplier;
@@ -52,7 +52,7 @@ public class ReadFastqCommand extends BaseInputCommand {
             final Stopwatch sw = new Stopwatch();
             sw.start();
 
-            final FastqInputStream<DNA, SangerQuality> inputStream = new FastqInputStream<>(
+            final FastqInput<DNA, SangerQuality> inputStream = new FastqInput<>(
                     new FileInputStream(inputFile));
 
             int recordCount = 0;

@@ -25,11 +25,11 @@ package org.biomojo.alphabet;
 public class IUPACVariant {
 
     /** The Constant WITH_ANY. */
-    public static final int WITH_ANY = 4;
+    public static final long WITH_ANY = 4;
 
     /** The Constant WITH_AMBIGIGUITY. */
-    public static final int WITH_AMBIGIGUITY = 8;
+    public static final long WITH_AMBIGIGUITY = 8;
 
     /** The Constant NUM_VARIANTS. */
-    public static final int NUM_VARIANTS = 16;
+    public static final long NUM_VARIANTS = 16;
 }

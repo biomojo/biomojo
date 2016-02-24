@@ -17,6 +17,8 @@
 
 package org.biomojo.alphabet;
 
+import org.biomojo.BioMojo;
+
 public class AbstractByteQuality extends AbstractCanonicalizableByteAlphabet<SangerQuality> implements ByteQuality {
 
     /** The start. */
@@ -27,7 +29,7 @@ public class AbstractByteQuality extends AbstractCanonicalizableByteAlphabet<San
 
     private SangerQuality canonicalAlphabet;
 
-    protected AbstractByteQuality(final int id, final int start, final int end) {
+    protected AbstractByteQuality(final long id, final int start, final int end) {
         super(id);
         this.minValue = start;
         this.maxValue = end;
@@ -119,7 +121,7 @@ public class AbstractByteQuality extends AbstractCanonicalizableByteAlphabet<San
     @Override
     public SangerQuality getCanonical() {
         if (canonicalAlphabet == null) {
-            canonicalAlphabet = Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER);
+            canonicalAlphabet = BioMojo.getObject(SangerQuality.class, AlphabetId.QUALITY_SANGER);
         }
         return canonicalAlphabet;
     }

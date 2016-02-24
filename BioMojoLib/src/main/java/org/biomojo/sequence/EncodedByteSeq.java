@@ -19,10 +19,10 @@ package org.biomojo.sequence;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 
+import org.biomojo.BioMojo;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.codec.ByteByteCodec;
 import org.biomojo.codec.CodecId;
-import org.biomojo.codec.Codecs;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -47,7 +47,7 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends BasicByteSeq<A> {
      */
     public EncodedByteSeq() {
         super();
-        setCodec(Codecs.getCodec(CodecId.NULL_BYTE_CODEC));
+        setCodec(BioMojo.getObject(ByteByteCodec.class, CodecId.NULL_BYTE_CODEC));
     }
 
     /**
@@ -60,7 +60,7 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends BasicByteSeq<A> {
      */
     public EncodedByteSeq(final byte[] data, final A alphabet) {
         super(data, alphabet);
-        setCodec(Codecs.getCodec(CodecId.NULL_BYTE_CODEC));
+        setCodec(BioMojo.getObject(ByteByteCodec.class, CodecId.NULL_BYTE_CODEC));
     }
 
     /**
@@ -81,23 +81,12 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends BasicByteSeq<A> {
     /**
      * Instantiates a new encoded byte seq.
      *
-     * @param data
-     *            the data
-     */
-    public EncodedByteSeq(final byte[] data) {
-        super(data);
-        setCodec(Codecs.getCodec(CodecId.NULL_BYTE_CODEC));
-    }
-
-    /**
-     * Instantiates a new encoded byte seq.
-     *
      * @param alphabet
      *            the alphabet
      */
     public EncodedByteSeq(final A alphabet) {
         super(alphabet);
-        setCodec(Codecs.getCodec(CodecId.NULL_BYTE_CODEC));
+        setCodec(BioMojo.getObject(ByteByteCodec.class, CodecId.NULL_BYTE_CODEC));
     }
 
     /**
@@ -179,6 +168,10 @@ public class EncodedByteSeq<A extends ByteAlphabet> extends BasicByteSeq<A> {
         } else {
             throw new IllegalArgumentException("Codec does not support alphabet");
         }
+    }
+
+    public byte[] getEncodedBytes() {
+        return data;
     }
 
 }

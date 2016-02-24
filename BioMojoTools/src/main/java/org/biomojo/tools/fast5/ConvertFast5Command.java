@@ -7,11 +7,11 @@ import java.io.IOException;
 
 import org.biomojo.alphabet.DNA;
 import org.biomojo.alphabet.SangerQuality;
-import org.biomojo.io.SequenceInputStream;
-import org.biomojo.io.SequenceOutputStream;
-import org.biomojo.io.fast5.Fast5InputStream;
-import org.biomojo.io.fastx.FastaOutputStream;
-import org.biomojo.io.fastx.FastqOutputStream;
+import org.biomojo.io.SeqInput;
+import org.biomojo.io.SeqOutput;
+import org.biomojo.io.fast5.Fast5Input;
+import org.biomojo.io.fastx.FastaOutput;
+import org.biomojo.io.fastx.FastqOutput;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.FastqSeq;
 import org.java0.cli.AbstractCommand;
@@ -38,15 +38,15 @@ public class ConvertFast5Command extends AbstractCommand {
     @Override
     public void run() {
 
-        try (final SequenceInputStream<FastqSeq<DNA, SangerQuality>> inputStream = new Fast5InputStream<DNA, SangerQuality>(
+        try (final SeqInput<FastqSeq<DNA, SangerQuality>> inputStream = new Fast5Input<DNA, SangerQuality>(
                 new File(inputDir))) {
             if (fasta) {
-                try (final SequenceOutputStream<ByteSeq<DNA>> outputStream = new FastaOutputStream<>(
+                try (final SeqOutput<ByteSeq<DNA>> outputStream = new FastaOutput<>(
                         new BufferedOutputStream(new FileOutputStream(outputFile)));) {
                     convert(inputStream, outputStream);
                 }
             } else {
-                try (final SequenceOutputStream<FastqSeq<DNA, SangerQuality>> outputStream = new FastqOutputStream<>(
+                try (final SeqOutput<FastqSeq<DNA, SangerQuality>> outputStream = new FastqOutput<>(
                         new BufferedOutputStream(new FileOutputStream(outputFile)));) {
                     convert(inputStream, outputStream);
                 }
@@ -57,8 +57,8 @@ public class ConvertFast5Command extends AbstractCommand {
 
     }
 
-    public <O extends ByteSeq<DNA>, I extends O> void convert(final SequenceInputStream<I> inputStream,
-            final SequenceOutputStream<O> outputStream) throws IOException {
+    public <O extends ByteSeq<DNA>, I extends O> void convert(final SeqInput<I> inputStream,
+            final SeqOutput<O> outputStream) throws IOException {
         int recordCount = 0;
         for (final I seq : inputStream) {
             ++recordCount;

@@ -21,8 +21,8 @@ import org.biojava.nbio.core.sequence.compound.DNACompoundSet;
 import org.biojava.nbio.core.sequence.compound.RNACompoundSet;
 import org.biojava.nbio.core.sequence.template.Compound;
 import org.biojava.nbio.core.sequence.template.CompoundSet;
+import org.biomojo.BioMojo;
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.AminoAcid;
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.DNA;
@@ -47,13 +47,14 @@ public class BioJavaFactoryFactory {
         throw new UncheckedException("Alphabet not supported for use with BioJava");
     }
 
-    public static <T extends ByteAlphabet> T getByteAlphabet(final CompoundSet<?> compoundSet) {
+    @SuppressWarnings("unchecked")
+    public static <A extends ByteAlphabet> A getByteAlphabet(final CompoundSet<?> compoundSet) {
         if (compoundSet instanceof DNACompoundSet) {
-            return Alphabets.getAlphabet(AlphabetId.DNA);
+            return (A) BioMojo.getObject(ByteAlphabet.class, AlphabetId.DNA);
         } else if (compoundSet instanceof RNACompoundSet) {
-            return Alphabets.getAlphabet(AlphabetId.RNA);
+            return (A) BioMojo.getObject(ByteAlphabet.class, AlphabetId.RNA);
         } else if (compoundSet instanceof AminoAcidCompoundSet) {
-            return Alphabets.getAlphabet(AlphabetId.AMINO_ACID);
+            return (A) BioMojo.getObject(ByteAlphabet.class, AlphabetId.AMINO_ACID);
         } else {
             throw new UncheckedException("Unsupported BioJava compound set: " + compoundSet.toString());
         }

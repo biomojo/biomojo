@@ -18,7 +18,7 @@ package org.biomojo.alphabet;
 
 import org.java0.string.ASCII;
 
-public class Letters<A extends CanonicalizableByte<?>> extends AbstractCanonicalizableByteAlphabet<A> {
+public class Letters extends AbstractCanonicalizableByteAlphabet<UppercaseLetters> {
 
     protected Letters() {
         super(AlphabetId.LETTERS);

@@ -25,7 +25,7 @@ import org.java0.string.ByteArrayConverter;
  *
  * @author Hugh Eaves
  */
-public class SequenceIdHeaderParser implements HeaderParser {
+public class SeqIdHeaderParser implements HeaderParser {
     
     /**
      * Parses the header.

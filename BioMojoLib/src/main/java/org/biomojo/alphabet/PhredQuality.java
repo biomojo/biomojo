@@ -18,7 +18,7 @@ package org.biomojo.alphabet;
 
 public class PhredQuality extends AbstractByteQuality {
 
-    protected PhredQuality(final int id, final int start, final int end) {
+    protected PhredQuality() {
         super(AlphabetId.QUALITY_PHRED, 0, 126);
     }
 

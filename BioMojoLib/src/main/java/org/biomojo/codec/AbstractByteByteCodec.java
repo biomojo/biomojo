@@ -31,7 +31,7 @@ public abstract class AbstractByteByteCodec extends AbstractCodec<Byte, Byte> im
     @SuppressWarnings("unused")
     private static final Logger logger = LoggerFactory.getLogger(AbstractByteByteCodec.class.getName());
 
-    public AbstractByteByteCodec(final int codecId) {
+    public AbstractByteByteCodec(final long codecId) {
         super(codecId);
     }
 

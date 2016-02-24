@@ -23,11 +23,13 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.TableGenerator;
 
+import org.java0.core.type.LongIdentified;
+
 /**
  * The Class AbstractEntity.
  */
 @MappedSuperclass
-public abstract class AbstractEntity implements Serializable, Identified {
+public abstract class AbstractEntity implements Serializable, LongIdentified {
 
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 1L;

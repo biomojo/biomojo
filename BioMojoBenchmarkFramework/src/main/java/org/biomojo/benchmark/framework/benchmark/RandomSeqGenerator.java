@@ -14,29 +14,21 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-package org.biomojo.benchmark.framework;
+package org.biomojo.benchmark.framework.benchmark;
 
-import java.io.File;
 import java.util.Random;
 
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.sequence.ByteSeq;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author Hugh Eaves
  *
  */
-public abstract class RandomSeqGenerator {
-    @SuppressWarnings("unused")
-    private static final Logger logger = LoggerFactory.getLogger(RandomSeqGenerator.class.getName());
+public class RandomSeqGenerator {
+    private static final Random random = new Random(0);
 
-    private final Random random = new Random(0);
-
-    protected abstract void createFile(File file, int numSeqs, int seqLength);
-
-    protected void createRandomSeqData(final ByteSeq<? extends ByteAlphabet> seq, final int length) {
+    public static void fillWithRandomSymbols(final ByteSeq<? extends ByteAlphabet> seq, final int length) {
         final byte[] seqData = new byte[length];
         final ByteAlphabet alphabet = seq.getAlphabet();
         for (int i = 0; i < length; ++i) {

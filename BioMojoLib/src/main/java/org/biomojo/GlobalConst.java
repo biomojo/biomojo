@@ -26,7 +26,9 @@ public class GlobalConst {
     public static final boolean DEBUG_MEMORY;
     public static final boolean VALIDATE_INPUT_SEQS;
     public static final String LIB_SPRING_CONTEXT = "biomojolib-context.xml";
-
+    public static final int OUT_OF_MEMORY_EXIT_CODE = 77;
+    public static final int GROUP_ID_BITS = 20;
+    public static final long GROUP_ID = 1L << GROUP_ID_BITS;
     private static final String PROPERTY_PREFIX = "biomojo.";
 
     static {

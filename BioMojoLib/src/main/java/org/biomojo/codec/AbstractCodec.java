@@ -20,7 +20,7 @@ package org.biomojo.codec;
 import java.util.List;
 
 import org.biomojo.alphabet.Alphabet;
-import org.java0.factory.LifecycleEvent;
+import org.java0.core.type.AbstractLongIdentified;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -35,10 +35,7 @@ import org.java0.factory.LifecycleEvent;
  * @param <E>
  *            the element type
  */
-public abstract class AbstractCodec<D, E> implements Codec<D, E> {
-
-    /** The id. */
-    protected int id;
+public abstract class AbstractCodec<D, E> extends AbstractLongIdentified implements Codec<D, E> {
 
     /**
      * Instantiates a new abstract codec.
@@ -46,18 +43,8 @@ public abstract class AbstractCodec<D, E> implements Codec<D, E> {
      * @param id
      *            the id
      */
-    protected AbstractCodec(final int id) {
-        this.id = id;
-    }
-
-    /**
-     * Return the unique identifier for this codec.
-     *
-     * @return the id
-     */
-    @Override
-    public int getId() {
-        return id;
+    protected AbstractCodec(final long id) {
+        super(id);
     }
 
     /*
@@ -99,8 +86,4 @@ public abstract class AbstractCodec<D, E> implements Codec<D, E> {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public void notify(final LifecycleEvent event) {
-
-    }
 }

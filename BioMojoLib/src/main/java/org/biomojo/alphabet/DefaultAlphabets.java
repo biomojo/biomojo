@@ -17,60 +17,63 @@
 
 package org.biomojo.alphabet;
 
-import org.biomojo.core.AbstractIdBasedFactory;
-import org.java0.factory.Config;
-import org.java0.factory.ConfiguredObjectSupplier;
+import java.util.function.Supplier;
+
+import org.java0.core.type.LongIdentified;
 import org.java0.factory.FactoryException;
+import org.java0.factory.LongSelectorFactory;
 
-// TODO: Auto-generated Javadoc
-/**
- * A factory for creating DefaultAlphabet objects.
- */
-public class DefaultAlphabetFactory extends AbstractIdBasedFactory<Alphabet<?>> {
+public class DefaultAlphabets {
 
-    /**
-     * Instantiates a new default alphabet factory.
-     */
-    public DefaultAlphabetFactory() {
-        super(new Alphabet<?>[0]);
+    public static void registerWithFactory(final LongSelectorFactory factory) {
 
-        register(new AllByte());
+        factory.register(new AllByte());
 
         for (int i = 0; i < IUPACVariant.NUM_VARIANTS; ++i) {
-            registerProvider(AlphabetId.DNA + i, new ConfiguredObjectSupplier<Alphabet<?>>() {
+
+            final int id = i;
+            factory.registerProvider(AlphabetId.DNA + id, new Supplier<LongIdentified>() {
                 @Override
-                public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
-                    return new BasicDNA((int) config.values()[0]);
-                }
-            }, true);
-            registerProvider(AlphabetId.RNA + i, new ConfiguredObjectSupplier<Alphabet<?>>() {
-                @Override
-                public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
-                    return new BasicRNA((int) config.values()[0]);
-                }
-            }, true);
-            registerProvider(AlphabetId.NUCLEOTIDE + i, new ConfiguredObjectSupplier<Alphabet<?>>() {
-                @Override
-                public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
-                    return new BasicNucleotide<>((int) config.values()[0]);
+                public Alphabet<?> get() throws FactoryException {
+                    return new BasicDNA(AlphabetId.DNA + id);
                 }
             }, true);
 
-            registerProvider(AlphabetId.AMINO_ACID + i, new ConfiguredObjectSupplier<Alphabet<?>>() {
+            factory.registerProvider(AlphabetId.RNA + id, new Supplier<LongIdentified>() {
                 @Override
-                public Alphabet<?> getObject(final Config<Alphabet<?>> config) throws FactoryException {
-                    return new BasicAminoAcid((int) config.values()[0]);
+                public Alphabet<?> get() throws FactoryException {
+                    return new BasicRNA(AlphabetId.RNA + id);
+                }
+            }, true);
+
+            factory.registerProvider(AlphabetId.NUCLEOTIDE + id, new Supplier<LongIdentified>() {
+                @Override
+                public Alphabet<?> get() throws FactoryException {
+                    return new BasicNucleotide<>(AlphabetId.NUCLEOTIDE + id);
+                }
+            }, true);
+
+            factory.registerProvider(AlphabetId.AMINO_ACID + id, new Supplier<LongIdentified>() {
+                @Override
+                public Alphabet<?> get() {
+                    return new BasicAminoAcid(AlphabetId.AMINO_ACID + id);
                 }
             }, true);
         }
 
-        register(new ASCII());
+        factory.setDefaultType(DNA.class, AlphabetId.DNA);
+        factory.setDefaultType(RNA.class, AlphabetId.RNA);
+        factory.setDefaultType(Nucleotide.class, AlphabetId.NUCLEOTIDE);
+        factory.setDefaultType(AminoAcid.class, AlphabetId.AMINO_ACID);
 
-        register(new Letters<Letters<?>>());
-        register(new UppercaseLetters());
+        factory.register(new ASCII());
 
-        register(new SangerQuality());
-        register(new Illumina10Quality());
-        register(new Illumina13Quality());
+        factory.register(new Letters());
+        factory.register(new UppercaseLetters());
+
+        factory.register(new PhredQuality());
+        factory.register(new SangerQuality());
+        factory.register(new Illumina10Quality());
+        factory.register(new Illumina13Quality());
     }
 }

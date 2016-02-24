@@ -12,14 +12,15 @@ import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.alphabet.ByteQuality;
 import org.biomojo.alphabet.IUPACVariant;
 import org.biomojo.alphabet.Nucleotide;
-import org.biomojo.io.FileType;
-import org.biomojo.io.FileUtil;
-import org.biomojo.io.SequenceInputStream;
-import org.biomojo.io.SequenceOutputStream;
-import org.biomojo.io.fastx.FastaInputStream;
-import org.biomojo.io.fastx.FastaOutputStream;
-import org.biomojo.io.fastx.FastqInputStream;
-import org.biomojo.io.fastx.FastqOutputStream;
+import org.biomojo.io.SeqInput;
+import org.biomojo.io.SeqOutput;
+import org.biomojo.io.fastx.FastaInput;
+import org.biomojo.io.fastx.FastaOutput;
+import org.biomojo.io.fastx.FastqInput;
+import org.biomojo.io.fastx.FastqOutput;
+import org.biomojo.io.metadata.FileMetaData;
+import org.biomojo.io.metadata.FileTypes;
+import org.biomojo.io.metadata.FileUtil;
 import org.biomojo.sequence.ByteSeq;
 import org.biomojo.sequence.FastqSeq;
 import org.biomojo.sequence.factory.ByteSeqSupplier;
@@ -36,25 +37,20 @@ public abstract class AbstractFastxCommand extends FileInputFileOutputCommand {
         try {
             logger.info("Filtering input file");
 
-            final FileType fileType = FileUtil.guessFileType(inputFile);
-            if (fileType != FileUtil.guessFileType(outputFile)) {
+            final FileMetaData fileMetaData = FileUtil.getFileMetaData(inputFile);
+            if (!fileMetaData.getFileType().equals(FileUtil.getFileMetaData(outputFile).getFileType())) {
                 logger.error("Input and output file must be the same type");
                 return;
             }
 
             setup();
 
-            switch (fileType) {
-            case FASTA:
+            if (fileMetaData.getFileType() == FileTypes.FASTA) {
                 processFasta();
-                break;
-            case FASTQ:
+            } else if (fileMetaData.getFileType() == FileTypes.FASTQ) {
                 processFastq();
-                break;
-            default:
+            } else {
                 logger.error("Unrecognized or unsupported file type");
-                break;
-
             }
 
         } catch (final IOException e) {
@@ -64,10 +60,10 @@ public abstract class AbstractFastxCommand extends FileInputFileOutputCommand {
 
     private void processFasta() throws FileNotFoundException, IOException {
 
-        try (final SequenceInputStream<ByteSeq<ByteAlphabet>> inputStream = new FastaInputStream<>(
-                new FileInputStream(inputFile), new ByteSeqSupplier<>(AlphabetId.LETTERS));
+        try (final SeqInput<ByteSeq<ByteAlphabet>> inputStream = new FastaInput<>(new FileInputStream(inputFile),
+                new ByteSeqSupplier<>(AlphabetId.LETTERS));
 
-                final SequenceOutputStream<ByteSeq<ByteAlphabet>> outputStream = new FastaOutputStream<>(
+                final SeqOutput<ByteSeq<ByteAlphabet>> outputStream = new FastaOutput<>(
                         new BufferedOutputStream(new FileOutputStream(outputFile)));) {
 
             process(inputStream, outputStream);
@@ -76,12 +72,12 @@ public abstract class AbstractFastxCommand extends FileInputFileOutputCommand {
 
     private void processFastq() throws FileNotFoundException, IOException {
 
-        try (final SequenceInputStream<FastqSeq<Nucleotide<?>, ByteQuality>> inputStream = new FastqInputStream<>(
+        try (final SeqInput<FastqSeq<Nucleotide<?>, ByteQuality>> inputStream = new FastqInput<>(
                 new FileInputStream(inputFile),
                 new FastqSeqSupplier<>(AlphabetId.NUCLEOTIDE | IUPACVariant.WITH_ANY | IUPACVariant.WITH_AMBIGIGUITY
                         | AlphabetVariant.WITH_NON_CANONICAL, AlphabetId.QUALITY_SANGER));
 
-                final SequenceOutputStream<FastqSeq<Nucleotide<?>, ByteQuality>> outputStream = new FastqOutputStream<>(
+                final SeqOutput<FastqSeq<Nucleotide<?>, ByteQuality>> outputStream = new FastqOutput<>(
                         new BufferedOutputStream(new FileOutputStream(outputFile)));) {
 
             process(inputStream, outputStream);
@@ -90,6 +86,6 @@ public abstract class AbstractFastxCommand extends FileInputFileOutputCommand {
 
     protected abstract void setup();
 
-    protected abstract <A extends ByteAlphabet, T extends ByteSeq<A>> void process(
-            final SequenceInputStream<T> inputStream, final SequenceOutputStream<T> outputStream) throws IOException;
+    protected abstract <A extends ByteAlphabet, T extends ByteSeq<A>> void process(final SeqInput<T> inputStream,
+            final SeqOutput<T> outputStream) throws IOException;
 }

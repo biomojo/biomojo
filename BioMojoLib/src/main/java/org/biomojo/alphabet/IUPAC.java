@@ -16,6 +16,8 @@
  */
 package org.biomojo.alphabet;
 
+import org.biomojo.BioMojo;
+
 /**
  * Represents alphabets containing standard IUPAC symbols for amino acids and
  * nucleotides.
@@ -27,6 +29,6 @@ public interface IUPAC<A extends IUPAC<?>>
         extends AmbiguitySupport, GappableByte<A, GappedByte<A>>, GappedByte<A>, CanonicalizableByte<A> {
     @Override
     public default GappedByte<A> getGapped() {
-        return Alphabets.getAlphabet(getId() | AlphabetVariant.WITH_GAP);
+        return BioMojo.getObject(GappedByte.class, getId() | AlphabetVariant.WITH_GAP);
     }
 }

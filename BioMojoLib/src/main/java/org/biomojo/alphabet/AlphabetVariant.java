@@ -19,8 +19,8 @@ package org.biomojo.alphabet;
 public interface AlphabetVariant {
 
     /** The Constant WITH_NON_CANONICAL. */
-    public static final int WITH_NON_CANONICAL = 1;
+    public static final long WITH_NON_CANONICAL = 1;
 
     /** The Constant WITH_GAP. */
-    public static final int WITH_GAP = 2;
+    public static final long WITH_GAP = 2;
 }

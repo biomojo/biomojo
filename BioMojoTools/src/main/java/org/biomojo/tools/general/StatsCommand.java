@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.PrintStream;
 
 import org.biomojo.alphabet.ByteAlphabet;
-import org.biomojo.io.SequenceInputStream;
+import org.biomojo.io.SeqInput;
 import org.biomojo.sequence.ByteSeq;
 import org.java0.logging.slf4j.Logger;
 import org.java0.logging.slf4j.LoggerFactory;
@@ -21,7 +21,7 @@ public class StatsCommand extends AbstractFastxFileInputStreamOutputCommand {
     }
 
     @Override
-    protected <A extends ByteAlphabet, T extends ByteSeq<A>> void process(final SequenceInputStream<T> inputStream,
+    protected <A extends ByteAlphabet, T extends ByteSeq<A>> void process(final SeqInput<T> inputStream,
             final PrintStream printStream) throws IOException {
 
         long recordCount = 0;
@@ -33,5 +33,7 @@ public class StatsCommand extends AbstractFastxFileInputStreamOutputCommand {
         printStream.println("Num seqs: " + recordCount);
         printStream.println("Total length: " + totalLength);
         printStream.format("Avg. length: %.2f", totalLength / (double) recordCount);
+
+        final int x = printStream.getClass().hashCode();
     }
 }

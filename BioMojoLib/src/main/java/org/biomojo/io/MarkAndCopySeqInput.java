@@ -17,24 +17,25 @@
 package org.biomojo.io;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.util.Arrays;
 
 import org.biomojo.GlobalConst;
 import org.biomojo.sequence.Seq;
+import org.java0.core.exception.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * The Class MarkAndCopyInputStream.
  */
-public abstract class MarkAndCopyInputStream<T extends Seq<?, ?>> implements SequenceInputStream<T> {
+public abstract class MarkAndCopySeqInput<T extends Seq<?, ?>> implements SeqInput<T> {
 
     /** The Constant logger. */
     @SuppressWarnings("unused")
-    private static final Logger logger = LoggerFactory.getLogger(MarkAndCopyInputStream.class.getName());
+    private static final Logger logger = LoggerFactory.getLogger(MarkAndCopySeqInput.class.getName());
 
     protected volatile InputStream inputStream;
 
@@ -77,8 +78,13 @@ public abstract class MarkAndCopyInputStream<T extends Seq<?, ?>> implements Seq
     /** The buffer size. */
     private final int bufferSize;
 
-    public MarkAndCopyInputStream(final String inputFileName) throws FileNotFoundException {
-        this(new FileInputStream(inputFileName));
+    public MarkAndCopySeqInput(final String inputFileName) throws UncheckedIOException {
+        bufferSize = GlobalConst.DEFAULT_BUFFER_SIZE;
+        try {
+            inputStream = new FileInputStream(inputFileName);
+        } catch (final IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     /**
@@ -87,7 +93,7 @@ public abstract class MarkAndCopyInputStream<T extends Seq<?, ?>> implements Seq
      * @param inputStream
      *            the input stream
      */
-    protected MarkAndCopyInputStream(final InputStream inputStream) {
+    protected MarkAndCopySeqInput(final InputStream inputStream) {
         this(inputStream, GlobalConst.DEFAULT_BUFFER_SIZE);
     }
 
@@ -99,7 +105,7 @@ public abstract class MarkAndCopyInputStream<T extends Seq<?, ?>> implements Seq
      * @param bufferSize
      *            the buffer size
      */
-    protected MarkAndCopyInputStream(final InputStream inputStream, final int bufferSize) {
+    protected MarkAndCopySeqInput(final InputStream inputStream, final int bufferSize) {
         this.inputStream = inputStream;
         this.bufferSize = bufferSize;
         loadBuffer();

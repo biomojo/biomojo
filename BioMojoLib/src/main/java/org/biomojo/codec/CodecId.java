@@ -16,6 +16,8 @@
  */
 package org.biomojo.codec;
 
+import org.biomojo.GlobalConst;
+
 // TODO: Auto-generated Javadoc
 /**
  * The Interface CodecId.
@@ -24,23 +26,25 @@ package org.biomojo.codec;
  */
 public interface CodecId {
 
+    public static final long START = GlobalConst.GROUP_ID * 2L;
+
     /** The Constant NULL_BYTE_CODEC. */
-    public static final int NULL_BYTE_CODEC = 64;
+    public static final long NULL_BYTE_CODEC = START + 64;
 
     /** The Constant TWO_BIT_BYTE_CODEC. */
-    public static final int TWO_BIT_BYTE_CODEC = 128;
+    public static final long TWO_BIT_BYTE_CODEC = START + 128;
 
     /** The Constant THREE_BIT_BYTE_CODEC. */
-    public static final int THREE_BIT_BYTE_CODEC = 129;
+    public static final long THREE_BIT_BYTE_CODEC = START + 129;
 
     /** The Constant FOUR_BIT_BYTE_CODEC. */
-    public static final int FOUR_BIT_BYTE_CODEC = 130;
+    public static final long FOUR_BIT_BYTE_CODEC = START + 130;
 
     /** The Constant FIVE_BIT_BYTE_CODEC. */
-    public static final int FIVE_BIT_BYTE_CODEC = 131;
+    public static final long FIVE_BIT_BYTE_CODEC = START + 131;
 
     /** The Constant ZLIB_BYTE_CODEC. */
-    public static final int ZLIB_BYTE_CODEC = 192;
+    public static final long ZLIB_BYTE_CODEC = START + 192;
 
-    public static final int TWO_BIT_LONG_CODEC = 256;
+    public static final long TWO_BIT_LONG_CODEC = START + 256;
 }

@@ -23,7 +23,7 @@ import org.java0.string.ByteArrayConverter;
 /**
  * The Class FixedWidthSequenceIdHeaderBuilder.
  */
-public class FixedWidthSequenceIdHeaderBuilder implements HeaderBuilder {
+public class FixedWidthSeqIdHeaderBuilder implements HeaderBuilder {
     
     /** The width. */
     private final int width;
@@ -33,7 +33,7 @@ public class FixedWidthSequenceIdHeaderBuilder implements HeaderBuilder {
      *
      * @param width the width
      */
-    public FixedWidthSequenceIdHeaderBuilder(final int width) {
+    public FixedWidthSeqIdHeaderBuilder(final int width) {
         this.width = width;
     }
 

@@ -17,7 +17,7 @@
 package org.biomojo.alphabet;
 
 /**
- * The Interface DNAAlphabet.
+ * The Interface DNA.
  */
 public interface DNA extends Nucleotide<DNA> {
 

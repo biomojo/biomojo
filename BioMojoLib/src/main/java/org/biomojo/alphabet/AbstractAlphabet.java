@@ -16,6 +16,7 @@
  */
 package org.biomojo.alphabet;
 
+import org.java0.core.type.AbstractLongIdentified;
 import org.java0.factory.LifecycleEvent;
 
 /**
@@ -25,10 +26,7 @@ import org.java0.factory.LifecycleEvent;
  * @param <T>
  *            the generic type
  */
-public abstract class AbstractAlphabet<T> implements Alphabet<T> {
-
-    /** The id. */
-    private final int id;
+public abstract class AbstractAlphabet<T> extends AbstractLongIdentified implements Alphabet<T> {
 
     /**
      * Instantiates a new abstract alphabet.
@@ -36,18 +34,8 @@ public abstract class AbstractAlphabet<T> implements Alphabet<T> {
      * @param id
      *            the id
      */
-    protected AbstractAlphabet(final int id) {
-        this.id = id;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.biomojo.core.IntegerIdentified#getId()
-     */
-    @Override
-    public int getId() {
-        return id;
+    protected AbstractAlphabet(final long id) {
+        super(id);
     }
 
     /*

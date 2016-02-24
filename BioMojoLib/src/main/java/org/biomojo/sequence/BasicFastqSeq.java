@@ -72,17 +72,6 @@ public class BasicFastqSeq<A extends Nucleotide<?>, Q extends ByteQuality> exten
     /**
      * Instantiates a new fastq seq impl.
      *
-     * @param data
-     *            the data
-     */
-    public BasicFastqSeq(final byte[] data, final ByteSeq<Q> qualityScores) {
-        super(data);
-        setQualityScores(qualityScores);
-    }
-
-    /**
-     * Instantiates a new fastq seq impl.
-     *
      * @param alphabet
      *            the alphabet
      */

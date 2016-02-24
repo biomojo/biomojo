@@ -19,6 +19,7 @@ package org.biomojo.stats;
 
 import org.biomojo.alphabet.ByteAlphabet;
 import org.biomojo.sequence.ByteSeq;
+import org.biomojo.sequence.EncodedByteSeq;
 import org.java0.util.bits.Masks;
 
 public class KmerCounter<A extends ByteAlphabet> {
@@ -50,6 +51,24 @@ public class KmerCounter<A extends ByteAlphabet> {
         for (int i = 0; i < kmerLength; ++i) {
             kmer = kmer << bitsPerSymbol;
             kmer = kmer | alphabet.getOrdinalForSymbol(bytes[i]);
+        }
+        kmerCounts[kmer]++;
+        for (int i = kmerLength; i < bytes.length; ++i) {
+            kmer = kmer << bitsPerSymbol;
+            kmer = kmer | alphabet.getOrdinalForSymbol(bytes[i]);
+            kmerCounts[kmer & kmerMask]++;
+        }
+    }
+
+    public void count(final EncodedByteSeq<A> seq) {
+        final int bitsPerSymbol = 2;
+        final int kmerMask = Masks.LOW_ORDER_INT_MASK[kmerLength * bitsPerSymbol];
+
+        final byte[] bytes = seq.getEncodedBytes();
+        int kmer = 0;
+        for (int i = 0; i < kmerLength; ++i) {
+            kmer = kmer << bitsPerSymbol;
+            kmer = kmer | bytes[i];
         }
         kmerCounts[kmer]++;
         for (int i = kmerLength; i < bytes.length; ++i) {

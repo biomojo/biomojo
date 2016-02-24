@@ -24,18 +24,18 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.function.Supplier;
 
+import org.biomojo.BioMojo;
 import org.biomojo.alphabet.AlphabetId;
-import org.biomojo.alphabet.Alphabets;
 import org.biomojo.alphabet.ByteQuality;
 import org.biomojo.alphabet.DNA;
 import org.biomojo.alphabet.SangerQuality;
 import org.biomojo.codec.CodecId;
-import org.biomojo.io.ParseException;
-import org.biomojo.io.fastx.FastqInputStream;
-import org.biomojo.io.fastx.FastqOutputStream;
+import org.biomojo.io.fastx.FastqInput;
+import org.biomojo.io.fastx.FastqOutput;
 import org.biomojo.sequence.FastqSeq;
 import org.biomojo.sequence.factory.EncodedFastqSeqSupplier;
 import org.biomojo.sequence.factory.FastqSeqSupplier;
+import org.java0.core.exception.ParseException;
 import org.java0.core.exception.UncheckedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,12 +62,11 @@ public class TrimCommand extends BaseInputOutputCommand {
         try {
             logger.info("BioMojo Fastq trim benchmark");
 
-            final FastqInputStream<DNA, SangerQuality> inputStream = new FastqInputStream<>(
-                    new FileInputStream(inputFile));
-            final FastqOutputStream<DNA, SangerQuality> outputStream = new FastqOutputStream<>(
+            final FastqInput<DNA, SangerQuality> inputStream = new FastqInput<>(new FileInputStream(inputFile));
+            final FastqOutput<DNA, SangerQuality> outputStream = new FastqOutput<>(
                     new BufferedOutputStream(new FileOutputStream(outputFile), 1024 * 1024));
 
-            final ByteQuality qualityAlphabet = Alphabets.getAlphabet(AlphabetId.QUALITY_SANGER);
+            final ByteQuality qualityAlphabet = BioMojo.getObject(ByteQuality.class, AlphabetId.QUALITY_SANGER);
 
             Supplier<FastqSeq<DNA, SangerQuality>> supplier = new FastqSeqSupplier<>(AlphabetId.DNA,
                     AlphabetId.QUALITY_SANGER);

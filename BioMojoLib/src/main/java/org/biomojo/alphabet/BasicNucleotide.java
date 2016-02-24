@@ -20,7 +20,7 @@ import org.biomojo.symbols.Nucleotides;
 
 public class BasicNucleotide<T extends Nucleotide<T>> extends AbstractNucleotide<T> implements Nucleotide<T> {
 
-    protected BasicNucleotide(final int id) {
+    protected BasicNucleotide(final long id) {
         super(id, Nucleotides.CORE_SYMBOLS);
     }
 }

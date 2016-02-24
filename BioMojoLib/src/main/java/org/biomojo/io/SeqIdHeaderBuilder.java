@@ -23,7 +23,7 @@ import org.java0.string.ByteArrayConverter;
 /**
  * The Class SequenceIdHeaderBuilder.
  */
-public class SequenceIdHeaderBuilder implements HeaderBuilder {
+public class SeqIdHeaderBuilder implements HeaderBuilder {
 
     /* (non-Javadoc)
      * @see org.biomojo.io.HeaderBuilder#buildHeader(org.biomojo.sequence.Seq)

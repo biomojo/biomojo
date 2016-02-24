@@ -17,9 +17,12 @@
 
 package org.biomojo.alphabet;
 
-// TODO: Auto-generated Javadoc
 /**
- * The Interface ByteAlphabet.
+ * Represents an alphabet, where the underlying type is a java "byte" primitive.
+ * This interface avoids the boxing/unboxing that would be required with Byte
+ * objects.
+ * 
+ * @author Hugh Eaves
  */
 public interface ByteAlphabet extends Alphabet<Byte> {
 
@@ -123,7 +126,9 @@ public interface ByteAlphabet extends Alphabet<Byte> {
     }
 
     /**
-     * Check validity.
+     * Checks if the given symbol is a members of this alphabet. Returns an
+     * InvalidSymbolInfo structure if the symbol is not a member of this
+     * alphabet, or null, if all symbols are members of this alphabet.
      *
      * @param symbol
      *            the symbol
@@ -137,7 +142,10 @@ public interface ByteAlphabet extends Alphabet<Byte> {
     }
 
     /**
-     * Check validity.
+     * Checks to the symbols in the given array are members of this alphabet.
+     * Returns an InvalidSymbolInfo structure for the first symbol that is not a
+     * member of this alphabet, or null, if all symbols are members of this
+     * alphabet.
      *
      * @param symbols
      *            the symbols
@@ -148,7 +156,10 @@ public interface ByteAlphabet extends Alphabet<Byte> {
     }
 
     /**
-     * Check validity.
+     * Checks to the symbols in the given array (between start and end) are
+     * members of this alphabet. Returns an InvalidSymbolInfo structure for the
+     * first symbol that is not a member of this alphabet, or null, if all
+     * symbols are members of this alphabet.
      *
      * @param symbols
      *            the symbols
@@ -168,12 +179,12 @@ public interface ByteAlphabet extends Alphabet<Byte> {
     }
 
     /**
-     * Validate.
+     * Validates the given symbol against this alphabet.
      *
      * @param symbol
      *            the symbol
      * @throws InvalidSymbolException
-     *             the invalid symbol exception
+     *             thrown if the symbol is not a member of this alphabet
      */
     default void validate(final byte symbol) throws InvalidSymbolException {
         final InvalidSymbolInfo info = checkValidity(symbol);
@@ -183,12 +194,13 @@ public interface ByteAlphabet extends Alphabet<Byte> {
     }
 
     /**
-     * Validate.
+     * Validates the given symbols. Throws an InvalidSymbolException if any of
+     * the symbols in the array are invalid.
      *
      * @param symbols
      *            the symbols
      * @throws InvalidSymbolException
-     *             the invalid symbol exception
+     *             thrown if the symbol is not a member of this alphabet
      */
     default void validate(final byte[] symbols) throws InvalidSymbolException {
         final InvalidSymbolInfo info = checkValidity(symbols);
@@ -198,7 +210,9 @@ public interface ByteAlphabet extends Alphabet<Byte> {
     }
 
     /**
-     * Validate.
+     * Validates a portion of the given array of symbols. Throws an
+     * InvalidSymbolException if any of the symbols in the specified portion
+     * array are invalid.
      *
      * @param symbols
      *            the symbols
@@ -207,7 +221,7 @@ public interface ByteAlphabet extends Alphabet<Byte> {
      * @param end
      *            the end
      * @throws InvalidSymbolException
-     *             the invalid symbol exception
+     *             thrown if the symbol is not a member of this alphabet
      */
     default void validate(final byte[] symbols, final int start, final int end) throws InvalidSymbolException {
         final InvalidSymbolInfo info = checkValidity(symbols, start, end);
@@ -216,14 +230,11 @@ public interface ByteAlphabet extends Alphabet<Byte> {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.biomojo.alphabet.Alphabet#getSymbolType()
      */
     @Override
     default Class<Byte> getSymbolType() {
         return Byte.class;
     }
-
 }

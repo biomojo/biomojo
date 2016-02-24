@@ -16,9 +16,6 @@
  */
 package org.biomojo.alphabet;
 
-/**
- * The Interface NucleotideAlphabet.
- */
 public interface Nucleotide<A extends Nucleotide<?>> extends IUPAC<A> {
 
 }

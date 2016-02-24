@@ -28,6 +28,6 @@ public class BioJavaProteinSequenceFactory implements BioJavaSequenceFactory<Pro
 
     @Override
     public ProteinSequence createSequence(final org.biomojo.sequence.ByteSeq<AminoAcid> sequence) {
-        return new ProteinSequence(new BioJavaSequenceAdapter<AminoAcidCompound>(sequence));
+        return new ProteinSequence(new BioJavaSequenceAdapter<AminoAcid, AminoAcidCompound>(sequence));
     }
 }

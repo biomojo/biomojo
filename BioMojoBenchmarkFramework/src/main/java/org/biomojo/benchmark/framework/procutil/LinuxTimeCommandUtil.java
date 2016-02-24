@@ -18,11 +18,12 @@ package org.biomojo.benchmark.framework.procutil;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.biomojo.benchmark.framework.tests.ConfigParams;
-import org.biomojo.benchmark.framework.tests.TestParameters;
+import org.java0.collection.tuple.TwoTuple;
+import org.java0.core.exception.ParseException;
 import org.java0.core.exception.UncheckedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,14 +32,31 @@ import org.slf4j.LoggerFactory;
  * @author Hugh Eaves
  *
  */
-public class LinuxTimeCommandPrep extends AbstractLinuxTimeCommand {
-    private static final Logger logger = LoggerFactory.getLogger(LinuxTimeCommandPrep.class.getName());
+public class LinuxTimeCommandUtil {
+    private static final Logger logger = LoggerFactory.getLogger(LinuxTimeCommandUtil.class.getName());
 
-    @Override
-    public void safeExecute(final TestParameters parameters) {
+    // command line ^ major faults ^ minor faults ^ max rss ^ percent cpu ^
+    // system time ^ user time ^ elapsed time
+    protected static final char[] TIME_FIELDS = { 'C', 'F', 'R', 'M', 'P', 'S', 'U', 'e', 'x' };
+    protected static final String FIELD_FORMAT_STRING;
+
+    public static final int NUM_FIELDS = TIME_FIELDS.length;
+
+    static {
+        final StringBuffer buffer = new StringBuffer();
+        for (int i = 0; i < TIME_FIELDS.length; ++i) {
+            if (i > 0) {
+                buffer.append("^");
+            }
+            buffer.append("%");
+            buffer.append(TIME_FIELDS[i]);
+        }
+        FIELD_FORMAT_STRING = buffer.toString();
+    }
+
+    public static TwoTuple<List<String>, String> prepareCommandLine(final List<String> commandLine) {
         logger.info("Preparing command line for linux time command");
 
-        final List<String> command = (List<String>) parameters.get(ConfigParams.COMMAND_LINE);
         File timeOutputFile;
         try {
             timeOutputFile = File.createTempFile("time", ".txt");
@@ -47,17 +65,43 @@ public class LinuxTimeCommandPrep extends AbstractLinuxTimeCommand {
             throw new UncheckedException(e);
         }
 
-        final List<String> newTimeCommand = new ArrayList<>();
+        final List<String> newCommandLine = new ArrayList<>();
 
-        newTimeCommand.add("/usr/bin/time");
-        newTimeCommand.add("-o");
-        newTimeCommand.add(timeOutputFile.getAbsolutePath());
-        newTimeCommand.add("-f");
-        newTimeCommand.add(FIELD_FORMAT_STRING);
-        newTimeCommand.addAll(command);
+        newCommandLine.add("/usr/bin/time");
+        newCommandLine.add("-o");
+        newCommandLine.add(timeOutputFile.getAbsolutePath());
+        newCommandLine.add("-f");
+        newCommandLine.add(FIELD_FORMAT_STRING);
+        newCommandLine.addAll(commandLine);
 
-        parameters.put(ConfigParams.COMMAND_LINE, newTimeCommand);
-        parameters.put(ConfigParams.TIME_OUTPUT_FILE, timeOutputFile);
+        return new TwoTuple<List<String>, String>(newCommandLine, timeOutputFile.toString());
+
+    }
+
+    public static LinuxTimeCommandResult parseResult(final String timeOutputFileName) {
+        LinuxTimeCommandResult info = null;
+
+        final File timeOutputFile = new File(timeOutputFileName);
+
+        try {
+            final List<String> lines = Files.readAllLines(timeOutputFile.toPath());
+            timeOutputFile.delete();
+
+            if (lines.size() == 1 || lines.size() == 2) {
+                try {
+                    // Note, we get more than one line if the exit status != 0
+                    info = new LinuxTimeCommandResult(lines.get(lines.size() - 1).split("\\^"));
+                } catch (final ParseException e) {
+                    logger.error("Unable to parse time command output: [{}]", lines.get(0));
+                }
+            } else {
+                logger.error("Zero line file");
+            }
+        } catch (final IOException e) {
+            logger.error("Caught IOException parsing time command result", e);
+        }
+
+        return info;
     }
 
 }

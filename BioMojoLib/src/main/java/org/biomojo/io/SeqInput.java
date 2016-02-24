@@ -18,8 +18,11 @@ package org.biomojo.io;
 
 import java.io.Closeable;
 import java.util.Iterator;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import org.biomojo.sequence.Seq;
+import org.java0.core.exception.ParseException;
 
 /**
  * The Interface SequenceInputStream.
@@ -28,7 +31,7 @@ import org.biomojo.sequence.Seq;
  * @param <T>
  *            the type of sequence that this input stream reads
  */
-public interface SequenceInputStream<T extends Seq<?, ?>> extends Closeable, Iterable<T> {
+public interface SeqInput<T extends Seq<?, ?>> extends Closeable, Iterable<T> {
 
     /**
      * Reads data from the InputStream into a {@link org.biomojo.sequence.Seq}
@@ -56,8 +59,12 @@ public interface SequenceInputStream<T extends Seq<?, ?>> extends Closeable, Ite
      */
     public T read() throws ParseException;
 
+    default Stream<T> stream() {
+        return StreamSupport.stream(spliterator(), false);
+    }
+
     @Override
     public default Iterator<T> iterator() {
-        return new SequenceInputStreamIterator<T>(this);
+        return new SeqInputIterator<T>(this);
     }
 }

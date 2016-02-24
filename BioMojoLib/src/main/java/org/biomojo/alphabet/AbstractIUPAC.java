@@ -45,9 +45,9 @@ public abstract class AbstractIUPAC<A extends IUPAC<A>> extends TableBasedByteAl
      * @param coreSymbols
      *            the core symbols
      */
-    protected AbstractIUPAC(final int id, final byte[] coreSymbols) {
+    protected AbstractIUPAC(final long id, final byte[] coreSymbols) {
         super(id);
-        final int flags = id % IUPACVariant.NUM_VARIANTS;
+        final long flags = id % IUPACVariant.NUM_VARIANTS;
         if ((flags & AlphabetVariant.WITH_NON_CANONICAL) != 0) {
             canonical = false;
         } else {

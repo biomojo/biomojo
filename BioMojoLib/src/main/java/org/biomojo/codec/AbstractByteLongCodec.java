@@ -36,7 +36,7 @@ public abstract class AbstractByteLongCodec extends AbstractCodec<Byte, Long> im
      * @param codecId
      *            the codec id
      */
-    public AbstractByteLongCodec(final int codecId) {
+    public AbstractByteLongCodec(final long codecId) {
         super(codecId);
     }
 

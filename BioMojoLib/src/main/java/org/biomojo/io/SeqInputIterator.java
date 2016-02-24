@@ -20,11 +20,11 @@ import java.util.Iterator;
 
 import org.biomojo.sequence.Seq;
 
-public class SequenceInputStreamIterator<T extends Seq<?, ?>> implements Iterator<T> {
-    private final SequenceInputStream<T> inputStream;
+public class SeqInputIterator<T extends Seq<?, ?>> implements Iterator<T> {
+    private final SeqInput<T> inputStream;
     private T seq;
 
-    public SequenceInputStreamIterator(final SequenceInputStream<T> inputStream) {
+    public SeqInputIterator(final SeqInput<T> inputStream) {
         this.inputStream = inputStream;
     }
 

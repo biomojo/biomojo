@@ -15,8 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.biomojo.io;
+package org.biomojo.io.metadata;
 
-public enum FileType {
-    FASTA, FASTQ, FAST5
+public enum FileTypes implements FileType {
+    UNKNOWN, FASTA, FASTQ, FAST5;
+
 }
