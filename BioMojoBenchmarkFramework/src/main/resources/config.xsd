@@ -1,0 +1,298 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.biomojo.org/benchmark/config" xmlns="http://www.biomojo.org/benchmark/config"
+	elementFormDefault="qualified">
+
+	<xsd:import namespace="http://www.w3.org/XML/1998/namespace"
+		schemaLocation="http://www.w3.org/2001/03/xml.xsd" />
+
+	<xsd:element name="variables" type="Variables" />
+	<xsd:element name="operations" type="Operations" />
+
+	<xsd:element name="config">
+		<xsd:complexType>
+			<xsd:sequence>
+
+				<xsd:element name="variableDefs">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="variables" type="Variables"
+								maxOccurs="unbounded" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+
+				<xsd:element name="operationDefs">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element ref="operations" maxOccurs="unbounded" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="Operations">
+		<xsd:complexContent>
+			<xsd:extension base="Includable">
+				<xsd:sequence>
+					<xsd:choice maxOccurs="unbounded" minOccurs="1">
+						<xsd:element name="execute" type="Execute" />
+						<xsd:element name="set" type="SetValues" />
+						<xsd:element name="add" type="AddValues" />
+						<xsd:element name="createTempFile" type="CreateTempFile" />
+						<xsd:element name="createSequenceFile" type="CreateSequenceFile" />
+						<xsd:element name="deleteFile" type="DeleteFile" />
+						<xsd:element name="branch" type="Branch" />
+						<xsd:element name="if" type="If" />
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="Includable">
+		<xsd:sequence></xsd:sequence>
+		<xsd:attribute ref="xml:base" />
+	</xsd:complexType>
+
+	<xsd:complexType name="Named">
+		<xsd:attribute name="name" type="VariableName" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="Operation">
+		<xsd:complexContent>
+			<xsd:extension base="Includable" />
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="Variables">
+		<xsd:complexContent>
+			<xsd:extension base="Includable">
+				<xsd:sequence maxOccurs="unbounded" minOccurs="0">
+					<xsd:choice>
+						<xsd:element name="variable" type="VariableDef"></xsd:element>
+						<xsd:element name="list" type="ListDef"></xsd:element>
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="VariableDef">
+		<xsd:complexContent>
+			<xsd:extension base="Named">
+				<xsd:attribute name="type" type="VariableType" use="required" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="ListDef">
+		<xsd:complexContent>
+			<xsd:extension base="VariableDef" />
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:simpleType name="VariableType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="long" />
+			<xsd:enumeration value="int" />
+			<xsd:enumeration value="string" />
+			<xsd:enumeration value="boolean" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="VariableName">
+		<xsd:restriction base="xsd:string">
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="Branch">
+		<xsd:complexContent>
+			<xsd:extension base="Operation">
+				<xsd:choice minOccurs="1" maxOccurs="1">
+					<xsd:sequence>
+						<xsd:element ref="operations" maxOccurs="unbounded" />
+					</xsd:sequence>
+					<xsd:element name="increment" type="Increment" />
+				</xsd:choice>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="BooleanBase">
+	</xsd:complexType>
+
+	<xsd:complexType name="SingleBoolean">
+		<xsd:complexContent>
+			<xsd:extension base="BooleanBase">
+				<xsd:sequence>
+					<xsd:choice minOccurs="1" maxOccurs="5">
+						<xsd:element name="and" type="And" />
+						<xsd:element name="not" type="Not" />
+						<xsd:element name="or" type="Or" />
+						<xsd:element name="equal" type="Equal" />
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MultiBoolean">
+		<xsd:complexContent>
+			<xsd:extension base="BooleanBase">
+				<xsd:sequence>
+					<xsd:choice minOccurs="2" maxOccurs="unbounded">
+						<xsd:element name="and" type="And" />
+						<xsd:element name="not" type="Not" />
+						<xsd:element name="or" type="Or" />
+						<xsd:element name="equal" type="Equal" />
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="If">
+		<xsd:complexContent>
+			<xsd:extension base="Operation">
+				<xsd:sequence>
+					<xsd:choice minOccurs="1" maxOccurs="1">
+						<xsd:element name="and" type="And" />
+						<xsd:element name="not" type="Not" />
+						<xsd:element name="or" type="Or" />
+						<xsd:element name="equal" type="Equal" />
+					</xsd:choice>
+					<xsd:element name="then" type="Operations" />
+					<xsd:element name="else" type="Operations" minOccurs="0"
+						maxOccurs="1" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="And">
+		<xsd:complexContent>
+			<xsd:extension base="MultiBoolean" />
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="Not">
+		<xsd:complexContent>
+			<xsd:extension base="SingleBoolean" />
+		</xsd:complexContent>
+	</xsd:complexType>
+
+
+	<xsd:complexType name="Or">
+		<xsd:complexContent>
+			<xsd:extension base="MultiBoolean" />
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="Equal">
+		<xsd:complexContent>
+			<xsd:extension base="BooleanBase">
+				<xsd:choice minOccurs="2" maxOccurs="2">
+					<xsd:element name="value" type="xsd:string" />
+					<xsd:element name="variable" type="VariableName" />
+				</xsd:choice>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="FiniteSeriesGenerator">
+		<xsd:attribute name="size" type="xsd:long" use="required" />
+		<xsd:attribute name="variable" type="VariableName" use="required" />
+	</xsd:complexType>
+
+	<xsd:complexType name="Increment">
+		<xsd:complexContent>
+			<xsd:extension base="FiniteSeriesGenerator">
+				<xsd:attribute name="start" type="xsd:long" use="required" />
+				<xsd:attribute name="increment" type="xsd:long" use="required" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="MultiValueOperation">
+		<xsd:complexContent>
+			<xsd:extension base="Operation">
+				<xsd:sequence maxOccurs="unbounded" minOccurs="0">
+					<xsd:choice>
+						<xsd:element name="value" type="xsd:string" />
+						<xsd:element name="variable" type="VariableName" />
+						<xsd:element name="list" type="VariableName" />
+					</xsd:choice>
+				</xsd:sequence>
+				<xsd:attribute name="variable" type="VariableName"
+					use="required" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="SetValues">
+		<xsd:complexContent>
+			<xsd:extension base="MultiValueOperation"></xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="AddValues">
+		<xsd:complexContent>
+			<xsd:extension base="MultiValueOperation"></xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:simpleType name="FileType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="fasta" />
+			<xsd:enumeration value="fastq" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<xsd:complexType name="FileOperation">
+		<xsd:complexContent>
+			<xsd:extension base="Operation">
+				<xsd:attribute name="fileVar" type="VariableName" use="required" />
+				<xsd:attribute name="dirVar" type="VariableName" use="required" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="CreateSequenceFile">
+		<xsd:complexContent>
+			<xsd:extension base="FileOperation">
+				<xsd:attribute name="type" type="FileType" use="required" />
+				<xsd:attribute name="numSequencesVar" type="VariableName"
+					use="required" />
+				<xsd:attribute name="sequenceLengthVar" type="VariableName"
+					use="required" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="CreateTempFile">
+		<xsd:complexContent>
+			<xsd:extension base="FileOperation">
+				<xsd:attribute name="fileExtension" type="xsd:string"
+					use="required" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="DeleteFile">
+		<xsd:complexContent>
+			<xsd:extension base="FileOperation"></xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+	<xsd:complexType name="Execute">
+		<xsd:complexContent>
+			<xsd:extension base="Operation">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+</xsd:schema>
