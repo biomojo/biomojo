@@ -55,7 +55,7 @@ public class LinuxTimeCommandUtil {
     }
 
     public static TwoTuple<List<String>, String> prepareCommandLine(final List<String> commandLine) {
-        logger.info("Preparing command line for linux time command");
+        logger.debug("Preparing command line for linux time command");
 
         File timeOutputFile;
         try {

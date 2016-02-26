@@ -1,14 +1,16 @@
-DEFAULT_MAX_HEAP = 134217728; // 128GiB in KiB
-//DEFAULT_MAX_HEAP = 4000000;
+"use strict";
 
-BASE_JVM_OPTS = [ "-XX:-UseCompressedOops", "-XX:+UseG1GC", "-Dbiomojo.validateInputSeqs" ];
+var DEFAULT_MAX_HEAP_KB = 134217728; // 128GiB in KiB
+var DEFAULT_MAX_HEAP_KB = 4000000;
 
-WORKING_DIR = "/data/bio/BioMojo/";
-EXECUTABLE_BASE_DIR = "/home/hugh/code/biobench/";
+var BASE_JVM_OPTS = [ "-XX:-UseCompressedOops", "-XX:+UseG1GC", "-Dbiomojo.validateInputSeqs=false" ];
 
-RUN_GROUP = new Date().getTime();
+var WORKING_DIR = "/data/bio/BioMojo/";
+var EXECUTABLE_BASE_DIR = "/home/hugh/code/biobench/";
 
-EXECUTABLES = {
+var RUN_GROUP = new Date().getTime();
+
+var EXECUTABLES = {
 	BIOJAVA : "BioJavaBenchmarks/target/BioJavaBenchmarks.jar",
 	BIOMOJO : "BioMojoBenchmarks/target/BioMojoBenchmarks.jar",
 	JEBL : "JeblBenchmarks/target/JeblBenchmarks.jar",
@@ -20,8 +22,8 @@ EXECUTABLES = {
 	BIOPERL : "BioPerlBenchmarks/main.pl"
 };
 
-function buildJVMOpts(heapKilobytes) {
-	return BASE_JVM_OPTS.concat("-Xmx" + heapKilobytes + "k", "-Xms"
+function buildJVMOpts(baseJVMOpts, heapKilobytes) {
+	return baseJVMOpts.concat("-Xmx" + heapKilobytes + "k", "-Xms"
 			+ heapKilobytes + "k");
 }
 
@@ -43,7 +45,7 @@ function shuffleArray(array) {
 
 
 function buildParams(benchmark, testCase, runNumber, inputFile,
-		numSequences, sequenceLength, totalLength, javaHeapSize, runGroup, runGroupId) {
+		numSequences, sequenceLength, totalLength, javaHeapSizeKb, runGroup, runGroupId, baseJVMOpts) {
 	var testParams = {};
 
 	for ( var prop in testCase) {
@@ -53,20 +55,29 @@ function buildParams(benchmark, testCase, runNumber, inputFile,
 	testParams.RUN_GROUP = runGroup;
 	testParams.RUN_GROUP_ID = runGroupId;
 	testParams.BENCHMARK = benchmark;
-	testParams.RUN_NUMBER = runNumber;
 	testParams.INPUT_FILE = inputFile;
 	testParams.NUM_SEQUENCES = numSequences;
 	testParams.SEQUENCE_LENGTH = sequenceLength;
 	testParams.TOTAL_LENGTH = totalLength;
-	testParams.JVM_OPTS = buildJVMOpts(javaHeapSize);
-	testParams.JAVA_HEAP_SIZE = javaHeapSize * 1024;
+	
+	testParams.RUN_NUMBER = runNumber;
+	testParams.JVM_OPTS = buildJVMOpts(baseJVMOpts, javaHeapSizeKb);
+	testParams.JAVA_HEAP_SIZE = javaHeapSizeKb * 1024;
+	testParams.COMMAND_LINE = buildCommandLine(testParams);
+	return testParams;
+}
+
+function updateParams(runNumber, testParams, javaHeapSizeKb, baseJVMOpts) {
+	testParams.RUN_NUMBER = runNumber;
+	testParams.JVM_OPTS = buildJVMOpts(baseJVMOpts, javaHeapSizeKb);
+	testParams.JAVA_HEAP_SIZE = javaHeapSizeKb * 1024;
 	testParams.COMMAND_LINE = buildCommandLine(testParams);
 	return testParams;
 }
 
 function buildCommandLine(testParams) {
 
-	commandLine = [];
+	var commandLine = [];
 	var library = testParams.LIBRARY;
 
 	switch (library) {
@@ -136,4 +147,86 @@ function buildCommandLine(testParams) {
 	}
 
 	return commandLine;
+}
+
+
+function simulatedDataBenchmark(benchmarkServices, benchmark, testCases, fileType) {
+	
+	for (var numSequences = 50000; numSequences <= 200000; numSequences += 10000) {
+		for (var sequenceLength = 5000; sequenceLength <= 40000; sequenceLength += 5000) {
+			// for (numSequences = 2000; numSequences <= 30000; numSequences +=
+			// 2000) {
+			// for (sequenceLength = 2000; sequenceLength <= 30000;
+			// sequenceLength += 2000) {
+
+			// for (i = 0; i < 1000; ++i) {
+			// numSequences = Math.floor(Math.random() * 29000 + 1000);
+			// sequenceLength = Math.floor(Math.random() * 29000 + 1000);
+
+			var inputFile = benchmarkServices.createTempFile(WORKING_DIR,
+					"testdata_", fileType);
+
+			var totalLength = benchmarkServices
+					.createRandomSequenceFileWithFixedLengthSeqs(inputFile,
+							numSequences, sequenceLength);
+
+			shuffleArray(testCases);
+
+			for (var i = 0; i < testCases.length; ++i) {
+
+				var runGroupId = benchmarkServices.newBenchmarkRunGroup(RUN_GROUP);
+
+				var testParams = buildParams(benchmark, testCases[i], 0,
+						inputFile, numSequences, sequenceLength, totalLength,
+						DEFAULT_MAX_HEAP_KB, RUN_GROUP, runGroupId, BASE_JVM_OPTS);
+				
+				var runResult = benchmarkServices.runBenchmark(testParams);
+
+				if (testParams.SHRINK_HEAP == true
+						&& runResult.EXIT_STATUS == 0) {
+					shrinkHeap(benchmarkServices, testParams, runResult.RESIDENT_BYTES);
+				}
+			}
+
+			benchmarkServices.deleteFile(testParams.INPUT_FILE);
+		}
+	}
+}
+
+function shrinkHeap(benchmarkServices, testParams, startingHeapSizeBytes) {
+	benchmarkServices.log("Running shrink heap. startingHeapSize = "
+			+ startingHeapSizeBytes);
+
+	var done = false;
+	var lowHeap = 0;
+	var highHeap = Math.floor(startingHeapSizeBytes / 1024) * 2;
+	var runNumber = 0;
+	
+	while (!done) {
+
+		benchmarkServices.log("Running: highHeap = " + highHeap
+				+ ", lowHeap = " + lowHeap);
+
+		runNumber += 1;
+
+		var javaHeapSizeKb = Math.round((lowHeap + highHeap) / 2);
+
+		var testParams = updateParams(runNumber, testParams, javaHeapSizeKb, BASE_JVM_OPTS)
+
+		var runResult = benchmarkServices.runBenchmark(testParams);
+
+		if (runResult.EXIT_STATUS == 0) {
+			highHeap = javaHeapSizeKb;
+		} else if (runResult.EXIT_STATUS == 77) {
+			lowHeap = javaHeapSizeKb;
+		} else {
+			done = true;
+		}
+
+		var delta = Math.abs(lowHeap - highHeap);
+		if (delta / (lowHeap + highHeap) < 0.0001 || delta < 32) {
+			done = true;
+		}
+
+	}
 }

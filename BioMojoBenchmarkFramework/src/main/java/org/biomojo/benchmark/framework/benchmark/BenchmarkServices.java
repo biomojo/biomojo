@@ -128,8 +128,6 @@ public class BenchmarkServices {
 
             exitStatus = process.exitValue();
 
-            logger.info("Process exited, time command exit status = {}", exitStatus);
-
             benchmarkRun.setEndTime(new Timestamp(System.currentTimeMillis()));
 
             Runtime.getRuntime().removeShutdownHook(closer);
@@ -141,14 +139,12 @@ public class BenchmarkServices {
             final LinuxTimeCommandResult tcr = LinuxTimeCommandUtil.parseResult(timeCommand.get1());
 
             if (tcr != null) {
-
-                logger.info("Benchmark program Exit status = {}", tcr.getExitStatus());
                 benchmarkRun.copyInfo(tcr);
-                // Are these every different that process exit status?
+                // Are these ever different that process exit status?
                 exitStatus = tcr.getExitStatus();
 
             } else {
-                logger.error("Couldn't parse exit status, output: {}",
+                logger.error("Couldn't parse time command result, process output: [{}]",
                         standardOutput.substring(0, standardOutput.length() > 1000 ? 1000 : standardOutput.length()));
             }
 
@@ -156,8 +152,14 @@ public class BenchmarkServices {
             // can even catch any OutOfMemory exceptions
             if (standardOutput
                     .startsWith("\nException: java.lang.OutOfMemoryError thrown from the UncaughtExceptionHandler")) {
-                logger.info("Java process ran out of memory");
+                logger.info("Deletectet uncaught out of memory error. changing exit code from {} to {}", exitStatus,
+                        GlobalConst.OUT_OF_MEMORY_EXIT_CODE);
                 exitStatus = GlobalConst.OUT_OF_MEMORY_EXIT_CODE;
+            }
+
+            if (exitStatus != 0 && exitStatus != GlobalConst.OUT_OF_MEMORY_EXIT_CODE) {
+                logger.info("Received exit status {}, process output: [{}]", exitStatus,
+                        standardOutput.substring(0, standardOutput.length() > 1000 ? 1000 : standardOutput.length()));
             }
 
         } catch (IOException | SecurityException | InterruptedException e) {
@@ -312,9 +314,6 @@ public class BenchmarkServices {
 
     public Map<String, Object> runBenchmark(final Object object) {
         Map<String, Object> benchmarkParams;
-
-        logger.info("runBenchmark called, {} {}", object.getClass().getName(), object.toString());
-
         final Object converted = JavaScriptUtil.convertValue(object, false);
         if (converted instanceof Map) {
             benchmarkParams = (Map<String, Object>) converted;
@@ -322,7 +321,7 @@ public class BenchmarkServices {
             throw new UncheckedException("runBenchmark not called with a Map");
         }
 
-        logger.info("Executing benchmark");
+        logger.info("Executing benchmark, benchmarkParams = {}", benchmarkParams);
         return executeBenchmark(benchmarkParams);
     }
 
